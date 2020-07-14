@@ -8,7 +8,9 @@
 <!-- demo -->
 <script>
 $(document).ready(function(){
-    $('.PrintThis').printThis();
+    var head='<?php if(isset($head)){echo $head;}else{echo "";} ?>';
+    var title='<?php if(isset($title)){echo $title;}else{echo "";} ?>';
+    $('.PrintThis').printThis({header: head,pageTitle : title });
 });
 </script>
 

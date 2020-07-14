@@ -15,7 +15,7 @@
     $(document).on('blur', '.obc', function(e) {
       var order = $(this).val();
       order = order.toUpperCase();
-      var godown = <?php echo $godown ?>;
+      var godown = <?php echo $id ?>;
       if (godown == 17) {
         var url = "<?php echo base_url('admin/orders/getOrderDetails') ?>";
       } else {

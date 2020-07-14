@@ -90,7 +90,7 @@ public function get($col,$godown,$type)
       $this->db->where('transaction_id', $data);
      
     }
-
+$this->db->order_by('trans_meta_id','asc');
     $query = $this->db->get();
     return $query->result_array();
     

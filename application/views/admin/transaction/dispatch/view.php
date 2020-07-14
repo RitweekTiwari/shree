@@ -3,7 +3,7 @@
     function textToBase64Barcode(text) {
         var canvas = document.createElement("canvas");
         JsBarcode(canvas, text, {
-            format: "CODE39"
+            format: "pharmacode"
         });
         return canvas.toDataURL("image/png");
     }
@@ -17,7 +17,7 @@
     <div class="col-md-12 bg-white">
         <div class="card">
             <div class="card-body" id="Print">
-                <h4 class="card-title">Challan Receive Detail</h4>
+                <h4 class="card-title">Packing Slip</h4>
 
                 <hr>
                 <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
@@ -25,6 +25,13 @@
                 <div class="widget-box">
                     <div class="widget-content nopadding">
                         <div class="widget-content nopadding">
+                            <Div class="container row">
+
+                                <div class="col-md-8 card-title">From : <?php echo $trans_data[0]['from_godown']; ?> To : <?php echo $trans_data[0]['to_godown']; ?></div>
+                                <div class="col-md-4 card-title">Challan no : <?php echo $trans_data[0]['challan_no']; ?></div>
+
+                            </Div>
+
                             <table class=" table-bordered data-table text-center " id="list">
 
                                 <thead class="bg-dark text-white">
@@ -49,17 +56,22 @@
                                 <tbody><?php
                                         $id = 1;
                                         foreach ($trans_data as $value) {
-                                            $barcode = 'SNS-' . $value['order_barcode'] . '-' . $value['fabricCode'] . '/' . $value['fabricCode'] . '/' . $value['design_code'];
+                                            $barcode = 'SNS-' . $value['order_barcode'] . '-' . $value['fabricCode'] . '/' . $value['fabric_name'] . '/' . $value['design_code'];
+
+
                                         ?>
 
-                                        <tr class="gradeU" id="tr_<?php echo $value['trans_meta_id'] ?>">
+                                        <tr id="tr_<?php echo $value['trans_meta_id'] ?>">
 
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
                                             <td>
                                                 <div>
-                                                    <img class="barCodeImage" width="100%" id="barcode1<?php echo $value['trans_meta_id']; ?>" />
+                                                    <svg class="barCodeImage" id="barcode1<?php echo $value['trans_meta_id']; ?>"></svg>
                                                     <script>
-                                                        JsBarcode("#barcode1<?php echo $value['trans_meta_id']; ?>", "<?php echo $barcode; ?>");
+                                                        JsBarcode("#barcode1<?php echo $value['trans_meta_id']; ?>", "<?php echo $barcode; ?>", {
+                                                            height: 50,
+                                                            width: 1
+                                                        });
                                                     </script>
                                                 </div>
                                             </td>
@@ -71,13 +83,16 @@
                                             <td><?php echo $value['design_barcode']; ?></td>
                                             <td><?php echo $value['design_name']; ?></td>
                                             <td><?php echo $value['design_code']; ?></td>
-                                            <td><?php echo $value['quantity']; ?></td>
+                                            <td><?php echo $value['finish_qty']; ?></td>
                                             <td><?php echo $value['unit']; ?></td>
                                             <td>
                                                 <div>
-                                                    <img class="barCodeImage" width='100%' id="barcode2<?php echo $value['trans_meta_id']; ?>" />
+                                                    <svg class="barCodeImage" id="barcode2<?php echo $value['trans_meta_id']; ?>"></svg>
                                                     <script>
-                                                        JsBarcode("#barcode2<?php echo $value['trans_meta_id']; ?>", "<?php echo $value['finish_qty']; ?>");
+                                                        JsBarcode("#barcode2<?php echo $value['trans_meta_id']; ?>", "<?php echo $value['finish_qty']; ?>", {
+                                                            height: 50,
+                                                            width: 1
+                                                        });
                                                     </script>
                                                 </div>
                                             </td>
@@ -94,13 +109,88 @@
                 </div>
                 <hr>
 
-
+                <div id='summary'></div>
 
             </div>
         </div>
 
     </div>
 </div>
+<script type="text/javascript">
+    var summary = [];
+    var count = 0;
+    var i = 0;
+    $(document).ready(function() {
+        $("table tbody tr").each(function() {
+
+            var self = $(this);
+            var fabric = self.find("td:eq(5)").text().trim();
+            var qty = Number(self.find("td:eq(10)").text().trim());
+            console.log('fabric=' + fabric);
+            console.log('summary=' + summary);
+            pcs = 1;
+            if (i == 0) {
+                var arr = [fabric, pcs, qty];
+                summary.push(arr);
+
+
+            } else {
+                var found = 0;
+                summary.forEach(myFunction);
+
+                function myFunction(value, index, array) {
+
+                    if (fabric == array[index][0]) {
+                        found = 1;
+                        array[index][1] += 1;
+                        array[index][2] += Number(qty);
+
+                    }
+
+                }
+                if (found == 0) {
+                    pcs = 1;
+                    qty = Number(qty);
+                    arr = [fabric, pcs, qty];
+                    summary.push(arr);
+                    console.log(summary);
+                }
+            }
+            i = i + 1;
+        });
+        var html =
+            '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
+        html += '<tr><th >Fabric</th>';
+        html += '<th >PCS</th>';
+        html += '<th >Quantity</th>';
+
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+        if (summary) {
+
+            var stotal = 0;
+            var tqty = 0;
+            var Tpcs = 0;
+            summary.forEach(myFunction);
+
+            function myFunction(value, index, array) {
+                stotal += array[index][3];
+                tqty += array[index][2];
+                Tpcs += array[index][1];
+                html += ' <tr><td>' + array[index][0] + '</td>';
+                html += '<td>' + array[index][1] + '</td>';
+                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100  + '</td>';
+                html += '</tr></tbody>';
+            }
+            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100  +
+                '</th></tr>';
+            html += '</table>';
+
+            $('#summary').html(html);
+        }
+    });
+</script>
 <script>
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];

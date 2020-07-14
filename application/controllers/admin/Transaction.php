@@ -37,7 +37,7 @@
 			$data = array();
 			$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 	        $data['page_name']= $data['godown'].'  DASHBOARD';
-			
+			$data['id'] = $godown;
 			$data['job'] = $this->Transaction_model->get_jobwork_by_id($data['godown']);
 			$data['branch_data']=$this->Job_work_party_model->get();
 	        //echo print_r($data['fabric_data']);exit;
@@ -263,7 +263,15 @@
 			}
 		}
 		//echo '<pre>';	print_r($data['trans_data']);exit;
-
+		$date=date_create($data['trans_data'][0]['created_at']);
+		
+	 $html='<center><h1>SHREE NIKETAN SAREES PVT. LTD. CHANDAULI</h1></center>';	
+	 $html=$html.'<center><h4 >PACKING SLIP</h4></center>';	
+      $html=$html.'To :'. $data['trans_data'][0]['Party_name'].'';
+	  $html=$html.'<span style="float:right">Challan no :'. $data['trans_data'][0]['challan_no'].'</span><br>';
+	   $html=$html.'<div style="float:right">Date :'. date_format($date,"d/m/y ").'</div>';
+		 $data['title']='SHREE NIKETAN SAREES PVT. LTD. CHANDAULI';
+	  $data['head']=$html;
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/index', $data, TRUE);
 		$this->load->view('admin/print/index', $data);
 	}
@@ -282,7 +290,7 @@
 			}
 		}
 		//echo '<pre>';	print_r($data['data']);exit;
-
+		
 		$data['main_content'] = $this->load->view('admin/transaction/challan/multi_list_print', $data, TRUE);
 		$this->load->view('admin/print/index', $data);
 	}
@@ -389,7 +397,7 @@
 					
 					'order_barcode' =>$data['obc'][$i],
 					
-					'days_left ' => $data['days'][$i],
+					'finish_qty ' => $data['quantity'][$i],
 					
 				]	;
 
@@ -410,11 +418,11 @@
 			$count = count($data['pbc']);
 			$id = $this->Transaction_model->getId($godown,'dispatch');
 			if (!$id) {
-				$challan = 'DIS' . date('Ymd') . '/1';
+				$challan = 'PKG-SL/1' ;
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan = 'DIS' . date('Ymd') . '/' . (string) $cc;
+				$challan = 'PKG-SL/' . (string) $cc;
 			}
 			$data1 = [
 				'from_godown' => $data['FromGodown'],
@@ -438,7 +446,7 @@
 
 					'order_barcode' => $data['obc'][$i],
 					'stat' => 'out',
-					'days_left ' => $data['days'][$i],
+					'finish_qty ' => $data['quantity'][$i],
 
 				];
 
