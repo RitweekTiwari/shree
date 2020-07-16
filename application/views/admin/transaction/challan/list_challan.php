@@ -19,7 +19,7 @@
                   <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
                     <div class="form-row">
                       <div class="col-2">
-                        <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-m-01') ?>">
+                        <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
                       </div>
                       <div class="col-2">
                         <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>">
@@ -71,7 +71,7 @@
                         </tr>
                       </thead>
                       <tr>
-                        <td><input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-01') ?>"></td>
+                        <td><input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>"></td>
                         <td>
                           <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
                         <td><input type="text" name="sort_name" class="form-control form-control-sm" value="" placeholder="Party Name">
@@ -131,7 +131,7 @@
                     <div class="form-row ">
                       <div class="col-5">
                         <label>Date From</label>
-                        <input type="date" name="date_from" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                        <input type="date" name="date_from" class="form-control" value="<?php echo date('Y-04-01') ?>">
                       </div>
                       <div class="col-5">
                         <label>Date To</label>

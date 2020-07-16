@@ -4,7 +4,8 @@
 
     var count = 0;
     var total = 0;
-
+    $('#fresh_form').hide();
+    $('#submit_button').hide();
     $('#master').on('click', function(e) {
       if ($(this).is(':checked', true)) {
         $(".sub_chk").prop('checked', true);
@@ -12,6 +13,23 @@
         $(".sub_chk").prop('checked', false);
       }
     });
+     $(document).on('change', '#toParty', function(e) {
+      var cust = $(this).val();
+      if (cust != "") {
+        $('#fresh_form').show();
+      } else {
+        $('#fresh_form').hide();
+      }
+    });
+    $(document).on('change', '#obc0', function(e) {
+      var cust = $(this).val();
+      if (cust != "") {
+        $('#submit_button').show();
+      } else {
+        $('#submit_button').hide();
+      }
+    });
+
     $(document).on('blur', '.obc', function(e) {
       var order = $(this).val();
       order = order.toUpperCase();
@@ -251,7 +269,7 @@
       count = count + 1;
       var element = '<tr id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc" name="pbc[]" value="" id=pbc' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control obc" name="obc[]" value=""></td>'
+      element += '<td><input type="text" class="form-control obc" name="obc[]" id=obc' + count + '></td>'
       element += '<td><input type="text" class="form-control " name="orderNo[]" value="" id=orderNo' + count + ' readonly></td>'
       element += '<td><input type="text" name="fabric_name[]" class="form-control " id=fabric' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " name="hsn[]" value="" id=hsn' + count + ' readonly></td>'
@@ -267,6 +285,7 @@
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);
+      $('#obc' + count + '').focus();
     }
   });
 </script>

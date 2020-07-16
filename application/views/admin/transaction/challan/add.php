@@ -78,7 +78,7 @@
                   <tr id="0">
 
                     <td><input type="text" class="form-control pbc" name="pbc[]" value="" id='pbc0' readonly></td>
-                    <td><input type="text" class="form-control obc" name="obc[]" value=""></td>
+                    <td><input type="text" class="form-control obc" name="obc[]" id="obc0"></td>
                     <td><input type="text" class="form-control " name="orderNo[]" value="" id="orderNo0" readonly></td>
                     <td><input type="text" name="fabric_name[]" class="form-control " id='fabric0' readonly></td>
                     <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
@@ -96,7 +96,7 @@
                 </tbody>
               </table>
               <hr>
-              <div class="col-md-3">
+              <div class="col-md-3" id='submit_button'>
                 <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                 <button type="submit" name="submit" class="btn btn-success btn-md">Submit</button>
               </div>

@@ -21,7 +21,7 @@
                     <div class="form-row">
                       <div class="col-2">
 
-                        <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-m-01') ?>">
+                        <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
                       </div>
                       <div class="col-2">
 
@@ -81,7 +81,7 @@
                       </thead>
                       <tr>
                         <td>
-                          <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-m-01') ?>"></td>
+                          <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>"></td>
 
                         <td>
                           <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>

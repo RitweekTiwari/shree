@@ -373,7 +373,6 @@ class Orders extends CI_Controller
           if ($pbc[0]['fabricName'] == $data['fabric']) {
             $data1['quantity'] = $pbc[0]['current_stock'];
             $data1['pbc'] = $data['id'];
-            $this->Orders_model->edit_order_product_details($data1, $data['order_product_id'], 'order_product');
             $this->Orders_model->edit_by_node('order_product_id', $data['order_product_id'], $data1, 'order_product');
             $this->Orders_model->edit_by_node('fsr_id', $pbc[0]['fsr_id'],  array('isStock' => 0), 'fabric_stock_received');
             echo '1'; 

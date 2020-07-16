@@ -61,6 +61,7 @@ public function get($col,$godown,$type)
    $this->db->from('transaction');
     $this->db->where('transaction_type', $type);
     $this->db->where($col, $godown);
+     $this->db->order_by('created_at','desc');
    $query = $this->db->get();
     return $query->result_array();
     
@@ -78,6 +79,14 @@ public function get($col,$godown,$type)
     $query = $this->db->get();
     return $query->result_array();
   }
+   public function get_plain_stock()
+  {
+    $this->db->select("*");
+    $this->db->from('plain_godown_stock');
+    
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_dispatch($data)
   {
     $this->db->select("dispatch_view.*,fabric.fabricCode");
@@ -90,7 +99,7 @@ public function get($col,$godown,$type)
       $this->db->where('transaction_id', $data);
      
     }
-$this->db->order_by('trans_meta_id','asc');
+  $this->db->order_by('trans_meta_id','asc');
     $query = $this->db->get();
     return $query->result_array();
     
@@ -116,7 +125,7 @@ $this->db->order_by('trans_meta_id','asc');
     $query = $this->db->get();
     return $query->row()->name;
   }
-  public function get_by_id($id,$table)
+  public function get_by_id($id)
   {
     $this->db->select("*");
     $this->db->from('transaction_meta');

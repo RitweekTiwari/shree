@@ -90,18 +90,27 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 			$data['page_name']= $data['godown'].'  DASHBOARD';
 			
-            $data['frc_data']=$this->Transaction_model->get('from_godown', $data['godown']);
+            $data['frc_data']=$this->Transaction_model->get('from_godown', $data['godown'],'challan');
 		      $data['main_content'] = $this->load->view('admin/transaction/list_out', $data, TRUE);
   	      $this->load->view('admin/index', $data);
 		}
 	
 		public function showStock($godown)
 	{
+		
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $data['godown'].'  DASHBOARD';
-		
+		if($godown==17){
+		$data['frc_data'] = $this->Transaction_model->get_plain_stock();	
+		//echo "<pre>";print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
+
+		}else{
 		$data['frc_data'] = $this->Transaction_model->get_stock($data);
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
+
+		}
+
 		$this->load->view('admin/index', $data);
 	}
 	
@@ -115,6 +124,19 @@
 		
 		//echo "<pre>"; print_r($data['frc_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/challan/view', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function viewChallanOut($id)
+	{
+		$data = array();
+		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
+		$data['frc_data'] = $this->Transaction_model->get_by_id($id);
+		$data['page_name'] = $data['trans_data'][0]['to_godown'].'  DASHBOARD';
+		
+		$data['id'] = $id;
+		
+		//echo "<pre>"; print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/transaction/challan/viewOut', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
 	public function viewDispatch($id)
@@ -451,7 +473,7 @@
 				];
 
 				$this->Transaction_model->insert($data2, 'transaction_meta');
-				$this->Transaction_model->update(array('status' => 'OUT'), 'order_barcode', $data['obc'][$i],  'order_product');
+				
 			}
 		}
 		redirect($_SERVER['HTTP_REFERER']);

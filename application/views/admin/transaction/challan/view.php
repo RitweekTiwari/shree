@@ -112,7 +112,7 @@
 
             </div>
         </div>
-
+ <div id='summary'></div>
     </div>
 </div>
 
