@@ -38,7 +38,7 @@
 			$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 	        $data['page_name']= $data['godown'].'  DASHBOARD';
 			$data['id'] = $godown;
-			$data['job'] = $this->Transaction_model->get_jobwork_by_id($data['godown']);
+			$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
 			$data['branch_data']=$this->Job_work_party_model->get();
 	        //echo print_r($data['fabric_data']);exit;
 		    $data['main_content'] = $this->load->view('admin/transaction/challan/add', $data, TRUE);
@@ -50,7 +50,7 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $data['godown'] . '  DASHBOARD';
 		$data['id']= $godown;
-		$data['job'] = $this->Transaction_model->get_jobwork_by_id($data['godown']);
+		$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
 		$data['branch_data'] = $this->Job_work_party_model->get();
 		//echo print_r($data['fabric_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/add', $data, TRUE);
@@ -71,7 +71,7 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 			$data['page_name']= $data['godown'].'  DASHBOARD';
 			
-            $data['frc_data']=$this->Transaction_model->get('to_godown', $data['godown'], 'challan');
+            $data['frc_data']=$this->Transaction_model->get('to_godown', $godown, 'challan');
 		      $data['main_content'] = $this->load->view('admin/transaction/list_in', $data, TRUE);
   	      $this->load->view('admin/index', $data);
 		}
@@ -81,7 +81,7 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $data['godown'] . '  DASHBOARD';
 
-		$data['frc_data'] = $this->Transaction_model->get('from_godown', $data['godown'], 'dispatch');
+		$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'dispatch');
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/list_dispatch', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
@@ -90,7 +90,7 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 			$data['page_name']= $data['godown'].'  DASHBOARD';
 			
-            $data['frc_data']=$this->Transaction_model->get('from_godown', $data['godown'],'challan');
+            $data['frc_data']=$this->Transaction_model->get('from_godown', $godown,'challan');
 		      $data['main_content'] = $this->load->view('admin/transaction/list_out', $data, TRUE);
   	      $this->load->view('admin/index', $data);
 		}
@@ -120,8 +120,9 @@
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['page_name'] = $data['trans_data'][0]['to_godown'].'  DASHBOARD';
 		
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['sub2']);
 		$data['id'] = $id;
-		
+		$data['branch_data']=$this->Job_work_party_model->get();
 		//echo "<pre>"; print_r($data['frc_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/challan/view', $data, TRUE);
 		$this->load->view('admin/index', $data);
@@ -132,7 +133,8 @@
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['frc_data'] = $this->Transaction_model->get_by_id($id);
 		$data['page_name'] = $data['trans_data'][0]['to_godown'].'  DASHBOARD';
-		
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['sub2']);
+		$data['branch_data']=$this->Job_work_party_model->get();
 		$data['id'] = $id;
 		
 		//echo "<pre>"; print_r($data['frc_data']);exit;
@@ -143,7 +145,7 @@
 	{
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_dispatch($id);
-		$data['page_name'] = $data['trans_data'][0]['from_godown'] . '  DASHBOARD';
+		$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD';
 
 		$data['id'] = $id;
 

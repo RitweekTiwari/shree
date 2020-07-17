@@ -333,7 +333,7 @@ class Common_model extends CI_Model {
 	}
 	public function subDept()
 	{
-		$this->db->select('subDeptName');
+		$this->db->select('*');
 		$rec=$this->db->get('sub_department');
 		return $rec->result();
 	}

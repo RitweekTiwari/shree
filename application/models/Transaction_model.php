@@ -36,9 +36,11 @@ class Transaction_model extends CI_Model {
  }
 public function get_godown($id)
  {
-   $this->db->select('subDeptName,job_work_type');
+   $this->db->select('sub_department.id as id,sub_department.subDeptName as godown,jobtypeconstant.job as job');
    $this->db->from('job_work_party');
-   $this->db->where('id',$id);
+    $this->db->join('sub_department ','sub_department.id=job_work_party.subDeptName  ','inner');
+		  $this->db->join('jobtypeconstant ','jobtypeconstant.id=job_work_party.job_work_type  ','inner');
+   $this->db->where('job_work_party.id',$id);
    $query = $this->db->get();
     return $query->result_array();
    
@@ -57,10 +59,12 @@ public function get_godown($id)
   
 public function get($col,$godown,$type)
  {
-   $this->db->select("*");
+   $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('transaction');
     $this->db->where('transaction_type', $type);
     $this->db->where($col, $godown);
+     $this->db->join('sub_department sb1','sb1.id=transaction.from_godown  ','left');
+ $this->db->join('sub_department sb2','sb2.id=transaction.to_godown  ','left');
      $this->db->order_by('created_at','desc');
    $query = $this->db->get();
     return $query->result_array();
@@ -89,9 +93,11 @@ public function get($col,$godown,$type)
   }
   public function get_dispatch($data)
   {
-    $this->db->select("dispatch_view.*,fabric.fabricCode");
+    $this->db->select("dispatch_view.*,fabric.fabricCode,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
     $this->db->from('dispatch_view');
     $this->db->join('fabric', 'fabric.fabricName=dispatch_view.fabric_name', 'inner');
+ $this->db->join('sub_department sb1','sb1.id=dispatch_view.from_godown  ','left');
+ $this->db->join('sub_department sb2','sb2.id=dispatch_view.to_godown  ','left');
     if (isset($data['id'])) {
       $this->db->where('trans_meta_id', $data['id']);
      
@@ -123,7 +129,7 @@ public function get($col,$godown,$type)
 
     $this->db->where('subDeptName', $godown);
     $query = $this->db->get();
-    return $query->row()->name;
+    return $query->row()->id;
   }
   public function get_by_id($id)
   {
@@ -140,11 +146,12 @@ public function get($col,$godown,$type)
   }
   public function get_trans_by_id($id)
   {
-    $this->db->select("*");
+    $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
     $this->db->from('transaction');
 
     $this->db->where("transaction_id", $id);
-
+    $this->db->join('sub_department sb1','sb1.id=transaction.from_godown  ','left');
+ $this->db->join('sub_department sb2','sb2.id=transaction.to_godown  ','left');
 
     $query = $this->db->get(); //echo"<pre>"; print_r($query);exit;
     $query = $query->result_array();

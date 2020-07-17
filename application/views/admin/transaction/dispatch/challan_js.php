@@ -210,7 +210,7 @@
         var csrf_val = $("#get_csrf_hash").val();
         $.ajax({
           type: "POST",
-          url: "<?php echo base_url('admin/Dye_transaction/get_godown') ?>",
+          url: "<?php echo base_url('admin/transaction/get_godown') ?>",
           data: {
             'party': party,
 
@@ -221,12 +221,13 @@
           success: function(data) {
             data = JSON.parse(data);
 
-            $("#FromGodown").val(data[0]['subDeptName']);
+            $("#FromGodownId").val(data[0]['id']);
+            $("#FromGodown").val(data[0]['godown']);
           }
 
         });
       } else {
-        $("#FromGodown").val('');
+        $("#FromGodown").val('');$("#FromGodownId").val('');
       }
     });
     $(document).on('change', "#toParty", function() {
@@ -238,7 +239,7 @@
         var csrf_val = $("#get_csrf_hash").val();
         $.ajax({
           type: "POST",
-          url: "<?php echo base_url('admin/Dye_transaction/get_godown') ?>",
+          url: "<?php echo base_url('admin/transaction/get_godown') ?>",
           data: {
             'party': party,
 
@@ -248,15 +249,15 @@
 
           success: function(data) {
             data = JSON.parse(data);
-
-            $("#ToGodown").val(data[0]['subDeptName']);
-            $("#workType").val(data[0]['job_work_type']);
+            $("#ToGodownId").val(data[0]['id']);
+            $("#ToGodown").val(data[0]['godown']);
+            $("#workType").val(data[0]['job']);
           }
 
         });
       } else {
         $("#ToGodown").val('');
-        $("#workType").val('');
+        $("#workType").val('');$("#ToGodownId").val('');
       }
     });
 

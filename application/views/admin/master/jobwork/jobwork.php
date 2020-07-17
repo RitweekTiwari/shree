@@ -72,8 +72,8 @@
                 <td><?php echo $value->phone_no?></td>
                 <td><?php echo $value->gst?></td>
                 <td><?php echo $value->deptName?></td>
-                <td><?php echo $value->subDeptName?></td>
-                <td><?php echo $value->job_work_type?></td>
+                <td><?php echo $value->godown?></td>
+                <td><?php echo $value->job?></td>
                 <td><?php echo $value->address?></td>
                 <td>
                   <a href="<?php echo '#'.$value->id; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
@@ -130,11 +130,11 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="control-label col-sm-3">Sub Department</label>
+                      <label class="control-label col-sm-3">Godown</label>
                       <div class="col-sm-9">
                         <select name="subDeptName" class="form-control">
                           <?php foreach ($subDept_name as $rec): ?>
-                          <option <?php if ($value->subDeptName==$rec->subDeptName) { ?>selected <?php } ?>  value="<?php echo $rec->subDeptName ?>"><?php echo $rec->subDeptName ?></option>
+                          <option <?php if ($value->subDeptName==$rec->id) { ?>selected <?php } ?>  value="<?php echo $rec->id ?>"><?php echo $rec->subDeptName ?></option>
                         <?php endforeach;?>
                         </select>
                       </div>
@@ -144,8 +144,8 @@
                       <div class="col-sm-9">
 
                         <select name="job_work_type" class="form-control">
-                          <?php foreach ($party_data as $rec): ?>
-                          <option <?php if ($value->job_work_type==$rec->job_work_type) { ?>selected <?php } ?>  value="<?php echo $rec->job_work_type ?>"><?php echo $rec->job_work_type ?></option>
+                          <?php foreach ($job_type_name as $rec): ?>
+                          <option <?php if ($value->id==$rec->id) { ?>selected <?php } ?>  value="<?php echo $rec->id ?>"><?php echo $rec->job ?></option>
                         <?php endforeach;?>
                         </select>
                       </div>
@@ -220,11 +220,11 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="control-label col-sm-3">Sub Department</label>
+        <label class="control-label col-sm-3">Godown</label>
         <div class="col-sm-9">
           <select name="subDeptName" class="form-control">
             <?php foreach ($subDept_name as $rec): ?>
-            <option value="<?php echo $rec->subDeptName; ?>"><?php echo $rec->subDeptName; ?></option>
+            <option value="<?php echo $rec->id; ?>"><?php echo $rec->subDeptName; ?></option>
           <?php endforeach;?>
           </select>
         </div>
@@ -234,7 +234,7 @@
         <div class="col-sm-9">
           <select name="job_work_type" class="form-control">
             <?php foreach ($job_type_name as $rec): ?>
-            <option value="<?php echo $rec->id; ?>"><?php echo $rec->type; ?></option>
+            <option value="<?php echo $rec->id; ?>"><?php echo $rec->job; ?></option>
           <?php endforeach;?>
           </select>
         </div>

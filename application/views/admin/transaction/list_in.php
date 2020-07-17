@@ -173,7 +173,7 @@
                       <td><?php echo $value['created_at']; ?></td>
 
 
-                      <td><?php echo $value['from_godown']; ?></td>
+                      <td><?php echo $value['sub1']; ?></td>
                       <td><?php echo $value['challan_no']; ?> <?php if($value['status']=='new') {
                         echo '<span class="badge badge-pill badge-danger">New</span>';
                       } ?></td>

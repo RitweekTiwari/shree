@@ -25,7 +25,7 @@
                                     </div>
                                 </td>
                                 <td><label>From Godown</label>
-                                    <input type="text" class="form-control " name="FromGodown" value="<?php echo $trans_data[0]['from_godown']; ?>" readonly>
+                                    <input type="text" class="form-control " name="FromGodown" value="<?php echo $trans_data[0]['sub1']; ?>" readonly>
                                 </td>
                             </tr>
                             <tr>
@@ -35,12 +35,14 @@
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
                                         <select name="toParty" class="form-control" id="toParty" readonly>
-                                            <option>Select </option>
+                                             <?php foreach ($branch_data as $value) : ?>
+                              <option value="<?php echo $value->id ?>" <?php if($value->id==$job2){echo"selected";} ?>> <?php echo $value->name; ?></option>
+                            <?php endforeach; ?>
 
                                         </select>
                                     </div>
                                 </td>
-                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['to_godown']; ?>" readonly></td>
+                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
 
                             </tr>
                             <tr>

@@ -173,7 +173,7 @@
                       <td><?php echo $value['created_at']; ?></td>
 
 
-                      <td><?php echo $value['to_godown']; ?></td>
+                      <td><?php echo $value['sub2']; ?></td>
                       <td><?php echo $value['challan_no']; ?></td>
 
 
