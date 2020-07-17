@@ -18,10 +18,10 @@
                         <div class="col-md-12">
                           <label>Job Work Party Name</label>
                           <select name="FromParty" class="form-control" readonly>
-                            <option>Select </option>
-                            <?php foreach ($branch_data as $value) : ?>
-                              <option value="<?php echo $value->id ?>" <?php if($value->id==$job){echo"selected";} ?>> <?php echo $value->name; ?></option>
-                            <?php endforeach; ?>
+                            <?php foreach ($branch_data as $value) : if($value->id==$job){?>
+                             <option value="<?php echo $value->id ?>" > <?php echo $value->name; ?></option>
+                            <?php }
+                           endforeach; ?>
                           </select>
 
                         </div>
@@ -39,9 +39,10 @@
                           <label>Job Work Party Name</label>
                           <select name="toParty" class="form-control" id="toParty">
                             <option>Select </option>
-                            <?php foreach ($branch_data as $value) : ?>
+                            <?php foreach ($branch_data as $value) :if($value->id!=$job) {?>
                               <option value="<?php echo $value->id ?>"> <?php echo $value->name; ?></option>
-                            <?php endforeach; ?>
+                            <?php }
+                          endforeach; ?>
                           </select>
                         </div>
                       </td>

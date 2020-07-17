@@ -79,8 +79,9 @@ public function get($col,$godown,$type)
     if (isset($data['id'])) {
       $this->db->where('trans_meta_id', $data['id']);
     }
-    $this->db->where('to_godown', $data['godown']);
+    $this->db->where('to_godown', $data);
     $query = $this->db->get();
+    //print_r($this->db->last_query());
     return $query->result_array();
   }
    public function get_plain_stock()

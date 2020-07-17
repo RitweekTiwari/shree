@@ -25,8 +25,13 @@
                                 <td>
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
-                                        <input type="text" name="FromParty" class="form-control" value='<?php echo $trans_data[0]['fromParty']; ?>' readonly>
+                                        
+                                        <select name="FromParty" class="form-control" id="toParty" readonly>
+                                        <?php foreach ($branch_data as $value) : ?>
+                                        <option value="<?php echo $value->id ?>" <?php if($value->id==$trans_data[0]['fromParty']){echo"selected";} ?>> <?php echo $value->name; ?></option>
+                                        <?php endforeach; ?>
 
+                                        </select>
                                     </div>
                                 </td>
                                 <td><label>From Godown</label>

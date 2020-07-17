@@ -106,7 +106,7 @@
 		$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
 
 		}else{
-		$data['frc_data'] = $this->Transaction_model->get_stock($data);
+		$data['frc_data'] = $this->Transaction_model->get_stock($godown);
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
 
 		}
@@ -118,9 +118,9 @@
 	{
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
-		$data['page_name'] = $data['trans_data'][0]['to_godown'].'  DASHBOARD';
+		$data['page_name'] = $data['trans_data'][0]['sub2'].'  DASHBOARD';
 		
-		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['sub2']);
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['id'] = $id;
 		$data['branch_data']=$this->Job_work_party_model->get();
 		//echo "<pre>"; print_r($data['frc_data']);exit;
@@ -132,8 +132,8 @@
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['frc_data'] = $this->Transaction_model->get_by_id($id);
-		$data['page_name'] = $data['trans_data'][0]['to_godown'].'  DASHBOARD';
-		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['sub2']);
+		$data['page_name'] = $data['trans_data'][0]['sub2'].'  DASHBOARD';
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['branch_data']=$this->Job_work_party_model->get();
 		$data['id'] = $id;
 		

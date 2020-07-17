@@ -49,6 +49,7 @@
         public function delete($id)
         {
             $this->Job_work_party_model->delete($id);
+            $this->db->delete('jobtypeconstant', array('jobId' => $value));
             redirect(base_url('admin/Job_work_party'));
         }
 
@@ -56,7 +57,8 @@
 					$ids = $this->input->post('ids');
 					 $userid= explode(",", $ids);
 					 foreach ($userid as $value) {
-							$this->db->delete('job_work_party', array('id' => $value));
+              $this->db->delete('job_work_party', array('id' => $value));
+              $this->db->delete('jobtypeconstant', array('jobId' => $value));
 					}
 				}
 
