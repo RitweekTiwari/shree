@@ -9,9 +9,10 @@ class Job_work_party_model extends CI_Model {
 	}
 	public function get()
 	{
-		$this->db->select('job_work_party.*,sub_department.subDeptName as godown,job_work_type.type as job');
+		$this->db->select('job_work_party.*,department.deptName as dept,sub_department.subDeptName as godown,job_work_type.type as job');
 		$this->db->from('job_work_party');
 		  $this->db->join('sub_department ','sub_department.id=job_work_party.subDeptName  ','left');
+		   $this->db->join('department ','department.id=job_work_party.deptName  ','left');
 		  $this->db->join('job_work_type ','job_work_type.id=job_work_party.job_work_type  ','left');
 		$rec=$this->db->get();
 		return $rec->result();

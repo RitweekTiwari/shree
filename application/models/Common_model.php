@@ -327,7 +327,7 @@ class Common_model extends CI_Model {
 	public function department()
 	{
 
-		$this->db->select('deptName');
+		$this->db->select('id,deptName');
 		$rec=$this->db->get('department');
 		return $rec->result();
 	}

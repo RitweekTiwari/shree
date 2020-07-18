@@ -107,8 +107,8 @@
                             <div class="col-sm-9">
                               <select name="userId" class="form-control">
                               <?php foreach ($user as $rec): ?>
-                                <option <?php if ($value->userId==$rec->first_name) {
-                                ?>selected<?php } ?>  value="<?php echo $rec->first_name ?>"><?php echo $rec->first_name ?></option>
+                                <option <?php if ($value->userId==$rec->username) {
+                                ?>selected<?php } ?>  value="<?php echo $rec->username ?>"><?php echo $rec->username ?></option>
                               <?php endforeach;?>
                               </select>
                             </div>
@@ -180,8 +180,7 @@
 
               <select name="userId" class="form-control">
               <?php foreach ($user as $rec): ?>
-                <option <?php if ($value->userId==$rec->first_name) {
-                ?>selected<?php } ?>  value="<?php echo $rec->first_name ?>"><?php echo $rec->first_name ?></option>
+                <option  value="<?php echo $rec->username ?>"><?php echo $rec->username ?></option>
               <?php endforeach;?>
               </select>
             </div>

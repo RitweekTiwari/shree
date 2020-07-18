@@ -36,11 +36,13 @@ class Transaction_model extends CI_Model {
  }
 public function get_godown($id)
  {
-   $this->db->select('sub_department.id as id,sub_department.subDeptName as godown,jobtypeconstant.job as job');
+   $this->db->select('sub_department.id as id,sub_department.subDeptName as godown,job_work_type.type as job');
    $this->db->from('job_work_party');
-    $this->db->join('sub_department ','sub_department.id=job_work_party.subDeptName  ','inner');
-		  $this->db->join('jobtypeconstant ','jobtypeconstant.id=job_work_party.job_work_type  ','inner');
+    $this->db->join('sub_department ','sub_department.id=job_work_party.subDeptName','inner');
+     $this->db->join('job_work_type','job_work_type.id=job_work_party.job_work_type','left');
+		  
    $this->db->where('job_work_party.id',$id);
+   
    $query = $this->db->get();
     return $query->result_array();
    
@@ -120,8 +122,13 @@ public function get($col,$godown,$type)
 
     $this->db->where('id', $godown);
     $query = $this->db->get();
+   // print_r($query->num_rows());exit;
+    if($query->num_rows()>0){
     return $query->row()->subDeptName;
-  
+    }else{
+        return null;
+        
+    }
   }
   public function get_jobwork_by_id($godown)
   {
@@ -130,7 +137,12 @@ public function get($col,$godown,$type)
 
     $this->db->where('subDeptName', $godown);
     $query = $this->db->get();
+    if($query->num_rows()>0){
     return $query->row()->id;
+    }else{
+        return null;
+        
+    }
   }
   public function get_by_id($id)
   {

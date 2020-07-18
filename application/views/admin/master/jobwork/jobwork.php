@@ -71,7 +71,7 @@
                 <td><?php echo $value->name?></td>
                 <td><?php echo $value->phone_no?></td>
                 <td><?php echo $value->gst?></td>
-                <td><?php echo $value->deptName?></td>
+                <td><?php echo $value->dept?></td>
                 <td><?php echo $value->godown?></td>
                 <td><?php echo $value->job?></td>
                 <td><?php echo $value->address?></td>
@@ -123,7 +123,7 @@
                         <select name="deptName" class="form-control">
                           <?php foreach ($dept_name as $rec): ?>
 
-                          <option <?php if ($value->deptName==$rec->deptName) { ?>selected <?php } ?>  value="<?php echo $rec->deptName ?>"><?php echo $rec->deptName ?></option>
+                          <option <?php if ($value->id==$rec->id) { ?>selected <?php } ?>  value="<?php echo $rec->id ?>"><?php echo $rec->deptName ?></option>
                         <?php endforeach;?>
 
                         </select>
@@ -214,7 +214,7 @@
         <div class="col-sm-9">
           <select name="deptName" class="form-control">
             <?php foreach ($dept_name as $rec): ?>
-            <option value="<?php echo $rec->deptName; ?>"><?php echo $rec->deptName; ?></option>
+            <option value="<?php echo $rec->id; ?>"><?php echo $rec->deptName; ?></option>
           <?php endforeach;?>
           </select>
         </div>
