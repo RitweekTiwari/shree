@@ -62,7 +62,7 @@
 
         success: function(data) {
           data = JSON.parse(data);
-          if (data != "") {
+          if (data != "" || data[0]['godownid']==godown) {
             // One day Time in ms (milliseconds) 
             var one_day = 1000 * 60 * 60 * 24
             var present_date = new Date();
