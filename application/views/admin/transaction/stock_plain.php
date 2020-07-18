@@ -179,7 +179,7 @@
                                 <tbody>
                                     <?php
                                     $c = 1;
-                                    foreach ($frc_data as $value) { ?>
+                                    foreach ($plain_data as $value) { ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['order_product_id'] ?>"></td>
 
@@ -208,6 +208,35 @@
                                                     - ceil(abs($diff / 86400));
                                                 echo $diff;
                                                 ?></td>
+
+
+
+                                        </tr>
+
+                                    <?php $c = $c + 1;
+                                    } ?>
+                                     <?php
+                                   
+                                    foreach ($frc_data as $value) { ?>
+                                        <tr class="gradeU" id="tr_<?php echo $c ?>">
+                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['fsr_id'] ?>"></td>
+
+                                            <td><?php echo $value['parent_barcode']; ?></td>
+                                            <td>Null</td>
+
+                                            <td>Null</td>
+                                            <td><?php echo $value['fabricName']; ?></td>
+                                            <td><?php echo $value['hsn']; ?></td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td><?php echo $value['current_stock'] ?></td>
+                                            <td><?php echo $value['stock_unit'] ?></td>
+                                            <td>Null</td>
+
+                                            <td><?php echo $value['created_date'] ?></td>
 
 
 

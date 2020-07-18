@@ -34,7 +34,12 @@
       var order = $(this).val();
       order = order.toUpperCase();
       var godown = <?php echo $id ?>;
-      if (godown == 17) {
+      var plain=[];
+     <?php foreach($plain as $row){?>
+      plain.push(<?php echo $row; ?>);
+     <?php }?>
+      console.log(plain);
+      if (plain.includes(godown) ) {
         var url = "<?php echo base_url('admin/orders/getOrderDetails') ?>";
       } else {
         var url = "<?php echo base_url('admin/transaction/getOrderDetails') ?>";

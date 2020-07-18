@@ -94,6 +94,22 @@ public function get($col,$godown,$type)
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function get_distinct_plain_godown()
+  {
+    $this->db->select("distinct(godownid)");
+    $this->db->from('fabric_stock_view');
+    
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+   public function get_frc_stock($data)
+  {
+    $this->db->select("*");
+    $this->db->from('fabric_stock_view');
+     $this->db->where('godownid', $data);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_dispatch($data)
   {
     $this->db->select("dispatch_view.*,fabric.fabricCode,sb1.subDeptName as sub1,sb2.subDeptName as sub2");

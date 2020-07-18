@@ -36,7 +36,12 @@
 	public function showChallan($godown){
 			$data = array();
 			$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-	        $data['page_name']= $data['godown'].'  DASHBOARD';
+			$data['page_name']= $data['godown'].'  DASHBOARD';
+			$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+			foreach($plain_godown as $row){
+				$data['plain'][]=$row['godownid'];
+			}
+			
 			$data['id'] = $godown;
 			$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
 			$data['branch_data']=$this->Job_work_party_model->get();
@@ -100,16 +105,23 @@
 		
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $data['godown'].'  DASHBOARD';
-		if($godown==17){
-		$data['frc_data'] = $this->Transaction_model->get_plain_stock();	
+		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+		$found=0;
+		foreach($plain_godown as $row){
+		if($godown==$row['godownid']){
+			$found=1;
+		$data['plain_data'] = $this->Transaction_model->get_plain_stock();
+		$data['frc_data'] = $this->Transaction_model->get_frc_stock($godown);	
 		//echo "<pre>";print_r($data['frc_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
 
-		}else{
+		}
+		}
+		if($found==0){
 		$data['frc_data'] = $this->Transaction_model->get_stock($godown);
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
-
 		}
+		
 
 		$this->load->view('admin/index', $data);
 	}
