@@ -429,11 +429,12 @@ public function get_design_name()
 			return $query;
 	}
 
-	public function getOrderDetails($id)
+	public function getOrderDetails($id,$godown)
 	{
 		$this->db->select('*');
 		$this->db->from('order_product');
 		$this->db->where('order_product.order_barcode', $id);
+		$this->db->where('order_product.godownid', $godown);
 		$this->db->where('order_product.status !=', 'OUT');
 		$this->db->join('order_table ', 'order_table.order_id = order_product.order_id', 'inner');
 		$query = $this->db->get();

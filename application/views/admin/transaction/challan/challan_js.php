@@ -57,12 +57,13 @@
         data: {
 
           'id': order,
+          'godown':godown,
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
 
         success: function(data) {
           data = JSON.parse(data);
-          if (data != "" || data[0]['godownid']==godown) {
+          if (data != "" ) {
             // One day Time in ms (milliseconds) 
             var one_day = 1000 * 60 * 60 * 24
             var present_date = new Date();

@@ -163,8 +163,9 @@ class Orders extends CI_Controller
   public function getOrderDetails()
   {
     $id = $this->security->xss_clean($_POST['id']);
+    $godown=$this->security->xss_clean($_POST['godown']);
     $data = array();
-    $data['febName'] = $this->Orders_model->getOrderDetails($id);
+    $data['febName'] = $this->Orders_model->getOrderDetails($id,$godown);
     if($data['febName']){
       echo json_encode($data['febName']);
     }else{

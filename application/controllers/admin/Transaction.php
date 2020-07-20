@@ -286,7 +286,7 @@
 	{
 
 		$ids =  $this->security->xss_clean($_POST['ids']);
-		
+		$type =  $this->security->xss_clean($_POST['type']);
 
 		//print_r($_POST['ids']);exit;
 		foreach ($ids as $value) {
@@ -308,7 +308,12 @@
 	   $html=$html.'<div style="float:right">Date :'. date_format($date,"d/m/y ").'</div>';
 		 $data['title']='SHREE NIKETAN SAREES PVT. LTD. CHANDAULI';
 	  $data['head']=$html;
+	  if($type=='table'){
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/index', $data, TRUE);
+	  }else{
+		$data['main_content'] = $this->load->view('admin/transaction/dispatch/print', $data, TRUE);  
+	  }
+		
 		$this->load->view('admin/print/index', $data);
 	}
 	public function return_print_multiple()
