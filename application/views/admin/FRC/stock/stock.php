@@ -34,6 +34,7 @@
                           <option value="challan_to">Godown</option>
                           <option value="parent_barcode">PBC</option>
                           <option value="fabricName">fabricName</option>
+                          <option value="hsn">HSN</option>
                           <option value="challan_no">Challan no</option>
                           <option value="fabric_type">Fabric Type</option>
                           <option value="color_name">Color </option>

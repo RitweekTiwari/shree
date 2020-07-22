@@ -127,7 +127,8 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                                <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
+                                <div class="col-6"> <a type="button" class="btn  pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
+                                <a type="button" class="btn btn-info pull-left print1 " style="color:#fff;"><i class="fa fa-print"></i></a>
                                 </div>
                                 <div class="col-6">
 
@@ -230,7 +231,51 @@
 
 
 <script>
-   
+   jQuery('.print1').on('click', function(e) {
+        var allVals = [];
+        $(".sub_chk:checked").each(function() {
+            allVals.push($(this).attr('data-id'));
+        });
+        //alert(allVals.length); return false;
+        if (allVals.length <= 0) {
+            alert("Please select row.");
+        } else {
+            //$("#loading").show();
+            WRN_PROFILE_DELETE = "Are you sure you want to Print this rows?";
+            var check = confirm(WRN_PROFILE_DELETE);
+            if (check == true) {
+                //for server side
+                var join_selected_values = allVals.join(",");
+                // alert (join_selected_values);exit;
+                var ids = join_selected_values.split(",");
+                var data = [];
+                $.each(ids, function(index, value) {
+                    if (value != "") {
+                        data[index] = value;
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "<?= base_url() ?>admin/Transaction/return_print_multiple",
+                    cache: false,
+                    data: {
+                        'ids': data,
+                        'godown': '<?php echo $godown ?>',
+                        'type':'barcode2',
+                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+                    },
+                    success: function(response) {
+                        var w = window.open('about:blank');
+                        w.document.open();
+                        w.document.write(response);
+                        w.document.close();
+                    }
+                });
+                //for client side
+
+            }
+        }
+    });
 
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];
@@ -262,6 +307,7 @@
                     data: {
                         'ids': data,
                         'godown': '<?php echo $godown ?>',
+                        'type':'barcode1',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {

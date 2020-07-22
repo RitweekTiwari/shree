@@ -104,6 +104,7 @@
 	{
 		
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$data['godownid']=$godown;
 		$data['page_name'] = $data['godown'].'  DASHBOARD';
 		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 		$found=0;
@@ -118,7 +119,7 @@
 		}
 		}
 		if($found==0){
-		$data['frc_data'] = $this->Transaction_model->get_stock($godown);
+		$data['frc_data'] = $this->Transaction_model->get_stock($data['godownid']);
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
 		}
 		
@@ -286,7 +287,7 @@
 	{
 
 		$ids =  $this->security->xss_clean($_POST['ids']);
-		$type =  $this->security->xss_clean($_POST['type']);
+		
 
 		//print_r($_POST['ids']);exit;
 		foreach ($ids as $value) {
@@ -308,11 +309,9 @@
 	   $html=$html.'<div style="float:right">Date :'. date_format($date,"d/m/y ").'</div>';
 		 $data['title']='SHREE NIKETAN SAREES PVT. LTD. CHANDAULI';
 	  $data['head']=$html;
-	  if($type=='table'){
+	 
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/index', $data, TRUE);
-	  }else{
-		$data['main_content'] = $this->load->view('admin/transaction/dispatch/print', $data, TRUE);  
-	  }
+	 
 		
 		$this->load->view('admin/print/index', $data);
 	}
@@ -321,18 +320,24 @@
 
 		$ids =  $this->security->xss_clean($_POST['ids']);
 		$godown =  $this->security->xss_clean($_POST['godown']);
-		
+		$type =  $this->security->xss_clean($_POST['type']);
 		//print_r($_POST['ids']);exit;
 		foreach ($ids as $value) {
 			if ($value != "") {
 				$data1['godown'] = $godown;
 				$data1['id'] = $value;
-				$data['data'][] = $this->Transaction_model->get_stock($data1);
+				$r = $this->Transaction_model->get_stock($data1);
+				$data['data'][]=$r[0];
 			}
 		}
 		//echo '<pre>';	print_r($data['data']);exit;
-		
+		if($type=='barcode2'){
+		$data['main_content'] = $this->load->view('admin/transaction/dispatch/print', $data, TRUE);
+
+		}else{
 		$data['main_content'] = $this->load->view('admin/transaction/challan/multi_list_print', $data, TRUE);
+
+		}
 		$this->load->view('admin/print/index', $data);
 	}
 	
@@ -501,8 +506,8 @@
 	public function getOrderDetails()
 	{
 		$data['obc'] = $this->security->xss_clean($_POST['id']);
-		$godown = $this->security->xss_clean($_POST['godown']);
-		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$data['godown'] = $this->security->xss_clean($_POST['godown']);
+		
 		$data['order'] = $this->Transaction_model->getOrderDetails($data);
 		if ($data['order']) {
 			echo json_encode($data['order']);

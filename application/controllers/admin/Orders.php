@@ -163,11 +163,22 @@ class Orders extends CI_Controller
   public function getOrderDetails()
   {
     $id = $this->security->xss_clean($_POST['id']);
-    $godown=$this->security->xss_clean($_POST['godown']);
+   
     $data = array();
-    $data['febName'] = $this->Orders_model->getOrderDetails($id,$godown);
+    $data['febName'] = $this->Orders_model->getOrderDetails($id);
+    
     if($data['febName']){
+      if(isset($_POST['godown'])){
+      $godown = $this->security->xss_clean($_POST['godown']);
+          if($data['febName'][0]['godown']==$godown){
+            echo json_encode($data['febName']);
+          }else{
+            echo json_encode(2);
+          }
+      }else{
       echo json_encode($data['febName']);
+      }
+     
     }else{
       echo json_encode(0);
     }
@@ -360,20 +371,14 @@ class Orders extends CI_Controller
        
        if(isset($obc[0]['pbc']) && $obc[0]['pbc']!=""){
           $this->Orders_model->edit_by_node('parent_barcode', $obc[0]['pbc'],  array('isStock'=> 1),'fabric_stock_received');
-
        }
-
-       
         $id = $data['id'];
-        
         $pbc=  $this->Orders_model->getPBC_deatils($id);
-       
         if(isset($pbc[0])){
-
-
           if ($pbc[0]['fabricName'] == $data['fabric']) {
             $data1['quantity'] = $pbc[0]['current_stock'];
             $data1['pbc'] = $data['id'];
+             $data1['godown'] = $data['godownid'];
             $this->Orders_model->edit_by_node('order_product_id', $data['order_product_id'], $data1, 'order_product');
             $this->Orders_model->edit_by_node('fsr_id', $pbc[0]['fsr_id'],  array('isStock' => 0), 'fabric_stock_received');
             echo '1'; 
@@ -382,8 +387,7 @@ class Orders extends CI_Controller
           }
         }else{
           echo '2';
-        }
-      
+        }      
       }catch (\Exception $e) {
         $error = $e->getMessage();
         echo $error;
