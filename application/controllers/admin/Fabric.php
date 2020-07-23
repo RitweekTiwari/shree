@@ -38,7 +38,12 @@
         public function edit($id)
         {
             if ($_POST) {
-                $data=$this->input->post();
+               $data=array(
+    				'fabricName'=>$_POST['fabricName'],
+    				'fabHsnCode'=>$_POST['fabHsnCode'],
+    				'fabricType'=>$_POST['fabricType'],
+    				'fabricCode'=>$_POST['fabricCode']
+    			);
                 // print_r($data);
                 $this->Fabric_model->edit($id,$data);
                 redirect(base_url('admin/Fabric'));

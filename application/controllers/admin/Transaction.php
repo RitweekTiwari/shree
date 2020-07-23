@@ -111,15 +111,16 @@
 		foreach($plain_godown as $row){
 		if($godown==$row['godownid']){
 			$found=1;
-		$data['plain_data'] = $this->Transaction_model->get_plain_stock();
-		$data['frc_data'] = $this->Transaction_model->get_frc_stock($godown);	
-		//echo "<pre>";print_r($data['frc_data']);exit;
+		$data['plain_data'] = $this->Transaction_model->get_plain_stock($godown);
+		$data['frc_data'] = $this->Transaction_model->get_frc_stock($godown);
+		$data['godown_data'] = $this->Transaction_model->get_stock($godown);	
+		//echo "<pre>";print_r($data['godown_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
 
 		}
 		}
 		if($found==0){
-		$data['frc_data'] = $this->Transaction_model->get_stock($data['godownid']);
+		$data['frc_data'] = $this->Transaction_model->get_stock($godown);
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
 		}
 		

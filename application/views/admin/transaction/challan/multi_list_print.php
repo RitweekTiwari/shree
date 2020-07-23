@@ -44,9 +44,9 @@
                     <tr>
                         <td colspan="2">
                             <div>
-                                <img class="barCodeImage" id="barcode1<?php echo $value[0]['order_barcode']; ?>" />
+                                <img class="barCodeImage" id="barcode1<?php echo $value['order_barcode']; ?>" />
                                 <script>
-                                    JsBarcode("#barcode1<?php echo $value[0]['order_barcode']; ?>", "<?php echo $value[0]['order_barcode']; ?>");
+                                    JsBarcode("#barcode1<?php echo $value['order_barcode']; ?>", "<?php echo $value['order_barcode']; ?>");
                                 </script>
                             </div>
                         </td>
@@ -55,31 +55,31 @@
                     </tr>
                     <tr>
                         <td width="1.0in">OBC </td>
-                        <td>:-<?php echo $value[0]['order_barcode']; ?></td>
+                        <td>:-<?php echo $value['order_barcode']; ?></td>
                     </tr>
                     <tr>
                         <td width="1.0in">DBC </td>
-                        <td>:-<?php echo $value[0]['design_barcode']; ?></td>
+                        <td>:-<?php echo $value['design_barcode']; ?></td>
 
                     </tr>
                     <tr>
                         <td width="1.0in">ITEM_NO </td>
-                        <td>:-<?php echo $value[0]['hsn']; ?>/<?php echo $value[0]['fabric_name']; ?> </td>
+                        <td>:-<?php echo $value['hsn']; ?>/<?php echo $value['fabric_name']; ?> </td>
 
                     </tr>
                     <tr>
                         <td width="1.0in">OD_NO </td>
-                        <td>:-<?php echo $value[0]['order_number']; ?></td>
+                        <td>:-<?php echo $value['order_number']; ?></td>
 
                     </tr>
                     <tr>
                         <td width="1.0in">CODE </td>
-                        <td>:-<?php echo $value[0]['design_code']; ?></td>
+                        <td>:-<?php echo $value['design_code']; ?></td>
 
                     </tr>
                     <tr>
                         <td width="1.0in">SIZE </td>
-                        <td>:-<?php echo $value[0]['quantity']; ?> <?php echo $value[0]['unit']; ?></td>
+                        <td>:-<?php echo $value['quantity']; ?> <?php echo $value['unit']; ?></td>
 
                     </tr>
                 </table>

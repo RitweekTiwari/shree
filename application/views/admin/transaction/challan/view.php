@@ -148,7 +148,8 @@
                         toastr.error('Failed!', "OBC did not match");
                     } else if (data == 1) {
                         toastr.success('Success!', "Recieved successfully");
-
+                        $('#obc').val("");
+                        $('#obc').focus();
                         table.ajax.reload();
                     } else if (data == 2) {
                         toastr.error('Failed!', "Something went wrong..Status not updated");

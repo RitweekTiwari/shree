@@ -215,6 +215,47 @@
 
                                     <?php $c = $c + 1;
                                     } ?>
+
+                                     <?php
+                                   
+                                    foreach ($godown_data as $value) { ?>
+                                       <tr class="gradeU" id="tr_<?php echo $c ?>">
+                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
+
+                                            <td><?php echo $value['pbc']; ?></td>
+                                            <td><?php echo $value['order_barcode']; ?></td>
+
+                                            <td><?php echo $value['order_number']; ?></td>
+                                            
+                                            <td><?php echo $value['fabric_name']; ?></td>
+                                            <td><?php echo $value['hsn']; ?></td>
+                                            <td><?php echo $value['design_barcode']; ?></td>
+                                            <td><?php echo $value['design_name']; ?></td>
+                                            <td><?php echo $value['design_code']; ?></td>
+                                            <td><?php echo $value['dye'] ?></td>
+                                            <td><?php echo $value['matching'] ?></td>
+                                            <td><?php echo $value['quantity'] ?></td>
+                                            <td><?php echo $value['unit'] ?></td>
+                                            <td><?php echo $value['image'] ?></td>
+
+                                            <td><?php
+                                                $date1 = date('Y-m-d');
+                                                $date2 = $value['order_date'];
+                                                $diff = strtotime($date1) - strtotime($date2);
+
+
+                                                $diff = 30
+                                                    - ceil(abs($diff / 86400));
+                                                echo $diff;
+                                                ?></td>
+
+
+
+                                        </tr>
+
+
+                                    <?php $c = $c + 1;
+                                    } ?>
                                      <?php
                                    
                                     foreach ($frc_data as $value) { ?>

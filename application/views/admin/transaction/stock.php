@@ -260,7 +260,7 @@
                     cache: false,
                     data: {
                         'ids': data,
-                        'godown': '<?php echo $godown ?>',
+                        'godown': '<?php echo $godownid ?>',
                         'type':'barcode2',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
@@ -306,7 +306,7 @@
                     cache: false,
                     data: {
                         'ids': data,
-                        'godown': '<?php echo $godown ?>',
+                        'godown': '<?php echo $godownid ?>',
                         'type':'barcode1',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },

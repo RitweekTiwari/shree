@@ -147,7 +147,7 @@
 
           function myFunction(value, index, array) {
 
-            html += '  <option value=' + array[index]['design_id'] + '>' + array[index]['designName'] + '</option>';
+            html += '  <option value=' + array[index]['designName'] + '>' + array[index]['designName'] + '</option>';
 
           }
           $('#designName' + button_id + '').append(html);
@@ -156,8 +156,7 @@
     });
     $(document).on('change', '.design_name', function(e) {
       var id = $(this).val();
-      var val = $(this, 'selected').text();
-      console.log(id);
+     
       var button_id = $(this).parent().parent().attr("id");
       console.log(button_id);
       var csrf_name = $("#get_csrf_hash").attr('name');

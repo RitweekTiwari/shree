@@ -66,10 +66,11 @@
 		$this->db->select('desCode,stitch,dye,matching');
 		$this->db->from('design_view');
 
-		$this->db->where('id', $id);
-		$query = $this->db->get();
-		$query = $query->result_array();
-		return $query;
+		$this->db->where('designName', $id);
+		$this->db->where('designSeries', 0);
+		return $this->db->get()->result_array();
+		
+		 
 	}
 public function get_design_name()
  {

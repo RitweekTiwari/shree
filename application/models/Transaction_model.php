@@ -89,11 +89,11 @@ public function get($col,$godown,$type)
     //print_r($this->db->last_query());
     return $query->result_array();
   }
-   public function get_plain_stock()
+   public function get_plain_stock($data)
   {
     $this->db->select("*");
     $this->db->from('plain_godown_stock');
-    
+    $this->db->where('godown', $data);
     $query = $this->db->get();
     return $query->result_array();
   }
