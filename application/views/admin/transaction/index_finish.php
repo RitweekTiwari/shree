@@ -78,9 +78,35 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-paper-cut-vertical"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/Transaction/showTC/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/Transaction/show_TC/') . $godown; ?>">
+                                            <h4 class="font-light text-white"> <i class="mdi mdi-cart"></i></h4>
+                                            <h5 class="text-white">CREATE TC </h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-6 col-lg-3 col-xlg-3">
+                                <div class="card card-hover">
+                                    <div class="box bg-primary text-center">
+                                        <h1 class="font-light text-white">
+                                            <i class="mdi mdi-paper-cut-vertical"></i>
+                                        </h1>
+                                        <a href="<?php echo base_url('admin/Transaction/show_Add_TC/') . $godown; ?>">
                                             <h4 class="font-light text-white"> <i class="mdi mdi-cart"></i></h4>
                                             <h5 class="text-white">ADD TC </h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="col-md-6 col-lg-3 col-xlg-3">
+                                <div class="card card-hover">
+                                    <div class="box bg-dark text-center">
+                                        <h1 class="font-light text-white">
+                                            <i class="mdi mdi-paper-cut-vertical"></i>
+                                        </h1>
+                                        <a href="<?php echo base_url('admin/Transaction/show_TC_list/') . $godown; ?>">
+                                            <h4 class="font-light text-white"> <i class="mdi mdi-cart"></i></h4>
+                                            <h5 class="text-white">TC List</h5>
                                         </a>
                                     </div>
                                 </div>

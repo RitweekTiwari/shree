@@ -13,9 +13,10 @@
         $this->load->model('Transaction_model');
 		$this->load->model('Sub_department_model');
 		
-    	}
-
+		}
+		
 	public function home($godown)
+
 	{
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
@@ -90,7 +91,49 @@
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/list_dispatch', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
-
+	public function show_TC($godown)
+	{
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+			foreach($plain_godown as $row){
+				$data['plain'][]=$row['godownid'];
+			}
+			
+			$data['id'] = $godown;
+		
+		$data['main_content'] = $this->load->view('admin/transaction/tc/create', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function show_Add_TC($godown)
+	{
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+			foreach($plain_godown as $row){
+				$data['plain'][]=$row['godownid'];
+			}
+		$data['data']=$this->Transaction_model->get_tc($godown);
+		//echo "<pre>";print_r($data['data']);exit;	
+			$data['id'] = $godown;
+		$data['content'] = $this->load->view('admin/transaction/tc/tc_index', $data, TRUE);
+		$data['main_content'] = $this->load->view('admin/transaction/tc/add', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+		public function show_TC_list($godown)
+	{
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+			foreach($plain_godown as $row){
+				$data['plain'][]=$row['godownid'];
+			}
+		$data['data']= $this->Transaction_model->get('from_godown', $godown, 'tc');
+			$data['id'] = $godown;
+		
+		$data['main_content'] = $this->load->view('admin/transaction/tc/tc_list', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
 		public function showReturnList($godown){
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 			$data['page_name']= $data['godown'].'  DASHBOARD';
@@ -167,7 +210,18 @@
 	
 		$this->load->view('admin/index', $data);
 	}
+	public function viewtc($id)
+	{
+		$data = array();
+		$data['data']= $this->Transaction_model->view_tc($id);
+		$data['page_name'] = $data['data'][0]['sub1'] . '  DASHBOARD';
+		
+		$data['id'] = $id;
+
+		$data['main_content'] = $this->load->view('admin/transaction/tc/view', $data, TRUE);
 	
+		$this->load->view('admin/index', $data);
+	}
 
 	public function getChallan($id)
 	{
@@ -425,7 +479,78 @@
 				
 			} redirect($_SERVER['HTTP_REFERER']);
 		}
-		
+	
+
+		public function addTC(){
+			
+			if($_POST){
+				$data = $this->security->xss_clean($_POST);
+				// echo "<pre>"; print_r($data);exit;
+				$count =count($data['pbc']);
+			
+				for ($i=0; $i < $count; $i++) { 
+				$data2=[
+					
+					'finish_qty ' => $data['fquantity'][$i],
+					
+				]	;
+
+				
+				$this->Transaction_model->update($data2,'trans_meta_id', $data['id'][$i],  'transaction_meta');
+
+				}
+				
+			} redirect($_SERVER['HTTP_REFERER']);
+		}
+
+		public function add_tc_challan($godown){
+			
+			if($_POST){
+				$data = $this->security->xss_clean($_POST);
+				// echo "<pre>"; print_r($data);exit;
+				$count =count($data['pbc']);
+			$id = $this->Transaction_model->getId($godown,'tc');
+			if (!$id) {
+				$challan = 'TC/1';
+			} else {
+				$cc = $id[0]['count'];
+				$cc = $cc + 1;
+				$challan = 'TC' . (string) $cc;
+			}
+				$data1 =[
+					'from_godown' =>$godown,
+					
+					'created_at' => date('Y-m-d'),
+					'created_by' => $_SESSION['userID'],
+				'challan_no' => $challan,
+				'counter' => $cc,
+				'pcs' => $count,
+					'jobworkType' => "",
+					
+					'transaction_type' => 'tc'
+
+				];
+				$id =	$this->Transaction_model->insert($data1, 'transaction');
+				for ($i=0; $i < $count; $i++) { 
+				$data2=[
+					'transaction_id' => $id,
+					
+					'order_barcode' =>$data['obc'][$i],
+					
+					'finish_qty ' => $data['quantity'][$i],
+					
+				]	;
+			$status=	$this->Transaction_model->update(array('is_tc'=>1),'trans_meta_id', $data['id'][$i],  'transaction_meta');
+					
+						$this->Transaction_model->insert($data2, 'transaction_meta');
+					
+					
+
+				}
+				
+			} redirect($_SERVER['HTTP_REFERER']);
+		}
+
 		public function addChallan($godown){
 			
 			if($_POST){

@@ -133,7 +133,25 @@ public function get($col,$godown,$type)
     
     
   }
-  
+public function view_tc($data)
+  {
+    $this->db->select("godown_tc_view.*,fabric.fabricCode,sb1.subDeptName as sub1");
+    $this->db->from('godown_tc_view');
+    $this->db->join('fabric', 'fabric.fabricName=godown_tc_view.fabric_name', 'inner');
+ $this->db->join('sub_department sb1','sb1.id=godown_tc_view.from_godown  ','left');
+    if (isset($data['id'])) {
+      $this->db->where('trans_meta_id', $data['id']);
+     
+    }else{
+      $this->db->where('transaction_id', $data);
+     
+    }
+  $this->db->order_by('trans_meta_id','asc');
+    $query = $this->db->get();
+    return $query->result_array();
+    
+    
+  }
   public function get_godown_by_id($godown)
   {
     $this->db->select("*");
@@ -198,6 +216,19 @@ public function get($col,$godown,$type)
     $rec = $this->db->get();
     //  print_r($rec);exit;
     return $rec->result_array();
+  }
+   public function get_tc($id)
+  {
+    $this->db->select("godown_stock_view.*,fabric.fabricCode");
+    $this->db->from('godown_stock_view');
+    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
+  
+    $this->db->where('to_godown', $id);
+    $this->db->where('finish_qty !=', 0);
+    $this->db->where('is_tc', 0);
+    $query = $this->db->get();
+    //print_r($this->db->last_query());
+    return $query->result_array();
   }
   public function getOrderDetails($data)
   {

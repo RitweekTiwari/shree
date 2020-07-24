@@ -6,6 +6,7 @@
         <div class="col-md-12 ">
             <div class="card">
                 <div class="card-body">
+
                     <div id="accordion">
 
                         <div class="modal-content">
@@ -16,29 +17,33 @@
                             </div>
                             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/FRC/filter'); ?>" method="post">
                                         <div class="form-row">
                                             <div class="col-2">
                                                 <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
                                             </div>
                                             <div class="col-2">
+
                                                 <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>">
                                             </div>
                                             <div class="col-2">
+
                                                 <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                                                     <option value="">-- Select Category --</option>
-                                                    <option value="sort_name">Party Name</option>
-                                                    <option value="challan_no">Challan no</option>
-                                                    <option value="fabric_type">Fabric Type</option>
+
+                                                    <option value="challan_no">Challan No</option>
                                                     <option value="total_quantity">Quantity</option>
-                                                    <option value="unitName">Unit</option>
-                                                    <option value="total_amount">Total amount</option>
+                                                    <option value="total_pcs">Total PCS</option>
+                                                    <option value="total_tc">Total TC</option>
+
+
                                                 </select>
                                             </div>
                                             <div class="col-2">
+
                                                 <input type="text" name="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
                                             </div>
-                                            <input type="hidden" name="type" value="recieve"><input type="hidden" name="search" value="simple">
+                                            <input type="hidden" name="type" value="tc"><input type="hidden" name="search" value="simple">
                                             <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                                             <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
                                         </div>
@@ -55,17 +60,17 @@
                             </div>
                             <div id="collapseTwo" class="collapse" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/FRC/filter'); ?>" method="post">
                                         <table class=" remove_datatable">
                                             <caption>Advance Filter</caption>
                                             <thead>
                                                 <tr>
                                                     <th>Date_from</th>
                                                     <th>Date_to</th>
-                                                    <th>Party Name</th>
-                                                    <th>challan No</th>
-
-
+                                                    <th>Challan No</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total PCS</th>
+                                                    <th>Total TC</th>
                                                 </tr>
                                             </thead>
                                             <tr>
@@ -74,32 +79,23 @@
 
                                                 <td>
                                                     <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
-                                                <td><input type="text" name="sort_name" class="form-control form-control-sm" value="" placeholder="Party Name">
+                                                <td><input type="text" name="challan_no" class="form-control form-control-sm" value="" placeholder="Challan No">
                                                 </td>
-                                                <td>
-                                                    <input type="text" name="challan" class="form-control form-control-sm" value="" placeholder="challan"></td>
-                                            </tr>
 
-                                            <th>Fabric Type</th>
-                                            <th>Quantity</th>
-                                            <th>Unit</th>
-                                            <th>Total Amount</th>
-
-                                            <tr>
-                                                <td>
-                                                    <input type="text" name="fabric_type" class="form-control form-control-sm" value="" placeholder="Fab Type"></td>
-                                                <td>
-                                                    <input type="text" name="total_quantity" class="form-control form-control-sm" value="" placeholder="Curr Qty"></td>
+                                                <td><input type="text" name="total_quantity" class="form-control form-control-sm" value="" placeholder="Total Quantity">
+                                                </td>
 
                                                 <td>
-                                                    <input type="text" name="unitName" class="form-control form-control-sm" value="" placeholder="Unit"></td>
+                                                    <input type="text" name="total_pcs" class="form-control form-control-sm" value="" placeholder="Total pcs">
+                                                </td>
 
                                                 <td>
-                                                    <input type="text" name="total_amount" class="form-control form-control-sm" value="" placeholder="Total"></td>
+                                                    <input type="text" name="total_tc" class="form-control form-control-sm" value="" placeholder="total tc"></td>
+
                                             </tr>
 
                                         </table>
-                                        <input type="hidden" name="type" value="recieve"><input type="hidden" name="search" value="advance">
+                                        <input type="hidden" name="type" value="tc"><input type="hidden" name="search" value="advance">
                                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                                         <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
 
@@ -121,17 +117,18 @@
         <div class="col-md-12 bg-white">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Stock of Godown</h4>
+                    <h4 class="card-title">TC Challan Receive List</h4>
                     <hr>
 
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                                <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
+                                <div class="col-6"><a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a type="button" class="btn btn-info   btn-success" href='<?php echo base_url('/admin/FRC/show_tc'); ?>' style="color:#fff;">Clear filter</a>
                                 </div>
                                 <div class="col-6">
 
-                                    <form id="frc_dateFilter">
+                                    <form action="<?php echo base_url('/admin/FRC/show_tc'); ?>" method="post">
 
                                         <div class="form-row ">
                                             <div class="col-5">
@@ -153,93 +150,54 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class=" table-bordered data-table text-center " id="frc">
-                                <thead class="">
+
+
+
+                            <table class=" table-bordered data-table text-center table-responsive" id="frc">
+                              
+                                <thead class="bg-dark text-white">
                                     <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>
-                                        <th>PBC</th>
-                                        <th>OBC</th>
-                                        <th>ORDER NO</th>
-                                        <th>FABRIC NAME</th>
-                                        <th>HSN</th>
-                                        <th>DESIGN BARCODE</th>
-                                        <th>DESIGN NAME</th>
-                                        <th>DESIGN CODE</th>
-                                        <th>DYE</th>
-                                        <th>MATCHING</th>
-                                        <th>QUANTITY</th>
-                                        <th>UNIT</th>
-                                        <th>IMAGE</th>
-                                        <th>DAYS REM.</th>
+                                        <th>Date</th>
 
 
+                                        <th>Challan no</th>
+
+
+                                       
+                                        <th>Total PCS</th>
+                                       
+
+                                        <th>View</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $c = 1;
-                                    foreach ($plain_data as $value) { ?>
-                                        <tr class="gradeU" id="tr_<?php echo $c ?>">
-                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['order_product_id'] ?>"></td>
+                                    foreach ($data as $value) { ?>
+                                        <tr class="gradeU" id="tr_<?php echo $value['transaction_id'] ?>">
 
-                                            <td><?php echo $value['pbc']; ?></td>
-                                            <td><?php echo $value['order_barcode']; ?></td>
-
-                                            <td><?php echo $value['order_number']; ?></td>
-                                            <td><?php echo $value['fabric_name']; ?></td>
-                                            <td><?php echo $value['hsn']; ?></td>
-                                            <td><?php echo $value['design_barcode']; ?></td>
-                                            <td><?php echo $value['design_name']; ?></td>
-                                            <td><?php echo $value['design_code']; ?></td>
-                                            <td><?php echo $value['dye'] ?></td>
-                                            <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['quantity'] ?></td>
-                                            <td><?php echo $value['unit'] ?></td>
-                                            <td><?php echo $value['image'] ?></td>
-
-                                            <td><?php
-                                                $date1 = date('Y-m-d');
-                                                $date2 = $value['order_date'];
-                                                $diff = strtotime($date1) - strtotime($date2);
+                                            <td><input type="checkbox" class="sub_chk hover" data-id="<?php echo $value['transaction_id'] ?> "> </td>
+                                            <td><?php $date = date_create($value['created_at']);
+                                                echo date_format($date, "d-m-y "); ?>
+                                            </td>
 
 
-                                                $diff = 30
-                                                    - ceil(abs($diff / 86400));
-                                                echo $diff;
-                                                ?></td>
+                                            <td><?php echo $value['challan_no']; ?></td>
 
 
+                                          
+                                            <td><?php echo $value['pcs'] ?></td>
+                                         
 
-                                        </tr>
+                                            <td>
 
-                                    <?php $c = $c + 1;
-                                    } ?>
+                                                <a href="<?php echo base_url('admin/transaction/viewtc/') . $value['transaction_id'] ?> ">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
 
-                                    <?php
-                                   
-                                    foreach ($frc_data as $value) { ?>
-                                        <tr class="gradeU" id="tr_<?php echo $c ?>">
-                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['fsr_id'] ?>"></td>
-
-                                            <td><?php echo $value['parent_barcode']; ?></td>
-                                            <td>Null</td>
-
-                                            <td>Null</td>
-                                            <td><?php echo $value['fabricName']; ?></td>
-                                            <td><?php echo $value['hsn']; ?></td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td><?php echo $value['current_stock'] ?></td>
-                                            <td><?php echo $value['stock_unit'] ?></td>
-                                            <td>Null</td>
-
-                                            <td><?php echo $value['created_date'] ?></td>
-
-
+                                            </td>
 
                                         </tr>
 
@@ -247,6 +205,41 @@
                                     } ?>
                                 </tbody>
                             </table>
+
+
+                            <div class="col-4"> <?php
+                                                if (isset($summary)) {
+
+                                                ?>
+                                    <table class=" table-bordered text-center remove_datatable">
+                                        <caption>Summary</caption>
+                                        <thead class="bg-secondary text-white">
+                                            <tr>
+
+
+                                                <th>Quantity</th>
+                                                <th>Total tc</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><?php
+                                                    foreach ($summary as $value) {
+
+                                                ?><tr>
+
+
+                                                    <td><?php echo $value['qty']; ?></td>
+                                                    <td><?php echo $value['tc']; ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                        <tr>
+
+
+                                            <th>total</th>
+                                            <th><?php echo $value['Totaltc']; ?></th>
+                                        </tr>
+                                    </table>
+                                <?php } ?> </div>
                         </div>
                     </div>
                 </div>
@@ -258,7 +251,59 @@
 
 
 <script>
-   
+    function delete_detail(id) {
+        var del = confirm("Do you want to Delete");
+        if (del == true) {
+            window.location = "<?php echo base_url() ?>admin/Orders/deleteOrders/" + id;
+        }
+    }
+    <?php if ($this->session->flashdata('success')) { ?>
+        toastr.success("<?php echo $this->session->flashdata('success'); ?>");
+    <?php } else if ($this->session->flashdata('error')) {  ?>
+        toastr.error("<?php echo $this->session->flashdata('error'); ?>");
+    <?php } else if ($this->session->flashdata('warning')) {  ?>
+        toastr.warning("<?php echo $this->session->flashdata('warning'); ?>");
+    <?php } else if ($this->session->flashdata('info')) {  ?>
+        toastr.info("<?php echo $this->session->flashdata('info'); ?>");
+    <?php } ?>
+
+    $('.delete_all').on('click', function(e) {
+        var allVals = [];
+        $(".sub_chk:checked").each(function() {
+            allVals.push($(this).attr('data-id'));
+        });
+        //alert(allVals.length); return false;
+        if (allVals.length <= 0) {
+            alert("Please select row.");
+        } else {
+            //$("#loading").show();
+            WRN_PROFILE_DELETE = "Are you sure you want to delete this row?";
+            var check = confirm(WRN_PROFILE_DELETE);
+            if (check == true) {
+                //for server side
+                var join_selected_values = allVals.join(",");
+                // alert (join_selected_values);exit;
+
+                $.ajax({
+                    type: "POST",
+                    url: "<?= base_url() ?>admin/FRC/delete_tc",
+                    cache: false,
+                    data: {
+                        'ids': join_selected_values,
+                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+                    },
+                    success: function(response) {
+
+                        //referesh table
+                        $(".sub_chk:checked").each(function() {
+                            var id = $(this).attr('data-id');
+                            $('#tr_' + id).remove();
+                        });
+                    }
+                });
+            }
+        }
+    });
 
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];
@@ -285,18 +330,16 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "<?= base_url() ?>admin/Transaction/return_print_multiple",
+                    url: "<?= base_url() ?>admin/PrintThis/Challan_multiprint",
                     cache: false,
                     data: {
                         'ids': data,
-                        'godown': '<?php echo $godown ?>',
+                        'title': 'TC List',
+                        'type': 'tc',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {
-                        var w = window.open('about:blank');
-                        w.document.open();
-                        w.document.write(response);
-                        w.document.close();
+                        $("body").html(response);
                     }
                 });
                 //for client side
