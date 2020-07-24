@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 18, 2020 at 05:27 AM
+-- Generation Time: Jul 23, 2020 at 01:16 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -198,6 +198,7 @@ CREATE TABLE IF NOT EXISTS `plain_godown_stock` (
 ,`dye` varchar(30)
 ,`matching` varchar(30)
 ,`status` enum('PENDING','CANCEL','INPROCESS','DONE','OUT')
+,`godown` int(5)
 ,`order_number` varchar(20)
 ,`order_date` date
 );
@@ -317,7 +318,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `plain_godown_stock`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `plain_godown_stock`  AS  select `order_product`.`order_product_id` AS `order_product_id`,`order_product`.`design_barcode` AS `design_barcode`,`order_product`.`pbc` AS `pbc`,`order_product`.`unit` AS `unit`,`order_product`.`quantity` AS `quantity`,`order_product`.`order_barcode` AS `order_barcode`,`order_product`.`image` AS `image`,`order_product`.`design_code` AS `design_code`,`order_product`.`fabric_name` AS `fabric_name`,`order_product`.`hsn` AS `hsn`,`order_product`.`design_name` AS `design_name`,`order_product`.`stitch` AS `stitch`,`order_product`.`dye` AS `dye`,`order_product`.`matching` AS `matching`,`order_product`.`status` AS `status`,`order_table`.`order_number` AS `order_number`,`order_table`.`order_date` AS `order_date` from (`order_product` join `order_table`) where ((`order_table`.`order_id` = `order_product`.`order_id`) and (`order_product`.`pbc` <> '') and (`order_product`.`status` = 'DONE')) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `plain_godown_stock`  AS  select `order_product`.`order_product_id` AS `order_product_id`,`order_product`.`design_barcode` AS `design_barcode`,`order_product`.`pbc` AS `pbc`,`order_product`.`unit` AS `unit`,`order_product`.`quantity` AS `quantity`,`order_product`.`order_barcode` AS `order_barcode`,`order_product`.`image` AS `image`,`order_product`.`design_code` AS `design_code`,`order_product`.`fabric_name` AS `fabric_name`,`order_product`.`hsn` AS `hsn`,`order_product`.`design_name` AS `design_name`,`order_product`.`stitch` AS `stitch`,`order_product`.`dye` AS `dye`,`order_product`.`matching` AS `matching`,`order_product`.`status` AS `status`,`order_product`.`godown` AS `godown`,`order_table`.`order_number` AS `order_number`,`order_table`.`order_date` AS `order_date` from (`order_product` join `order_table`) where ((`order_table`.`order_id` = `order_product`.`order_id`) and (`order_product`.`pbc` <> '') and (`order_product`.`status` = 'DONE')) ;
 
 -- --------------------------------------------------------
 

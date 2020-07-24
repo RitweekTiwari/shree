@@ -138,8 +138,9 @@
                 type: "POST",
                 url: "<?php echo base_url('admin/transaction/recieve_obc') ?>",
                 data: {
-                    'trans_id': '<?php echo $trans_data[0]['transaction_id']; ?>',
+                    'trans_id': <?php echo $trans_data[0]['transaction_id']; ?>,
                     'obc': obc,
+                    'godown': <?php echo $godown; ?>,
                     '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },
 

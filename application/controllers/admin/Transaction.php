@@ -20,7 +20,7 @@
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $godown_name.'  DASHBOARD';
-
+		
 		$data['godown'] = $godown;
 		if($godown==17){
 			$data['main_content'] = $this->load->view('admin/transaction/index_plain', $data, TRUE);
@@ -113,7 +113,7 @@
 			$found=1;
 		$data['plain_data'] = $this->Transaction_model->get_plain_stock($godown);
 		$data['frc_data'] = $this->Transaction_model->get_frc_stock($godown);
-		$data['godown_data'] = $this->Transaction_model->get_stock($godown);	
+		//$data['godown_data'] = $this->Transaction_model->get_stock($godown);	
 		//echo "<pre>";print_r($data['godown_data']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
 
@@ -133,7 +133,7 @@
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['page_name'] = $data['trans_data'][0]['sub2'].'  DASHBOARD';
-		
+		$data['godown']=$data['trans_data'][0]['to_godown'];
 		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['id'] = $id;
 		$data['branch_data']=$this->Job_work_party_model->get();
@@ -259,7 +259,12 @@
 	{
 		$obc = $this->security->xss_clean($_POST['obc']);
 		$trans_id= $this->security->xss_clean($_POST['trans_id']);
-		
+		$id=$this->security->xss_clean($_POST['godown']);
+		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
+		foreach($plain_godown as $row){
+				$plain[]=$row['godownid'];
+			}
+		//print_r($plain_godown);exit;
 		try{
 
 		$status = $this->Transaction_model->check_obc_by_trans_id($obc, $trans_id);
@@ -268,10 +273,23 @@
 					
 			$data['stat'] = 'recieved';
 		$st=	$this->Transaction_model->update($data, 'trans_meta_id', $status->trans_meta_id, "transaction_meta");
-			if($st){
+		if(in_array($id,$plain)){
+			$data=array();
+			$data['status'] = 'DONE';
+			$data['godown']=$id;	
+			$st1=	$this->Transaction_model->update($data, 'order_barcode', $obc, "order_product");
+			if($st1){
 				echo "1";
 			}else{
 				echo "2";
+			}
+
+			}else{
+				if($st){
+				echo "1";
+			}else{
+				echo "2";
+			}
 			}
 		}else{
 			echo "0";
@@ -409,7 +427,7 @@
 		}
 		
 		public function addChallan($godown){
-			$godown= $this->Transaction_model->get_godown_by_id($godown);
+			
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
 				// echo "<pre>"; print_r($data);exit;
@@ -458,7 +476,7 @@
 
 	public function addDispatch($godown)
 	{
-		$godown = $this->Transaction_model->get_godown_by_id($godown);
+		
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
 			// echo "<pre>"; print_r($data);exit;

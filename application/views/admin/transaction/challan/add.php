@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-        <form method="post" action="<?php echo base_url('admin/Transaction/addChallan/').$godown ?>">
+        <form method="post" action="<?php echo base_url('admin/Transaction/addChallan/').$id ?>">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title"><i class="fa fa-plus"></i> Challan Transaction</h5>
