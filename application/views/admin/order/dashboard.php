@@ -18,7 +18,7 @@
                   <div class="row">
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-success text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#4099ff,#73b4ff);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-plus"></i>
                           </h1>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-info text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-eye"></i>
                           </h1>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-warning text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#5b247a,#ea6060);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-chart-bar"></i>
                           </h1>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-info text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#b1ea4d,#459522);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-information"></i>
                           </h1>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-danger text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#f2d50f,#da0641);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-lan-pending"></i>
                           </h1>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-warning text-center">
+                        <div class="box text-center" style="background: linear-gradient(45deg,#F5515F,#A1051D);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-alert"></i>
                           </h1>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-primary text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#FF57B9,#A704FD);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-border-outside"></i>
                           </h1>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-6 col-lg-3 col-xlg-3">
                       <div class="card card-hover">
-                        <div class="box bg-success text-center">
+                        <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
                           <h1 class="font-light text-white">
                             <i class="mdi mdi-check"></i>
                           </h1>
@@ -500,7 +500,7 @@
               toastr.error('Failed!', "fabric did not match");
             } else if (data == 1) {
               toastr.success('Success!', "Assigned successfully");
-              button_id = Number(button_id) +1;
+              button_id = Number(button_id) + 1;
               $('#pbc' + button_id + '').val('');
               $('#pbc' + button_id + '').focus();
             } else if (data == 2) {

@@ -3,7 +3,7 @@
 
     var count = 0;
     var total = 0;
-   
+
     $('#submit_button').hide();
     $('#master').on('click', function(e) {
       if ($(this).is(':checked', true)) {
@@ -12,13 +12,13 @@
         $(".sub_chk").prop('checked', false);
       }
     });
-    
+
 
     $(document).on('blur', '.obc', function(e) {
       var order = $(this).val();
       order = order.toUpperCase();
       var godown = <?php echo $id ?>;
-     
+
       $(this).val(order);
       console.log(order);
       var button_id = $(this).parent().parent().attr("id");
@@ -27,17 +27,17 @@
       var csrf_val = $("#get_csrf_hash").val();
       $.ajax({
         type: "POST",
-        url:"<?php echo base_url('admin/transaction/getOrderDetails') ?>",
+        url: "<?php echo base_url('admin/transaction/getOrderDetails') ?>",
         data: {
 
           'id': order,
-          'godown':godown,
+          'godown': godown,
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
 
         success: function(data) {
           data = JSON.parse(data);
-          if (data != "" ) {
+          if (data != "") {
             // One day Time in ms (milliseconds) 
             var one_day = 1000 * 60 * 60 * 24
             var present_date = new Date();
@@ -52,7 +52,7 @@
             var Final_Result = Result.toFixed(0);
             Final_Result = 30 - Final_Result;
             fabric = data[0]['fabric_name'];
-           
+
             $('#days' + button_id + '').val(Final_Result);
             $('#pbc' + button_id + '').val(data[0]['pbc']);
             $('#orderNo' + button_id + '').val(data[0]['order_number']);
@@ -62,9 +62,9 @@
             $('#dye' + button_id + '').val(data[0]['dye']);
             $('#matching' + button_id + '').val(data[0]['matching']);
             $('#qty' + button_id + '').val(data[0]['quantity']);
-             $('#fqty' + button_id + '').val(data[0]['quantity']);
+            $('#fqty' + button_id + '').val(data[0]['quantity']);
             $('#fabric' + button_id + '').val(fabric);
-            
+
             $('#hsn' + button_id + '').val(data[0]['hsn']);
             $('#unit' + button_id + '').val(data[0]['unit']);
             if (fabric != "") {
@@ -74,7 +74,7 @@
             }
           } else {
             $(".msg").html("<h6 class='text-danger'><b>Barcode Not Found !!!!</b></h6>");
-           $('#days' + button_id + '').val('');
+            $('#days' + button_id + '').val('');
             $('#pbc' + button_id + '').val('');
             $('#orderNo' + button_id + '').val('');
             $('#design' + button_id + '').val('');
@@ -83,9 +83,9 @@
             $('#dye' + button_id + '').val('');
             $('#matching' + button_id + '').val('');
             $('#qty' + button_id + '').val('');
-             $('#fqty' + button_id + '').val('');
+            $('#fqty' + button_id + '').val('');
             $('#fabric' + button_id + '').val('');
-            
+
             $('#hsn' + button_id + '').val('');
             $('#unit' + button_id + '').val('');
           }
@@ -109,20 +109,25 @@
       $(this).parent().parent().remove();
       count = count - 1;
     });
+    $(document).on('change', '.qty',function() {
+      var id = $(this).parent().parent().attr("id");
+      var qty = Number($('#qty' + id + '').val());
+      var fqty = Number($('#fqty' + id + '').val());
+      var tc = fqty - qty;
+      $('#tc' + id + '').val(tc);
+    });
 
-    
 
 
-    
 
-   
+
 
     function addmore() {
       count = count + 1;
       var element = '<tr id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc"  value="" id=pbc' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control obc" name="obc[]" id=obc' + count + '></td>'
-      element += '<td><input type="text" class="form-control" name="fquantity[]" value="" id=fqty' + count + ' ></td>'
+
       element += '<td><input type="text" class="form-control " value="" id=orderNo' + count + ' readonly></td>'
       element += '<td><input type="text"  class="form-control " id=fabric' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control "  value="" id=hsn' + count + ' readonly></td>'
@@ -131,6 +136,8 @@
       element += '<td><input type="text" class="form-control "  value="" id=dye' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control "  value="" id=matching' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control" value="" id=qty' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control qty" name="fquantity[]" value="" id=fqty' + count + ' ></td>'
+      element += '<td><input type="text" class="form-control" name="tc[]" value="0" id=tc' + count + ' readonly></td>'
       element += '<td><input type="text"  class="form-control unit " id=unit' + count + ' readonly>'
       element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly> <input type="hidden" name="id"></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'

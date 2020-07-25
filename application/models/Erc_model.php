@@ -28,6 +28,15 @@ class Erc_model extends CI_Model {
    $query = $query->result_array();
    return $query;
  }
+  public function get_design_by_id($id)
+  {
+    $this->db->select('id,desName,desCode,rate');
+    $this->db->from('erc');
+    $this->db->where('id', $id);
+    $query = $this->db->get();
+    $query = $query->result_array();
+    return $query;
+  }
   public function get_design_fresh_value()
  {
    $sql = 'SELECT designName, stitch FROM design
@@ -118,7 +127,7 @@ public function get_design_name()
  public function delete($id)
  {
    $this->db->where('id', $id);
-     $this->db->delete('fabric');
+     $this->db->delete('erc');
  }
  public function search($searchByCat,$searchValue)
  {

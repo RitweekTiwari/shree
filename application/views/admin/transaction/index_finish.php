@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-success text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#4099ff,#73b4ff);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-cart-plus"></i>
                                         </h1>
@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-info text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-cart-plus"></i>
                                         </h1>
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-warning text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#5b247a,#ea6060);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-download"></i>
                                         </h1>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-secondary text-center">
+                                    <div class="box text-center" style="background: linear-gradient(45deg,#b1ea4d,#459522);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-upload"></i>
                                         </h1>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-dark text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#f2d50f,#da0641);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-folder-star"></i>
                                         </h1>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-danger text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#F5515F,#A1051D);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-paper-cut-vertical"></i>
                                         </h1>
@@ -85,9 +85,9 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-primary text-center">
+                                    <div class="box text-center" style="background: linear-gradient(45deg,#FF57B9,#A704FD);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-paper-cut-vertical"></i>
                                         </h1>
@@ -98,9 +98,9 @@
                                     </div>
                                 </div>
                             </div>
-                             <div class="col-md-6 col-lg-3 col-xlg-3">
+                            <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-dark text-center">
+                                    <div class="box text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-paper-cut-vertical"></i>
                                         </h1>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-primary text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#FF5370,#ff869a);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-truck"></i>
                                         </h1>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box bg-success text-center">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#34e89e,#0f3443);">
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-package-variant"></i>
                                         </h1>
