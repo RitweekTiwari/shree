@@ -76,8 +76,8 @@
 
                 <?php $c = $c + 1;
                 } ?>
-              </tbody class="bg-dark text-white">
-              <tfoot>
+              </tbody>
+              <tfoot class="bg-dark text-white">
 
                 <tr>
                   <<th>Total</th>
@@ -103,13 +103,99 @@
             </table>
           </div>
         </div>
+        <hr>
+        <div id='summary'></div>
       </div>
     </div>
   </div>
 
 </div>
 </div>
+<script type="text/javascript">
+  var summary = [];
+  var count = 0;
+  var i = 0;
+  $(document).ready(function() {
+    $("table tbody tr").each(function() {
 
+      var self = $(this);
+      var fabric = self.find("td:eq(9)").text().trim();
+      var qty = Number(self.find("td:eq(5)").text().trim());
+      var fqty = Number(self.find("td:eq(6)").text().trim());
+      var tc = Number(self.find("td:eq(7)").text().trim());
+      console.log('fabric=' + fabric);
+      console.log('summary=' + summary);
+      pcs = 1;
+      if (i == 0) {
+        var arr = [fabric, pcs, qty, fqty, tc];
+        summary.push(arr);
+
+
+      } else {
+        var found = 0;
+        summary.forEach(myFunction);
+
+        function myFunction(value, index, array) {
+
+          if (fabric == array[index][0]) {
+            found = 1;
+            array[index][1] += 1;
+            array[index][2] += Number(qty);
+            array[index][3] += Number(fqty);
+            array[index][4] += Number(tc);
+          }
+
+        }
+        if (found == 0) {
+          pcs = 1;
+          qty = Number(qty);
+          arr = [fabric, pcs, qty, fqty, tc];
+          summary.push(arr);
+          console.log(summary);
+        }
+      }
+      i = i + 1;
+    });
+    var html =
+      '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
+    html += '<tr><th >Fabric</th>';
+    html += '<th >PCS</th>';
+    html += '<th >Quantity</th>';
+    html += '<th >F Quantity</th>';
+    html += '<th >TC</th>';
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    if (summary) {
+
+      var stotal = 0;
+      var tqty = 0;
+      var Tpcs = 0;
+      var Ttc = 0;
+      var Tfqty = 0;
+      summary.forEach(myFunction);
+
+      function myFunction(value, index, array) {
+
+        Ttc += array[index][4];
+        Tfqty += array[index][3];
+        tqty += array[index][2];
+        Tpcs += array[index][1];
+        html += ' <tr><td>' + array[index][0] + '</td>';
+        html += '<td>' + array[index][1] + '</td>';
+        html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
+        html += '<td>' + Math.round((array[index][3] + Number.EPSILON) * 100) / 100 + '</td>';
+        html += '<td>' + Math.round((array[index][4] + Number.EPSILON) * 100) / 100 + '</td>';
+        html += '</tr></tbody>';
+      }
+      html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
+        '</th><th>' + Math.round((Tfqty + Number.EPSILON) * 100) / 100 + '</th><th>' + Math.round((Ttc + Number.EPSILON) * 100) / 100 + '</th></tr>';
+      html += '</table>';
+
+      $('#summary').html(html);
+    }
+  });
+</script>
 
 <script>
   function delete_detail(id) {

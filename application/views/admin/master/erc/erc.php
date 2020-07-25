@@ -17,7 +17,7 @@
 
                     <select name="designname" class="form-control select2" id='designname'>
                       <option value="">Select Design</option>
-                      <?php foreach ($designname as $rec) : ?>
+                      <?php foreach ($fresh_designname as $rec) : ?>
                         <option value="<?php echo $rec['designName'] ?>"><?php echo $rec['designName'] ?></option>
                       <?php endforeach; ?>
                     </select>
@@ -60,7 +60,7 @@
               <hr>
               &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
               <hr>
-              <table class="data-table text-center">
+              <table class="data-table text-center table-bordered">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -108,7 +108,7 @@
                 <h5>New Design List</h5>
               </div>
               <hr>
-              <table class="data-table text-center">
+              <table class="data-table text-center table-bordered">
                 <thead>
                   <tr>
                     <th>Design Name</th>
@@ -155,7 +155,7 @@
               <label class="control-label col-sm-3">Design Name</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" name="designname" value="" id='designname1'>
-                
+
               </div>
             </div>
             <div class="form-group row">
@@ -186,7 +186,7 @@
   </div>
 </div>
 <style>
- 
+
 </style>
 <script>
   function delete_detail(id) {
