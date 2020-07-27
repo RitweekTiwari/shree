@@ -16,7 +16,6 @@
               <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
               </div>
             </div>
-            <hr>
             <table class=" table-bordered data-table text-center " id="frc">
               <thead class="bg-dark text-white">
                 <tr class="odd" role="row">
@@ -48,7 +47,7 @@
 
                 foreach ($data as $value) {
                   $qty += $value['quantity'];
-                  $fqty += $value['quantity'];
+                  $fqty += $value['finish_qty'];
                 ?>
                   <tr class="gradeU" id="tr_<?php echo $value['trans_meta_id'] ?>">
 
@@ -198,13 +197,7 @@
 </script>
 
 <script>
-  function delete_detail(id) {
-    var del = confirm("Do you want to Delete");
-    if (del == true) {
-      window.location = "<?php echo base_url() ?>admin/Orders/deleteOrders/" + id;
-    }
-  }
-
+ 
   jQuery('.print_all').on('click', function(e) {
     var allVals = [];
     $(".sub_chk:checked").each(function() {
@@ -230,11 +223,11 @@
         });
         $.ajax({
           type: "POST",
-          url: "<?= base_url() ?>admin/FRC/return_print_multiple",
+          url: "<?= base_url() ?>admin/transaction/return_print_multiple",
           cache: false,
           data: {
             'ids': data,
-            'title': 'TC List Details',
+           'godown':19,
             'type': 'tc',
             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },

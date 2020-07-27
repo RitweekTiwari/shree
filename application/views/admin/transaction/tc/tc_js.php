@@ -62,9 +62,11 @@
             $('#dye' + button_id + '').val(data[0]['dye']);
             $('#matching' + button_id + '').val(data[0]['matching']);
             $('#qty' + button_id + '').val(data[0]['quantity']);
-            $('#fqty' + button_id + '').val(data[0]['quantity']);
+            $('#fqty' + button_id + '').val(data[0]['finish_qty']);
+            var tc = Number(data[0]['finish_qty'] - data[0]['quantity']).toFixed(2);
+            $('#tc' + button_id + '').val(tc);
             $('#fabric' + button_id + '').val(fabric);
-
+            $('#id' + button_id + '').val(data[0]['trans_meta_id']);
             $('#hsn' + button_id + '').val(data[0]['hsn']);
             $('#unit' + button_id + '').val(data[0]['unit']);
             if (fabric != "") {
@@ -109,11 +111,11 @@
       $(this).parent().parent().remove();
       count = count - 1;
     });
-    $(document).on('change', '.qty',function() {
+    $(document).on('change', '.qty', function() {
       var id = $(this).parent().parent().attr("id");
       var qty = Number($('#qty' + id + '').val());
       var fqty = Number($('#fqty' + id + '').val());
-      var tc = fqty - qty;
+      var tc = Number(fqty - qty).toFixed(2);
       $('#tc' + id + '').val(tc);
     });
 
@@ -139,7 +141,7 @@
       element += '<td><input type="text" class="form-control qty" name="fquantity[]" value="" id=fqty' + count + ' ></td>'
       element += '<td><input type="text" class="form-control" name="tc[]" value="0" id=tc' + count + ' readonly></td>'
       element += '<td><input type="text"  class="form-control unit " id=unit' + count + ' readonly>'
-      element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly> <input type="hidden" name="id"></td>'
+      element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly> <input type="hidden" name="id[]" id=id' + count + '></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);

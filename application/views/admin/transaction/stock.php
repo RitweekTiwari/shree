@@ -197,7 +197,7 @@
                                             <td><?php echo $value['design_code']; ?></td>
                                             <td><?php echo $value['dye'] ?></td>
                                             <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['quantity'] ?></td>
+                                            <td><?php echo $value['finish_qty'] ?></td>
                                             <td><?php echo $value['unit'] ?></td>
                                             <td><?php echo $value['image'] ?></td>
 

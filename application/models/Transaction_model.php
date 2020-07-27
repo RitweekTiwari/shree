@@ -89,6 +89,23 @@ public function get($col,$godown,$type)
     //print_r($this->db->last_query());
     return $query->result_array();
   }
+  public function get_tc_stock($data)
+  {
+    $this->db->select("godown_tc_view.*,fabric.fabricCode");
+    $this->db->from('godown_tc_view');
+    $this->db->join('fabric', 'fabric.fabricName=godown_tc_view.fabric_name', 'inner');
+    if (isset($data['id'])) {
+      $this->db->where('trans_meta_id', $data['id']);
+    }
+    if (isset($data['godown'])) {
+      $data = $data['godown'];
+    }
+    $this->db->where('from_godown', $data);
+    $query = $this->db->get();
+   // print_r($this->db->last_query());
+    return $query->result_array();
+  }
+  
    public function get_plain_stock($data)
   {
     $this->db->select("*");
@@ -207,11 +224,11 @@ public function view_tc($data)
     $query = $query->result_array();
     return $query;
   }
-  public function getId($id,$type)
+  public function getId($col,$id,$type)
   {
     $this->db->select('Max(counter) as count');
     $this->db->from("transaction");
-    $this->db->where("from_godown", $id);
+    $this->db->where($col, $id);
     $this->db->where("transaction_type", $type);
     $rec = $this->db->get();
     //  print_r($rec);exit;

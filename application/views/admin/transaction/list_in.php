@@ -174,7 +174,7 @@
 
 
                       <td><?php echo $value['sub1']; ?></td>
-                      <td><?php echo $value['challan_no']; ?> <?php if($value['status']=='new') {
+                      <td><?php echo $value['challan_in']; ?> <?php if($value['status']=='new') {
                         echo '<span class="badge badge-pill badge-danger">New</span>';
                       } ?></td>
                       <td>

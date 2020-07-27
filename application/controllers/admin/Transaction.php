@@ -37,7 +37,8 @@
 	public function showChallan($godown){
 			$data = array();
 			$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-			$data['page_name']= $data['godown'].'  DASHBOARD';
+			$link=' <a href='.base_url('admin/transaction/home/') . $godown. '>Home</a>';
+			$data['page_name']= $data['godown'].'  DASHBOARD /'.$link;
 			$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 			foreach($plain_godown as $row){
 				$data['plain'][]=$row['godownid'];
@@ -54,7 +55,8 @@
 	{
 		$data = array();
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
 		$data['id']= $godown;
 		$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
 		$data['branch_data'] = $this->Job_work_party_model->get();
@@ -75,7 +77,8 @@
 		
 		public function showRecieveList($godown){
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-			$data['page_name']= $data['godown'].'  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+			$data['page_name']= $data['godown']. '  DASHBOARD /' . $link;
 			
             $data['frc_data']=$this->Transaction_model->get('to_godown', $godown, 'challan');
 		      $data['main_content'] = $this->load->view('admin/transaction/list_in', $data, TRUE);
@@ -85,7 +88,8 @@
 	public function showDispatch_list($godown)
 	{
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
 
 		$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'dispatch');
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/list_dispatch', $data, TRUE);
@@ -94,7 +98,8 @@
 	public function show_TC($godown)
 	{
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /'. $link;
 		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 			foreach($plain_godown as $row){
 				$data['plain'][]=$row['godownid'];
@@ -108,7 +113,8 @@
 	public function show_Add_TC($godown)
 	{
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
 		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 			foreach($plain_godown as $row){
 				$data['plain'][]=$row['godownid'];
@@ -123,7 +129,8 @@
 		public function show_TC_list($godown)
 	{
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$data['page_name'] = $data['godown'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
 		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 			foreach($plain_godown as $row){
 				$data['plain'][]=$row['godownid'];
@@ -136,7 +143,8 @@
 	}
 		public function showReturnList($godown){
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-			$data['page_name']= $data['godown'].'  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+			$data['page_name']= $data['godown']. '  DASHBOARD /' . $link;
 			
             $data['frc_data']=$this->Transaction_model->get('from_godown', $godown,'challan');
 		      $data['main_content'] = $this->load->view('admin/transaction/list_out', $data, TRUE);
@@ -147,8 +155,9 @@
 	{
 		
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
 		$data['godownid']=$godown;
-		$data['page_name'] = $data['godown'].'  DASHBOARD';
+		$data['page_name'] = $data['godown']. '  DASHBOARD /' . $link;
 		$plain_godown=$this->Transaction_model->get_distinct_plain_godown();
 		$found=0;
 		foreach($plain_godown as $row){
@@ -175,7 +184,9 @@
 	{
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
-		$data['page_name'] = $data['trans_data'][0]['sub2'].'  DASHBOARD';
+		
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub2']. '  DASHBOARD /' . $link;
 		$data['godown']=$data['trans_data'][0]['to_godown'];
 		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['id'] = $id;
@@ -189,7 +200,8 @@
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['frc_data'] = $this->Transaction_model->get_by_id($id);
-		$data['page_name'] = $data['trans_data'][0]['sub2'].'  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub2']. '  DASHBOARD /' . $link;
 		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['branch_data']=$this->Job_work_party_model->get();
 		$data['id'] = $id;
@@ -202,7 +214,8 @@
 	{
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_dispatch($id);
-		$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['from_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD /' . $link;
 
 		$data['id'] = $id;
 
@@ -214,7 +227,8 @@
 	{
 		$data = array();
 		$data['data']= $this->Transaction_model->view_tc($id);
-		$data['page_name'] = $data['data'][0]['sub1'] . '  DASHBOARD';
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['data'][0]['from_godown'] . '>Home</a>';
+		$data['page_name'] = $data['data'][0]['sub1'] . '  DASHBOARD /' . $link;
 		
 		$data['id'] = $id;
 
@@ -378,7 +392,7 @@
 	 $html='<center><h1>SHREE NIKETAN SAREES PVT. LTD. CHANDAULI</h1></center>';	
 	 $html=$html.'<center><h4 >PACKING SLIP</h4></center>';	
       $html=$html.'To :'. $data['trans_data'][0]['Party_name'].'';
-	  $html=$html.'<span style="float:right">Challan no :'. $data['trans_data'][0]['challan_no'].'</span><br>';
+	  $html=$html.'<span style="float:right">Challan no :'. $data['trans_data'][0]['challan_out'].'</span><br>';
 	   $html=$html.'<div style="float:right">Date :'. date_format($date,"d/m/y ").'</div>';
 		 $data['title']='SHREE NIKETAN SAREES PVT. LTD. CHANDAULI';
 	  $data['head']=$html;
@@ -399,7 +413,12 @@
 			if ($value != "") {
 				$data1['godown'] = $godown;
 				$data1['id'] = $value;
-				$r = $this->Transaction_model->get_stock($data1);
+				if($type == 'tc'){
+					$r = $this->Transaction_model->get_tc_stock($data1);
+				}else{
+					$r = $this->Transaction_model->get_stock($data1);
+				}
+				
 				$data['data'][]=$r[0];
 			}
 		}
@@ -407,7 +426,10 @@
 		if($type=='barcode2'){
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/print', $data, TRUE);
 
-		}else{
+		} else if($type == 'tc') {
+			$data['main_content'] = $this->load->view('admin/transaction/tc/print', $data, TRUE);
+		}
+		else{
 		$data['main_content'] = $this->load->view('admin/transaction/challan/multi_list_print', $data, TRUE);
 
 		}
@@ -450,7 +472,7 @@
 					'challan_to'  => $data['toGodown'],
 					'challan_date' => $data['PBC_date'],
 					'created_by' => $_SESSION['userID'],
-					'challan_no' =>  $data['PBC_challan'],
+					'challan_out' =>  $data['PBC_challan'],
 					'total_pcs' => $count,
 					'total_quantity' => $total_qty,
 					'total_amount' => $total_val,
@@ -486,21 +508,22 @@
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
 				// echo "<pre>"; print_r($data);exit;
-				$count =count($data['pbc']);
+				$count =count($data['fquantity']);
 			
 				for ($i=0; $i < $count; $i++) { 
 				$data2=[
 					
 					'finish_qty ' => $data['fquantity'][$i],
-					
+					'is_tc' =>0
 				]	;
 
 				
 				$this->Transaction_model->update($data2,'trans_meta_id', $data['id'][$i],  'transaction_meta');
-
-				}
 				
-			} redirect($_SERVER['HTTP_REFERER']);
+				}
+			redirect($_SERVER['HTTP_REFERER']);
+			}
+		
 		}
 
 		public function add_tc_challan($godown){
@@ -509,7 +532,7 @@
 				$data = $this->security->xss_clean($_POST);
 				// echo "<pre>"; print_r($data);exit;
 				$count =count($data['pbc']);
-			$id = $this->Transaction_model->getId($godown,'tc');
+			$id = $this->Transaction_model->getId('from_godown',$godown,'tc');
 			if (!$id) {
 				$challan = 'TC/1';
 			} else {
@@ -522,7 +545,7 @@
 					
 					'created_at' => date('Y-m-d'),
 					'created_by' => $_SESSION['userID'],
-				'challan_no' => $challan,
+				'challan_out' => $challan,
 				'counter' => $cc,
 				'pcs' => $count,
 					'jobworkType' => "",
@@ -557,13 +580,24 @@
 				$data = $this->security->xss_clean($_POST);
 				// echo "<pre>"; print_r($data);exit;
 				$count =count($data['pbc']);
-			$id = $this->Transaction_model->getId($godown,'challan');
+			$id = $this->Transaction_model->getId('from_godown',$godown,'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown']);
 			if (!$id) {
-				$challan = 'CH' . date('Ymd').'/1';
+				$challan1 =
+				substr($godown_name,0, 4).'OUT/1';
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan = 'CH' . date('Ymd').'/'. (string) $cc;
+				$challan1 = substr($godown_name, 0,4) . 'OUT/'. (string) $cc;
+			}
+			$id = $this->Transaction_model->getId('to_godown', $godown, 'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown']);
+			if (!$id) {
+				$challan2 = substr($godown_name, 0,4) . 'IN/1';
+			} else {
+				$cc1 = $id[0]['count'];
+				$cc1 = $cc1 + 1;
+				$challan2 = substr($godown_name,0, 4) . 'IN/' . (string) $cc;
 			}
 				$data1 =[
 					'from_godown' =>$data['FromGodown'],
@@ -572,8 +606,10 @@
 					'toParty'  => $data['toParty'],
 					'created_at' => date('Y-m-d'),
 					'created_by' => $_SESSION['userID'],
-				'challan_no' => $challan,
+				'challan_out' => $challan1,
+				'challan_in' => $challan2,
 				'counter' => $cc,
+				'counter2' => $cc1,
 				'pcs' => $count,
 					'jobworkType' => $data['workType'],
 					
@@ -606,7 +642,7 @@
 			$data = $this->security->xss_clean($_POST);
 			// echo "<pre>"; print_r($data);exit;
 			$count = count($data['pbc']);
-			$id = $this->Transaction_model->getId($godown,'dispatch');
+			$id = $this->Transaction_model->getId('from_godown',$godown,'dispatch');
 			if (!$id) {
 				$challan = 'PKG-SL/1' ;
 			} else {
@@ -621,7 +657,7 @@
 				'toParty'  => $data['toParty'],
 				'created_at' => date('Y-m-d'),
 				'created_by' => $_SESSION['userID'],
-				'challan_no' => $challan,
+				'challan_out' => $challan,
 				'counter' => $cc,
 				'pcs' => $count,
 				'jobworkType' => $data['workType'],
@@ -702,7 +738,7 @@
 								$caption=$caption.' sort_name'." = ".$fab." ";
 								}
 								if(isset($_POST['challan']) && $_POST['challan']!="" ){
-								  $data1['cat'][]='challan_no';
+								  $data1['cat'][]='challan_out';
 										$fab=$this->input->post('challan');
 									$data1['Value'][]=$fab;
 									$caption=$caption.'Challan No'." = ".$fab." ";

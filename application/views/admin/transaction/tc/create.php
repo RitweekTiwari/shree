@@ -50,7 +50,7 @@
                     <td><input type="text" class="form-control" name="tc[]" value="0" id='tc0' readonly></td>
                     <td><input type="text" class="form-control unit " id='unit0' readonly>
                     <td><input type="text" class="form-control " value="" id='days0' readonly>
-                      <input type="hidden" name="id"></td>
+                      <input type="hidden" name="id[]" id='id0'></td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>

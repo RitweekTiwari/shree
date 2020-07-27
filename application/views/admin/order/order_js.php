@@ -156,7 +156,7 @@
     });
     $(document).on('change', '.design_name', function(e) {
       var id = $(this).val();
-     
+
       var button_id = $(this).parent().parent().attr("id");
       console.log(button_id);
       var csrf_name = $("#get_csrf_hash").attr('name');
@@ -210,7 +210,7 @@
             $('#fabric' + button_id + '').val(fabric);
             $('#image' + button_id + '').val(data[0]['designPic']);
             $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['designPic']);
-           
+
             var csrf_name = $("#get_csrf_hash").attr('name');
             var csrf_val = $("#get_csrf_hash").val();
             $.ajax({
@@ -385,14 +385,14 @@
       element += '               </select></td>'
       element += '<td> <input type="text" class="form-control" name="serial_number[]" value="" id=serial_number' + count + '></td>'
       element += '<td id=tdbarcode' + count + '></td>'
-      element += ' <td id=tdfab' + count + '><input type="text" class="form-control fabric_name" readonly  name="fabric_name[]" value="" id=fabric' + count + '></td>'
+      element += ' <td id=tdfab' + count + ' style="width: 20%;"><input type="text" class="form-control fabric_name" readonly  name="fabric_name[]" value="" id=fabric' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="hsn[]" value="" readonly id=hsn' + count + '></td>'
 
-      element += '<td id=tddesign' + count + '><input type="text" name="design_name[]" class="form-control" value="" readonly id=designName' + count + '></td>'
+      element += '<td id=tddesign' + count + ' style="width: 15%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id=designName' + count + '></td>'
       element += '<td> <input type="text" name="design_code[]" class="form-control" value="" readonly id=designCode' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="stitch[]" value="" readonly id=stitch' + count + '></td>'
       element += '<td>  <input type="text" class="form-control" name="dye[]" value="" readonly id=dye' + count + '></td>'
-      element += '<td><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
+      element += '<td style="width: 20%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="quantity[]" value=""></td>'
       element += '<td><input type="text" name="unit[]" class="form-control unit" value="" readonly id=unit' + count + '></td>'
       element += '<td><input type="text" name="image[]" class="form-control unit" value="" readonly id=image' + count + '></td>'
