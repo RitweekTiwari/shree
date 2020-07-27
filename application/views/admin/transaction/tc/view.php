@@ -15,7 +15,13 @@
             <div class="row well">
               <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
               </div>
-            </div>
+            </div><hr>
+            <Div class="container row">
+
+              <div class="col-md-8 card-title">From : <?php echo $data[0]['sub1']; ?> </div>
+              <div class="col-md-4 card-title">Challan no : <?php echo $data[0]['challan_out']; ?></div>
+
+            </Div><hr>
             <table class=" table-bordered data-table text-center " id="frc">
               <thead class="bg-dark text-white">
                 <tr class="odd" role="row">
@@ -197,7 +203,6 @@
 </script>
 
 <script>
- 
   jQuery('.print_all').on('click', function(e) {
     var allVals = [];
     $(".sub_chk:checked").each(function() {
@@ -227,7 +232,7 @@
           cache: false,
           data: {
             'ids': data,
-           'godown':19,
+            'godown': 19,
             'type': 'tc',
             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },

@@ -29,7 +29,7 @@
                             <Div class="container row">
 
                                 <div class="col-md-8 card-title">From : <?php echo $trans_data[0]['sub1']; ?> To : <?php echo $trans_data[0]['sub2']; ?></div>
-                                <div class="col-md-4 card-title">Challan no : <?php echo $trans_data[0]['challan_no']; ?></div>
+                                <div class="col-md-4 card-title">Challan no : <?php echo $trans_data[0]['challan_out']; ?></div>
 
                             </Div>
 

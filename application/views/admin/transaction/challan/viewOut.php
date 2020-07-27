@@ -58,7 +58,7 @@
                                     <table>
                                         <tr>
                                             <td><label>Challan No</label></td>
-                                            <td><input type="text" class="form-control " name="challan" value="<?php echo $trans_data[0]['challan_no']; ?>" readonly></td>
+                                            <td><input type="text" class="form-control " name="challan" value="<?php echo $trans_data[0]['challan_out']; ?>" readonly></td>
                                         </tr>
                                     </table>
                                 </td>

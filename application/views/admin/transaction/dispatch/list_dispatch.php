@@ -174,7 +174,7 @@
 
 
                       <td><?php echo $value['sub2']; ?></td>
-                      <td><?php echo $value['challan_no']; ?></td>
+                      <td><?php echo $value['challan_out']; ?></td>
 
 
 

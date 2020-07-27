@@ -184,7 +184,7 @@
                                             </td>
 
 
-                                            <td><?php echo $value['challan_no']; ?></td>
+                                            <td><?php echo $value['challan_in']; ?></td>
 
 
                                           
