@@ -560,7 +560,7 @@
 					
 					'order_barcode' =>$data['obc'][$i],
 					
-					'finish_qty ' => $data['quantity'][$i],
+					'finish_qty ' => $data['fqty'][$i],
 					
 				]	;
 				$this->Transaction_model->update(array('is_tc'=>1),'trans_meta_id', $data['id'][$i],  'transaction_meta');

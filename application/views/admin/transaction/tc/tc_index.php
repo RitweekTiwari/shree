@@ -17,7 +17,7 @@ foreach ($data as $value) {
     <td><input type="text" class="form-control " value="<?php echo $value['dye'] ?>" readonly></td>
     <td><input type="text" class="form-control " value="<?php echo $value['matching'] ?>" readonly></td>
     <td><input type="text" class="form-control qty" value="<?php echo $value['quantity'] ?>" readonly></td>
-    <td><input type="text" class="form-control fqty" value="<?php echo $value['finish_qty'] ?>" readonly></td>
+    <td><input type="text" class="form-control fqty" name='fqty' value="<?php echo $value['finish_qty'] ?>" readonly></td>
     <td><input type="text" class="form-control tc" value="<?php echo round($value['finish_qty'] - $value['quantity'], 2) ?>" readonly></td>
     <td><input type="text" class="form-control unit " value="<?php echo $value['unit'] ?>" readonly>
 
