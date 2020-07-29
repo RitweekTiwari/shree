@@ -127,9 +127,10 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
+                                <?php if($godownid==19){?>
                                 <div class="col-6"> <a type="button" class="btn  pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
-                                <a type="button" class="btn btn-info pull-left print1 " style="color:#fff;"><i class="fa fa-print"></i></a>
-                                </div>
+                                    <a type="button" class="btn btn-info pull-left print1 " style="color:#fff;"><i class="fa fa-print"></i></a>
+                                </div> <?php }?>
                                 <div class="col-6">
 
                                     <form id="frc_dateFilter">
@@ -181,7 +182,10 @@
                                 <tbody>
                                     <?php
                                     $c = 1;
-                                    foreach ($frc_data as $value) { ?>
+                                    $qty = 0.0;
+                                    foreach ($frc_data as $value) {
+                                        $qty += $value['finish_qty'];
+                                    ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
 
@@ -219,6 +223,27 @@
                                     <?php $c = $c + 1;
                                     } ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th></th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th><?php echo $qty
+                                    ?></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> </th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -231,7 +256,7 @@
 
 
 <script>
-   jQuery('.print1').on('click', function(e) {
+    jQuery('.print1').on('click', function(e) {
         var allVals = [];
         $(".sub_chk:checked").each(function() {
             allVals.push($(this).attr('data-id'));
@@ -261,7 +286,7 @@
                     data: {
                         'ids': data,
                         'godown': '<?php echo $godownid ?>',
-                        'type':'barcode2',
+                        'type': 'barcode2',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {
@@ -307,7 +332,7 @@
                     data: {
                         'ids': data,
                         'godown': '<?php echo $godownid ?>',
-                        'type':'barcode1',
+                        'type': 'barcode1',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {

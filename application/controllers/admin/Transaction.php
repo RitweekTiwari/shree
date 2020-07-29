@@ -563,7 +563,7 @@
 					'finish_qty ' => $data['quantity'][$i],
 					
 				]	;
-			$status=	$this->Transaction_model->update(array('is_tc'=>1),'trans_meta_id', $data['id'][$i],  'transaction_meta');
+				$this->Transaction_model->update(array('is_tc'=>1),'trans_meta_id', $data['id'][$i],  'transaction_meta');
 					
 						$this->Transaction_model->insert($data2, 'transaction_meta');
 					
@@ -629,7 +629,7 @@
 
 					$this->Transaction_model->insert($data2, 'transaction_meta');
 				$this->Transaction_model->update(array('status' => 'OUT'),'order_barcode', $data['obc'][$i],  'order_product');
-
+				$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
 				}
 				
 			} redirect($_SERVER['HTTP_REFERER']);
@@ -677,7 +677,8 @@
 				];
 
 				$this->Transaction_model->insert($data2, 'transaction_meta');
-				
+				$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
+
 			}
 		}
 		redirect($_SERVER['HTTP_REFERER']);

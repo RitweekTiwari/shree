@@ -1,7 +1,13 @@
 <script src="<?php echo base_url('jexcelmaster/') ?>asset/js/jquery.3.1.1.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
+    $(document).change(function() {
+      $('.select2').select2();
 
+    });
+    
+
+   
 
     $('#fresh_form').hide();
     $('#order_form').hide();
@@ -379,20 +385,20 @@
       counter = counter + 1;
       var element = '<tr id=' + count + '>'
       element += '<td><input type="text" class="form-control" readonly value=' + (count + 1) + '></td>'
-      element += '<td> <select name="type[]" class="form-control  type" id=type' + count + '>'
+      element += '<td style="width: 5%;"> <select name="type[]" class="form-control  type" id=type' + count + '>'
       element += '                    <option value="1" >Barcode </option>'
       element += '                     <option value="2" > Manual </option>'
       element += '               </select></td>'
       element += '<td> <input type="text" class="form-control" name="serial_number[]" value="" id=serial_number' + count + '></td>'
       element += '<td id=tdbarcode' + count + '></td>'
-      element += ' <td id=tdfab' + count + ' style="width: 20%;"><input type="text" class="form-control fabric_name" readonly  name="fabric_name[]" value="" id=fabric' + count + '></td>'
+      element += ' <td id=tdfab' + count + ' style="width: 10%;"><input type="text" class="form-control fabric_name" readonly  name="fabric_name[]" value="" id=fabric' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="hsn[]" value="" readonly id=hsn' + count + '></td>'
 
-      element += '<td id=tddesign' + count + ' style="width: 15%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id=designName' + count + '></td>'
+      element += '<td id=tddesign' + count + ' style="width: 10%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id=designName' + count + '></td>'
       element += '<td> <input type="text" name="design_code[]" class="form-control" value="" readonly id=designCode' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="stitch[]" value="" readonly id=stitch' + count + '></td>'
       element += '<td>  <input type="text" class="form-control" name="dye[]" value="" readonly id=dye' + count + '></td>'
-      element += '<td style="width: 20%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
+      element += '<td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="quantity[]" value=""></td>'
       element += '<td><input type="text" name="unit[]" class="form-control unit" value="" readonly id=unit' + count + '></td>'
       element += '<td><input type="text" name="image[]" class="form-control unit" value="" readonly id=image' + count + '></td>'

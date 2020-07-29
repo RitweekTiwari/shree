@@ -127,8 +127,7 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                                <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
-                                </div>
+                              
                                 <div class="col-6">
 
                                     <form id="frc_dateFilter">
@@ -179,7 +178,10 @@
                                 <tbody>
                                     <?php
                                     $c = 1;
-                                    foreach ($plain_data as $value) { ?>
+                                    $qty = 0.0;
+                                    foreach ($plain_data as $value) {
+                                        $qty += $value['quantity'];
+                                    ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['order_product_id'] ?>"></td>
 
@@ -217,8 +219,10 @@
                                     } ?>
 
                                     <?php
-                                   
-                                    foreach ($frc_data as $value) { ?>
+
+                                    foreach ($frc_data as $value) {
+                                        $qty += $value['current_stock'];
+                                    ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['fsr_id'] ?>"></td>
 
@@ -246,6 +250,29 @@
                                     <?php $c = $c + 1;
                                     } ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr class="odd" role="row">
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th></th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th> </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> <?php echo $qty
+                                    ?></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th> </th>
+
+
+
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -258,8 +285,6 @@
 
 
 <script>
-   
-
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];
         $(".sub_chk:checked").each(function() {

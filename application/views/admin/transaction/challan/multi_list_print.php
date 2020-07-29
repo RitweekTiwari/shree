@@ -79,7 +79,7 @@
                     </tr>
                     <tr>
                         <td width="1.0in">SIZE </td>
-                        <td>:-<?php echo $value['quantity']; ?> <?php echo $value['unit']; ?></td>
+                        <td>:-<?php echo $value['finish_qty']; ?> <?php echo $value['unit']; ?></td>
 
                     </tr>
                 </table>

@@ -4,7 +4,7 @@
 
     var count = 0;
     var total = 0;
- $('#fresh_form').hide();
+    $('#fresh_form').hide();
     $('#submit_button').hide();
     $('#master').on('click', function(e) {
       if ($(this).is(':checked', true)) {
@@ -75,12 +75,17 @@
             $('#stitch' + button_id + '').val(data[0]['stitch']);
             $('#dye' + button_id + '').val(data[0]['dye']);
             $('#matching' + button_id + '').val(data[0]['matching']);
-            $('#qty' + button_id + '').val(data[0]['quantity']);
+            $('#qty' + button_id + '').val(data[0]['finish_qty']);
             $('#fabric' + button_id + '').val(fabric);
             $('#image' + button_id + '').val(data[0]['image']);
             $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
             $('#hsn' + button_id + '').val(data[0]['hsn']);
             $('#unit' + button_id + '').val(data[0]['unit']);
+            if (data[0]['trans_meta_id']) {
+              $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
+            } else {
+              $('#trans_id' + button_id + '').val("");
+            }
             if (fabric != "") {
               $('#submit_button').show();
             } else {
@@ -88,7 +93,7 @@
             }
           } else {
             toastr.error('Failed!', "OBC Not Found");
-           
+
             $('#designName' + button_id + '').val("");
             $('#designCode' + button_id + '').val('');
             $('#stitch' + button_id + '').val('');
@@ -227,7 +232,8 @@
 
         });
       } else {
-        $("#FromGodown").val('');$("#FromGodownId").val('');
+        $("#FromGodown").val('');
+        $("#FromGodownId").val('');
       }
     });
     $(document).on('change', "#toParty", function() {
@@ -257,7 +263,8 @@
         });
       } else {
         $("#ToGodown").val('');
-        $("#workType").val('');$("#ToGodownId").val('');
+        $("#workType").val('');
+        $("#ToGodownId").val('');
       }
     });
 
@@ -277,11 +284,11 @@
       element += '<td><input type="text" name="unit[]" class="form-control unit " id=unit' + count + ' readonly>'
       element += '<td><input type="text" class="form-control" name="image[]" value="" id=image' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " name="days[]" value="" id=days' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' readonly><input type="hidden" name="trans_id[]" id=trans_id' + count + ' ></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);
-       $('#obc' + count + '').focus();
+      $('#obc' + count + '').focus();
     }
   });
 </script>

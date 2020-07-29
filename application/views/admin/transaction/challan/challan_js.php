@@ -12,7 +12,7 @@
         $(".sub_chk").prop('checked', false);
       }
     });
-     $(document).on('change', '#toParty', function(e) {
+    $(document).on('change', '#toParty', function(e) {
       var cust = $(this).val();
       if (cust != "") {
         $('#fresh_form').show();
@@ -33,12 +33,12 @@
       var order = $(this).val();
       order = order.toUpperCase();
       var godown = <?php echo $id ?>;
-      var plain=[];
-     <?php foreach($plain as $row){?>
-      plain.push(<?php echo $row; ?>);
-     <?php }?>
+      var plain = [];
+      <?php foreach ($plain as $row) { ?>
+        plain.push(<?php echo $row; ?>);
+      <?php } ?>
       console.log(plain);
-      if (plain.includes(godown) ) {
+      if (plain.includes(godown)) {
         var url = "<?php echo base_url('admin/orders/getOrderDetails') ?>";
       } else {
         var url = "<?php echo base_url('admin/transaction/getOrderDetails') ?>";
@@ -56,13 +56,13 @@
         data: {
 
           'id': order,
-          'godown':godown,
+          'godown': godown,
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
 
         success: function(data) {
           data = JSON.parse(data);
-          if (data != "" ) {
+          if (data != "") {
             // One day Time in ms (milliseconds) 
             var one_day = 1000 * 60 * 60 * 24
             var present_date = new Date();
@@ -86,7 +86,18 @@
             $('#stitch' + button_id + '').val(data[0]['stitch']);
             $('#dye' + button_id + '').val(data[0]['dye']);
             $('#matching' + button_id + '').val(data[0]['matching']);
-            $('#qty' + button_id + '').val(data[0]['quantity']);
+            if (godown == 19) {
+              $('#qty' + button_id + '').val(data[0]['finish_qty']);
+
+            } else {
+              $('#qty' + button_id + '').val(data[0]['quantity']);
+
+            }
+            if (data[0]['trans_meta_id']) {
+              $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
+            } else {
+              $('#trans_id' + button_id + '').val("");
+            }
             $('#fabric' + button_id + '').val(fabric);
             $('#image' + button_id + '').val(data[0]['image']);
             $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
@@ -98,7 +109,7 @@
               $('#submit_button').hide();
             }
           } else {
-            $(".msg").html("<h6 class='text-danger'><b>Design Not Found </b></h6>");
+            toastr.error('Failed!', "OBC Not Found");
             $('#designName' + button_id + '').val("");
             $('#designCode' + button_id + '').val('');
             $('#stitch' + button_id + '').val('');
@@ -266,8 +277,8 @@
         });
       } else {
         $("#ToGodownId").val("");
-            $("#ToGodown").val("");
-            $("#workType").val("");
+        $("#ToGodown").val("");
+        $("#workType").val("");
       }
     });
 
@@ -287,7 +298,7 @@
       element += '<td><input type="text" name="unit[]" class="form-control unit " id=unit' + count + ' readonly>'
       element += '<td><input type="text" class="form-control" name="image[]" value="" id=image' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " name="days[]" value="" id=days' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' readonly><input type="hidden" name="trans_id[]" id=trans_id' + count + ' ></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);

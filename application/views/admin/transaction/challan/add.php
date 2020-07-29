@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-        <form method="post" action="<?php echo base_url('admin/Transaction/addChallan/').$id ?>">
+        <form method="post" action="<?php echo base_url('admin/Transaction/addChallan/') . $id ?>">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title"><i class="fa fa-plus"></i> Challan Transaction</h5>
@@ -17,18 +17,18 @@
                       <td>
                         <div class="col-md-12">
                           <label>Job Work Party Name</label>
-                         
+
                           <select name="FromParty" class="form-control" readonly>
-                           
-                            <?php foreach ($branch_data as $value) : if($value->id==$job){?>
-                             <option value="<?php echo $value->id ?>" > <?php echo $value->name; ?></option>
+
+                            <?php foreach ($branch_data as $value) : if ($value->id == $job) { ?>
+                                <option value="<?php echo $value->id ?>"> <?php echo $value->name; ?></option>
                             <?php }
-                           endforeach; ?>
+                            endforeach; ?>
                           </select>
                         </div>
                       </td>
                       <td><label>From Godown</label>
-                        <input type="text" class="form-control "  value="<?php echo $godown; ?>" readonly>
+                        <input type="text" class="form-control " value="<?php echo $godown; ?>" readonly>
                         <input type="hidden" name="FromGodown" value="<?php echo $id; ?>">
                       </td>
                     </tr>
@@ -40,15 +40,15 @@
                           <label>Job Work Party Name</label>
                           <select name="toParty" class="form-control" id="toParty">
                             <option>Select </option>
-                            <?php foreach ($branch_data as $value) : if($value->id!=$job) {?>
-                              <option value="<?php echo $value->id ?>"> <?php echo $value->name; ?></option>
+                            <?php foreach ($branch_data as $value) : if ($value->id != $job) { ?>
+                                <option value="<?php echo $value->id ?>"> <?php echo $value->name; ?></option>
                             <?php }
-                          endforeach; ?>
+                            endforeach; ?>
                           </select>
                         </div>
                       </td>
-                      <td><label>To Godown</label><input type="text" class="form-control "  id='ToGodown' value="" readonly></td>
-                      <input type="hidden" name="ToGodown" id='ToGodownId'>           
+                      <td><label>To Godown</label><input type="text" class="form-control " id='ToGodown' value="" readonly></td>
+                      <input type="hidden" name="ToGodown" id='ToGodownId'>
                     </tr>
                     <tr>
                       <td><label>Job Work type</label></td>
@@ -98,7 +98,9 @@
                     <td><input type="text" name="unit[]" class="form-control unit " id='unit0' readonly>
                     <td><input type="text" class="form-control" name="image[]" value="" id='image0' readonly></td>
                     <td><input type="text" class="form-control " name="days[]" value="" id='days0' readonly></td>
-                    <td><input type="text" class="form-control" name="remark[]" value="" id='remark0' readonly></td>
+                    <td><input type="text" class="form-control" name="remark[]" value="" id='remark0' readonly>
+                      <input type="hidden" name="trans_id[]" id='trans_id0'>
+                    </td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>

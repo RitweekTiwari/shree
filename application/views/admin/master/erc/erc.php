@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class='card container'>
-          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/add/')  ?>" name="basic_validate" novalidate="novalidate">
+          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/add_erc')  ?>" name="basic_validate" novalidate="novalidate">
             <div class="card-header">
               <h5 class="card-title">ADD</h5>
 

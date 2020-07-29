@@ -21,7 +21,6 @@
 
                 <hr>
                 <a type="button" class="btn  pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
-                <a type="button" class="btn  pull-left print_barcode btn-info" style="color:#fff;"><i class="fa fa-print"></i></a>
                 <hr>
                 <div class="widget-box">
                     <div class="widget-content nopadding">
