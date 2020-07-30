@@ -97,7 +97,9 @@ public function get_design_name()
    $this->db->select('*');
    $this->db->from('order_view');
    $this->db->where('status', 'DONE');
+		
    $query = $this->db->get();
+	
    $query = $query->result_array();
    return $query;
  }
@@ -356,8 +358,8 @@ public function get_design_name()
 
 	  function edit_option($action, $id, $table){
         $this->db->where('id',$id);
-        $this->db->update($table,$action);
-        return;
+		return $this->db->update($table,$action);
+        
     }
 		function edit_order($action, $id, $table){
 				$this->db->where('order_id',$id);
@@ -366,8 +368,8 @@ public function get_design_name()
 		}
 		function edit_by_node($node, $id, $action, $table){
 				$this->db->where($node, $id);
-				$this->db->update($table, $action);
-				return;
+		return	$this->db->update($table, $action);
+			
 		}
 
       function get_single_value($id,$table){

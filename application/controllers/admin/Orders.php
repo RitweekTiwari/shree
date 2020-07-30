@@ -31,6 +31,7 @@ class Orders extends CI_Controller
     $data['cause'] = $this->common_model->select('cause_list');
     $data['order_count'] = $this->Orders_model->get_order_count();
     $data['get_complete'] = $this->Orders_model->get_order_complete();
+    
     $data['get_cancel'] = $this->Orders_model->get_order_cancel();
     $data['get_pending'] = $this->Orders_model->get_order_pending();
     $data['main_content'] = $this->load->view('admin/order/dashboard', $data, TRUE);
@@ -395,8 +396,46 @@ class Orders extends CI_Controller
       }
     }
     
-  } 
+  }
+  
+  public function deassign()
+  {
+    if ($_POST) {
+      $data = $this->input->post();
+      $data = $this->security->xss_clean($data);
+      //echo "<pre>"; print_r($_POST);exit;
+      try {
 
+        $ids =  $this->security->xss_clean($_POST['ids']);
+        //print_r($_POST['ids']);exit;
+        $c=0;$i=0;$j=0;
+        foreach ($ids as $value) {
+          if ($value != "") {
+            $obc = $this->Orders_model->get_order_by_id2($value);
+
+            if (isset($obc[0]['pbc']) && $obc[0]['pbc'] != "") {
+           $i+=   $this->Orders_model->edit_by_node('parent_barcode', $obc[0]['pbc'],  array('isStock' => 1), 'fabric_stock_received');
+              $data1['quantity'] = 0;
+              $data1['pbc'] = "";
+              $data1['godown'] =0;
+            $j+=  $this->Orders_model->edit_by_node('order_product_id', $value , $data1, 'order_product');
+            }
+         
+           $c+=1; 
+          }
+        }
+        if($i==$c && $j==$c){
+          echo '1';
+        }else{
+          echo "0";
+        }
+      
+      } catch (\Exception $e) {
+        $error = $e->getMessage();
+        // echo $error;
+      }
+    }
+  }
 
   public function cancel_status()
   {

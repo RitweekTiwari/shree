@@ -671,7 +671,7 @@
 					'transaction_id' => $id,
 
 					'order_barcode' => $data['obc'][$i],
-					'stat' => 'out',
+					'stat' => 'pending',
 					'finish_qty ' => $data['quantity'][$i],
 
 				];

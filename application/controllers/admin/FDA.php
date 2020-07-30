@@ -40,13 +40,73 @@
 			public function get_fabric_name_value()
 				{
 						if ($_POST) {
+					//echo "<pre>";	print_r($_POST);exit;
 							$data=array();
 							$data['fabric_type']=$_POST['fabricType'];
 							$data['fabric_name']=$_POST['fabricName'];
-							$data['data_value'] = $this->FDA_model->get_design_details($_POST['fabricType'], $data['fabric_name']);
-							//
-							$data['data'] = $this->load->view('admin/FDA/asign_page', $data, TRUE);
-		  	      $this->load->view('admin/FDA/index', $data);
+			$sql = '';
+
+			$output = array();
+
+			
+			if (!empty($_POST["search"]["value"])) {
+
+				$sql .= 'SELECT design.id, design.designName, erc.desCode, design.stitch FROM design
+            LEFT JOIN erc ON design.designName = erc.desName
+            LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
+            WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "' . $data['fabric_name'] . '") ORDER BY design.id DESC AND';
+				$sql .= ' design.designName LIKE "%' . $_POST["search"]["value"] . '%" ';
+				$sql .= 'OR erc.desCode LIKE "%' . $_POST["search"]["value"] . '%" ';
+				$sql .= 'OR design.stitch LIKE "%' . $_POST["search"]["value"] . '%" ';
+				
+			} else {
+
+				$sql .= 'SELECT design.id, design.designName, erc.desCode, design.stitch FROM design
+            LEFT JOIN erc ON design.designName = erc.desName
+            LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
+            WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "' . $data['fabric_name'] . '") ';
+			}
+
+			if (!empty($_POST["order"])) {
+				$sql .= ' ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+			} else {
+				$sql .= ' ORDER BY id ASC ';
+			}
+
+			if ($_POST["length"] != -1) {
+				$sql .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+			}
+			
+			
+			$query = $this->db->query($sql);
+			
+			$result = $query->result_array();
+			
+			$filtered_rows = $query->num_rows();
+			foreach ($result as $value) {
+				
+				$sub_array = array();
+				
+				$sub_array[] =  $value['id'] ;
+				$sub_array[] = $value['designName'];
+				$sub_array[] = $value['desCode'];
+				$sub_array[] = $value['stitch'];
+				
+				$data1[] = $sub_array;
+			}
+		$t=	$this->FDA_model->get_design_details_count($data['fabric_name']);
+		
+			$output = array(
+				"draw" => intval($_POST["draw"]),
+				'fabric_type' => $data['fabric_type'],
+				'fabric_name' => $data['fabric_name'],
+				"recordsTotal" => $t->count,
+				"recordsFiltered" => $filtered_rows,
+				"data" => $data1
+			);
+
+			echo json_encode($output);
+							
 				      }
 		  	}
 

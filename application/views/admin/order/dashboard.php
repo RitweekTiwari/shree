@@ -239,8 +239,10 @@
               <hr>
               <div class="row ">
 
-                <div class="col-md-2 "><button class="btn btn-danger cancel_all2" href="#Cancel" data-toggle="modal" data-original-title="Edit"><i class="mdi mdi-delete "></i> Cancel</button> </div>
-                <div class="col-md-2 "><button class="btn btn-info print_all"><i class="fa fa-print "></i> Print </button> </div>
+                <button class="btn btn-danger cancel_all2" href="#Cancel" data-toggle="modal" data-original-title="Edit"><i class="mdi mdi-delete "></i> Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-info print_all"><i class="fa fa-print "></i> Print </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-warning deassign">PBC De-assign </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-success " href='<?php echo base_url('admin/Orders/dashboard'); ?>' style="color:#fff;">PBC Assign </a>
 
               </div>
               <hr>
@@ -253,6 +255,7 @@
                       <th>ORDER DATE</th>
                       <th>ORDER NUMBER</th>
                       <th>CUSTOMER NAME</th>
+                      <th>Godown</th>
                       <th>Series Number</th>
                       <th>Order Barcode</th>
                       <th>Fabric Name</th>
@@ -279,6 +282,7 @@
                         <td><?php echo my_date_show($value['order_date']); ?></td>
                         <td><?php echo $value['order_number']; ?></td>
                         <td><?php echo $value['customer_name']; ?></td>
+                        <td><?php echo $value['godown']; ?></td>
                         <td><?php echo $value['series_number']; ?></td>
                         <td><?php echo $value['order_barcode']; ?></td>
                         <td id="tdfab<?php echo $i ?>"><?php echo $value['fabric_name']; ?></td>
@@ -469,53 +473,95 @@
       }
     }
   });
-
-  $(document).on('change', '.pbc', function(e) {
-    var pbc = $(this).val();
-    if (pbc != '') {
-      WRN_PROFILE_DELETE = 'Are you sure you want to assign ' + pbc + ' ? ';
+  jQuery('.deassign').on('click', function(e) {
+    var allVals = [];
+    $(".sub_chk2:checked").each(function() {
+      allVals.push($(this).attr('data-id'));
+    });
+    //alert(allVals.length); return false;
+    if (allVals.length <= 0) {
+      alert("Please select row.");
+    } else {
+      //$("#loading").show();
+      WRN_PROFILE_DELETE = "Are you sure you want to Deassign this?";
       var check = confirm(WRN_PROFILE_DELETE);
       if (check == true) {
-        pbc = pbc.toUpperCase();
-        $(this).val(pbc);
-        var button_id = $(this).parent().parent().attr('id');
-        var id = $(this).parent().parent().find('.sub_chk2').attr('data-id');
-        console.log(button_id);
-        var fabric = $('#tdfab' + button_id + '').html();
-        var csrf_name = $("#get_csrf_hash").attr('name');
-        var csrf_val = $("#get_csrf_hash").val();
-        $.ajax({
-          type: "POST",
-          url: "<?php echo base_url('admin/orders/assignPbc') ?>",
-          data: {
-
-            'id': pbc,
-            'fabric': fabric,
-            'order_product_id': id,
-            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-          },
-
-          success: function(data) {
-            if (data == 0) {
-              toastr.error('Failed!', "fabric did not match");
-            } else if (data == 1) {
-              toastr.success('Success!', "Assigned successfully");
-              button_id = Number(button_id) + 1;
-              $('#pbc' + button_id + '').val('');
-              $('#pbc' + button_id + '').focus();
-            } else if (data == 2) {
-              toastr.error('Failed!', "PBC Not Found");
-            } else {
-              toastr.error('Failed!', data);
-            }
-
-
+        //for server side
+        var join_selected_values = allVals.join(",");
+        // alert (join_selected_values);exit;
+        var ids = join_selected_values.split(",");
+        var data = [];
+        $.each(ids, function(index, value) {
+          if (value != "") {
+            data[index] = value;
           }
         });
+        var button_id = $(this).parent().parent().attr('id');
+        $.ajax({
+          type: "POST",
+          url: "<?= base_url() ?>admin/Orders/deassign",
+          cache: false,
+          data: {
+            'ids': data,
+
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          success: function(response) {
+            if (response == 1) {
+              toastr.success('Success!', "De-Assigned successfully");
+              Location.reload();
+            } else {
+              toastr.error('Failed!', response);
+            }
+          }
+        });
+        //for client side
+
       }
-    } else {
-      toastr.info('Info!', 'Please enter some value');
     }
+  });
+  $(document).on('change', '.pbc', function(e) {
+    var pbc = $(this).val();
+
+
+    pbc = pbc.toUpperCase();
+    $(this).val(pbc);
+    var button_id = $(this).parent().parent().attr('id');
+    var id = $(this).parent().parent().find('.sub_chk2').attr('data-id');
+    console.log(button_id);
+    var fabric = $('#tdfab' + button_id + '').html();
+    var csrf_name = $("#get_csrf_hash").attr('name');
+    var csrf_val = $("#get_csrf_hash").val();
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url('admin/orders/assignPbc') ?>",
+      data: {
+
+        'id': pbc,
+        'fabric': fabric,
+        'order_product_id': id,
+        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+      },
+
+      success: function(data) {
+        if (data == 0) {
+          toastr.error('Failed!', "fabric did not match");
+        } else if (data == 1) {
+          toastr.success('Success!', "Assigned successfully");
+          button_id = Number(button_id) + 1;
+          $('#pbc' + button_id + '').val('');
+          $('#pbc' + button_id + '').focus();
+        } else if (data == 2) {
+          toastr.error('Failed!', "PBC Not Found");
+        } else {
+          toastr.error('Failed!', data);
+        }
+
+
+      }
+    });
+
+
 
   });
   $('#master2').on('click', function(e) {
