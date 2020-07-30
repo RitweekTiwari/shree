@@ -4,15 +4,16 @@
     <!-- ============================================================== -->
 
     <!-- **************** Product List *****************  -->
-    <div class="col-md-12 bg-white">
+    <div class="col-md-12 bg-white" id="Print_div">
         <div class="card">
-            <div class="card-body" id="Print">
-                <h4 class="card-title">Challan Receive Detail</h4>
+            <div class="card-body">
+                <h4 class="card-title">Challan Out Detail</h4>
 
-               
+
                 <hr>
                 <div class="row">
                     <div class="col-md-8">
+                        <a type="button" class="btn  pull-left print_all btn-success" target="_blank" style="color:#fff;"><i class="fa fa-print"></i></a>
 
                         <table class="table-box">
                             <tr>
@@ -21,9 +22,11 @@
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
                                         <select name="FromParty" class="form-control" id="toParty" readonly>
-                                        <?php foreach ($branch_data as $value) : ?>
-                                        <option value="<?php echo $value->id ?>" <?php if($value->id==$trans_data[0]['fromParty']){echo"selected";} ?>> <?php echo $value->name; ?></option>
-                                        <?php endforeach; ?>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
 
                                         </select>
                                     </div>
@@ -39,9 +42,11 @@
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
                                         <select name="toParty" class="form-control" id="toParty" readonly>
-                                             <?php foreach ($branch_data as $value) : ?>
-                              <option value="<?php echo $value->id ?>" <?php if($value->id==$job2){echo"selected";} ?>> <?php echo $value->name; ?></option>
-                            <?php endforeach; ?>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
 
                                         </select>
                                     </div>
@@ -75,7 +80,7 @@
                         <div class="widget-content nopadding">
 
 
-                            <table class=" table-bordered data-table text-center " >
+                            <table class="table table-bordered  text-center table-responsive">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
@@ -96,9 +101,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
+                                    <?php
                                     $c = 1;
-                                    foreach ($frc_data as $value) { ?>
+                                    $qty = 0.0;
+                                    foreach ($frc_data as $value) {
+                                        $qty +=  $value['quantity'];
+                                    ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
 
@@ -134,15 +142,36 @@
                                     <?php $c = $c + 1;
                                     } ?>
                                 </tbody>
+                                <tfoot class="bg-dark text-white">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Total</th>
+                                        <th><?php echo $qty;
+                                            ?></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
-               
+
 
             </div>
         </div>
- <div id='summary'></div>
+        <div id='summary'></div>
     </div>
 </div>
 
@@ -151,7 +180,32 @@
     var summary = [];
     var count = 0;
     var i = 0;
+
+
     $(document).ready(function() {
+        function printData() {
+            var divToPrint = document.getElementById("Print_div");
+
+            var htmlToPrint = '' +
+                '<style type="text/css">' +
+                'table th,table td {' +
+                'border-bottom:1px solid black;' +
+                'padding:0.5em;' + 'text-align: center;' +
+                '}' +
+                '</style>';
+            htmlToPrint += divToPrint.outerHTML;
+            newWin = window.open("");
+            newWin.document.write(htmlToPrint);
+            newWin.document.close();
+            newWin.print();
+
+        }
+
+        $('.print_all').on('click', function() {
+            printData();
+
+        });
+
         $("table tbody tr").each(function() {
 
             var self = $(this);
@@ -162,10 +216,10 @@
             pcs = 1;
             if (i == 0) {
                 var arr = [fabric, pcs, qty];
-                if(fabric!=''){
-                summary.push(arr);
+                if (fabric != '') {
+                    summary.push(arr);
                 }
-                
+
 
 
             } else {
@@ -186,10 +240,10 @@
                     pcs = 1;
                     qty = Number(qty);
                     arr = [fabric, pcs, qty];
-                   if(fabric!=''){
-                summary.push(arr);
-                }
-                   
+                    if (fabric != '') {
+                        summary.push(arr);
+                    }
+
                 }
             }
             i = i + 1;
@@ -216,10 +270,10 @@
                 Tpcs += array[index][1];
                 html += ' <tr><td>' + array[index][0] + '</td>';
                 html += '<td>' + array[index][1] + '</td>';
-                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100  + '</td>';
+                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
                 html += '</tr></tbody>';
             }
-            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100  +
+            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
                 '</th></tr>';
             html += '</table>';
 

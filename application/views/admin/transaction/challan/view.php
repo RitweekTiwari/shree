@@ -25,11 +25,13 @@
                                 <td>
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
-                                        
+
                                         <select name="FromParty" class="form-control" id="toParty" readonly>
-                                        <?php foreach ($branch_data as $value) : ?>
-                                        <option value="<?php echo $value->id ?>" <?php if($value->id==$trans_data[0]['fromParty']){echo"selected";} ?>> <?php echo $value->name; ?></option>
-                                        <?php endforeach; ?>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
 
                                         </select>
                                     </div>
@@ -45,9 +47,11 @@
                                     <div class="col-md-12">
                                         <label>Job Work Party Name</label>
                                         <select name="toParty" class="form-control" id="toParty" readonly>
-                                             <?php foreach ($branch_data as $value) : ?>
-                              <option value="<?php echo $value->id ?>" <?php if($value->id==$job2){echo"selected";} ?>> <?php echo $value->name; ?></option>
-                            <?php endforeach; ?>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
 
                                         </select>
                                     </div>
@@ -102,7 +106,27 @@
                                         <th>Remark</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
 
+
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -119,7 +143,7 @@
 
             </div>
         </div>
- <div id='summary'></div>
+        <div id='summary'></div>
     </div>
 </div>
 
@@ -129,6 +153,7 @@
         getlist();
 
         var table;
+
         $(document).on('change', '#obc', function(e) {
             var obc = $('#obc').val();
 
@@ -181,7 +206,41 @@
                         return json.data;
                     },
                 },
+                "footerCallback": function(row, data, start, end, display) {
+                    var api = this.api(),
+                        data;
 
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(10)
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(10, {
+                            page: 'current'
+                        })
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(10).footer()).html(
+                        +pageTotal + ' ( ' + total + ' total)'
+                    );
+                },
 
                 "createdRow": function(row, data, dataIndex) {
                     if (data[15] == `pending`) {
@@ -195,7 +254,32 @@
                     },
 
                 ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'pageLength', {
+                        extend: 'excel',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'pdf',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'print',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
 
+                    'selectAll',
+                    'selectNone',
+                    'colvis'
+                ],
                 scrollY: 500,
                 scrollX: false,
                 scrollCollapse: true,

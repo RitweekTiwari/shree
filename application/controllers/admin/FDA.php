@@ -54,7 +54,7 @@
 				$sql .= 'SELECT design.id, design.designName, erc.desCode, design.stitch FROM design
             LEFT JOIN erc ON design.designName = erc.desName
             LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
-            WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "' . $data['fabric_name'] . '") ORDER BY design.id DESC AND';
+            WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "' . $data['fabric_name'] . '") OR ';
 				$sql .= ' design.designName LIKE "%' . $_POST["search"]["value"] . '%" ';
 				$sql .= 'OR erc.desCode LIKE "%' . $_POST["search"]["value"] . '%" ';
 				$sql .= 'OR design.stitch LIKE "%' . $_POST["search"]["value"] . '%" ';
@@ -101,7 +101,7 @@
 				'fabric_type' => $data['fabric_type'],
 				'fabric_name' => $data['fabric_name'],
 				"recordsTotal" => $t->count,
-				"recordsFiltered" => $filtered_rows,
+				"recordsFiltered" => $t->count,
 				"data" => $data1
 			);
 

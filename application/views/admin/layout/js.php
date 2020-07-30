@@ -64,22 +64,7 @@
      $(".select2").select2();
 
    
-    // $("tr").not(':first').hover(
-    // function () {
-    // $(this).css("background","#eeeeea");
-    
-    // }, 
-    // function () {
-    // $(this).css("background","");
-    
-    // }
-    // );
-    // $(".remove_datatable tr").hover(
-     
-    // function () {
-    // $(this).css("background","");
-    // }
-    // );
+  
      // use Class to remove datatable
      $('.remove_datatable').DataTable().destroy();
 

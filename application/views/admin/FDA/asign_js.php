@@ -3,7 +3,7 @@
 
     $(window).on("load", function() {
       get_list();
-      getlist2("Null", "Null");
+
 
     });
 
@@ -15,7 +15,7 @@
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
         datatype: 'json',
-      
+
         success: function(data) {
           $("#asign_result").html(data);
         }
@@ -46,15 +46,15 @@
             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },
           datatype: 'json',
-         
+
           success: function(data) {
             if (data.error) {
               toastr.error('Failed!', data.msg);
-              
+
             } else {
               toastr.success('Success!', data.msg);
               get_list();
-             
+
 
 
             }
@@ -98,7 +98,12 @@
         "processing": true,
         "serverSide": true,
         "order": [],
-
+        "pageLength": 50,
+        "lengthMenu": [
+          [50, 100, 150, -1],
+          [50, 100, 150, "All"]
+        ],
+        select: true,
         "ajax": {
           type: "POST",
           url: "<?php echo base_url('admin/FDA/get_fabric_name_value') ?>",
@@ -112,7 +117,7 @@
 
         select: true,
         scrollY: 500,
-        paging: false,
+        paging: true,
         "destroy": true,
       });
 
