@@ -97,7 +97,7 @@ class Orders extends CI_Controller
               'quantity' => $_POST['quantity'][$i],
               'priority' => $_POST['priority'][$i],
               'order_barcode' => $pbc,
-             
+              'design_barcode' => $_POST['design_barcode'][$i],
               'design_name' => $_POST['design_name'][$i],
               'design_code' => $_POST['design_code'][$i],
               'remark' => $_POST['remark'][$i],

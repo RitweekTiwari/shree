@@ -1,6 +1,6 @@
 <style>
     .PrintThis table {
-        width: '2in';
+        width: '3in';
         padding: 5px 5px;
     }
 
@@ -16,7 +16,7 @@
     }
 
     .PrintThis table table {
-        width: 1.8in;
+        width: 2.8in;
 
     }
 
@@ -26,7 +26,7 @@
     }
 
     table img {
-        width: 2.0in;
+        width: 2.8in;
         height: 50px;
         display: block;
         margin: 0 auto;
@@ -34,7 +34,7 @@
     }
 </style>
 
-<table height="2.5in" width="2.0in">
+<table height="2.5in" width="3.0in">
     <?php foreach ($data as $value) : ?>
 
         <tr>

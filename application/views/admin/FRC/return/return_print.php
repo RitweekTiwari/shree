@@ -93,7 +93,7 @@ $html = <<<EOD
         </tr>
          <tr>
           <td> &nbsp;&nbsp; BARCODE</td>
-          <td >:-  $data->fabricName</td>
+          <td >:-  $data->parent_barcode</td>
         </tr>
         
         <tr>

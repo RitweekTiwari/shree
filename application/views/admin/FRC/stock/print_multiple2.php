@@ -79,13 +79,20 @@
             <td> &nbsp;&nbsp; CHALLAN NO</td>
             <td>:-<?php echo  $value->challan_no ?></td>
           </tr>
-
+          <tr>
+            <td> &nbsp;&nbsp; AD NO</td>
+            <td>:-<?php echo  $value->ad_no ?></td>
+          </tr>
+          <tr>
+            <td> &nbsp;&nbsp; RATE CODE</td>
+            <td>:-<?php echo  $value->purchase_code ?></td>
+          </tr>
         </table>
       </td>
       <td>
         <table>
           <tr>
-            <td colspan="2" class=" main-text">
+            <td colspan="3" class=" main-text">
               <div>
                 <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
                 <script>
@@ -104,7 +111,7 @@
 
           </tr>
           <tr>
-            <td colspan="2" class=" main-text">
+            <td colspan="3" class=" main-text">
               <div>
                 <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
                 <script>

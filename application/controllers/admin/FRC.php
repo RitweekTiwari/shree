@@ -409,9 +409,11 @@
 				$count =count($data['hsn']);
 				$total_qty=0; 
 				$total_val =0;
-				for ($i=0; $i < $count ; $i++) { 
+				for ($i=0; $i < $count ; $i++) {
+				for ($j = 0; $j < $data['pcs'][$i]; $j++) {	
 					$total_qty =$total_qty +  $data['qty'][$i];
 					$total_val =$total_val + ($data['prate'][$i]*$data['qty'][$i]);
+				}
 				}
 				$id=$this->Frc_model->getId("recieve");
 				if(!$id){
@@ -441,9 +443,12 @@
 				$counter = $this->Frc_model->getCount('recieve');
 				$cc =$counter[0]['count'];
 				// print_r($counter[0]['count']);exit;
-				for ($i=0; $i < $count; $i++) { 
+				for ($i=0; $i < $count; $i++) {
+				
+				
+				for ($j = 0; $j < $data['pcs'][$i]; $j++) {
 					 $cc=$cc+ 1;
-					$pbc= "P".(string)$cc;
+					$pbc= "U1P".(string)$cc;
 					$total=	($data['prate'][$i]*$data['qty'][$i]);
 				$data2=[
 					'fabric_challan_id' => $id,
@@ -466,6 +471,7 @@
 					
 				]	;
 					$this->Frc_model->insert($data2, 'fabric_stock_received');
+					}
 				}
 				
 			}
@@ -473,7 +479,7 @@
 				redirect($_SERVER['HTTP_REFERER']);
 		}
 		
-		public function EditRecieve(){
+		public function save(){
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
 				//echo "<pre>"; print_r($data);exit;

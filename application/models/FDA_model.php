@@ -59,19 +59,20 @@ class FDA_model extends CI_Model {
  }
 
 
- public function get_design_details_count($fabric_name)
+ public function get_design_details($fabricType, $fabric_name)
   {
-    $sql = 'SELECT count(design.id) as count FROM design
+    // $sql = 'SELECT * FROM design WHERE designOn = "'.$fabricType.'" AND id NOT IN (SELECT design_id FROM fda_table WHERE fabric_type = "'.$fabricType.'")';
+    // $sql = 'SELECT * FROM design WHERE designOn = "'.$fabricType.'" AND id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "'.$fabric_name.'")';
+    $sql = 'SELECT design.id, design.designName, erc.desCode, erc.rate, design.stitch, design.dye, design.designOn FROM design
             LEFT JOIN erc ON design.designName = erc.desName
             LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
             WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "'.$fabric_name.'") ORDER BY design.id DESC';
     $query = $this->db->query($sql);
     
-    $query = $query->row();
+    $query = $query->result_array();
     //print_r($this->db->last_query());
     return $query;
   }
-
  public function edit($id,$data)
  {
    // print_r($data);

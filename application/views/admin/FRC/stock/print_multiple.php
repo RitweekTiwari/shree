@@ -1,6 +1,6 @@
 <style>
   body {
-    width: 12.5%;
+    width: 4.0in;
   }
 
   .PrintThis table {
@@ -15,12 +15,12 @@
   }
 
   .PrintThis table td {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 650;
   }
 
   .PrintThis table table {
-    width: 2.0in;
+    width: 3.8in;
   }
 
   .PrintThis table table td {
@@ -29,7 +29,7 @@
   }
 
   table img {
-    width: 1.0in;
+    width: 3.0in;
     height: 50px;
     display: block;
     margin: 0 auto;
@@ -78,6 +78,14 @@
           <tr>
             <td> &nbsp;&nbsp; CHALLAN NO</td>
             <td>:-<?php echo  $value->challan_no ?></td>
+          </tr>
+          <tr>
+            <td> &nbsp;&nbsp; AD NO</td>
+            <td>:-<?php echo  $value->ad_no ?></td>
+          </tr>
+          <tr>
+            <td> &nbsp;&nbsp; RATE CODE</td>
+            <td>:-<?php echo  $value->purchase_code ?></td>
           </tr>
 
         </table>

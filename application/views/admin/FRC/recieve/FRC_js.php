@@ -180,9 +180,9 @@
       var id = $(this).parent().parent().attr("id");
 
       var q = Number($('#qty' + id + '').val());
-
+      var p = Number($('#pcs' + id + '').val());
       var rate = Number($(this).val());
-      var val = rate * q;
+      var val = rate * q*p;
       $('#value' + id + '').val(val);
       qty = get_total_value()
       $('#th_total').html(qty)
@@ -235,17 +235,18 @@
 
 
 
-    $(document).on('change', "input[name='qty[]']", function() {
+    $(document).on('change', "input[name='pcs[]']", function() {
       var id = $(this).parent().parent().attr("id");
 
       var rate = Number($('#prate' + id + '').val());
-      console.log("quantity=" + qty);
-      var q = Number($(this).val());
-      var val = rate * q;
 
+      var q = Number($('#qty' + id + '').val());
+      var p = Number($(this).val());
+      var val = rate * q * p;
+      console.log("value=" + val);
       $('#value' + id + '').val(val);
 
-      qty = get_total_quntity()
+      var qty = get_total_quntity()
       $('#th_qty').html(qty)
       console.log("quantity=" + qty);
 
@@ -268,6 +269,7 @@
       element += '<td><input type="text" class="form-control" name="fabType[]" value="" readonly id=fabType' +
         count + '></td>'
       element += '<td><input type="text" class="form-control" name="qty[]" value="" id="qty' + count + '"></td>'
+      element += '<td><input type="number" class="form-control" name="pcs[]" value="1" id="pcs' + count + '"></td>'
       element += '<td><input type="text" class="form-control" name="unit[]" value="" readonly id=unit' + count +
         '></td>'
       element += '<td> <input type="text" class="form-control" name="color[]" value="" required></td>'
@@ -279,11 +281,12 @@
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);
+
     }
 
     function get_total_quntity() {
       var current = 0;
-      $("input[name='qty[]']").each(function() {
+      $("input[name='pcs[]']").each(function() {
         current += Number($(this).val());
         console.log("Current=" + current);
       });

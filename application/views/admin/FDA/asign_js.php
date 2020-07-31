@@ -1,10 +1,35 @@
 <script type="text/javascript">
   $(document).ready(function() {
+    $('#table ').DataTable({
 
+      destroy: true,
+      "pageLength": 250,
+      "lengthMenu": [
+        [250, 500, 1000, -1],
+        [250, 500, 1000, "All"]
+      ],
+
+      select: true,
+      dom: 'Bfrtip',
+      buttons: [
+        'pageLength', 'excel', 'pdf', {
+          extend: 'print',
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
+
+      ],
+      scrollY: 500,
+      scrollX: false,
+      scrollCollapse: false,
+      paging: true,
+      fixedColumns: false,
+      fixedheader: true
+
+    });
     $(window).on("load", function() {
       get_list();
-
-
     });
 
     function get_list() {
@@ -15,7 +40,10 @@
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
         datatype: 'json',
-
+        beforeSend: function() {
+          isProcessing = true;
+          $("#asign_result").html('<img src="<?php echo base_url('optimum/preloader.gif ') ?>">');
+        },
         success: function(data) {
           $("#asign_result").html(data);
         }
@@ -30,7 +58,6 @@
       $("#table tr.selected").each(function() {
         selected.push($('td:first', this).html());
       });
-
       if (selected == "") {
         alert("Nothing to Assign");
       } else {
@@ -46,17 +73,18 @@
             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },
           datatype: 'json',
-
+          beforeSend: function() {
+            isProcessing = true;
+            $("#show").html('<img src="<?php echo base_url('optimum/preloader.gif') ?>">');
+          },
           success: function(data) {
             if (data.error) {
               toastr.error('Failed!', data.msg);
-
+              $("#show").html('');
             } else {
               toastr.success('Success!', data.msg);
+              $("#show").html('');
               get_list();
-
-
-
             }
           }
         });
@@ -80,48 +108,33 @@
     $("#fabric").on('change', function() {
       var fabricType = $(this).val();
       var fabricName = $(this).children("option:selected").html();
-      $("#fabric_type").val(fabricType);
-      $("#fabric_name").val(fabricName);
       window.value = $(this).val();
       if (fabricType != "") {
-
-        getlist2(fabricName, fabricType)
-
-
-      }
-    });
-
-    function getlist2(fabric, type) {
-      var csrf_name = $("#get_csrf_hash").attr('name');
-      var csrf_val = $("#get_csrf_hash").val();
-      $('#table').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "order": [],
-        "pageLength": 50,
-        "lengthMenu": [
-          [50, 100, 150, -1],
-          [50, 100, 150, "All"]
-        ],
-        select: true,
-        "ajax": {
+        var csrf_name = $("#get_csrf_hash").attr('name');
+        var csrf_val = $("#get_csrf_hash").val();
+        $.ajax({
           type: "POST",
           url: "<?php echo base_url('admin/FDA/get_fabric_name_value') ?>",
           data: {
-            'fabricType': type,
-            'fabricName': fabric,
+            'fabricType': fabricType,
+            'fabricName': fabricName,
             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },
           datatype: 'json',
-        },
+          beforeSend: function() {
+            isProcessing = true;
+            $("#show").html('<img src="<?php echo base_url('optimum/preloader.gif ') ?>">');
+          },
+          success: function(data) {
+            $("#show").html(data);
+          }
 
-        select: true,
-        scrollY: 500,
-        paging: true,
-        "destroy": true,
-      });
+        });
+      } else {
+        $("#show").html('');
+      }
+    });
 
-    }
     $("#fda_value span").click(function(event) {
       // alert('ok');
       var fabric_id = $(this).attr('id');
