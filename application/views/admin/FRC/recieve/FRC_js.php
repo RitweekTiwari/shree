@@ -1,4 +1,3 @@
-<script src="<?php echo base_url('jexcelmaster/') ?>asset/js/jquery.3.1.1.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
 
@@ -75,6 +74,7 @@
     $('#add_more1').on('click', function() {
 
       addmore();
+      $(".fabric_name").select2();
     });
 
 
@@ -182,7 +182,7 @@
       var q = Number($('#qty' + id + '').val());
       var p = Number($('#pcs' + id + '').val());
       var rate = Number($(this).val());
-      var val = rate * q*p;
+      var val = rate * q * p;
       $('#value' + id + '').val(val);
       qty = get_total_value()
       $('#th_total').html(qty)
@@ -256,7 +256,7 @@
       count = count + 1;
       var element = '<tr id=' + count + '>'
       element += '<td><input type="text" class="form-control"  value=' + (count + 1) + '  readonly></td>'
-      element += '<td> <select name="fabric_name[]" class="form-control fabric_name " id=fabric' + count +
+      element += '<td style="width: 20%;"> <select name="fabric_name[]" class="form-control fabric_name " id=fabric' + count +
         ' required>'
       element += '<option>Fabric</option>'
       element += '<?php foreach ($febName as $value) : ?>'
@@ -264,7 +264,7 @@
         '<option value="<?php echo $value->id; ?>" data_name="<?php echo $value->fabricName; ?>"> <?php echo $value->fabricName; ?></option>'
       element += '<?php endforeach; ?>'
       element += '</select></td>'
-      element += '<td><input type="text" class="form-control" name="hsn[]" value="" id=hsn' + count +
+      element += '<td style="width: 10%;"><input type="text" class="form-control" name="hsn[]" value="" id=hsn' + count +
         ' readonly></td>'
       element += '<td><input type="text" class="form-control" name="fabType[]" value="" readonly id=fabType' +
         count + '></td>'

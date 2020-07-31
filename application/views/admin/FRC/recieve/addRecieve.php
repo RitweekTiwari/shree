@@ -48,7 +48,7 @@
                   <th>Fabric_Name</th>
                   <th>Hsn</th>
                   <th>Fabric_Type</th>
-                  <th>Quantity</th>
+                  <th>Qty</th>
                   <th>Pcs</th>
                   <th>Unit </th>
                   <th>Color </th>
@@ -64,13 +64,13 @@
                   <tr id="0">
 
                     <td><input type="text" class="form-control " id='sno0' value="1" readonly></td>
-                    <td><select name="fabric_name[]" class="form-control fabric_name " id='fabric0' required>
+                    <td style="width: 20%;"><select name="fabric_name[]" class="form-control fabric_name select2" id='fabric0' required>
                         <option>Fabric</option>
                         <?php foreach ($febName as $value) : ?>
                           <option value="<?php echo $value->id; ?>" data_name="<?php echo $value->fabricName; ?>"> <?php echo $value->fabricName; ?></option>
                         <?php endforeach; ?>
                       </select><input type="hidden" class="form-control sno" name="fabric[]"> </td>
-                    <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
+                    <td style="width: 10%;"><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
                     <td><input type="text" class="form-control" name="fabType[]" value="" readonly id='fabType0'></td>
                     <td><input type="text" class="form-control" name="qty[]" value="" id="qty0" required></td>
                     <td><input type="number" class="form-control" name="pcs[]" value="1" id="pcs0" required></td>
