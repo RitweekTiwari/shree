@@ -54,7 +54,7 @@ public function get($data)
  }
  public function get_summary($data)
  {
-   $this->db->select("sum(total_amount) as Tamount,sum(total_tc) as Totaltc");
+   
    $this->db->select("fabric_type as fabtype,sum(total_quantity) as qty,sum(total_amount) as amount,sum(total_tc) as tc");
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $data['type']);
@@ -87,12 +87,31 @@ public function get($data)
  }
 public function get_by_id($id)
  {
-   $this->db->select("*");
-   $this->db->from('fabric_stock_received');
-  
+    $this->db->select('fabric_stock_received.fsr_id AS fsr_id,
+    fabric_stock_received.parent_barcode AS parent_barcode,
+    fabric_stock_received.parent AS parent,
+    fabric_stock_received.fabric_type AS fabric_type,
+    fabric.fabHsnCode AS hsn,
+    fabric_stock_received.stock_quantity AS stock_quantity,
+    fabric_stock_received.current_stock AS current_stock,
+    fabric_stock_received.stock_unit AS stock_unit,
+    fabric_stock_received.challan_no AS challan_no,
+    fabric_stock_received.unit_id AS unit_id,
+    fabric_stock_received.color_name AS color_name,
+    fabric_stock_received.ad_no AS ad_no,
+    fabric_stock_received.purchase_code AS purchase_code,
+    fabric_stock_received.purchase_rate AS purchase_rate,
+    fabric_stock_received.total_value AS total_value,
+    fabric_stock_received.tc AS tc,
+    fabric_stock_received.challan_type AS challan_type,
+    fabric_stock_received.created_date AS created_date,
+    fabric.fabricName AS fabricName,
+ ');
+    $this->db->from('fabric_stock_received');
+    $this->db->join('fabric', 'fabric.id=fabric_stock_received.fabric_id', 'inner');
+ 
    $this->db->where("fabric_challan_id", $id);
-   $this->db->where('deleted', 0); 
-    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
+   $this->db->where('fabric_stock_received.deleted', 0); 
  
  
    $query = $this->db->get();//echo"<pre>"; print_r($query);exit;
@@ -461,7 +480,7 @@ public function getId($type)
     fabric_stock_received.parent_barcode AS parent_barcode,
     fabric_stock_received.parent AS parent,
     fabric_stock_received.fabric_type AS fabric_type,
-    fabric_stock_received.hsn AS hsn,
+    fabric.fabHsnCode AS hsn,
     fabric_stock_received.stock_quantity AS stock_quantity,
     fabric_stock_received.current_stock AS current_stock,
     fabric_stock_received.stock_unit AS stock_unit,

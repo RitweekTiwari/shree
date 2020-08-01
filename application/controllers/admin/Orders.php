@@ -67,6 +67,12 @@ class Orders extends CI_Controller
           $orderno = "STK" . (string) $cc;
         }
       }
+      $count=0;
+      for ($i = 0; $i < count($_POST['serial_number']); $i++) {
+        for ($j = 0; $j < $_POST['pcs'][$i]; $j++) {
+          $count= $count+ 1;
+        }
+      }
       $data = array(
         'order_number' => $orderno,
         'customer_name' => $_POST['customer_name'],
@@ -75,13 +81,14 @@ class Orders extends CI_Controller
         'order_type' => $_POST['order_type'],
         'order_date' => date('Y-m-d'),
         'counter' => $cc,
-        'pcs' => count($_POST['fabric_name'])
+        'pcs' =>  $count
       );
       $order_number =  $this->Orders_model->insert($data, 'order_table');
       if ($order_number) {
         $counter = $this->Orders_model->getCount();
         $cc = $counter[0]['count'];
         for ($i = 0; $i < count($_POST['serial_number']); $i++) {
+          for ($j = 0; $j < $_POST['pcs'][$i]; $j++) {
           $cc = $cc + 1;
 
           $pbc = "O" . (string) $cc;
@@ -110,6 +117,7 @@ class Orders extends CI_Controller
             $this->Orders_model->insert($data, 'order_product');
           }
         }
+      }
         $txt = 'order save <a href="' . base_url('admin/Orders') . '"> show order </a>';
         $this->session->set_flashdata(array('error' => 0, 'msg' => $txt));
         redirect(base_url('admin/Orders/addOrders'));

@@ -8,12 +8,13 @@
     <div class="col-md-12 bg-white" id="content_body">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Order</h5>
+          <h3 class="card-title">Order</h3><hr>
         </div>
+       
         <div class="row well">
           &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;
 
-        </div><br>
+        </div><hr>
         <table class="table table-bordered data-table text-center table-responsive">
           <thead>
             <tr>

@@ -223,9 +223,9 @@
                                                 <th>Total tc</th>
                                             </tr>
                                         </thead>
-                                        <tbody><?php
+                                        <tbody><?php $Totaltc=0.0;
                                                     foreach ($summary as $value) {
-
+                                                        $Totaltc+= $value['tc'];
                                                 ?><tr>
 
 
@@ -238,7 +238,7 @@
 
 
                                             <th>total</th>
-                                            <th><?php echo $value['Totaltc']; ?></th>
+                                            <th><?php echo $Totaltc; ?></th>
                                         </tr>
                                     </table>
                                 <?php } ?> </div>

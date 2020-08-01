@@ -195,9 +195,9 @@
                           <th>Total</th>
                         </tr>
                       </thead>
-                      <tbody><?php
+                      <tbody><?php $Tamount = 0.0;
                               foreach ($summary as $value) {
-
+                                $Tamount += $value['amount'];
                               ?><tr>
                             <td><?php echo $value['fabtype']; ?></td>
 
@@ -210,7 +210,7 @@
                         <th></th>
 
                         <th>total</th>
-                        <th><?php echo $value['Tamount']; ?></th>
+                        <th><?php echo $Tamount; ?></th>
                       </tr>
                     </table>
                   </div>

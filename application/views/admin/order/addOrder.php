@@ -87,6 +87,7 @@
                   <th>Dye</th>
                   <th>Matching</th>
                   <th>Qty</th>
+                  <th>Pcs</th>
                   <th>Unit</th>
                   <th>Image</th>
                   <th>priority</th>
@@ -115,6 +116,7 @@
                     <td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id='matching0'></td>
 
                     <td><input type="text" class="form-control" name="quantity[]" value=""></td>
+                    <td><input type="number" class="form-control" name="pcs[]" value="1"  required></td>
                     <td><input type="text" name="unit[]" class="form-control " value="" readonly id="unit0"></td>
                     <td><input type="text" name="image[]" class="form-control image" value="" readonly id="image0"></td>
                     <td> <input type="text" class="form-control" name="priority[]" value="30"></td>

@@ -1,10 +1,10 @@
 <script src="<?php echo base_url('jexcelmaster/') ?>asset/js/jquery.3.1.1.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-   
-    
 
-   
+
+
+
 
     $('#fresh_form').hide();
     $('#order_form').hide();
@@ -397,6 +397,7 @@
       element += '<td>  <input type="text" class="form-control" name="dye[]" value="" readonly id=dye' + count + '></td>'
       element += '<td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="quantity[]" value=""></td>'
+      element += '<td><input type="number" class="form-control" name="pcs[]" value="1"  required></td>'
       element += '<td><input type="text" name="unit[]" class="form-control unit" value="" readonly id=unit' + count + '></td>'
       element += '<td><input type="text" name="image[]" class="form-control unit" value="" readonly id=image' + count + '></td>'
       element += '<td>  <input type="text" class="form-control" name="priority[]"  value="30"></td>'
