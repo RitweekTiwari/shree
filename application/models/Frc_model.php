@@ -122,6 +122,7 @@ public function get_by_id($id)
 
  public function get_stock($data)
  {
+   //pre($data);
    $this->db->select("*");
    
    
@@ -133,23 +134,51 @@ public function get_by_id($id)
     $this->db->where('created_date >=', $data['from']);
    $this->db->where('created_date <=', $data['to']);
    }
-
+   if(isset($data['cat'])){
+      if (!is_array($data['cat'])) {
+        if ($data['cat'] != "") {
+          $this->db->where($data['cat'], $data['Value']);
+        }
+      } else {
+        $count = count($data['cat']);
+        for ($i = 0; $i < $count; $i++) {
+          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+        }
+      }
+   }
+   
+    if (isset($data['fabric']) ) {
+      $this->db->where('fabricName', $data['fabric']);
+    }
  $this->db->order_by('length(parent_barcode),parent_barcode'); 
    $query['data'] = $this->db->get();
-    //echo"<pre>"; print_r($query);exit;
+    // echo"<pre>"; print_r($query);exit;
    $query['data'] = $query['data']->result_array();
    $this->db->select("fabric_type,fabricName,count(fabricName) as pcs,sum(current_stock) as qty,sum(total_value) as total");
    
    
    $this->db->from('fabric_stock_view');
-  
+    if (isset($data['cat'])) {
+      if (!is_array($data['cat'])) {
+        if ($data['cat'] != "") {
+          $this->db->where($data['cat'], $data['Value']);
+        }
+      } else {
+        $count = count($data['cat']);
+        for ($i = 0; $i < $count; $i++) {
+          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+        }
+      }
+    }
    if($data['from']==$data['to']){
     $this->db->where('created_date ', $data['from']); 
    }else{
     $this->db->where('created_date >=', $data['from']);
    $this->db->where('created_date <=', $data['to']);
    }
-
+    if (isset($data['fabric'])) {
+      $this->db->where('fabricName', $data['fabric']);
+    }
  $this->db->group_by('fabric_type,fabricName');
    $query['summary'] = $this->db->get();
    $query['summary'] = $query['summary']->result_array();
@@ -160,6 +189,21 @@ public function get_by_id($id)
     }else{
       $this->db->where('created_date >=', $data['from']);
     $this->db->where('created_date <=', $data['to']);
+    }
+    if (isset($data['cat'])) {
+      if (!is_array($data['cat'])) {
+        if ($data['cat'] != "") {
+          $this->db->where($data['cat'], $data['Value']);
+        }
+      } else {
+        $count = count($data['cat']);
+        for ($i = 0; $i < $count; $i++) {
+          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+        }
+      }
+    }
+    if (isset($data['fabric'])) {
+      $this->db->where('fabricName', $data['fabric']);
     }
       $query['type'] = $this->db->get();
     $query['type'] = $query['type']->result_array();
@@ -512,4 +556,3 @@ public function getId($type)
 
 /* End of file Branch_model.php */
 /* Location: ./application/models/Branch_model.php */
-?>

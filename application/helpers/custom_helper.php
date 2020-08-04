@@ -15,14 +15,14 @@
 	if (!function_exists('serve_url')) {
 	    function serve_url($data) {
 				$data = str_replace('/', '_', $data);
-				$data = str_replace(' ', '-', $data);
+				$data = str_replace(' ', '.', $data);
 				return $data;
 	    }
 	}
 	if (!function_exists('sanitize_url')) {
 	    function sanitize_url($data) {
 				$data = str_replace('_', '/', $data);
-				$data = str_replace('-', ' ', $data);
+				$data = str_replace('.', ' ', $data);
 				return $data;
 	    }
 	}

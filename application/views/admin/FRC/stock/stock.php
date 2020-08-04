@@ -17,7 +17,7 @@
               </div>
               <div id="collapseOne" class="collapse show" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/FRC/filter'); ?>" method="post">
+                  <form action="<?php echo base_url('/admin/FRC/show_stock'); ?>" method="post">
                     <div class="form-row">
                       <div class="col-2">
 
@@ -49,7 +49,7 @@
 
                         <input type="text" name="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
                       </div>
-                      <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="simple">
+                      <input type="hidden" name="filter" value="stock"><input type="hidden" name="search" value="simple">
                       <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                       <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
                     </div>
@@ -66,7 +66,7 @@
               </div>
               <div id="collapseTwo" class="collapse" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/FRC/filter'); ?>" method="post">
+                  <form action="<?php echo base_url('/admin/FRC/show_stock'); ?>" method="post">
                     <table class=" remove_datatable">
                       <caption>Advance Filter</caption>
                       <thead>
@@ -123,7 +123,7 @@
                           <input type="text" name="total" class="form-control form-control-sm" value="" placeholder="Total"></td>
                       </tr>
                     </table>
-                    <input type="hidden" name="type" value="stock"><input type="hidden" name="search" value="advance">
+                    <input type="hidden" name="type" value="filter"><input type="hidden" name="search" value="advance">
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                     <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
 
@@ -176,7 +176,7 @@
                       </div>
                       <div class="col-2">
                         <label>Search</label>
-                        <input type="hidden" name="type" value="stock">
+                        <input type="hidden" name="type" value="date">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                         <button type="submit" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
                       </div>
@@ -220,6 +220,7 @@
                                       $pcs = 0;
                                       $qty = 0;
                                       $total = 0;
+                                      $i = 1;
                                       foreach ($frc_data['summary'] as $value) {
                                         if ($value['fabric_type'] == $fabtype['type']) {
                                           $pcs += $value['pcs'];
@@ -227,13 +228,14 @@
                                           $total += $value['total'];
                                       ?>
                                     <tr>
-                                      <td><?php echo  $value['fabricName'] ?></td>
+                                      <td><a href="<?php echo base_url('/admin/FRC/show_stock/').serve_url($value['fabricName'])?>"><?php echo  $value['fabricName'] ?></a></td>
                                       <td><?php echo  $value['pcs'] ?></td>
                                       <td><?php echo  $value['qty'] ?></td>
                                       <td><?php echo  $value['total'] ?></td>
                                     </tr>
 
                                 <?php }
+                                        $i += 1;
                                       } ?>
                               </tbody>
                               <tr>
@@ -260,7 +262,7 @@
       </div>
 
 
-      <script>
+      <script type="text/javascript">
         $(document).ready(function() {
           function printData() {
             var divToPrint = document.getElementById("dt_summary");
@@ -283,6 +285,21 @@
             window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
 
           })
+
+          // function filter() {
+          //   var fabric = $(this).text();
+          //   $.ajax({
+          //     type: "POST",
+          //     url: "<?= base_url() ?>admin/FRC/show_stock",
+          //     cache: false,
+          //     data: {
+          //       'fabric': fabric,
+
+          //       '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          //     },
+
+          //   });
+          // }
           <?php if ($this->session->flashdata('success')) { ?>
             toastr.success("<?php echo $this->session->flashdata('success'); ?>");
           <?php } else if ($this->session->flashdata('error')) {  ?>
