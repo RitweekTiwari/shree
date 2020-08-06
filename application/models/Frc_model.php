@@ -179,7 +179,9 @@ public function get_by_id($id)
     if (isset($data['fabric'])) {
       $this->db->where('fabricName', $data['fabric']);
     }
+    
  $this->db->group_by('fabric_type,fabricName');
+    $this->db->order_by('fabricName'); 
    $query['summary'] = $this->db->get();
    $query['summary'] = $query['summary']->result_array();
   $this->db->select('distinct(fabric_type) as type');
@@ -520,6 +522,7 @@ public function getId($type)
 
   public function get_stock_value_by_id($id)
   {
+   
     $this->db->select('fabric_stock_received.fsr_id AS fsr_id,
     fabric_stock_received.parent_barcode AS parent_barcode,
     fabric_stock_received.parent AS parent,
@@ -546,7 +549,12 @@ public function getId($type)
     $this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','inner');
     $this->db->join('sub_department sb1','sb1.id=fc.challan_from  ','left');
     $this->db->join('sub_department sb2','sb2.id=fc.challan_to  ','left');
-    $this->db->where('fsr_id',$id);
+    if(isset($id['barcode'])){
+      $this->db->where('parent_barcode', $id['barcode']);
+    }else{
+      $this->db->where('fsr_id', $id);
+    }
+    
     $this->db->where('fabric_stock_received.deleted ', 0);
     $rec=$this->db->get(); //print_r($rec);exit;
     return $rec->row();

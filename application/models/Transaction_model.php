@@ -89,6 +89,45 @@ public function get($col,$godown,$type)
     //print_r($this->db->last_query());
     return $query->result_array();
   }
+  public function get_stock_by_obc($data)
+  {
+    $this->db->select(" transaction_meta.trans_meta_id AS trans_meta_id,
+    transaction.challan_out AS challan_out,
+    transaction.from_godown AS from_godown,
+    transaction.to_godown AS to_godown,
+    transaction.status AS status,
+    order_view.order_number AS order_number,
+    order_view.order_date AS order_date,
+    order_view.unit AS unit,
+    order_view.quantity AS quantity,
+    order_view.order_barcode AS order_barcode,
+    order_view.image AS image,
+    order_view.fabric_name AS fabric_name,
+    order_view.design_name AS design_name,
+    order_view.dye AS dye`,
+    order_view.pbc AS pbc,
+    order_view.hsn AS hsn,
+    order_view.design_code AS design_code,
+    order_view.design_barcode AS design_barcode,
+    transaction_meta.finish_qty AS finish_qty,
+    transaction_meta.is_tc AS is_tc,
+    transaction_meta.stat AS stat,
+    order_view.matching AS matching,
+    fabric.fabricCode as fabricCode");
+    $this->db->from('transaction_meta');
+    $this->db->where("transaction.to_godown", $data['godown']);
+    $this->db->where("transaction.transaction_type", 'challan');
+    $this->db->where("transaction_meta.order_barcode", $data['barcode']);
+    $this->db->join('order_view', 'order_view.order_barcode=transaction_meta.order_barcode', 'inner');
+    $this->db->join('transaction', 'transaction.transaction_id=transaction_meta.transaction_id', 'inner');
+    $this->db->join('fabric', 'fabric.fabricName=order_view.fabric_name', 'inner');
+    $this->db->order_by("transaction_meta.trans_meta_id", "desc");
+    $this->db->limit(1);
+
+    $query = $this->db->get(); //echo"<pre>"; print_r($query);exit;
+    $query = $query->result_array();
+    return $query;
+  }
   public function get_tc_stock($data)
   {
     $this->db->select("godown_tc_view.*,fabric.fabricCode");

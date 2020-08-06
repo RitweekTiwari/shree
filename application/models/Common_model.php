@@ -320,14 +320,16 @@ class Common_model extends CI_Model {
 	public function branchDetail()
 	{
 
-		$this->db->select('name');
+        $this->db->select('name');
+        $this->db->order_by('name', 'asc');
 		$rec=$this->db->get('branch_detail');
 		return $rec->result();
 	}
 	public function department()
 	{
 
-		$this->db->select('id,deptName');
+        $this->db->select('id,deptName');
+        $this->db->order_by('deptName', 'asc');
 		$rec=$this->db->get('department');
 		return $rec->result();
 	}
@@ -340,7 +342,8 @@ class Common_model extends CI_Model {
 
 	public function febric_name()
 	{
-		$this->db->select('id , fabricName');
+        $this->db->select('id , fabricName');
+        $this->db->order_by('fabricName','asc');
 		$rec=$this->db->get('fabric');
 		return $rec->result();
 	}

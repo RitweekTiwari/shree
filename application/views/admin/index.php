@@ -199,7 +199,8 @@
 
             </ul>
           </li>
-
+          <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/Dashboard/print_barcode'); ?>" aria-expanded="false"><i class="mdi mdi-printer"></i><span class="hide-menu">Barcode Printing
+              </span></a></li>
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/FDA'); ?>" aria-expanded="false"><i class="mdi mdi-forward"></i><span class="hide-menu">Fabric Design
                 Assign</span></a></li>
 

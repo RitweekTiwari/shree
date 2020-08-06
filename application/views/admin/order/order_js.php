@@ -85,14 +85,14 @@
       var type = $(this).val();
       var id = $(this).parent().parent().attr("id");
       var fab = '<input type="text" class="form-control fabric_name" name="fabric_name[]" value="" id=fabric' + id + '>';
-      var fab1 = '<select name="fabric_name[]" class="form-control fabric_name select2" id=fabric' + id + '>'
+      var fab1 = '<select name="fabric_name[]" class="form-control fabric_name " id=fabric' + id + '>'
       fab1 += '<option>Select Fabric</option>'
       fab1 += '<?php foreach ($febName as $value) : ?>'
       fab1 += '<option value="<?php echo $value->fabricName; ?>" > <?php echo $value->fabricName; ?></option>'
       fab1 += '<?php endforeach; ?>'
       fab1 += '</select>';
       var des = '<input type="text" name="design_name[]" class="form-control" value="" id=designName' + id + '>';
-      var des1 = '<select name="design_name[]" class="form-control design_name select2" id=designName' + id + ' >'
+      var des1 = '<select name="design_name[]" class="form-control design_name " id=designName' + id + ' >'
       des1 += '<option>Select Design</option>'
 
       des1 += '</select>';
@@ -246,7 +246,6 @@
         }
       });
     });
-
     $(document).on('blur', '.order_barcode', function(e) {
       var order = $(this).val();
       console.log(order);

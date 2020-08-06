@@ -28,6 +28,7 @@
    $this->db->from('fda_table');
    $this->db->join('design','design.id=fda_table.design_id','inner');
    $this->db->where('fda_table.fabric_name',$id);
+		$this->db->order_by('design.designName', 'asc');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
@@ -215,7 +216,11 @@ public function get_design_name()
 		$this->db->select('order_product.*,customer_detail.name as customer,order_table.order_number');
 		$this->db->from('order_table');
 		$this->db->join('order_product ', 'order_table.order_id = order_product.order_id', 'inner');
+		if (isset($order_id['barcode'])) {
+			$this->db->where('order_product.order_barcode', $order_id['barcode']);
+		} else {
 		$this->db->where('order_product.order_product_id', $order_id);
+		}
 		$this->db->join('customer_detail ', 'customer_detail.id = order_table.customer_name', 'inner');
 		$query = $this->db->get();
 		$query = $query->result_array();

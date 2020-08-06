@@ -102,42 +102,54 @@ class FRC extends CI_Controller
 	}
 	public function return_print_multiple()
 	{
-
-		$ids =  $this->security->xss_clean($_POST['ids']);
-		//print_r($_POST['ids']);exit;
-		foreach ($ids as $value) {
-			if ($value != "") {
-				$data['data'][] = $this->Frc_model->get_stock_value_by_id($value);
+		if (isset($_POST['ids'])) {
+			$ids =  $this->security->xss_clean($_POST['ids']);
+			//print_r($_POST['ids']);exit;
+			foreach ($ids as $value) {
+				if ($value != "") {
+					$data['data'][] = $this->Frc_model->get_stock_value_by_id($value);
+				}
 			}
 		}
-		//echo '<pre>';	print_r($data['data']);exit;
-		$data['title'] = $_POST['title'];
-		if ($_POST['type'] == 'receive') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/recieve/view_print', $data, TRUE);
-		} elseif ($_POST['type'] == 'return') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/return/view_print', $data, TRUE);
-		} elseif ($_POST['type'] == 'pbc') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/2ndpbc/view_print', $data, TRUE);
-		} elseif ($_POST['type'] == 'tc') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/tc/view_print', $data, TRUE);
-		} elseif ($_POST['type'] == 'stock') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/stock/view_print', $data, TRUE);
-		} elseif ($_POST['type'] == 'barcode') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/stock/print_multiple', $data, TRUE);
-		} elseif ($_POST['type'] == 'barcode1') {
-			$data['frc_data'] = $data['data'];
-			$data['main_content'] = $this->load->view('admin/FRC/stock/print_multiple2', $data, TRUE);
-		} else {
-			$data['main_content'] = '';
+		
+		if(isset($_POST['barcode'])){
+			$data['barcode'] =  $this->security->xss_clean($_POST['barcode']);
+			$data['data'][] = $this->Frc_model->get_stock_value_by_id($data);
 		}
+		//pre($data['data']);exit;
+		if($data['data'][0]!=''){
+			// echo '<pre>';	print_r($data['data']);exit;
+			$data['title'] = $_POST['title'];
+			if ($_POST['type'] == 'receive') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/recieve/view_print', $data, TRUE);
+			} elseif ($_POST['type'] == 'return') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/return/view_print', $data, TRUE);
+			} elseif ($_POST['type'] == 'pbc') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/2ndpbc/view_print', $data, TRUE);
+			} elseif ($_POST['type'] == 'tc') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/tc/view_print', $data, TRUE);
+			} elseif ($_POST['type'] == 'stock') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/stock/view_print', $data, TRUE);
+			} elseif ($_POST['type'] == 'barcode') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/stock/print_multiple', $data, TRUE);
+			} elseif ($_POST['type'] == 'barcode1') {
+				$data['frc_data'] = $data['data'];
+				$data['main_content'] = $this->load->view('admin/FRC/stock/print_multiple2', $data, TRUE);
+			} else {
+				$data['main_content'] = 'No Result Found';
+			}
 
 
+		} else {
+			$data['main_content'] = 'No Result Found';
+		}
+		
 		$this->load->view('admin/print/index', $data);
 	}
 	public function viewRecieve($id)

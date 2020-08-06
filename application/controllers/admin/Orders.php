@@ -304,17 +304,26 @@ class Orders extends CI_Controller
   }
   public function return_print_multiple()
   {
-
-    $ids =  $this->security->xss_clean($_POST['ids']);
-    //print_r($_POST['ids']);exit;
-    foreach ($ids as $value) {
-      if ($value != "") {
-        $data['data'][] = $this->Orders_model->get_order_by_id2($value);
+    if (isset($_POST['ids'])) {
+      $ids =  $this->security->xss_clean($_POST['ids']);
+      //print_r($_POST['ids']);exit;
+      foreach ($ids as $value) {
+        if ($value != "") {
+          $data['data'][] = $this->Orders_model->get_order_by_id2($value);
+        }
       }
     }
+    if (isset($_POST['barcode'])) {
+      $data['barcode'] =  $this->security->xss_clean($_POST['barcode']);
+      $data['data'][] = $this->Orders_model->get_order_by_id2($data);
+    }
     //echo '<pre>';	print_r($data['data']);exit;
-
-    $data['main_content'] = $this->load->view('admin/order/receive_print', $data, TRUE);
+    if($data['data'][0]!=''){
+      $data['main_content'] = $this->load->view('admin/order/receive_print', $data, TRUE);
+    }else{
+      $data['main_content'] = 'No Result Found';
+    }
+    
     $this->load->view('admin/print/index', $data);
   }
  

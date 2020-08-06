@@ -404,24 +404,39 @@
 	}
 	public function return_print_multiple()
 	{
-
-		$ids =  $this->security->xss_clean($_POST['ids']);
-		$godown =  $this->security->xss_clean($_POST['godown']);
 		$type =  $this->security->xss_clean($_POST['type']);
-		//print_r($_POST['ids']);exit;
-		foreach ($ids as $value) {
-			if ($value != "") {
-				$data1['godown'] = $godown;
-				$data1['id'] = $value;
-				if($type == 'tc'){
-					$r = $this->Transaction_model->get_tc_stock($data1);
-				}else{
-					$r = $this->Transaction_model->get_stock($data1);
+		if (isset($_POST['ids'])) {
+			$ids =  $this->security->xss_clean($_POST['ids']);
+			$godown =  $this->security->xss_clean($_POST['godown']);
+			
+			//print_r($_POST['ids']);exit;
+			foreach ($ids as $value) {
+				if ($value != "") {
+					$data1['godown'] = $godown;
+					$data1['id'] = $value;
+					if ($type == 'tc') {
+						$r = $this->Transaction_model->get_tc_stock($data1);
+					} else {
+						$r = $this->Transaction_model->get_stock($data1);
+					}
+					if(isset($r[0])){
+						$data['data'][] = $r[0];
+					}
+					
 				}
-				
-				$data['data'][]=$r[0];
 			}
 		}
+
+		if (isset($_POST['barcode'])) {
+			$data['godown'] =  $this->security->xss_clean($_POST['godown']);
+			$data['barcode'] =  $this->security->xss_clean($_POST['barcode']);
+			$r = $this->Transaction_model->get_stock_by_obc($data);
+			if (isset($r[0])) {
+				$data['data'][] = $r[0];
+			}
+		}
+
+		if (isset($data['data'])  && $data['data'][0]!= '') {
 		//echo '<pre>';	print_r($data['data']);exit;
 		if($type=='barcode2'){
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/print', $data, TRUE);
@@ -432,6 +447,9 @@
 		else{
 		$data['main_content'] = $this->load->view('admin/transaction/challan/multi_list_print', $data, TRUE);
 
+		}
+		} else {
+			$data['main_content'] = 'No Result Found';
 		}
 		$this->load->view('admin/print/index', $data);
 	}

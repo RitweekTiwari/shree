@@ -12,11 +12,17 @@ class Dashboard extends CI_Controller {
     public function index()
     {
         $data = array();
-        $data['name'] = 'Dashboard';
+        $data['page_name'] = 'Dashboard';
     	  $data['main_content'] = $this->load->view('admin/admin_home', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
-
+  public function print_barcode()
+  {
+    $data = array();
+    $data['page_name'] = 'Barcode Print';
+    $data['main_content'] = $this->load->view('admin/print', $data, TRUE);
+    $this->load->view('admin/index', $data);
+  }
     public function order_flow_chart()
     {
 			$data = array();
