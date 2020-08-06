@@ -153,6 +153,7 @@
             html += '  <option value=' + array[index]['designName'] + '>' + array[index]['designName'] + '</option>';
 
           }
+          $('#designName' + button_id + '').html('');
           $('#designName' + button_id + '').append(html);
         }
       });
