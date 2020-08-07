@@ -378,8 +378,11 @@
     function addmore() {
       var des = '<input type="text" class="form-control design_barcode" name="design_barcode[]" value="">';
       var ord = '<input type="text" name="old_barcode[]" class="form-control order_barcode" value="">';
+      var pcs = $('#pcs' + count + '').val();
+      console.log(pcs);
       count = count + 1;
-      counter = counter + 1;
+      counter = counter + Number(pcs);
+      console.log(counter);
       var element = '<tr id=' + count + '>'
       element += '<td><input type="text" class="form-control" readonly value=' + (count + 1) + '></td>'
       element += '<td style="width: 5%;"> <select name="type[]" class="form-control  type" id=type' + count + '>'
@@ -397,11 +400,11 @@
       element += '<td>  <input type="text" class="form-control" name="dye[]" value="" readonly id=dye' + count + '></td>'
       element += '<td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="quantity[]" value=""></td>'
-      element += '<td><input type="number" class="form-control" name="pcs[]" value="1"  required></td>'
+      element += '<td><input type="number" class="form-control" name="pcs[]" value="1" id=pcs' + count + ' required></td>'
       element += '<td><input type="text" name="unit[]" class="form-control unit" value="" readonly id=unit' + count + '></td>'
       element += '<td><input type="text" name="image[]" class="form-control unit" value="" readonly id=image' + count + '></td>'
       element += '<td>  <input type="text" class="form-control" name="priority[]"  value="30"></td>'
-      element += '<td> <input type="text" class="form-control" name="order_barcode[]" readonly value=O' + counter + ' id=obc' + count + '></td>'
+      element += '<td> <input type="text" class="form-control" name="order_barcode[]" readonly min="1" value=O' + counter + ' id=obc' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="remark[]" value=""></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';

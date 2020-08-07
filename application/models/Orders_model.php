@@ -119,7 +119,7 @@ public function get_design_name()
 
    $this->db->select('*');
    $this->db->from('order_cancel_cause');
-	$this->db->join('order_product ','order_cancel_cause.order_id = order_product.order_id','inner');
+	$this->db->join('order_view ', 'order_cancel_cause.order_id = order_view.order_product_id','inner');
       $this->db->join('cause_list ','cause_list.id = order_cancel_cause.cause','inner');
 
 	$this->db->where('status', 'CANCEL');

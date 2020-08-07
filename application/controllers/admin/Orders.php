@@ -465,7 +465,7 @@ class Orders extends CI_Controller
         $ids = $this->input->post('ids');
         $userid = explode(",", $ids);
         foreach ($userid as $value) {
-          $this->Orders_model->edit_by_node('order_id', $value, $data, 'order_product');
+          $this->Orders_model->edit_by_node('order_product_id', $value, $data, 'order_product');
           $data1 = [
             'order_id' => $value,
             'cause' => $this->input->post('cause'),

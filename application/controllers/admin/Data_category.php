@@ -13,7 +13,7 @@
 
     	public function index(){
 	        $data = array();
-					$data['name']='Data Category';
+					$data['name']='Order Category';
 	        $data['data_cate_data']=$this->Data_cate_model->get();
 					$data['main_content'] = $this->load->view('admin/master/categorys/index', $data, TRUE);
 					$this->load->view('admin/index', $data);

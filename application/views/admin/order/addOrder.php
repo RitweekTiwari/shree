@@ -30,16 +30,16 @@
                 </div>
 
                 <div class="col-md-3">
-                  <label>Data Category</label>
+                  <label>Order Category</label>
                   <select name="category" class="form-control" id="Select_Category">
-                    <option value="">Select Data Category</option>
+                    <option value="">Select Order Category</option>
                     <?php foreach ($data_cat as $value) : ?>
                       <option value="<?php echo $value['id']; ?>"> <?php echo $value['dataCategory']; ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <button type="button" name="add_more" id="add_order" class="btn btn-success btn-md">Select Order Type</button>
+                  <button type="button" name="add_more" id="add_order" class="btn btn-success btn-md">Next</button>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@
                     <td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id='matching0'></td>
 
                     <td><input type="text" class="form-control" name="quantity[]" value=""></td>
-                    <td><input type="number" class="form-control" name="pcs[]" value="1"  required></td>
+                    <td><input type="number" class="form-control" name="pcs[]" value="1" id='pcs0' min='1' required></td>
                     <td><input type="text" name="unit[]" class="form-control " value="" readonly id="unit0"></td>
                     <td><input type="text" name="image[]" class="form-control image" value="" readonly id="image0"></td>
                     <td> <input type="text" class="form-control" name="priority[]" value="30"></td>

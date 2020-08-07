@@ -463,6 +463,16 @@ public function getPBC_deatils($id)
  
 
  }
+  public function getPBC_history( $id)
+  {
+    $this->db->select('*');
+    $this->db->from("pbc_tc_history");
+    $this->db->where('pbc', $id);
+    $rec = $this->db->get();
+    // echo $this->db->last_query();
+    // exit;
+    return $rec->result_array();
+  }
 public function getfabric_details($id)
  {
    $this->db->select('fabric.fabricType,fabric.fabHsnCode,hsn.unit');

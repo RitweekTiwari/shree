@@ -19,7 +19,7 @@
                 <div class="col-4">
                   <select id="searchByCat" name="searchByCat" class="form-control">
                     <option value="">-- Select Category --</option>
-                    <option value="dataCategory">Data Category Name</option>
+                    <option value="dataCategory">Order Category Name</option>
                   </select>
                 </div>
                 <div class="col-4">
@@ -51,7 +51,7 @@
                     <tr>
                       <th><input type="checkbox" class="sub_chk" id="master"></th>
                       <th>S/No</th>
-                      <th>Data Category Name</th>
+                      <th>Order Category Name</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -86,14 +86,14 @@
                             action="<?php echo base_url('admin/Data_category/edit/').$value->id;?>"
                             name="basic_validate" id="basic_validate" novalidate="novalidate">
                             <div class="modal-header">
-                              <h5 class="modal-title">Edit Data Category</h5>
+                              <h5 class="modal-title">Edit Order Category</h5>
                               <button data-dismiss="modal" class="close" type="button">×</button>
 
                             </div>
                             <div class="modal-body">
                               <div class="widget-content nopadding">
                                 <div class="form-group row">
-                                  <label class="control-label col-sm-3">Data Category Name</label>
+                                  <label class="control-label col-sm-3">Order Category Name</label>
                                   <div class="col-sm-9">
                                     <input type="text" name="dataCategory" class="form-control"
                                       value="<?php echo $value->dataCategory; ?>" id="required">
@@ -133,13 +133,13 @@
       <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Data_category/addDataCate')?>"
         name="basic_validate" id="basic_validate" novalidate="novalidate">
         <div class="modal-header">
-          <h5 class="modal-title">Add Data Category</h5>
+          <h5 class="modal-title">Add Order Category</h5>
           <button data-dismiss="modal" class="close" type="button">×</button>
         </div>
         <div class="modal-body">
           <div class="widget-content nopadding">
             <div class="form-group row">
-              <label class="control-label col-sm-3">Data Category Name</label>
+              <label class="control-label col-sm-3">Order Category Name</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" name="dataCategory" value="" id="required">
               </div>

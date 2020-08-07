@@ -563,7 +563,7 @@ class FRC extends CI_Controller
 
 				for ($j = 0; $j < $data['pcs'][$i]; $j++) {
 					$cc = $cc + 1;
-					$pbc = "U1P" . (string)$cc;
+					$pbc = "P" . (string)$cc;
 					$total =	($data['prate'][$i] * $data['qty'][$i]);
 					$data2 = [
 						'fabric_challan_id' => $id,
@@ -845,8 +845,22 @@ class FRC extends CI_Controller
 		$data = array();
 		$data['pbc'][] = $this->Frc_model->getPBC_deatils($id);
 		$pbc = $this->Frc_model->getPBC_by_type('parent', $id);
+		$pbc2 = $this->Frc_model->getPBC_history( $id);
+		$output ='<div class="row">';
+		if ($pbc2) {
+			$output .= "<div class='md-col-6'><div class='container'><table class=' table-bordered  text-center '><caption>TC History</caption><thead><tr><th>Date</th><th>PBC</th><th>Quantity</th>  <th>TC</th></tr></thead><tbody>";
+
+			foreach ($pbc2 as $value) {
+
+				$output .= "<tr><td>" . $value['date'] . "</td>";
+				$output .= "<td>" . $value['pbc'] . "</td>";
+				$output .= "<td><b>" . $value['qty'] . "</b></td>";
+				$output .= "<td>" . $value['tc'] . "</td></tr>";
+			}
+			$output .= "</tbody></table></div></div>";
+		} 
 		if ($pbc) {
-			$output = "<table class='table table-bordered data-table text-center table-responsive'><thead><tr><th>Date</th><th>PBC</th><th>Fabric</th> <th>Color</th><th>Quantity</th><th>Current quantity</th>  <th>Unit</th><th>Rate</th><th>Value</th><th>TC</th></tr></thead>";
+			$output .= "<div class='md-col-6'><div class='container'><table class=' table-bordered  text-center '><caption>2nd PBC List</caption><thead><tr><th>Date</th><th>PBC</th><th>Fabric</th> <th>Color</th><th>Quantity</th><th>Current quantity</th>  <th>Unit</th><th>Rate</th><th>Value</th><th>TC</th></tr></thead><tbody>";
 
 			foreach ($pbc as $value) {
 
@@ -861,10 +875,10 @@ class FRC extends CI_Controller
 				$output .= "<td><b>" . $value['total_value'] . "</b></td>";
 				$output .= "<td>" . $value['tc'] . "</td></tr>";
 			}
-		} else {
-			$output = "<div class='text-danger'><center>No Data Found</center></div>";
-		}
+			$output .= "</tbody></table></div></div></div>";	
+			}
 
+		$output .= "</div>";
 		$data['pbc'][] = $output;
 		echo json_encode($data['pbc']);
 	}
@@ -900,11 +914,23 @@ class FRC extends CI_Controller
 			'isSecond' => 1
 		];
 		$done =	$this->Frc_model->update($data3, 'parent_barcode', $pbc, 'fabric_stock_received');
-		if ($done) {
-			$this->session->set_flashdata('success', 'Updated Successfully !!');
-		} else {
-			$this->session->set_flashdata('error', 'OOPs..  Something went wrong !!');
-		}
+	
+			$data1 = [
+				'qty' => $qty,
+				'date' => date('Y-m-d'),
+				'tc' => $tc,
+				'pbc' => $pbc
+			];
+
+			$done = $this->Frc_model->insert($data1, 'pbc_tc_history');
+			if ($done) {
+				$this->session->set_flashdata('success', 'Updated Successfully !!');
+			} else {
+				$this->session->set_flashdata('error', 'OOPs..  Something went wrong !!');
+			}		
+		
+		
+		
 	}
 
 	public function getfabric()

@@ -164,7 +164,7 @@
 
               <li class="sidebar-item"><a href="<?php echo base_url('admin/session_year'); ?>" class="sidebar-link"> <i class="fas fa-calendar"></i><span class="hide-menu"> Session</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Order_type'); ?>" class="sidebar-link"> <i class="fab fa-first-order"></i><span class="hide-menu"> Order Type</span></a></li>
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/Data_category'); ?>" class="sidebar-link"> <i class="fas fa-certificate"></i><span class="hide-menu"> Data Category</span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Data_category'); ?>" class="sidebar-link"> <i class="fas fa-certificate"></i><span class="hide-menu"> Order Category</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Unit'); ?>" class="sidebar-link"> <i class="fab fa-uniregistry"></i><span class="hide-menu"> Unit</span></a></li>
             </ul>
           </li>

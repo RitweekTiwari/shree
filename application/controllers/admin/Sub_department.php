@@ -26,7 +26,9 @@
     		{
     			$data=array(
     				'deptName'=>$_POST['deptName'],
-    				'subDeptName'=>$_POST['subDeptName']
+            'subDeptName'=>$_POST['subDeptName'],
+        'prefix' => $_POST['prefix'],
+        'suffix' => $_POST['suffix']
     			);
     			// print_r($data);
     			$this->Sub_department_model->add($data);
@@ -37,8 +39,12 @@
         public function edit($id)
         {
             if ($_POST) {
-                $data=$this->input->post();
-                // print_r($data);
+      $data = array(
+        'deptName' => $_POST['deptName'],
+        'subDeptName' => $_POST['subDeptName'],
+        'prefix' => $_POST['prefix'],
+        'suffix' => $_POST['suffix']
+      );
                 $this->Sub_department_model->edit($id,$data);
                 redirect(base_url('admin/Sub_department'));
 

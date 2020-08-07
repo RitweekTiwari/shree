@@ -22,13 +22,12 @@
               <th>SESSION</th>
               <th>ORDER DATE</th>
               <th>ORDER NUMBER</th>
-              <th>NO. OF ORDERS</th>
+              <th>RECORD / ORDER</th>
 
 
-              <th>CUSTOMER NUMBER</th>
+              <th>CUSTOMER NAME</th>
               <th>TYPE</th>
-              <th>DATA CATEGORY</th>
-              <th>STATUS</th>
+              <th>ORDER CATEGORY</th>
 
               <th>ACTION</th>
             </tr>
@@ -46,7 +45,6 @@
                 <td><?php echo $orders_value['customer_name']; ?></td>
                 <td><?php echo $orders_value['order_type']; ?></td>
                 <td><?php echo $orders_value['data_category']; ?></td>
-                <td><?php echo $orders_value['status']; ?></td>
 
                 <td>
                   <a href="<?php echo base_url('admin/orders/get_details/') . serve_url($orders_value['order_id']) ?> ">
