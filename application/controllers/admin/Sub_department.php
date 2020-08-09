@@ -26,9 +26,13 @@
     		{
     			$data=array(
     				'deptName'=>$_POST['deptName'],
-            'subDeptName'=>$_POST['subDeptName'],
-        'prefix' => $_POST['prefix'],
-        'suffix' => $_POST['suffix']
+    				'subDeptName'=>$_POST['subDeptName'],
+						'inPrefix'=>$_POST['inPrefix'],
+						'inStart'=>$_POST['inStart'],
+						'inSuffix'=>$_POST['inSuffix'],
+						'outPrefix'=>$_POST['outPrefix'],
+						'outStart'=>$_POST['outStart'],
+						'outSuffix'=>$_POST['outSuffix']
     			);
     			// print_r($data);
     			$this->Sub_department_model->add($data);
@@ -39,13 +43,18 @@
         public function edit($id)
         {
             if ($_POST) {
-      $data = array(
-        'deptName' => $_POST['deptName'],
-        'subDeptName' => $_POST['subDeptName'],
-        'prefix' => $_POST['prefix'],
-        'suffix' => $_POST['suffix']
-      );
+							$data=array(
+								'deptName'=>$_POST['deptName'],
+								'subDeptName'=>$_POST['subDeptName'],
+								'inPrefix'=>$_POST['inPrefix'],
+								'inStart'=>$_POST['inStart'],
+								'inSuffix'=>$_POST['inSuffix'],
+								'outPrefix'=>$_POST['outPrefix'],
+								'outStart'=>$_POST['outStart'],
+								'outSuffix'=>$_POST['outSuffix']
+							);
                 $this->Sub_department_model->edit($id,$data);
+								$this->session->set_flashdata('success','Successfully');
                 redirect(base_url('admin/Sub_department'));
 
             }
@@ -100,4 +109,3 @@
 
 	/* End of file Dashboard.php */
 	/* Location: ./application/controllers/admin/Dashboard.php */
- ?>
