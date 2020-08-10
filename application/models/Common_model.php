@@ -320,7 +320,7 @@ class Common_model extends CI_Model {
 	public function branchDetail()
 	{
 
-        $this->db->select('name');
+        $this->db->select('id,name');
         $this->db->order_by('name', 'asc');
 		$rec=$this->db->get('branch_detail');
 		return $rec->result();

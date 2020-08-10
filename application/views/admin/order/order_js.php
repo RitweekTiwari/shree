@@ -1,7 +1,32 @@
 <script src="<?php echo base_url('jexcelmaster/') ?>asset/js/jquery.3.1.1.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
+    $('#branch_name').on('change', function() {
+      var id = $(this).val();
+      //alert(name);
+      $.ajax({
+        type: "POST",
+        url: "<?= base_url() ?>admin/Orders/customerName",
+        cache: false,
+        data: {
+          'id': id,
+          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        success: function(response) {
+          //alert(response);
+          response = JSON.parse(response);
 
+          var html = '';
+          response.forEach(summary);
+
+          function summary(item, index, arr1) {
+            // console.log(arr1[index]);
+            html += '<option value=' + arr1[index].id + '>' + arr1[index].name + '</option>';
+          }
+          $('#select_cust').html(html);
+        }
+      });
+    });
 
 
 

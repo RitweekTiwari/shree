@@ -114,6 +114,24 @@ public function get_design_name()
    $query = $query->result_array();
    return $query;
  }
+	public function get_branch()
+	{
+		$this->db->select('id,name');
+		$this->db->from('branch_detail');
+		$query = $this->db->get();
+		$query = $query->result_array();
+		return $query;
+	}
+	public function get_customer($id)
+	{
+		$this->db->select('id,name');
+		$this->db->where('under_branch', $id);
+		$this->db->from('customer_detail');
+		$query = $this->db->get();
+		// echo $this->db->last_query($query);exit;
+		$query = $query->result_array();
+		return $query;
+	}
  public function get_order_cancel()
  {
 

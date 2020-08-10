@@ -29,7 +29,7 @@
                 <div class="col-4">
                   <input type="text" name="searchValue" class="form-control" value="" placeholder="Search" id="searchByValue">
                 </div>
-                <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
+                <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                 <button type="submit" class="btn btn-info"> <i class="fas fa-search"></i> Search</button>
               </div>
             </form>
@@ -56,6 +56,7 @@
                       <th>Name</th>
                       <th>Phone Number</th>
                       <th>Email</th>
+                      <th>Grade</th>
                       <th>Address</th>
                       <th>Under Branch</th>
                       <th>Action</th>
@@ -63,92 +64,100 @@
                   </thead>
                   <tbody>
                     <?php
-                    if($cust_data>0)
-                    {
-                      $id=1;
+                    if ($cust_data > 0) {
+                      $id = 1;
                       foreach ($cust_data as $value) { ?>
-                    <tr class="gradeU" id="tr_<?php echo $value->id?>">
-                      <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value->id ?>"></td>
-                      <td><?php echo $id ?></td>
-                      <td><?php echo $value->name ?></td>
-                      <td><?php echo $value->phone_no?></td>
-                      <td><?php echo $value->email ?></td>
-                      <td><?php echo $value->address ?></td>
-                      <td><?php echo $value->under_branch?></td>
-                      <td>
-                        <a href="<?php echo '#'.$value->id; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
-                          <i class="fas fa-edit blue"></i>
-                        </a>
-                        &nbsp;&nbsp;&nbsp;
-                        <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value->id;?>)" data-original-title="Delete">
-                          <i class="mdi mdi-delete red"></i>
-                        </a>
-                      </td>
-                    </tr>
+                        <tr class="gradeU" id="tr_<?php echo $value->id ?>">
+                          <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value->id ?>"></td>
+                          <td><?php echo $id ?></td>
+                          <td><?php echo $value->name ?></td>
+                          <td><?php echo $value->phone_no ?></td>
+                          <td><?php echo $value->email ?></td>
+                          <td><?php echo $value->grade ?></td>
+                          <td><?php echo $value->address ?></td>
+                          <td><?php echo $value->bname ?></td>
+                          <td>
+                            <a href="<?php echo '#' . $value->id; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
+                              <i class="fas fa-edit blue"></i>
+                            </a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value->id; ?>)" data-original-title="Delete">
+                              <i class="mdi mdi-delete red"></i>
+                            </a>
+                          </td>
+                        </tr>
 
-                    <div id="<?php echo $value->id; ?>" class="modal hide">
-                      <div class="modal-dialog" role="document ">
-                        <div class="modal-content">
-                          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/edit/').$value->id ?>" name="" novalidate="novalidate">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Edit Detail</h5>
-                              <button data-dismiss="modal" class="close" type="button">×</button>
+                        <div id="<?php echo $value->id; ?>" class="modal hide">
+                          <div class="modal-dialog" role="document ">
+                            <div class="modal-content">
+                              <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/edit/') . $value->id ?>" name="" novalidate="novalidate">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Edit Detail</h5>
+                                  <button data-dismiss="modal" class="close" type="button">×</button>
 
-                            </div>
-                            <div class="modal-body">
-                              <div class="widget-content nopadding">
-
-                                <div class="form-group row">
-                                  <label class="control-label col-sm-3">Name</label>
-                                  <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="name" value="<?php echo $value->name ?>">
-                                  </div>
                                 </div>
-                                <div class="form-group row">
-                                  <label class="control-label col-sm-3">Phone Number</label>
-                                  <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="phone_no" value="<?php echo $value->phone_no?>">
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <label class="control-label col-sm-3">Email</label>
-                                  <div class="col-sm-9">
-                                    <input type="email" class="form-control" name="email" value="<?php echo $value->email ?>">
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <label class="control-label col-sm-3">Under Branch</label>
-                                  <div class="col-sm-9">
-                                    <select name="under_branch" class="form-control">
-                                      <?php foreach ($branch_name as $rec): ?>
-                                      <option <?php if ($value->under_branch==$rec->name) {
-                                    ?>selected<?php } ?> value="<?php echo $rec->name ?>"><?php echo $rec->name ?></option>
-                                      <?php endforeach;?>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <label class="control-label col-sm-3">Address</label>
-                                  <div class="col-sm-9">
-                                    <textarea name="address" class="form-control" cols="30" rows="5"><?php echo $value->address ?>
+                                <div class="modal-body">
+                                  <div class="widget-content nopadding">
+                                    <?php echo $this->session->flashdata('success'); ?>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Name</label>
+                                      <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="name" value="<?php echo $value->name ?>">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Phone Number</label>
+                                      <div class="col-sm-9">
+                                        <input type="number" class="form-control" name="phone_no" value="<?php echo $value->phone_no ?>">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Email</label>
+                                      <div class="col-sm-9">
+                                        <input type="email" class="form-control" name="email" value="<?php echo $value->email ?>">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Grade</label>
+                                      <div class="col-sm-9">
+                                        <input type="text" name="grade" class="form-control" value="<?php echo $value->grade ?>">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Under Branch</label>
+                                      <div class="col-sm-9">
+                                        <select name="under_branch" class="form-control">
+                                          <?php foreach ($branch_name as $rec) : ?>
+                                            <option <?php if ($value->under_branch == $rec->id) {
+                                                    ?>selected<?php } ?> value="<?php echo $rec->id ?>"><?php echo $rec->name ?></option>
+                                          <?php endforeach; ?>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Address</label>
+                                      <div class="col-sm-9">
+                                        <textarea name="address" class="form-control" cols="30" rows="5"><?php echo $value->address ?>
                                 </textarea>
+                                      </div>
+                                    </div>
+
                                   </div>
                                 </div>
-
-                              </div>
+                                <div class="modal-footer">
+                                  <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
+                                  <input type="submit" value="Update" class="btn btn-primary">
+                                  <!-- <input type="hidden" name="role" value="<?php echo $value->id; ?>"> -->
+                                  <a data-dismiss="modal" class="btn" href="#">Cancel</a>
+                                </div>
+                              </form>
                             </div>
-                            <div class="modal-footer">
-                              <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
-                              <input type="submit" value="Update" class="btn btn-primary">
-                              <!-- <input type="hidden" name="role" value="<?php echo $value->id;?>"> -->
-                              <a data-dismiss="modal" class="btn" href="#">Cancel</a>
-                            </div>
-                          </form>
+                          </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <?php $id=$id+1;   } } ?>
+                    <?php $id = $id + 1;
+                      }
+                    } ?>
 
                   </tbody>
                 </table>
@@ -197,12 +206,18 @@
               </div>
             </div>
             <div class="form-group row">
+              <label class="control-label col-sm-3">Grade</label>
+              <div class="col-sm-9">
+                <input type="test" class="form-control" name="grade" value="" required>
+              </div>
+            </div>
+            <div class="form-group row">
               <label class="control-label col-sm-3">Under Branch</label>
               <div class="col-sm-9">
                 <select name="under_branch" class="form-control">
-                  <?php foreach ($branch_name as $rec): ?>
-                  <option value="<?php echo $rec->name; ?>"> <?php echo $rec->name; ?> </option>
-                  <?php endforeach;?>
+                  <?php foreach ($branch_name as $rec) : ?>
+                    <option value="<?php echo $rec->id; ?>"> <?php echo $rec->name; ?> </option>
+                  <?php endforeach; ?>
                 </select>
               </div>
             </div>
@@ -217,7 +232,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <input type="submit" class="btn btn-primary" id="customerSubmit">
           <a data-dismiss="modal" class="btn" href="#">Cancel</a>
         </div>
@@ -231,10 +246,10 @@
       if (del == true) {
         var sureDel = confirm("Are you sure want to delete");
         if (sureDel == true) {
-          window.location = "<?php echo base_url()?>admin/Customer_detail/delete/" + id;
+          window.location = "<?php echo base_url() ?>admin/Customer_detail/delete/" + id;
         }
 
       }
     }
   </script>
-  <?php include('customer_js.php');?>
+  <?php include('customer_js.php'); ?>

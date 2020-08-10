@@ -23,7 +23,19 @@ class Emb_model extends CI_Model {
  {
    $this->db->select('*');
    $this->db->from('emb');
+
    $this->db->order_by('id','desc');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
+ public function get_embmeta($id)
+ {
+   $this->db->select('embmeta.*,job_work_party.name');
+   $this->db->from('embmeta');
+   $this->db->where('embmeta.embid',$id);
+
+    $this->db->join('job_work_party', 'job_work_party.id=embmeta.workerName', 'inner');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
@@ -48,17 +60,32 @@ public function get_design_name()
    $query = $query->result_array();
    return $query;
  }
-
+ public function get_erc_design_name()
+  {
+    $this->db->select('*');
+    $this->db->from('erc');
+    $query = $this->db->get();
+    $query = $query->result_array();
+    return $query;
+  }
+  public function embRate($desName)
+	{
+		$this->db->select('rate');
+		$this->db->where('desName', $desName);
+    $rec=$this->db->get('erc');
+      //echo $this->db->last_query($rec);exit;
+		return $rec->row();
+	}
  public function update($id,$data)
  {
     // print_r($designName);
     // print_r($data);exit;
-   $this->db->where('id', $id);
-   $this->db->update('emb', $data);
+   $this->db->where('metaid', $id);
+   $this->db->update('embmeta', $data);
    return true;
  }
 
- 
+
 
  public function get_emb_name($designName,$workerName)
  {
@@ -77,7 +104,14 @@ public function get_design_name()
    //echo $this->db->last_query();exit;
 
  }
-
+ public function get_erc_value()
+ {
+   $this->db->select('*');
+   $this->db->from('erc');
+   $query = $this->db->get();
+   $query = $query->result_array();
+   return $query;
+ }
  public function get_design_value()
  {
    $this->db->select('desName');
@@ -90,17 +124,35 @@ public function get_design_name()
 
   public function get_worker_name()
  {
-   $this->db->select('distinct(name),id');
+   $this->db->select('name,job_work_party.id as id');
    $this->db->from('job_work_party');
+   $this->db->like('job_work_type.type','EMB WORK');
+   $this->db->join('job_work_type','job_work_type.id=job_work_party.job_work_type','inner');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
  }
+ public function get_erc_fresh_value()
+{
+  $sql = 'SELECT id,desName,rate FROM erc
+WHERE id NOT IN(SELECT designName FROM emb)
+';
+
+  $query = $this->db->query($sql);
+//  echo $this->db->last_query($query);exit;
+  $query = $query->result_array();
+  return $query;
+}
 
  public function delete($id)
  {
    $this->db->where('id', $id);
      $this->db->delete('emb');
+ }
+ public function delete_emeta($id)
+ {
+   $this->db->where('metaid', $id);
+     $this->db->delete('embmeta');
  }
  public function search($searchByCat,$searchValue)
  {

@@ -53,21 +53,33 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-3">
-                  <label>ORDER NUMBER</label>
+                <div class="col-md-2">
+                  <label>Branch Order Number</label>
+                  <input type="text" class="form-control " name="branch_order_number" id='Branch_order_number'>
+                </div>
+                <div class="col-md-2">
+                  <label>Order Number</label>
                   <input type="text" class="form-control order_number" name="order_number" id='order_number' readonly>
                 </div>
-                <div class="col-md-3">
-                  <label>CUSTOMER NAME</label>
-                  <select name="customer_name" class="form-control" id="select_cust">
-                    <option value="">Select Customer</option>
-                    <?php foreach ($customer as $value) : ?>
+                <div class="col-md-2">
+                  <label>Branch Name</label>
+                  <select name="branch_name" class="form-control" id="branch_name">
+                    <option value="">Select Branch Name</option>
+                    <?php foreach ($branch_name as $value) : ?>
                       <option value="<?php echo $value['id']; ?>"> <?php echo $value['name']; ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-4"><label>IMAGE</label><img src="" alt="" id="preview" style="width:100px"> </div>
+
+                <div class="col-md-3">
+                  <label>Customer Name</label>
+                  <select name="customer_name" class="form-control" id="select_cust">
+                    <option value="">Select Customer</option>
+
+                  </select>
+                </div>
+
+                <div class="col-md-3"><label>IMAGE</label><img src="" alt="" id="preview" style="width:100px"> </div>
               </div>
             </div>
             <hr>

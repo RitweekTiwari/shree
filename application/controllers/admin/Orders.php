@@ -73,7 +73,10 @@ class Orders extends CI_Controller
           $count= $count+ 1;
         }
       }
+
       $data = array(
+        'branch_order_number' => $_POST['branch_order_number'],
+        'branch_name' =>$_POST['branch_name'],
         'order_number' => $orderno,
         'customer_name' => $_POST['customer_name'],
         'session' => $_POST['session'],
@@ -81,7 +84,7 @@ class Orders extends CI_Controller
         'order_type' => $_POST['order_type'],
         'order_date' => date('Y-m-d'),
         'counter' => $cc,
-        'pcs' =>  $count
+        'pcs' => count($_POST['fabric_name'])
       );
       $order_number =  $this->Orders_model->insert($data, 'order_table');
       if ($order_number) {
@@ -127,7 +130,14 @@ class Orders extends CI_Controller
       }
     }
   }
+  public function customerName()
+  {
+    if ($_POST) {
+      $data['name'] = $this->Orders_model->get_customer($_POST['id']);
 
+      echo json_encode($data['name']);
+    }
+  }
   public function addOrders()
   {
     $data = array();
@@ -136,6 +146,8 @@ class Orders extends CI_Controller
     $data['designname'] = $this->Orders_model->get_design_name();
     $data['designCode'] = $this->Orders_model->get_design_code();
     $data['unit'] = $this->Orders_model->get_unit();
+    $data['branch_name'] = $this->Orders_model->get_branch();
+
     $data['all_Order'] = $this->Orders_model->select_order_type('order_type');
     $data['data_cat'] = $this->common_model->select('data_category');
     $data['customer'] = $this->common_model->select('customer_detail');

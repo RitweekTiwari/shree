@@ -19,7 +19,6 @@
 	        $data['main_content'] = $this->load->view('admin/master/customer/customer_detail', $data, TRUE);
 	        $this->load->view('admin/index', $data);
 				}
-
     	public function addCust()
     	{
     		if ($_POST)
@@ -28,11 +27,13 @@
     				'name'=>$_POST['name'],
     				'phone_no'=>$_POST['phone_no'],
     				'email'=>$_POST['email'],
-                    'under_branch'=>$_POST['under_branch'],
+						'grade' => $_POST['grade'],
+            'under_branch'=>$_POST['under_branch'],
     				'address'=>$_POST['address']
     			);
     			// print_r($data);
     			$this->Customer_model->add($data);
+					$this->session->set_flashdata('success', ' add Successfully !!');
     			redirect(base_url('admin/Customer_detail'));
 
     		}
@@ -40,9 +41,16 @@
         public function edit($id)
         {
             if ($_POST) {
-                $data=$this->input->post();
-                // print_r($data);
+							$data=array(
+								'name'=>$_POST['name'],
+								'phone_no'=>$_POST['phone_no'],
+								'email'=>$_POST['email'],
+								'grade' => $_POST['grade'],
+								'under_branch'=>$_POST['under_branch'],
+								'address'=>$_POST['address']
+							);
                 $this->Customer_model->edit($id,$data);
+								$this->session->set_flashdata('success','update Successfully');
                 redirect(base_url('admin/Customer_detail'));
 
             }
@@ -109,4 +117,3 @@
 
 	/* End of file Dashboard.php */
 	/* Location: ./application/controllers/admin/Dashboard.php */
- ?>

@@ -3,6 +3,23 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+  $('#desname').on('change', function() {
+    var desName = $(this).find(":selected").text();
+    //alert(desName);
+    $.ajax({
+      type: "POST",
+      url: "<?= base_url() ?>admin/EMB/EmbRate",
+      cache: false,
+      data: {
+        'desName': desName,
+        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+      },
+      success: function(response) {
+        $('#rate').val(response);
+      }
+    });
+  });
+
 jQuery('#master').on('click', function(e){
      if($(this).is(':checked',true))
      {

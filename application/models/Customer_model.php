@@ -9,8 +9,11 @@ class Customer_model extends CI_Model {
 	}
 	public function get()
 	{
-		$rec=$this->db->get('customer_detail');
-		return $rec->result();
+			$this->db->select('customer_detail.*,branch_detail.name as bname');
+			$this->db->from('customer_detail');
+			$this->db->join('branch_detail', 'branch_detail.id=customer_detail.under_branch');
+			$rec = $this->db->get();
+			return $rec->result();
 
 	}
 	public function edit($id,$data)
