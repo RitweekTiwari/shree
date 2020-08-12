@@ -161,7 +161,8 @@
               <li class="sidebar-item"><a href="<?php echo base_url('admin/SRC'); ?>" class="sidebar-link"><i class="fa fa-podcast"></i><span class="hide-menu"> SRC </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/EMB'); ?>" class="sidebar-link"><i class="fa fa-podcast"></i><span class="hide-menu"> EMBJWR </span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Cause'); ?>" class="sidebar-link"> <i class="fab fa-uniregistry"></i><span class="hide-menu"> Cause</span></a></li>
-
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/FbCode'); ?>" class="sidebar-link"> <i class="fab fa-uniregistry"></i><span class="hide-menu"> Fabric Code</span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Grade'); ?>" class="sidebar-link"> <i class="fab fa-uniregistry"></i><span class="hide-menu"> Grade</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/session_year'); ?>" class="sidebar-link"> <i class="fas fa-calendar"></i><span class="hide-menu"> Session</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Order_type'); ?>" class="sidebar-link"> <i class="fab fa-first-order"></i><span class="hide-menu"> Order Type</span></a></li>
               <li class="sidebar-item"><a href="<?php echo base_url('admin/Data_category'); ?>" class="sidebar-link"> <i class="fas fa-certificate"></i><span class="hide-menu"> Order Category</span></a></li>

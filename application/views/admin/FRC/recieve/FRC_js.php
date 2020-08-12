@@ -145,6 +145,7 @@
         event.preventDefault();
 
         addmore();
+        $(".fabric_name").select2();
         var html =
           '<table class=" table-bordered text-center " style="width:50%"><caption>Summary</caption><thead class="bg-secondary text-white">';
         html += '<tr><th style="width:15%">Fabric</th>';

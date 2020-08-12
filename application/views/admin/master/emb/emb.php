@@ -5,8 +5,7 @@
         <!-- add modal wind-->
 
         <div class="card container">
-
-          <div class="card-body">
+          <div class="card-body" id="result">
             <form class="form-horizontal" method="post" action="<?php echo base_url('admin/EMB/add_emb') ?>" name="basic_validate" novalidate="novalidate">
               <div class="card-header">
                 <h5 class="card-title">Add Detail</h5>
@@ -17,7 +16,8 @@
                 <label class="control-label col-sm-6">Design</label>
                 <label class="control-label col-sm-6">EMB Rate</label>
                 <div class="col-sm-6">
-                  <select name="design" class="form-control select2" id="desname">
+
+                  <select name="design" class="form-control select2 clear" id="desname">
                     <option value="">Select Design</option>
                     <?php foreach ($erc as $value) : ?>
                       <option value="<?php echo $value['id'] ?>"><?php echo $value['desName'] ?></option>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="col-sm-6">
-                  <input type="text" name="embrate" class="form-control" value="" id="rate" readonly>
+                  <input type="text" name="embrate" class="form-control clear" value="" id="rate" readonly>
                 </div>
               </div>
 
@@ -35,25 +35,29 @@
                 <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label> <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label>
                 <?php foreach ($worker as $value) : ?>
                   <div class="col-md-4">
-                    <select name="job[]" class="form-control" readonly>
+                    <select name="job[]" class="form-control" readonly id="worker">
                       <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                     </select>
                   </div>
 
                   <div class="col-md-2">
-                    <input type="number" class="form-control" name="rate[]" min="0" value="0" step="0.01">
+                    <input type="hidden" id="embid<?php echo $value['id'] ?>" name="embid">
+                    <input type="number" class="form-control clear" name="rate[]" min="0" value="0" step="0.01" id="rate<?php echo $value['id'] ?>">
                   </div>
-
 
                 <?php endforeach; ?>
               </div>
+              <hr>
+              <input type="button" class="btn btn-primary" value="Clear" id="clear">
+              <div class=" float-right" id="submit">
 
-
-
-
-              <div class=" float-right">
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                 <input type="submit" class="btn btn-primary">
+
+              </div>
+              <div class=" float-right" id="update">
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                <input type="button" class="btn btn-primary" value="Update" id="upbtn">
               </div>
 
             </form>
@@ -89,7 +93,7 @@
                             <th>S/No</th>
                             <th>Design</th>
                             <!-- <th>Rate</th> -->
-                            <th>View</th>
+                           
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -101,24 +105,13 @@
                               <tr>
                                 <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"></td>
                                 <td><?php echo $id ?></td>
-                                <td><?php foreach ($erc_value as $row) : ?>
-                                    <?php if ($value['designName'] == $row['id']) {
-                                        echo $row['desName'];
-                                      } ?>
-                                  <?php endforeach; ?></td>
-
-                                <!-- <td><?php echo $value['embrate'] ?></td> -->
+                                <td></td>
 
                                 <td>
-                                  <a href="<?php echo base_url('admin/emb/view_worker/') . $value['id'] ?>" class="text-center tip" data-original-title="View">
-                                    <i class="fas fa-eye blue"></i>
-                                  </a>
-
-                                </td>
-                                <td>
-                                  <a href="<?php echo base_url('admin/EMB/get_emb_details/') . $value['id'] ?>" class="text-center tip" data-original-title="Edit">
+                                  <a class="text-center  tip find_id" id="<?php echo $value['id'] ?>" data-original-title="Edit">
                                     <i class="fas fa-edit blue"></i>
                                   </a>
+
                                   &nbsp;&nbsp;&nbsp;
                                   <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value['id']; ?>)" data-original-title="Delete">
                                     <i class="mdi mdi-delete red"></i>

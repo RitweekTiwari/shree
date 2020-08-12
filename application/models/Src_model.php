@@ -28,33 +28,15 @@ public function update($id,$data)
    $this->db->update('src', $data);
    return true;
  }
-public function Update_fabric($fabName,$data)
- {
-    // print_r($designName);
-    // print_r($data);exit;
-   $this->db->where('fabricName', $fabName);
-   $this->db->update('fabric', $data);
-   //echo $this->db->last_query();exit;
-   return true;
- }
- public function Update_design($fabName,$fabCode,$data)
- {
-    // print_r($designName);
-    // print_r($data);exit;
-   $this->db->where('fabricName', $fabName);
-   $this->db->where('designCode', $fabCode);
-   $this->db->update('design', $data);
-   //echo $this->db->last_query();exit;
-   return true;
- }
+
+
 
  public function get_fabric_fresh_value()
  {
    $this->db->select('*');
    $this->db->from('fabric');
-   $this->db->where('purchase IS NULL');
-   $this->db->where('Code IS NULL');
-   $this->db->where('sale_rate IS NULL');
+   $this->db->where('src',0);
+
 
    $query = $this->db->get();
 //   echo $this->db->last_query();exit;
@@ -62,27 +44,13 @@ public function Update_fabric($fabName,$data)
    return $query;
  }
 
- public function get_src_name($fabName)
- {
-   $this->db->select('fabName');
-   $this->db->from('src');
-   $this->db->where('fabName', $fabName);
-   $query = $this->db->get();
-   if($query->num_rows()>=1) {
-            return true;
-        }else{
-            return false;
-        }
- }
 
- public function get_fabric()
+
+ public function get_src()
  {
-   $this->db->select('id,fabName,purchase,fabCode,sale_rate');
-   $this->db->from('src');
-   // $this->db->order_by('id','asc');
-   $query = $this->db->get();
-   $query = $query->result_array();
-   return $query;
+    $sql = "SELECT src.id,src.fabric, fabric.fabricName, fabric_code.fbcode, GROUP_CONCAT(grade.grade) AS grade, GROUP_CONCAT(src.rate) AS rate, src.created_at FROM src Join fabric ON fabric.id=src.fabric Join fabric_code on fabric_code.id=src.code Join grade on grade.id=src.grade GROUP BY src.fabric,src.code HAVING src.fabric IN (SELECT src.fabric From src GROUP BY src.fabric)";
+    $result = $this->db->query($sql);
+    return $result->result();
  }
 public function get_fabric_name()
  {
@@ -92,12 +60,17 @@ public function get_fabric_name()
    $query = $query->result_array();
    return $query;
  }
-public function get_Erc_Code()
+public function getfabricRate($id)
  {
-   $this->db->select('distinct(desCode)');
-   $this->db->from('erc');
+   $this->db->select('purchase_rate');
+   $this->db->from('fabric_stock_received');
+    $this->db->where('fabric_id', $id);
+    $this->db->order_by('fsr_id', 'desc');
+    $this->db->limit(2);
    $query = $this->db->get();
-   $query = $query->result_array();
+   
+   $query = $query->result();
+    //echo $this->db->last_query();exit;
    return $query;
  }
 public function get_fab_name_value()

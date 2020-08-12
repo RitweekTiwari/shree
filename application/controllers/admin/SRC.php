@@ -13,156 +13,104 @@ class SRC extends CI_Controller {
     {
         $data = array();
         $data['name'] = 'SRC';
-				$data['febName'] = $this->Src_model->get_fabric_name();
-				$data['fresh_fabricname'] = $this->Src_model->get_fabric_fresh_value();
-
+		$data['febName'] = $this->Src_model->get_fabric_name();
+		$data['src'] = $this->Src_model->get_src();
+		foreach ($data['src'] as $key => $value) {
+			$output[$key]['fabric'] = $value->fabricName;
+			$output[$key]['code'] = $value->fbcode;
+			$output[$key]['grade'] = self::get_array($value->grade, $value->rate);
+		}
+		
+		$data['output'] = $output;
+		$data['fresh_fabricname'] = $this->Src_model->get_fabric_fresh_value();
+		$data['grade']=$this->common_model->select('grade');
+		$data['code'] = $this->common_model->select('fabric_code');
+		$data['count']=count($data['grade']);
 				//echo print_r($data['$febName']);exit;
         $data['main_content'] = $this->load->view('admin/master/src/src', $data, TRUE);
         $this->load->view('admin/index', $data);
 	}
-	public function getlist()
-    {
-		$febName = $this->Src_model->get_fabric();
-		foreach ($febName as $key => $value) {
-			$data[]= $value;
+	public function get_array($gread, $rate)
+	{
+		$gread = explode(',', $gread);
+		$rate = explode(',', $rate);
+		if (count($gread) == count($rate)) {
+			foreach ($rate as $key => $value) {
+				$result[$gread[$key]] = $value;
+			}
+			return $result;
 		}
-		header('Content-type: application/json');
-		echo json_encode($data);
 	}
 
-	public function getfabricName()
+	public function getfabricRate()
     {
-		$febName = $this->Src_model->get_fabric_name();
-       foreach($febName as $row ) {
+		$id=$this->security->xss_clean($_POST['id']);
+		$rate = $this->Src_model->getfabricRate($id);
+     
 
-        foreach($row as $value){
-        $result_array[]= $value;
-        }
-
-	}
+	
 		header('Content-type: application/json');
-		echo json_encode($result_array);
+		if($rate !=""){
+			echo json_encode($rate);
+		}else{
+			echo json_encode("Null");
+		}
+		
 }
-	public function getErcCode()
-    {
-
-		$febName = $this->Src_model->get_Erc_Code();
-
-       foreach($febName as $row) {
-
-        foreach($row as $value){
-        $result_array[]= $value;
-        }
-
-	}
-		header('Content-type: application/json');
-		echo json_encode($result_array);
-}
+	
 
 public function update()
     {
-		$id=$_POST['id'];
-		if(isset($_POST['fName'])){
-			$data = array();
-			$data['fabName'] =$_POST['fName'];
- 			$data['updated_at'] = date('Y-m-d H:i:s');
-			$data['created_at'] = date('Y-m-d H:i:s');
-			$data_value= $this->Src_model->get_src_name($data['fabName']);
-// 			echo print_r($data_value);
- 			 if(isset($id))
- 			 {
- 			      $status = $this->Src_model->Update($id,$data);
- 			 }
-		}
-		if(isset($_POST['purchase'])){
-			$data = array();
-			$data['purchase'] =$_POST['purchase'];
-			$status = $this->Src_model->Update($id,$data);
-		}
-		if(isset($_POST['fcode'])){
-			$data = array();
-			$data['fabCode'] =$_POST['fcode'];
-		  $data['updated_at'] = date('Y-m-d H:i:s');
-			$data['created_at'] = date('Y-m-d H:i:s');
-			$status = $this->Src_model->Update($id,$data);
-		}
-		if(isset($_POST['srate'])){
-			$data = array();
-			$data['sale_rate'] =$_POST['srate'];
-			$data['updated_at'] = date('Y-m-d H:i:s');
-			$data['created_at'] = date('Y-m-d H:i:s');
-			$status = $this->Src_model->Update($id,$data);
-		}
-
-		    $data['fabName']=$this->Src_model->get_fab_name_value('src');
-		  //  echo print_r( $data['fabName']);exit;
-		    $fabName=$data['fabName']->fabName;
-				$fabCode=$data['fabName']->fabCode;
-		   // echo $fabCode;exit;
-
-			if(isset($_POST['purchase'])){
-			$data = array();
-			$data['purchase'] =$_POST['purchase'];
-			$status = $this->Src_model->Update_fabric($fabName,$data);
-		  }
-		  if(isset($_POST['fcode'])){
-			$data = array();
-			$data['Code'] =$_POST['fcode'];
-			$status = $this->Src_model->Update_fabric($fabName,$data);
-		}
-			if(isset($_POST['srate'])){
-			$data = array();
-			$data['sale_rate'] =$_POST['srate'];
-		    $status = $this->Src_model->Update_fabric($fabName,$data);
-		}
-		if(isset($_POST['srate'])){
-			$data = array();
-			$data['saleRate'] =$_POST['srate'];
-		  $status = $this->Src_model->Update_design($fabName,$fabCode,$data);
-		}
-		if($status=='true'){
-			echo "success";
-		}
+		
     }
 
 
-    // public function Adduser(){
-    //   	if ($_POST)
-    // 		{
-    //       $data=$this->input->post();
-    //       $data['password']=md5($this->input->post('password'));
-    // 			//print_r($data);
-    // 			$this->Employee_model->add($data);
-    // 			redirect(base_url('admin/Employee'));
-    // 		}
-    // }
 
-		public function checkAvailable(){
-			if ($_POST) {
-				$output = '';
-				$check = $this->security->xss_clean($_POST);
-				$data = $this->Src_model->get_SRC_set_exist($check);
-				//echo print_r($data);exit;
-					if($data){
-						 echo 1;
-					}else{
-						echo 0;
-					}
-			}else{
-					echo json_encode(array('error'=>true, 'msg'=>'somthing want wrong :('));
-			}
-		}
+		
     	public function add_src(){
 
-			$data=array();
+		$form = $this->security->xss_clean($_POST);
+		
+		foreach($form['form'] as $row){
+			if($row['name']=="grade"){
+				$data['grade'][]= $row['value'];
+			}elseif($row['name'] == "rate"){
+				$data['rate'][] = $row['value'];	
+			}else{
+				$arr=array(
+					$row['name']=> $row['value']
+				);
+				$data[]= $arr;
+			}
+		}
+	
+		$count = count($data['rate']);
+		$done=0;
+		for ($i = 0; $i < $count; $i++) {	
+		$data1=array(
 
-					$data=array(
-
-						'fabName' => 'NULL',
-
+						'fabric' => $data[0]['fabricName'],
+						
+						'code' => $data[1]['code'],
+						'grade' => $data['grade'][$i],
+						'rate' => $data['rate'][$i],
+						'created_at' => date('Y-m-d')
 					);
-					$id = $this->Src_model->insert($data,'src');
-			echo $id;
+					
+					$id = $this->Src_model->insert($data1,'src');
+					
+					if($id>0 && $id!=""){
+						$done+=1;
+					}
+		}
+		if($done>0){
+			echo 1;	
+		}	else{
+			echo 0;	
+		}
+		
+		
+		
 		}
 
   }

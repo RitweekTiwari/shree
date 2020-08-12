@@ -72,7 +72,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 $query_builder = TRUE;
-
 $db['default'] = array(
 	 //'dsn'	=> 'mysql:host=localhost;dbname=mcfojotc_shreeerpdb',
     'dsn'	=> 'mysql:host=localhost;dbname=shree',
