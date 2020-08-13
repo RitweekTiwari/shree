@@ -16,7 +16,7 @@ class Orders extends CI_Controller
   public function index()
   {
     $data = array();
-    $data['page_name'] = 'ORDER';
+    $data['page_name'] = 'ORDER / ' .'<a href=' . base_url('admin/Orders/dashboard'). '>Home</a>';
     $data['all_Order_list'] = $this->Orders_model->select('order_product');
     $data['data_cat'] = $this->common_model->select('data_category');
     $data['all_Order'] = $this->Orders_model->get_order_value();
@@ -95,7 +95,7 @@ class Orders extends CI_Controller
           $cc = $cc + 1;
 
           $pbc = "O" . (string) $cc;
-          if ($_POST['serial_number'] != "") {
+          if ($_POST['design_name'][$i] != "") {
 
 
             $data = array(
@@ -141,7 +141,7 @@ class Orders extends CI_Controller
   public function addOrders()
   {
     $data = array();
-    $data['name'] = 'Add Orders';
+    $data['page_name'] = 'Add Orders / ' . '<a href=' . base_url('admin/Orders/dashboard') . '>Home</a>';
     $data['febName'] = $this->common_model->febric_name();
     $data['designname'] = $this->Orders_model->get_design_name();
     $data['designCode'] = $this->Orders_model->get_design_code();
@@ -309,7 +309,7 @@ class Orders extends CI_Controller
   {
     $order_id = sanitize_url($order_id);
     $data = array();
-    $data['name'] = 'Order List';
+    $data['page_name'] = 'Order List / ' . '<a href=' . base_url('admin/Orders/dashboard') . '>Home</a>';
     $data['order_data'] = $this->Orders_model->get_order($order_id);
     $data['main_content'] = $this->load->view('admin/order/show_order', $data, TRUE);
     $this->load->view('admin/index', $data);
@@ -344,7 +344,7 @@ class Orders extends CI_Controller
     $order_id = sanitize_url($order_id);
     $data = array();
     $data['febName'] = $this->common_model->febric_name();
-    $data['name'] = 'Order List';
+    $data['page_name'] = 'Edit Order List / '. '<a href=' . base_url('admin/Orders/dashboard') . '>Home</a>';
     $data['order_data'] = $this->Orders_model->get_order($order_id);
     //  echo"<pre>"; print_r($data['order_data']);exit;
     $data['main_content'] = $this->load->view('admin/order/edit_order_details', $data, TRUE);
@@ -471,12 +471,20 @@ class Orders extends CI_Controller
     if ($_POST) {
       //  echo "<pre>"; print_r($_POST);exit;
       try {
-        $data = [
-          'status' => 'CANCEL'
-        ];
+        
         $ids = $this->input->post('ids');
         $userid = explode(",", $ids);
         foreach ($userid as $value) {
+          $pbc= $this->Orders_model->get_pbc_by_order($value);
+        // pre($pbc);  exit;
+          
+            $this->Orders_model->edit_by_node('parent_barcode', $pbc, array('isStock' => 1), 'fabric_stock_received'); 
+         
+          $data = [
+            'status' => 'CANCEL',
+            'quantity' => 0,
+            'pbc' => ""
+          ];
           $this->Orders_model->edit_by_node('order_product_id', $value, $data, 'order_product');
           $data1 = [
             'order_id' => $value,

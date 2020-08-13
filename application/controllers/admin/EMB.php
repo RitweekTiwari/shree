@@ -59,10 +59,10 @@ class EMB extends CI_Controller
 					$this->Emb_model->insert($data, 'embmeta');
 				}
 				$this->session->set_flashdata(array('error' => 0, 'msg' => 'Emb Added Successfully'));
-				redirect(base_url('admin/emb'));
+				redirect(base_url('admin/EMB'));
 			} else {
 				$this->session->set_flashdata(array('error' => 1, 'msg' => 'Emb Added Faild'));
-				redirect(base_url('admin/emb'));
+				redirect(base_url('admin/EMB'));
 			}
 		}
 	}
@@ -141,20 +141,31 @@ class EMB extends CI_Controller
 	{
 		if ($_POST) {
 			$data = $this->Emb_model->embRate($_POST['desName']);
-			//print_r($data);exit;
+			if($data!=''){
 			echo $data->rate;
+			}else{
+				echo 'Null';
+			}
 		}
 	}
 
 	public function delete($id)
 	{
 		$this->Emb_model->delete($id);
-		redirect(base_url('admin/emb'));
+		$this->db->delete('emb_meta', array('embId' => $id));
+		redirect(base_url('admin/EMB'));
 	}
 
-	public function deleteembmeta($id)
+	public function deletejob()
 	{
-		$this->Emb_model->delete_emeta($id);
-		redirect(base_url('admin/emb'));
+		$ids = $this->input->post('ids');
+		$userid = explode(",", $ids);
+		
+			foreach ($userid as $value) {
+				$this->db->delete('emb', array('id' => $value));
+				$this->db->delete('embmeta', array('embId' => $value));
+			}
+		
+		
 	}
 }

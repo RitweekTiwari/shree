@@ -3,7 +3,7 @@
     $('#update').hide();
     $('#desname').on('change', function() {
       var desName = $(this).find(":selected").text();
-      //alert(desName);
+      // alert(desName);
       $.ajax({
         type: "POST",
         url: "<?= base_url() ?>admin/EMB/EmbRate",
@@ -66,8 +66,11 @@
         success: function(data) {
           data = JSON.parse(data);
           // console.log(data);
+          var des = data[0].designName;
+          console.log(des);
+          $('#desname').select2().val(des).trigger("change.select2");
 
-          $('#desname').val(data[0].designName);
+
 
           data.forEach(value);
 
@@ -112,19 +115,13 @@
 
           $.ajax({
             type: "POST",
-            url: "<?= base_url() ?>admin/Job_work_type/deletejob",
+            url: "<?= base_url() ?>admin/EMB/deletejob",
             cache: false,
             data: {
               'ids': join_selected_values,
               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
-            success: function(response) {
-              //referesh table
-              $(".sub_chk:checked").each(function() {
-                var id = $(this).attr('data-id');
-                $('#tr_' + id).remove();
-              });
-
+            success: function() {
 
             }
           });

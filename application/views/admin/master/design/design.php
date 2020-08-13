@@ -129,7 +129,6 @@
                             <option value="stitch">Stitch</option>
                             <option value="dye">Dye</option>
                             <option value="matching">Matching</option>
-                            <option value="sale_rate">Sale rate</option>
                             <option value="htCattingRate">Ht cating rate</option>
                             <option value="designOn">Design On</option>
                           </select>
@@ -206,7 +205,6 @@
 
                           <td><input type="text" name="matching" class="form-control form-control-sm" value="" placeholder="Matching"></td>
 
-                          <td><input type="text" name="sale_rate" class="form-control form-control-sm" value="" placeholder="Sale Rate"></td>
 
                           <td><input type="text" name="htCattingRate" class="form-control form-control-sm" value="" placeholder="Ht Cathing Rate"></td>
 
@@ -259,7 +257,6 @@
                       <th>Stitch</th>
                       <th>Dye</th>
                       <th>Matching</th>
-                      <th>Sale Rate</th>
                       <th>HT Catting Rate</th>
                       <th>Design Image</th>
                       <th>Fabric Name</th>
@@ -286,7 +283,6 @@
                           <td><?php echo $value->stitch ?></td>
                           <td><?php echo $value->dye ?></td>
                           <td width="40%"><?php echo $value->matching ?></td>
-                          <td><?php echo $value->sale_rate ?></td>
                           <td><?php echo $value->htCattingRate ?></td>
                           <td>
                             <div class="actions">

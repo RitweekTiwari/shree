@@ -64,7 +64,7 @@
               <hr>
               <table id="fresh_form" class="remove_datatable">
                 <thead>
-
+                  <th>#</th>
                   <th>PBC</th>
                   <th>OBC</th>
                   <th>Order No.</th>
@@ -83,21 +83,21 @@
                 </thead>
                 <tbody id="fresh_data">
                   <tr id="0">
-
-                    <td><input type="text" class="form-control pbc" name="pbc[]" value="" id='pbc0' readonly></td>
+                    <td><input type="text" class="form-control" readonly value="1"></td>
+                    <td><input type="text" class="form-control pbc"  value="" id='pbc0' readonly></td>
                     <td><input type="text" class="form-control obc" name="obc[]" id="obc0"></td>
-                    <td><input type="text" class="form-control " name="orderNo[]" value="" id="orderNo0" readonly></td>
-                    <td><input type="text" name="fabric_name[]" class="form-control " id='fabric0' readonly></td>
-                    <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id="orderNo0"  readonly></td>
+                    <td><input type="text" class="form-control " id='fabric0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id='hsn0' readonly></td>
                     <td><input type="text" class="form-control " name="design[]" value="" id='design0' readonly></td>
-                    <td><input type="text" class="form-control " name="designCode[]" value="" id='DesignCode0' readonly></td>
-                    <td><input type="text" class="form-control " name="dye[]" value="" id='dye0' readonly></td>
-                    <td><input type="text" class="form-control " name="matching[]" value="" id='matching0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id='DesignCode0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id='dye0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id='matching0' readonly></td>
                     <td><input type="text" class="form-control" name="quantity[]" value="" id='qty0' readonly></td>
-                    <td><input type="text" name="unit[]" class="form-control unit " id='unit0' readonly>
-                    <td><input type="text" class="form-control" name="image[]" value="" id='image0' readonly></td>
-                    <td><input type="text" class="form-control " name="days[]" value="" id='days0' readonly></td>
-                    <td><input type="text" class="form-control" name="remark[]" value="" id='remark0' readonly> <input type="hidden" name="trans_id[]" id='trans_id0'></td>
+                    <td><input type="text"  class="form-control unit " id='unit0' readonly>
+                    <td><input type="text" class="form-control"  value="" id='image0' readonly></td>
+                    <td><input type="text" class="form-control "  value="" id='days0' readonly></td>
+                    <td><input type="text" class="form-control" value="" id='remark0' readonly> <input type="hidden" name="trans_id[]" id='trans_id0'></td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>

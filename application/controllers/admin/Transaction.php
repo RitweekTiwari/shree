@@ -596,7 +596,7 @@
 			
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
-				// echo "<pre>"; print_r($data);exit;
+				 echo "<pre>"; print_r($data);exit;
 				$count =count($data['pbc']);
 			$id = $this->Transaction_model->getId('from_godown',$godown,'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown']);
@@ -635,7 +635,8 @@
 
 				];
 				$id =	$this->Transaction_model->insert($data1, 'transaction');
-				for ($i=0; $i < $count; $i++) { 
+				for ($i=0; $i < $count; $i++) {
+				if ($_POST['design'][$i] != "") {
 				$data2=[
 					'transaction_id' => $id,
 					
@@ -649,7 +650,7 @@
 				$this->Transaction_model->update(array('status' => 'OUT'),'order_barcode', $data['obc'][$i],  'order_product');
 				$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
 				}
-				
+			}
 			} redirect($_SERVER['HTTP_REFERER']);
 		}
 

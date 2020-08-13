@@ -73,7 +73,7 @@
               <div id="<?php echo $value->id; ?>" class="modal hide" >
                    <div class="modal-dialog" role="document ">
                    <div class="modal-content">
-                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fbcode/edit/').$value->id;?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/FbCode/edit/').$value->id;?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
                   <div class="modal-header">
                       <h5 class="modal-title">Edit Order Type</h5>
                     <button data-dismiss="modal" class="close" type="button">×</button>
@@ -115,7 +115,7 @@
 <div id="addnew" class="modal hide">
     <div class="modal-dialog" role="document ">
     <div class="modal-content">
-  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fbcode/addCode')?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/FbCode/addCode')?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
     <div class="modal-header">
          <h5 class="modal-title">Add Grade</h5>
       <button data-dismiss="modal" class="close" type="button">×</button>

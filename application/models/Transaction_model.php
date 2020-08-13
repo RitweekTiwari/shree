@@ -67,7 +67,7 @@ public function get($col,$godown,$type)
     $this->db->where($col, $godown);
      $this->db->join('sub_department sb1','sb1.id=transaction.from_godown  ','left');
  $this->db->join('sub_department sb2','sb2.id=transaction.to_godown  ','left');
-     $this->db->order_by('created_at','desc');
+     $this->db->order_by('transaction_id','desc');
    $query = $this->db->get();
     return $query->result_array();
     

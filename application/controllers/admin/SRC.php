@@ -12,23 +12,39 @@ class SRC extends CI_Controller {
     public function index()
     {
         $data = array();
-        $data['name'] = 'SRC';
+		$data['page_name'] = 'SRC Dashboard ';
+				//echo print_r($data['$febName']);exit;
+        $data['main_content'] = $this->load->view('admin/master/src/index', $data, TRUE);
+        $this->load->view('admin/index', $data);
+	}
+	public function show_src(){
+		$data['page_name'] = 'ADD SRC /' . '<a href="' . base_url('admin/SRC') . '">Home</a>';
 		$data['febName'] = $this->Src_model->get_fabric_name();
+		
+		
+		$data['fresh_fabricname'] = $this->Src_model->get_fabric_fresh_value();
+		$data['grade'] = $this->common_model->select('grade');
+		$data['code'] = $this->common_model->select('fabric_code');
+		$data['count'] = count($data['grade']);
+		$data['main_content'] = $this->load->view('admin/master/src/src', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function show_list()
+	{
+		$data = array();
+		$data['page_name'] = ' SRC LIST /' . '<a href="' . base_url('admin/SRC') . '">Home</a>';
 		$data['src'] = $this->Src_model->get_src();
 		foreach ($data['src'] as $key => $value) {
 			$output[$key]['fabric'] = $value->fabricName;
 			$output[$key]['code'] = $value->fbcode;
 			$output[$key]['grade'] = self::get_array($value->grade, $value->rate);
 		}
-		
+
 		$data['output'] = $output;
-		$data['fresh_fabricname'] = $this->Src_model->get_fabric_fresh_value();
-		$data['grade']=$this->common_model->select('grade');
-		$data['code'] = $this->common_model->select('fabric_code');
-		$data['count']=count($data['grade']);
-				//echo print_r($data['$febName']);exit;
-        $data['main_content'] = $this->load->view('admin/master/src/src', $data, TRUE);
-        $this->load->view('admin/index', $data);
+		$data['grade'] = $this->common_model->select('grade');
+		//echo print_r($data['$febName']);exit;
+		$data['main_content'] = $this->load->view('admin/master/src/list', $data, TRUE);
+		$this->load->view('admin/index', $data);
 	}
 	public function get_array($gread, $rate)
 	{

@@ -116,7 +116,7 @@
     <div class="col-md-12 bg-white">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Return Challan List</h4>
+          <h4 class="card-title">Packing Slip List</h4>
           <hr>
 
           <div class="widget-box">

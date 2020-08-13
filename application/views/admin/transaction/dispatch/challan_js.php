@@ -36,74 +36,90 @@
       $(this).val(order);
       console.log(order);
       var button_id = $(this).parent().parent().attr("id");
-      console.log(button_id);
-      var csrf_name = $("#get_csrf_hash").attr('name');
-      var csrf_val = $("#get_csrf_hash").val();
-      $.ajax({
-        type: "POST",
-        url: "<?php echo base_url('admin/transaction/getOrderDetails') ?>",
-        data: {
-
-          'id': order,
-          'godown': <?php echo $id ?>,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-
-        success: function(data) {
-          data = JSON.parse(data);
-          if (data != 0) {
-            // One day Time in ms (milliseconds) 
-            var one_day = 1000 * 60 * 60 * 24
-            var present_date = new Date();
-
-            // 0-11 is Month in JavaScript 
-            var christmas_day = new Date(data[0]['order_date']);
-
-            // To Calculate the result in milliseconds and then converting into days 
-            var Result = Math.round(present_date.getTime() - christmas_day.getTime()) / (one_day);
-
-            // To remove the decimals from the (Result) resulting days value 
-            var Final_Result = Result.toFixed(0);
-            Final_Result = 30 - Final_Result;
-            fabric = data[0]['fabric_name'];
-            $(".msg").html("");
-            $('#days' + button_id + '').val(Final_Result);
-            $('#pbc' + button_id + '').val(data[0]['pbc']);
-            $('#orderNo' + button_id + '').val(data[0]['order_number']);
-            $('#design' + button_id + '').val(data[0]['design_name']);
-            $('#DesignCode' + button_id + '').val(data[0]['design_code']);
-            $('#stitch' + button_id + '').val(data[0]['stitch']);
-            $('#dye' + button_id + '').val(data[0]['dye']);
-            $('#matching' + button_id + '').val(data[0]['matching']);
-            $('#qty' + button_id + '').val(data[0]['finish_qty']);
-            $('#fabric' + button_id + '').val(fabric);
-            $('#image' + button_id + '').val(data[0]['image']);
-            $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
-            $('#hsn' + button_id + '').val(data[0]['hsn']);
-            $('#unit' + button_id + '').val(data[0]['unit']);
-            if (data[0]['trans_meta_id']) {
-              $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
-            } else {
-              $('#trans_id' + button_id + '').val("");
-            }
-            if (fabric != "") {
-              $('#submit_button').show();
-            } else {
-              $('#submit_button').hide();
-            }
-          } else {
-            toastr.error('Failed!', "OBC Not Found");
-
-            $('#designName' + button_id + '').val("");
-            $('#designCode' + button_id + '').val('');
-            $('#stitch' + button_id + '').val('');
-            $('#dye' + button_id + '').val('');
-            $('#matching' + button_id + '').val('');
-            $('#image' + button_id + '').val('');
-          }
+      var count1 = 0;
+      $("input[name='obc[]']").each(function(index, element) {
+        current = $(this).val();
+        if (current == order) {
+          count1 += 1;
 
         }
       });
+      if (count1 > 1) {
+        $(this).val("");
+        $(this).focus();
+        $(this).css("border-color", "red");
+        toastr.error('Failed!', "Already Entered");
+      } else {
+        $(this).css("border-color", "");
+
+        var csrf_name = $("#get_csrf_hash").attr('name');
+        var csrf_val = $("#get_csrf_hash").val();
+        $.ajax({
+          type: "POST",
+          url: "<?php echo base_url('admin/transaction/getOrderDetails') ?>",
+          data: {
+
+            'id': order,
+            'godown': <?php echo $id ?>,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+
+          success: function(data) {
+            data = JSON.parse(data);
+            if (data != 0) {
+              // One day Time in ms (milliseconds) 
+              var one_day = 1000 * 60 * 60 * 24
+              var present_date = new Date();
+
+              // 0-11 is Month in JavaScript 
+              var christmas_day = new Date(data[0]['order_date']);
+
+              // To Calculate the result in milliseconds and then converting into days 
+              var Result = Math.round(present_date.getTime() - christmas_day.getTime()) / (one_day);
+
+              // To remove the decimals from the (Result) resulting days value 
+              var Final_Result = Result.toFixed(0);
+              Final_Result = 30 - Final_Result;
+              fabric = data[0]['fabric_name'];
+              $(".msg").html("");
+              $('#days' + button_id + '').val(Final_Result);
+              $('#pbc' + button_id + '').val(data[0]['pbc']);
+              $('#orderNo' + button_id + '').val(data[0]['order_number']);
+              $('#design' + button_id + '').val(data[0]['design_name']);
+              $('#DesignCode' + button_id + '').val(data[0]['design_code']);
+              $('#stitch' + button_id + '').val(data[0]['stitch']);
+              $('#dye' + button_id + '').val(data[0]['dye']);
+              $('#matching' + button_id + '').val(data[0]['matching']);
+              $('#qty' + button_id + '').val(data[0]['finish_qty']);
+              $('#fabric' + button_id + '').val(fabric);
+              $('#image' + button_id + '').val(data[0]['image']);
+              $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
+              $('#hsn' + button_id + '').val(data[0]['hsn']);
+              $('#unit' + button_id + '').val(data[0]['unit']);
+              if (data[0]['trans_meta_id']) {
+                $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
+              } else {
+                $('#trans_id' + button_id + '').val("");
+              }
+              if (fabric != "") {
+                $('#submit_button').show();
+              } else {
+                $('#submit_button').hide();
+              }
+            } else {
+              toastr.error('Failed!', "OBC Not Found");
+
+              $('#designName' + button_id + '').val("");
+              $('#designCode' + button_id + '').val('');
+              $('#stitch' + button_id + '').val('');
+              $('#dye' + button_id + '').val('');
+              $('#matching' + button_id + '').val('');
+              $('#image' + button_id + '').val('');
+            }
+
+          }
+        });
+      }
     });
     $("body").keypress(function(e) {
       if (e.which == 13) {
@@ -271,9 +287,10 @@
     function addmore() {
       count = count + 1;
       var element = '<tr id=' + count + '>'
+      element += '<td><input type="text" class="form-control" readonly value=' + (count + 1) + '></td>'
       element += '<td><input type="text" class="form-control pbc" name="pbc[]" value="" id=pbc' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control obc" name="obc[]" id=obc' + count + '></td>'
-      element += '<td><input type="text" class="form-control " name="orderNo[]" value="" id=orderNo' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control " name="orderNo[]"  value="" id=orderNo' + count + ' readonly></td>'
       element += '<td><input type="text" name="fabric_name[]" class="form-control " id=fabric' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " name="hsn[]" value="" id=hsn' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " name="design[]" value="" id=design' + count + ' readonly></td>'

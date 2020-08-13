@@ -102,10 +102,11 @@
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
               <h5>Job Work Type List</h5>
-            </div>
+            </div><hr>
             <div class="row well">
               &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
             </div>
+            <hr>
             <div class="widget-content nopadding">
               <table class="table table-striped table-bordered data-table" id="jobWorktype">
                 <thead>
@@ -134,7 +135,7 @@
                     <td><?php echo $value->unit?></td>
 
                     <td>
-                      <a href="<?php echo '#'.$value->id; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
+                      <a href="<?php echo '#'.$value->wrkid; ?>" class="text-center tip" data-toggle="modal" data-original-title="Edit">
                         <i class="fas fa-edit blue"></i>
                       </a>
                       &nbsp;&nbsp;&nbsp;
@@ -144,10 +145,10 @@
                     </td>
                   </tr>
                   <!-- Edit modal wind-->
-                  <div id="<?php echo $value->id;?>" class="modal hide">
+                  <div id="<?php echo $value->wrkid;?>" class="modal hide">
                     <div class="modal-dialog" role="document ">
                       <div class="modal-content">
-                        <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_type/edit/').$value->id; ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+                        <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_type/edit/').$value->wrkid; ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
                           <div class="modal-header">
                             <h5 class="modal-title">Edit Detail</h5>
                             <button data-dismiss="modal" class="close" type="button">×</button>
@@ -155,17 +156,32 @@
                           </div>
                           <div class="modal-body">
                             <div class="widget-content nopadding">
-                              <div class="form-group row">
-                                <label class="control-label col-sm-3">Rate</label>
+                              <div class="form-group row"> <label class="control-label col-sm-3">Type</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="rate" value="<?php echo $value->rate?>">
+                                  <input type="text" class="form-control" name="type" value="<?php echo $value->type?>" required>
                                 </div>
+
                               </div>
-                              <div class="form-group row">
-                                <label class="control-label col-sm-3">Job</label>
-                                <div class="col-sm-9">
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label>Job</label>
                                   <input type="text" class="form-control" name="job" value="<?php echo $value->job?>">
                                 </div>
+                                <div class="col-md-4">
+                                  <label>Rate</label>
+                                  <input type="text" class="form-control" name="rate" value="<?php echo $value->rate?>">
+                                </div>
+                                <div class="col-md-4">
+                                  <label>Choose Unit</label>
+                                  <select name="unit" class="form-control">
+                                    <option value="">Select Unit</option>
+                                    <?php foreach ($units as $row): ?>
+                                    <option value="<?php echo $row->id ?>" <?php if($value->unitId==$row->id){echo "selected";}?>><?php echo $row->unitSymbol ?></option>
+                                    <?php endforeach; ?>
+                                  </select>
+                                </div>
+
                               </div>
 
                               <div class="modal-footer">

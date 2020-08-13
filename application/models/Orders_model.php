@@ -132,6 +132,19 @@ public function get_design_name()
 		$query = $query->result_array();
 		return $query;
 	}
+	public function get_pbc_by_order($id)
+ {
+		$this->db->select('pbc');
+		$this->db->from('order_product');
+		$this->db->where('order_product_id', $id);
+		$query = $this->db->get();
+		if($query->num_rows()==1){
+			return $query->row()->pbc;
+		}else{
+			return 0;
+		}
+		
+ }
  public function get_order_cancel()
  {
 

@@ -20,7 +20,7 @@
                   <select name="design" class="form-control select2 clear" id="desname">
                     <option value="">Select Design</option>
                     <?php foreach ($erc as $value) : ?>
-                      <option value="<?php echo $value['id'] ?>"><?php echo $value['desName'] ?></option>
+                      <option value="<?php echo $value['id'] ?>"><?php echo $value['designName'] ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -35,7 +35,7 @@
                 <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label> <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label>
                 <?php foreach ($worker as $value) : ?>
                   <div class="col-md-4">
-                    <select name="job[]" class="form-control" readonly id="worker">
+                    <select name="job[]" class="form-control" readonly >
                       <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                     </select>
                   </div>
@@ -93,7 +93,7 @@
                             <th>S/No</th>
                             <th>Design</th>
                             <!-- <th>Rate</th> -->
-                           
+
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -105,7 +105,7 @@
                               <tr>
                                 <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"></td>
                                 <td><?php echo $id ?></td>
-                                <td></td>
+                                <td><?php echo $value['designName'] ?></td>
 
                                 <td>
                                   <a class="text-center  tip find_id" id="<?php echo $value['id'] ?>" data-original-title="Edit">
@@ -158,9 +158,9 @@
                           if ($erc > 0) {
                             $id = 1;
                             foreach ($erc as $value) { ?>
-                              <tr class="gradeU">
+                              <tr>
                                 <td><?php echo $id ?></td>
-                                <td> <?php echo $value['desName'] ?></td>
+                                <td> <?php echo $value['designName'] ?></td>
 
                               </tr>
                           <?php $id = $id + 1;
