@@ -228,7 +228,7 @@
                                           $total += $value['total'];
                                       ?>
                                     <tr>
-                                      <td><a href="<?php echo base_url('/admin/FRC/show_stock/').serve_url($value['fabricName'])?>"><?php echo  $value['fabricName'] ?></a></td>
+                                      <td><a href="<?php echo base_url('/admin/FRC/show_stock/') . serve_url($value['fabricName']) ?>"><?php echo  $value['fabricName'] ?></a></td>
                                       <td><?php echo  $value['pcs'] ?></td>
                                       <td><?php echo  $value['qty'] ?></td>
                                       <td><?php echo  $value['total'] ?></td>
@@ -253,6 +253,52 @@
                       </tr>
                     </table>
                   <?php } ?>
+                  <hr>
+                  <?php if (isset($frc_data['summary2'])) {; ?>
+
+                    <table class=" table-bordered  data-table text-center  table-responsive ">
+                      <caption class="text-center text-info" style='caption-side : top'><?php echo  $fabric ?></caption>
+                      <thead>
+                        <th>Color</th>
+                        <th>Pcs</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </thead>
+                      <tbody><?php
+                              $pcs = 0;
+                              $qty = 0;
+                              $total = 0;
+                              $i = 1;
+                              foreach ($frc_data['summary2'] as $value) {
+
+                                $pcs += $value['pcs'];
+                                $qty += $value['qty'];
+                                $total += $value['total'];
+                              ?>
+                          <tr>
+                            <td><?php echo  $value['color_name'] ?></td>
+                            <td><?php echo  $value['pcs'] ?></td>
+                            <td><?php echo  $value['qty'] ?></td>
+                            <td><?php echo  $value['total'] ?></td>
+                          </tr>
+
+                        <?php
+                                $i += 1;
+                              } ?>
+                      </tbody>
+                      <tr>
+                        <th>Total</th>
+                        <th><?php echo  $pcs ?></th>
+                        <th><?php echo  $qty ?></th>
+                        <th><?php echo  $total ?></th>
+                      </tr>
+                    </table>
+                    </td>
+                    <td></td>
+
+
+                  <?php } ?>
+
                 </div>
               </div>
             </div>
