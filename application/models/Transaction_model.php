@@ -16,8 +16,8 @@ class Transaction_model extends CI_Model {
     }
     function update($action, $id,$column, $table){
         $this->db->where($id,$column);
-    return  $this->db->update($table,$action);
-        
+    return $this->db->update($table,$action);
+    
         
     }
 
@@ -179,7 +179,9 @@ public function get($col,$godown,$type)
     if (isset($data['id'])) {
       $this->db->where('trans_meta_id', $data['id']);
      
-    }else{
+    }elseif(isset($data['challan_id'])) {
+      $this->db->where('transaction_id', $data['challan_id']);
+    } else{
       $this->db->where('transaction_id', $data);
      
     }
@@ -208,7 +210,7 @@ public function view_tc($data)
     
     
   }
-  public function get_godown_by_id($godown)
+  public function get_godown_by_id($godown,$type='')
   {
     $this->db->select("*");
     $this->db->from('sub_department');
@@ -217,7 +219,10 @@ public function view_tc($data)
     $query = $this->db->get();
    // print_r($query->num_rows());exit;
     if($query->num_rows()>0){
+      if($type!='arr')
     return $query->row()->subDeptName;
+    else
+    return $query->row();
     }else{
         return null;
         

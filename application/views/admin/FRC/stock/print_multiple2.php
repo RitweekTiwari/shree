@@ -92,7 +92,7 @@
       <td>
         <table>
           <tr>
-            <td colspan="3" class=" main-text">
+            <td colspan="2" class=" main-text">
               <div>
                 <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
                 <script>
@@ -102,16 +102,16 @@
             </td>
 
           </tr>
-          <td>&nbsp;&nbsp;</td>
+
           <tr>
-            <td> &nbsp;&nbsp; BARCODE</td>
-            <td>:-<?php echo  $value->parent_barcode ?></td>
+            <td style="width: 30%; text-align: center" colspan="2"> BARCODE
+              :-<?php echo  $value->parent_barcode ?></td>
           </tr>
           <tr>
 
           </tr>
           <tr>
-            <td colspan="3" class=" main-text">
+            <td colspan="2" class=" main-text">
               <div>
                 <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
                 <script>
@@ -122,8 +122,8 @@
 
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; BARCODE</td>
-            <td>:-<?php echo  $value->parent_barcode ?></td>
+            <td style="width: 30%;text-align: center" colspan="2"> BARCODE
+              :-<?php echo  $value->parent_barcode ?></td>
           </tr>
 
         </table>

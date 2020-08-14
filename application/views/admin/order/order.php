@@ -8,13 +8,15 @@
     <div class="col-md-12 bg-white" id="content_body">
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Order</h3><hr>
+          <h3 class="card-title">Order</h3>
+          <hr>
         </div>
-       
+
         <div class="row well">
           &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;
 
-        </div><hr>
+        </div>
+        <hr>
         <table class="table table-bordered data-table text-center table-responsive">
           <thead>
             <tr>
@@ -23,7 +25,8 @@
               <th>ORDER DATE</th>
               <th>ORDER NUMBER</th>
               <th>RECORD / ORDER</th>
-
+              <th>Branch</th>
+              <th>Branch OD No.</th>
 
               <th>CUSTOMER NAME</th>
               <th>TYPE</th>
@@ -40,7 +43,8 @@
                 <td><?php echo my_date_show($orders_value['order_date']); ?></td>
                 <td><?php echo $orders_value['order_number']; ?></td>
                 <td><?php echo $orders_value['pcs']; ?></td>
-
+                <td><?php echo $orders_value['branch_order_number']; ?></td>
+                <td><?php echo $orders_value['branch']; ?></td>
 
                 <td><?php echo $orders_value['customer_name']; ?></td>
                 <td><?php echo $orders_value['order_type']; ?></td>

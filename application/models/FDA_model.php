@@ -63,10 +63,7 @@ class FDA_model extends CI_Model {
   {
     // $sql = 'SELECT * FROM design WHERE designOn = "'.$fabricType.'" AND id NOT IN (SELECT design_id FROM fda_table WHERE fabric_type = "'.$fabricType.'")';
     // $sql = 'SELECT * FROM design WHERE designOn = "'.$fabricType.'" AND id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "'.$fabric_name.'")';
-    $sql = 'SELECT design.id, design.designName, erc.desCode, erc.rate, design.stitch, design.dye, design.designOn FROM design
-            LEFT JOIN erc ON design.designName = erc.desName
-            LEFT JOIN src ON src.fabName = design.fabricName AND src.fabCode = erc.desCode
-            WHERE  design.designSeries=0 AND design.id NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "'.$fabric_name.'") ORDER BY design.id DESC';
+    $sql = 'SELECT * from fda_view where id  NOT IN (SELECT design_id FROM fda_table WHERE fabric_name = "'.$fabric_name. '") ORDER BY designName asc';
     $query = $this->db->query($sql);
     
     $query = $query->result_array();

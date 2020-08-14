@@ -372,7 +372,9 @@
 	
 	public function print_packing_slip()
 	{
-
+		if(isset($_POST['ids'])){
+			
+		
 		$ids =  $this->security->xss_clean($_POST['ids']);
 		
 
@@ -386,7 +388,26 @@
 				$data['trans_data'][]= $r[0];
 			}
 		}
+		}
+		if (isset($_POST['challan_id'])) {
+
+
+			$ids =  $this->security->xss_clean($_POST['challan_id']);
+
+
+			//print_r($_POST['ids']);exit;
+			foreach ($ids as $value) {
+				if ($value != "") {
+
+					$data1['challan_id'] = $value;
+					$data['trans_data'] = $this->Transaction_model->get_dispatch($data1);
+
+					
+				}
+			}
+		}
 		//echo '<pre>';	print_r($data['trans_data']);exit;
+		if(count($data['trans_data'])>0){
 		$date=date_create($data['trans_data'][0]['created_at']);
 		
 	 $html='<center><h1>SHREE NIKETAN SAREES PVT. LTD. CHANDAULI</h1></center>';	
@@ -398,7 +419,9 @@
 	  $data['head']=$html;
 	 
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/index', $data, TRUE);
-	 
+		}else{
+		$data['main_content'] ="No result Found";	
+		}
 		
 		$this->load->view('admin/print/index', $data);
 	}
@@ -596,26 +619,26 @@
 			
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
-				 echo "<pre>"; print_r($data);exit;
-				$count =count($data['pbc']);
+				 //echo "<pre>"; print_r($data);exit;
+				$count =count($data['design']);
 			$id = $this->Transaction_model->getId('from_godown',$godown,'challan');
-			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown']);
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'],'arr');
 			if (!$id) {
 				$challan1 =
-				substr($godown_name,0, 4).'OUT/1';
+				$godown_name->outPrefix.'/OUT/'. $godown_name->outStart.'/'. $godown_name->outSuffix;
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan1 = substr($godown_name, 0,4) . 'OUT/'. (string) $cc;
+				$challan1 = $godown_name->outPrefix. '/ OUT /'. (string) $cc . '/' . $godown_name->outSuffix;
 			}
 			$id = $this->Transaction_model->getId('to_godown', $godown, 'challan');
-			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown']);
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
 			if (!$id) {
-				$challan2 = substr($godown_name, 0,4) . 'IN/1';
+				$challan2 =  $godown_name->inPrefix. '/ IN /' . $godown_name->inStart . '/' . $godown_name->inSuffix;
 			} else {
 				$cc1 = $id[0]['count'];
 				$cc1 = $cc1 + 1;
-				$challan2 = substr($godown_name,0, 4) . 'IN/' . (string) $cc;
+				$challan2 = $godown_name->inPrefix . '/ IN /' . (string) $cc . '/' . $godown_name->inSuffix;
 			}
 				$data1 =[
 					'from_godown' =>$data['FromGodown'],
@@ -636,7 +659,7 @@
 				];
 				$id =	$this->Transaction_model->insert($data1, 'transaction');
 				for ($i=0; $i < $count; $i++) {
-				if ($_POST['design'][$i] != "") {
+				if ($_POST['design'][$i] ) {
 				$data2=[
 					'transaction_id' => $id,
 					

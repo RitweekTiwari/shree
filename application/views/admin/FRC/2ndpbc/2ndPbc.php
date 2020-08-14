@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-        <form method="post" action="<?php echo base_url('admin/FRC/submitPbc')?>">
+        <form method="post" action="<?php echo base_url('admin/FRC/submitPbc') ?>">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title"><i class="fa fa-plus"></i> Create 2nd PBC</h5>
@@ -66,6 +66,7 @@
                     </td>
                     <td>
                       <input type="text" class="form-control" name="tc" value="" id='tcmain' required>
+                      <input type="hidden" name='oldtc' value="" id='oldtc'>
                     </td>
                     <td>
                       <button class="btn btn-success " id="add_tc">Add </button>
@@ -113,8 +114,7 @@
                 </table>
                 <hr>
                 <div class="col-md-3">
-                  <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>"
-                    value="<?=$this->security->get_csrf_hash();?>" />
+                  <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                   <button type="submit" name="submit" class="btn btn-success btn-md">Submit</button>
                 </div>
               </div>
@@ -129,4 +129,4 @@
   </div>
 </div>
 
-<?php include('FRC_js.php');?>
+<?php include('FRC_js.php'); ?>

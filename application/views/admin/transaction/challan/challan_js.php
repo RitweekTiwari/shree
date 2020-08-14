@@ -3,6 +3,7 @@
 
     var count = 0;
     var total = 0;
+    var add = 0;
     $('#fresh_form').hide();
     $('#submit_button').hide();
     $('#master').on('click', function(e) {
@@ -60,9 +61,10 @@
         $(this).focus();
         $(this).css("border-color", "red");
         toastr.error('Failed!', "Already Entered");
+        window.add = 0;
       } else {
         $(this).css("border-color", "");
-
+        window.add = 1;
 
         var csrf_name = $("#get_csrf_hash").attr('name');
         var csrf_val = $("#get_csrf_hash").val();
@@ -143,12 +145,18 @@
     $("body").keypress(function(e) {
       if (e.which == 13) {
         event.preventDefault();
-        addmore();
+        if (window.add == 1) {
+          addmore();
+          window.add = 0;
+        }
+
       }
     });
     $('#add_more').on('click', function() {
-      addmore();
-
+      if (window.add == 1) {
+        addmore();
+        window.add = 0;
+      }
     });
 
 

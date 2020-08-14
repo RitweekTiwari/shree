@@ -4,6 +4,7 @@
 
     var count = 0;
     var total = 0;
+    var add = 0;
     $('#fresh_form').hide();
     $('#submit_button').hide();
     $('#master').on('click', function(e) {
@@ -49,9 +50,10 @@
         $(this).focus();
         $(this).css("border-color", "red");
         toastr.error('Failed!', "Already Entered");
+        window.add = 0;
       } else {
         $(this).css("border-color", "");
-
+        window.add = 1;
         var csrf_name = $("#get_csrf_hash").attr('name');
         var csrf_val = $("#get_csrf_hash").val();
         $.ajax({
@@ -124,11 +126,18 @@
     $("body").keypress(function(e) {
       if (e.which == 13) {
         event.preventDefault();
-        addmore();
+        if (window.add == 1) {
+          addmore();
+          window.add = 0;
+        }
+
       }
     });
     $('#add_more').on('click', function() {
-      addmore();
+      if (window.add == 1) {
+        addmore();
+        window.add = 0;
+      }
 
     });
 
@@ -182,46 +191,7 @@
       $('#row' + button_id + '').remove();
     });
 
-    jQuery('.print_all').on('click', function(e) {
-      var allVals = [];
-      $(".sub_chk:checked").each(function() {
-        allVals.push($(this).attr('data-id'));
-      });
-      //alert(allVals.length); return false;
-      if (allVals.length <= 0) {
-        alert("Please select row.");
-      } else {
-        //$("#loading").show();
-        WRN_PROFILE_DELETE = "Are you sure you want to Print this rows?";
-        var check = confirm(WRN_PROFILE_DELETE);
-        if (check == true) {
-          //for server side
-          var join_selected_values = allVals.join(",");
-          // alert (join_selected_values);exit;
-          var ids = join_selected_values.split(",");
-          var data = [];
-          $.each(ids, function(index, value) {
-            if (value != "") {
-              data[index] = value;
-            }
-          });
-          $.ajax({
-            type: "POST",
-            url: "<?= base_url() ?>admin/PrintThis/Recieve_Challan_multiprint",
-            cache: false,
-            data: {
-              'ids': data,
-              '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-            },
-            success: function(response) {
-              $("body").html(response);
-            }
-          });
-          //for client side
 
-        }
-      }
-    });
     $(document).on('change', "#FromParty", function() {
       var party = $(this).val();
 

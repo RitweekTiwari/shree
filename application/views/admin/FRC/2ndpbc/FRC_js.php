@@ -17,6 +17,7 @@
     $(document).on('click', '#add_tc', function() {
       event.preventDefault();
       tc = $('#tcmain').val();
+      oldtc = $('#oldtc').val();
       pbc = $('#pbc').val();
       qty = $('#Cur_quantity').val();
       if (tc == "") {
@@ -35,6 +36,7 @@
               'pbc': pbc,
               'tc': tc,
               'qty': qty,
+              'oldtc': oldtc,
               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
             success: function(response) {
@@ -63,7 +65,7 @@
       count = count - 1;
     });
 
-   
+
 
     $(document).on('click', '.btn_remove', function() {
       var button_id = $(this).attr("id");
@@ -95,10 +97,11 @@
             $("#msg").html("");
             $('#fabric_id').val(data[0][0]['fabric_id']);
             $('#fabric').val(data[0][0]['fabricName']);
-            $('#Tquantity').val(data[0][0]['current_stock']);
+            $('#Tquantity').val(data[0][0]['stock_quantity']);
             $('#date').val(data[0][0]['created_date']);
             $('#fabtype').val(data[0][0]['fabric_type']);
-            $('#tcmain').val(data[0][0]['tc']);
+
+            $('#oldtc').val(data[0][0]['tc']);
             $('#challan_no').val(data[0][0]['challan_no']);
             $('#ad_no').val(data[0][0]['ad_no']);
             $('#Cur_quantity').val(data[0][0]['current_stock']);

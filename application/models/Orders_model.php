@@ -306,11 +306,12 @@ public function get_design_name()
 			}
 
 			function get_order_value(){
-				$sql = 'SELECT order_table.order_id order_id,order_table.pcs, order_table.order_number order_number, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
+				$sql = 'SELECT order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
 								INNER JOIN data_category ON order_table.data_category = data_category.id
 								INNER JOIN session ON session.id = order_table.session
 								INNER JOIN order_type ON order_type.id = order_table.order_type
 								INNER JOIN customer_detail ON customer_detail.id = order_table.customer_name
+								Left JOIN branch_detail ON branch_detail.id = order_table.branch_name
 								ORDER BY order_table.order_id desc';
 				$query = $this->db->query($sql);
 				$query = $query->result_array();

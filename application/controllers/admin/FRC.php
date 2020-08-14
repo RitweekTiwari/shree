@@ -22,7 +22,7 @@ class FRC extends CI_Controller
 	public function index()
 	{
 		$data = array();
-		$data['name'] = 'Fabric Return Chalan';
+		$data['page_name'] = 'Fabric Return Chalan';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['unit'] = $this->Frc_model->select('unit');
 		$data['sub_dept_data'] = $this->Sub_department_model->get();
@@ -33,7 +33,7 @@ class FRC extends CI_Controller
 	public function showRecieve()
 	{
 		$data = array();
-		$data['name'] = 'Add Fabric Recieve Challan';
+		$data['page_name'] = 'Add Fabric Recieve Challan';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['unit'] = $this->Frc_model->select('unit');
 		$data['sub_dept_data'] = $this->Sub_department_model->get();
@@ -45,7 +45,7 @@ class FRC extends CI_Controller
 	public function showRecieveList()
 	{
 		$data = array();
-		$data['name'] = 'FRC List';
+		$data['page_name'] = 'FRC List';
 		$data['febName'] = $this->Common_model->febric_name();
 		if ($_POST) {
 
@@ -69,7 +69,7 @@ class FRC extends CI_Controller
 	public function showReturnList()
 	{
 		$data = array();
-		$data['name'] = 'Return List';
+		$data['page_name'] = 'Return List';
 		$data['febName'] = $this->Common_model->febric_name();
 		if ($_POST) {
 
@@ -155,7 +155,7 @@ class FRC extends CI_Controller
 	public function viewRecieve($id)
 	{
 		$data = array();
-		$data['name'] = 'View List';
+		$data['page_name'] = 'View List';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['frc_data'] = $this->Frc_model->get_by_id($id);
 		$data['pbc'] = $this->Frc_model->get_frc_by_id($id);
@@ -166,7 +166,7 @@ class FRC extends CI_Controller
 	public function viewReturn($id)
 	{
 		$data = array();
-		$data['name'] = 'View List';
+		$data['page_name'] = 'View List';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['frc_data'] = $this->Frc_model->get_by_id($id);
 		$data['pbc'] = $this->Frc_model->get_frc_by_id($id);
@@ -176,7 +176,7 @@ class FRC extends CI_Controller
 	public function viewtc($id)
 	{
 		$data = array();
-		$data['name'] = 'View List';
+		$data['page_name'] = 'View List';
 
 		$data['frc_data'] = $this->Frc_model->get_by_id($id);
 		$data['main_content'] = $this->load->view('admin/FRC/tc/view', $data, TRUE);
@@ -185,7 +185,7 @@ class FRC extends CI_Controller
 	public function ViewEditRecieve($id)
 	{
 		$data = array();
-		$data['name'] = 'View List';
+		$data['page_name'] = 'View List';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['sub_dept_data'] = $this->Sub_department_model->get();
 		$data['frc_data'] = $this->Frc_model->get_frc_by_id($id);
@@ -303,6 +303,7 @@ class FRC extends CI_Controller
 			$data['from'] = date('Y-04-01');
 			if ($fabric != '') {
 				$data['fabric'] = $fabric;
+				$data['caption'] = 'Search Result For : fabric : '. $fabric;
 			}
 
 			
@@ -319,7 +320,7 @@ class FRC extends CI_Controller
 	public function show_tc()
 	{
 		$data = array();
-		$data['name'] = 'TC List';
+		$data['page_name'] = 'TC List';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['type'] = 'tc';
 		if ($_POST) {
@@ -341,12 +342,12 @@ class FRC extends CI_Controller
 	public function add_tc_list()
 	{
 		$data = array();
-		$data['name'] = 'View List';
-
-		$data['frc_data'] = $this->Frc_model->get_tc();
-		$data['summary'] = $this->Frc_model->tc_summary();
-		$data['content'] = $this->load->view('admin/FRC/tc/tc_index', $data, TRUE);
-		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data, TRUE);
+		$data['page_name'] = 'Create TC Chalan';
+		$data1['tc'] = $this->Frc_model->pbc_tc_history();
+		$data1['frc_data'] = $this->Frc_model->get_tc();
+		
+		$data1['content'] = $this->load->view('admin/FRC/tc/tc_index', $data1, TRUE);
+		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data1, TRUE);
 		$this->load->view('admin/index', $data);
 	}
 	public function add_tc()
@@ -428,7 +429,7 @@ class FRC extends CI_Controller
 	public function addPBC()
 	{
 		$data = array();
-		$data['name'] = '2nd PBC';
+		$data['page_name'] = '2nd PBC';
 		$data['febName'] = $this->Common_model->febric_name();
 		$data['unit'] = $this->Frc_model->select('unit');
 		$data['main_content'] = $this->load->view('admin/FRC/2ndpbc/2ndPbc', $data, TRUE);
@@ -585,6 +586,7 @@ class FRC extends CI_Controller
 						'challan_type' => 'recieve'
 
 					];
+					$this->Frc_model->update_fabric_rate($data['prate'][$i], $data['fabric_name'][$i]);
 					$this->Frc_model->insert($data2, 'fabric_stock_received');
 				}
 			}
@@ -822,7 +824,7 @@ class FRC extends CI_Controller
 	{
 		$pbc = sanitize_url($pbc);
 		$data = array();
-		$data['name'] = 'Details';
+		$data['page_name'] = 'Details';
 
 		$data['pbc_data'] = $this->Frc_model->select_PBC_by_id($pbc);
 		$data['main_content'] = $this->load->view('admin/FRC/2ndpbc/showPBC', $data, TRUE);
@@ -907,10 +909,11 @@ class FRC extends CI_Controller
 		$pbc = $this->security->xss_clean($_POST['pbc']);
 		$tc = $this->security->xss_clean($_POST['tc']);
 		$qty = $this->security->xss_clean($_POST['qty']);
+		$oldtc = $this->security->xss_clean($_POST['oldtc']);
 		//echo "pbc=".$pbc."\n";echo "tc=".$tc."\n";echo "qty=".$qty."\n";exit;
 		$data3 = [
 			'current_stock' => ($qty - $tc),
-			'tc' => $tc,
+			'tc' => $tc + $oldtc,
 			'isSecond' => 1
 		];
 		$done =	$this->Frc_model->update($data3, 'parent_barcode', $pbc, 'fabric_stock_received');

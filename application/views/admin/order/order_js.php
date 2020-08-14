@@ -434,7 +434,7 @@
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);
-      $('#serial_number' + count + '').focus();
+      $('#tdbarcode input' + count + '').focus();
       if (stype == 1) {
         $('#tdbarcode' + count + '').html(des);
         $('#barcode_head').html('Design Barcode');

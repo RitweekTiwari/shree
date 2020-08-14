@@ -199,16 +199,15 @@
                 </div>
 
                 <div id="summary" class="tab-pane fade p-20" role="tabpanel">
-                  <a type="button" class="btn  pull-left  btn-info" target="_blank" id='Print_summary' style="color:#fff;"><i class="fa fa-print"></i></a>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn  pull-left  btn-info" id='Excel' style="color:#fff;">Excel</a>
+                 
                   <hr>
                   <?php if (isset($frc_data['summary'])) {; ?>
-                    <table class=" table-bordered data-table text-center  table-responsive " id='dt_summary'>
+                    <table class="table-bordered table-responsive  " id='dt_summary'>
                       <tr>
                         <caption class="text-center text-info" style='caption-side : top'>Summary</caption>
                         <?php foreach ($frc_data['type'] as $fabtype) { ?>
                           <td class="align-top">
-                            <table class=" table-bordered  data-table text-center  table-responsive ">
+                            <table class="datatable    ">
                               <caption class="text-center text-info" style='caption-side : top'><?php echo $fabtype['type'] ?></caption>
                               <thead>
                                 <th>Fabric</th>
@@ -238,12 +237,14 @@
                                         $i += 1;
                                       } ?>
                               </tbody>
-                              <tr>
-                                <th>Total</th>
-                                <th><?php echo  $pcs ?></th>
-                                <th><?php echo  $qty ?></th>
-                                <th><?php echo  $total ?></th>
-                              </tr>
+                              <tfoot>
+                                <tr>
+                                  <th>Total</th>
+                                  <th><?php echo  $pcs ?></th>
+                                  <th><?php echo  $qty ?></th>
+                                  <th><?php echo  $total ?></th>
+                                </tr>
+                              </tfoot>
                             </table>
                           </td>
                           <td></td>
@@ -256,7 +257,7 @@
                   <hr>
                   <?php if (isset($frc_data['summary2'])) {; ?>
 
-                    <table class=" table-bordered  data-table text-center  table-responsive ">
+                    <table class="table-bordered table-responsive" id="summary2">
                       <caption class="text-center text-info" style='caption-side : top'><?php echo  $fabric ?></caption>
                       <thead>
                         <th>Color</th>
@@ -286,12 +287,14 @@
                                 $i += 1;
                               } ?>
                       </tbody>
-                      <tr>
-                        <th>Total</th>
-                        <th><?php echo  $pcs ?></th>
-                        <th><?php echo  $qty ?></th>
-                        <th><?php echo  $total ?></th>
-                      </tr>
+                      <tfoot>
+                        <tr>
+                          <th>Total</th>
+                          <th><?php echo  $pcs ?></th>
+                          <th><?php echo  $qty ?></th>
+                          <th><?php echo  $total ?></th>
+                        </tr>
+                      </tfoot>
                     </table>
                     </td>
                     <td></td>
@@ -310,27 +313,46 @@
 
       <script type="text/javascript">
         $(document).ready(function() {
-          function printData() {
-            var divToPrint = document.getElementById("dt_summary");
-            newWin = window.open("");
-            newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
-            newWin.document.write(divToPrint.outerHTML);
-            newWin.document.close();
-            newWin.print();
+          $('#summary2, .datatable').DataTable({
 
-          }
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'excel',
+                footer: true,
+               
+              }, {
+                extend: 'print',
+                footer: true,
+                
+              },
 
-          $('#Print_summary').on('click', function() {
-            printData();
+            ],
 
-          })
-          $('#Excel').on('click', function() {
+            paging: true,
 
-            var htmltable = document.getElementById('dt_summary');
-            var html = htmltable.outerHTML;
-            window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+          });
 
-          })
+          // function printData() {
+          //   var divToPrint = document.getElementById("dt_summary");
+          //   newWin = window.open("");
+          //   newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
+          //   newWin.document.write(divToPrint.outerHTML);
+          //   newWin.document.close();
+          //   newWin.print();
+
+          // }
+
+          // $('#Print_summary').on('click', function() {
+          //   printData();
+
+          // })
+          // $('#Excel').on('click', function() {
+
+          //   var htmltable = document.getElementById('dt_summary');
+          //   var html = htmltable.outerHTML;
+          //   window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+
+          // })
 
           // function filter() {
           //   var fabric = $(this).text();

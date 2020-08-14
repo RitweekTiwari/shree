@@ -55,6 +55,7 @@
       var selected = [];
       var fabric_type = $('input[name="fabric_type"]').val();
       var fabric_name = $('input[name="fabric_name"]').val();
+
       $("#table tr.selected").each(function() {
         selected.push($('td:first', this).html());
       });
@@ -108,6 +109,7 @@
     $("#fabric").on('change', function() {
       var fabricType = $(this).val();
       var fabricName = $(this).children("option:selected").html();
+      console.log(fabricType);
       window.value = $(this).val();
       if (fabricType != "") {
         var csrf_name = $("#get_csrf_hash").attr('name');

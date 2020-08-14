@@ -160,7 +160,7 @@
 
                     <th>View </th>
                     <th>Edit </th>
-                    
+
                   </tr>
                 </thead>
                 <tbody>
@@ -182,8 +182,8 @@
                         <a href="<?php echo base_url('admin/Transaction/viewDispatch/') . $value['transaction_id'] ?> ">
                           <i class="fas fa-eye"></i>
                         </a>
-                     
-                     
+
+
                     </tr>
 
                   <?php $id = $id + 1;
@@ -201,7 +201,50 @@
 
 
 <script>
- 
+  jQuery('.print_all').on('click', function(e) {
+    var allVals = [];
+    $(".sub_chk:checked").each(function() {
+      allVals.push($(this).attr('data-id'));
+    });
+    //alert(allVals.length); return false;
+    if (allVals.length <= 0) {
+      alert("Please select row.");
+    } else {
+      //$("#loading").show();
+      WRN_PROFILE_DELETE = "Are you sure you want to Print this rows?";
+      var check = confirm(WRN_PROFILE_DELETE);
+      if (check == true) {
+        //for server side
+        var join_selected_values = allVals.join(",");
+        // alert (join_selected_values);exit;
+        var ids = join_selected_values.split(",");
+        var data = [];
+        $.each(ids, function(index, value) {
+          if (value != "") {
+            data[index] = value;
+          }
+        });
+        $.ajax({
+          type: "POST",
+          url: "<?= base_url() ?>admin/Transaction/print_packing_slip",
+          cache: false,
+          data: {
+            'challan_id': data,
+            'type': 'table',
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          success: function(response) {
+            var w = window.open('about:blank');
+            w.document.open();
+            w.document.write(response);
+            w.document.close();
+          }
+        });
+        //for client side
+
+      }
+    }
+  });
 </script>
 
 <?php include('challan_js.php'); ?>

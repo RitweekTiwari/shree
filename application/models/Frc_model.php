@@ -239,7 +239,26 @@ public function get_by_id($id)
     return $query;
    
  }
- 
+  public function pbc_tc_history(){
+    $this->db->select("pbc_tc_history.*,fabric_stock_view.fsr_id ,fabric_stock_view.parent_barcode ,fabric_stock_view.fabric_type ,
+fabric_stock_view.hsn ,
+    fabric_stock_view.stock_quantity ,
+    fabric_stock_view.stock_unit,
+    fabric_stock_view.challan_no ,
+    fabric_stock_view.fabric_id,
+    fabric_stock_view.color_name ,
+    fabric_stock_view.ad_no ,
+    fabric_stock_view.purchase_code ,
+    fabric_stock_view.purchase_rate ,
+    fabric_stock_view.total_value ,
+    fabric_stock_view.fabricName");
+    $this->db->from('pbc_tc_history');
+    $this->db->join('fabric_stock_view', 'fabric_stock_view.parent_barcode=pbc_tc_history.pbc', 'inner');
+    $query = $this->db->get();
+    //echo"<pre>"; print_r($query);exit;
+    $query = $query->result_array();
+    return $query;
+  }
   public function get_tc()
  {
    $this->db->select("*");
@@ -266,7 +285,11 @@ public function get_by_id($id)
    return $query;
    
  }
-
+  
+  public function update_fabric_rate($rate,$fabric){
+    $this->db->where("id", $fabric);
+    $this->db->update('fabric', array('purchase' => $rate));
+  }
  
  public function search($data)
  {
@@ -479,9 +502,12 @@ public function getPBC_deatils($id)
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where($col,$id);
+    $this->db->where("isStock", 1);
+    $this->db->where('deleted ', 0);
+    $this->db->where('challan_type ', 'recieve');
     $this->db->or_like($col, $id.'/');
-   $this->db->where("isStock",1);
-   $this->db->where('deleted ', 0);
+  
+
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
    $rec=$this->db->get();
     // echo $this->db->last_query();

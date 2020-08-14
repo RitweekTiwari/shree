@@ -127,7 +127,7 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                              
+
                                 <div class="col-6">
 
                                     <form id="frc_dateFilter">
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class=" table-bordered data-table text-center " id="frc">
+                            <table class=" table-bordered data-table text-center table-responsive" id="frc">
                                 <thead class="">
                                     <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>
@@ -264,7 +264,7 @@
                                         <th></th>
                                         <th></th>
                                         <th> <?php echo $qty
-                                    ?></th>
+                                                ?></th>
                                         <th></th>
                                         <th></th>
                                         <th> </th>
@@ -276,6 +276,8 @@
                             </table>
                         </div>
                     </div>
+                    <hr>
+                    <div id='summary'></div>
                 </div>
             </div>
         </div>
@@ -283,7 +285,82 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    var summary = [];
+    var count = 0;
+    var i = 0;
+    $(document).ready(function() {
 
+        $("#frc tbody tr").each(function() {
+
+            var self = $(this);
+            var fabric = self.find("td:eq(5)").text().trim();
+            var qty = Number(self.find("td:eq(11)").text().trim());
+            console.log('fabric=' + fabric);
+            console.log('summary=' + summary);
+            pcs = 1;
+            if (i == 0) {
+                var arr = [fabric, pcs, qty];
+                summary.push(arr);
+
+
+            } else {
+                var found = 0;
+                summary.forEach(myFunction);
+
+                function myFunction(value, index, array) {
+
+                    if (fabric == array[index][0]) {
+                        found = 1;
+                        array[index][1] += 1;
+                        array[index][2] += Number(qty);
+
+                    }
+
+                }
+                if (found == 0) {
+                    pcs = 1;
+                    qty = Number(qty);
+                    arr = [fabric, pcs, qty];
+                    summary.push(arr);
+                    console.log(summary);
+                }
+            }
+            i = i + 1;
+        });
+        var html =
+            '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
+        html += '<tr><th >Fabric</th>';
+        html += '<th >PCS</th>';
+        html += '<th >Quantity</th>';
+
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+        if (summary) {
+
+            var stotal = 0;
+            var tqty = 0;
+            var Tpcs = 0;
+            summary.forEach(myFunction);
+
+            function myFunction(value, index, array) {
+                stotal += array[index][3];
+                tqty += array[index][2];
+                Tpcs += array[index][1];
+                html += ' <tr><td>' + array[index][0] + '</td>';
+                html += '<td>' + array[index][1] + '</td>';
+                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
+                html += '</tr></tbody>';
+            }
+            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
+                '</th></tr>';
+            html += '</table>';
+
+            $('#summary').html(html);
+        }
+    });
+</script>
 <script>
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];

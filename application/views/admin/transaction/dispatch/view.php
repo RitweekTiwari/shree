@@ -32,7 +32,7 @@
 
                             </Div>
 
-                            <table class=" table-bordered data-table text-center " id="list">
+                            <table class=" table-bordered  text-center " id="list">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
@@ -121,6 +121,7 @@
     var count = 0;
     var i = 0;
     $(document).ready(function() {
+       
         $("table tbody tr").each(function() {
 
             var self = $(this);
@@ -180,10 +181,10 @@
                 Tpcs += array[index][1];
                 html += ' <tr><td>' + array[index][0] + '</td>';
                 html += '<td>' + array[index][1] + '</td>';
-                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100  + '</td>';
+                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
                 html += '</tr></tbody>';
             }
-            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100  +
+            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
                 '</th></tr>';
             html += '</table>';
 
@@ -221,7 +222,7 @@
                     cache: false,
                     data: {
                         'ids': data,
-                        'type' : 'table',
+                        'type': 'table',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {
@@ -236,5 +237,4 @@
             }
         }
     });
-  
 </script>
