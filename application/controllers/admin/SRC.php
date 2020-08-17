@@ -26,25 +26,32 @@ class SRC extends CI_Controller {
 		$data['grade'] = $this->common_model->select('grade');
 		$data['code'] = $this->common_model->select('fabric_code');
 		$data['count'] = count($data['grade']);
-		$data['main_content'] = $this->load->view('admin/master/src/src', $data, TRUE);
-		$this->load->view('admin/index', $data);
-	}
-	public function show_list()
-	{
-		$data = array();
-		$data['page_name'] = ' SRC LIST /' . '<a href="' . base_url('admin/SRC') . '">Home</a>';
 		$data['src'] = $this->Src_model->get_src();
 		foreach ($data['src'] as $key => $value) {
 			$output[$key]['fabric'] = $value->fabricName;
 			$output[$key]['code'] = $value->fbcode;
 			$output[$key]['grade'] = self::get_array($value->grade, $value->rate);
 		}
-
-		$data['output'] = $output;
-		$data['grade'] = $this->common_model->select('grade');
-		//echo print_r($data['$febName']);exit;
-		$data['main_content'] = $this->load->view('admin/master/src/list', $data, TRUE);
+		if(isset($output)){
+			$data['output'] = $output;
+		}
+		
+		$data['main_content'] = $this->load->view('admin/master/src/src', $data, TRUE);
 		$this->load->view('admin/index', $data);
+	}
+	public function get_src(){
+		$fabric = $this->security->xss_clean($_POST['fabric']);
+		$data[]=array('name'=>'fabric','value'=> $fabric);
+		$code = $this->security->xss_clean($_POST['code']);
+		$data[] = array('name' => 'code', 'value' => $code);
+		
+		$data['src'] = $this->Src_model->get_src_by_col($data);
+		if($data['src']!=0){
+			echo json_encode($data['src']);
+		}else{
+			echo json_encode(array("0" => "Null"));
+		}
+		
 	}
 	public function get_array($gread, $rate)
 	{
@@ -112,8 +119,21 @@ public function update()
 						'rate' => $data['rate'][$i],
 						'created_at' => date('Y-m-d')
 					);
+			$data2=array();		
+			$data2[] = array('name' => 'code', 'value' => $data[1]['code']);
+			$data2[] = array('name' => 'grade', 'value' => $data['grade'][$i]);
+			$data2[] = array('name' => 'fabric', 'value' => $data[0]['fabricName']);
+			//pre($data2);
+					$f= $this->Src_model->check_src($data2);
+					//echo 'found = '. $f;exit;
+					if($f==1){
+				$id = $this->Src_model->update_by_col($data1, 'src');	
+				
+					}else{
+				$id = $this->Src_model->insert($data1, 'src');
+			
+					}
 					
-					$id = $this->Src_model->insert($data1,'src');
 					
 					if($id>0 && $id!=""){
 						$done+=1;

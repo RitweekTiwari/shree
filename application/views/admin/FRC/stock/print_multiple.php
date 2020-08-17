@@ -28,13 +28,7 @@
     text-align: left;
   }
 
-  table img {
-    width: 2.2in;
-    height: 50px;
-    display: block;
 
-    padding-top: 2px;
-  }
 </style>
 
 <table>
@@ -47,9 +41,13 @@
           <tr>
             <td colspan="2">
               <div>
-                <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
+                <svg class="barCodeImage" id="barcode1<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
-                  JsBarcode("#barcode1<?php echo $value->parent_barcode; ?>", "<?php echo $value->parent_barcode; ?>");
+                  JsBarcode("#barcode1<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
+                    height: 50,
+                    fontSize: 14,
+                    width: 2.5
+                  });
                 </script>
               </div>
             </td>

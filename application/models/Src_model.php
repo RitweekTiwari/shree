@@ -28,7 +28,15 @@ public function update($id,$data)
    $this->db->update('src', $data);
    return true;
  }
-
+  public function update_by_col( $data)
+  {
+    
+    $this->db->where('fabric', $data['fabric']);
+    $this->db->where('code', $data['code']);
+    $this->db->where('grade', $data['grade']);
+    return $this->db->update('src', array('rate'=> $data['rate']));
+     
+  }
 
 
  public function get_fabric_fresh_value()
@@ -45,7 +53,42 @@ public function update($id,$data)
  }
 
 
+  public function get_src_by_col($data)
+  {
+    $this->db->select('*');
+    $this->db->from('src');
+    foreach($data as $row){
+      $this->db->where($row['name'], $row['value']);
+    }
+    
+    $query = $this->db->get();
+    // echo $query->num_rows();
+    // exit;
+    if($query->num_rows()>0){
+      return $query->result_array();
+    }
+    else{
+      return 0;
+    }
+    
+  }
+  public function check_src($data)
+  {
+    $this->db->select('*');
+    $this->db->from('src');
+    foreach ($data as $row) {
+      $this->db->where($row['name'], $row['value']);
+    }
 
+    $query = $this->db->get();
+    // echo $this->db->last_query();
+    
+    if ($query->num_rows() == 1) {
+      return 1;
+    } else {
+      return 0;
+    }
+  } 
  public function get_src()
  {
     $sql = "SELECT src.id,src.fabric, fabric.fabricName, fabric_code.fbcode, GROUP_CONCAT(grade.grade) AS grade, GROUP_CONCAT(src.rate) AS rate, src.created_at FROM src Join fabric ON fabric.id=src.fabric Join fabric_code on fabric_code.id=src.code Join grade on grade.id=src.grade GROUP BY src.fabric,src.code HAVING src.fabric IN (SELECT src.fabric From src GROUP BY src.fabric)";

@@ -27,14 +27,6 @@
     border: none;
     text-align: left;
   }
-
-  table img {
-    width: 1.0in;
-    height: 50px;
-    display: block;
-    margin: 0 auto;
-    padding-top: 2px;
-  }
 </style>
 
 <table>
@@ -47,44 +39,48 @@
           <tr>
             <td colspan="2" class=" main-text">
               <div>
-                <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
+                <svg class="barCodeImage" id="barcode1<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
-                  JsBarcode("#barcode1<?php echo $value->parent_barcode; ?>", "<?php echo $value->parent_barcode; ?>");
+                  JsBarcode("#barcode1<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
+                    height: 50,
+                    fontSize: 14,
+                    width: 1.0
+                  });
                 </script>
               </div>
             </td>
 
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; BARCODE</td>
+            <td style="width: 50%; text-align: left"> BARCODE</td>
             <td>:-<?php echo  $value->parent_barcode ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; FABRIC</td>
+            <td style="width: 50%; text-align: left"> FABRIC</td>
             <td>:-<?php echo  $value->fabricName ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; HSN</td>
+            <td style="width: 50%; text-align: left"> HSN</td>
             <td>:-<?php echo $value->hsn ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; SIZE</td>
+            <td style="width: 50%; text-align: left"> SIZE</td>
             <td>:-<?php echo $value->current_stock ?> <?php echo $value->stock_unit ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; COLOR</td>
+            <td style="width: 50%; text-align: left"> COLOR</td>
             <td>:-<?php echo $value->color_name ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; CHALLAN NO</td>
+            <td style="width: 50%; text-align: left"> CHALLAN NO</td>
             <td>:-<?php echo  $value->challan_no ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; AD NO</td>
+            <td style="width: 50%; text-align: left"> AD NO</td>
             <td>:-<?php echo  $value->ad_no ?></td>
           </tr>
           <tr>
-            <td> &nbsp;&nbsp; RATE CODE</td>
+            <td style="width: 50%; text-align: left"> RATE CODE</td>
             <td>:-<?php echo  $value->purchase_code ?></td>
           </tr>
         </table>
@@ -94,9 +90,13 @@
           <tr>
             <td colspan="2" class=" main-text">
               <div>
-                <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
+                <svg class="barCodeImage" id="barcode2<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
-                  JsBarcode("#barcode1<?php echo $value->parent_barcode; ?>", "<?php echo $value->parent_barcode; ?>");
+                  JsBarcode("#barcode2<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
+                    height: 50,
+                    fontSize: 14,
+                    width: 1.0
+                  });
                 </script>
               </div>
             </td>
@@ -113,9 +113,13 @@
           <tr>
             <td colspan="2" class=" main-text">
               <div>
-                <img class="barCodeImage" id="barcode1<?php echo $value->parent_barcode; ?>" />
+                <svg class="barCodeImage" id="barcode3<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
-                  JsBarcode("#barcode1<?php echo $value->parent_barcode; ?>", "<?php echo $value->parent_barcode; ?>");
+                  JsBarcode("#barcode3<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
+                    height: 50,
+                    fontSize: 14,
+                    width: 1.0
+                  });
                 </script>
               </div>
             </td>

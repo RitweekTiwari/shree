@@ -8,8 +8,8 @@
                                         <tr >
 
                                           <td><input type="text" class="form-control "  value="<?php echo $id;?>" readonly></td>
-                                          <td><input type="text" class="form-control " name="date[]" value="<?php $date=date_create($value['created_date']);
-                                              echo date_format($date,"d-m-y "); ?>" readonly></td>
+                                          <td><input type="text" class="form-control " name="date[]" value="<?php echo $value['created_date'];
+                                                ?>" readonly></td>
 
                                           <td><input type="text" class="form-control " name="pbc[]" value="<?php echo $value['parent_barcode'];?>" readonly></td>
                                           <td><input type="text" class="form-control " name="fabric[]" value="<?php echo $value['fabricName'];?>" readonly><input type="hidden"  name="fabric_id[]" value="<?php echo $value['fabric_id'];?>" ></td>
@@ -42,8 +42,9 @@
                                         <tr >
 
                                           <td><input type="text" class="form-control "  value="<?php echo $id;?>" readonly></td>
-                                          <td><input type="text" class="form-control " name="date[]" value="<?php $date=date_create($value2['date']);
-                                              echo date_format($date,"d-m-y "); ?>" readonly></td>
+                                          <td><input type="text" class="form-control " name="date[]" value="<?php
+                                          echo $value2['date'];
+                                              ?>" readonly></td>
 
                                           <td><input type="text" class="form-control " name="pbc[]" value="<?php echo $value2['pbc'];?>" readonly></td>
                                           <td><input type="text" class="form-control " name="fabric[]" value="<?php echo $value2['fabricName'];?>" readonly><input type="hidden"  name="fabric_id[]" value="<?php echo $value['fabric_id'];?>" ></td>

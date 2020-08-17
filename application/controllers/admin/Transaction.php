@@ -79,8 +79,12 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
 			$data['page_name']= $data['godown']. '  DASHBOARD /' . $link;
-			
-            $data['frc_data']=$this->Transaction_model->get('to_godown', $godown, 'challan');
+		if($godown==23)	{
+			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all');	
+		}else{
+			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan');
+		}
+            
 		      $data['main_content'] = $this->load->view('admin/transaction/list_in', $data, TRUE);
   	      $this->load->view('admin/index', $data);
 		}
@@ -172,7 +176,12 @@
 		}
 		}
 		if($found==0){
-		$data['frc_data'] = $this->Transaction_model->get_stock($godown);
+			if($godown==23){
+				$data['frc_data'] = $this->Transaction_model->get_stock($godown,'all');
+			}else{
+				$data['frc_data'] = $this->Transaction_model->get_stock($godown,'recieve');
+			}
+		
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
 		}
 		
@@ -440,7 +449,7 @@
 					if ($type == 'tc') {
 						$r = $this->Transaction_model->get_tc_stock($data1);
 					} else {
-						$r = $this->Transaction_model->get_stock($data1);
+						$r = $this->Transaction_model->get_stock($data1,'recieve');
 					}
 					if(isset($r[0])){
 						$data['data'][] = $r[0];

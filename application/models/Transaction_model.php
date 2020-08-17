@@ -63,7 +63,10 @@ public function get($col,$godown,$type)
  {
    $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('transaction');
-    $this->db->where('transaction_type', $type);
+   if($type!='all'){
+      $this->db->where('transaction_type', $type);
+   }
+   
     $this->db->where($col, $godown);
      $this->db->join('sub_department sb1','sb1.id=transaction.from_godown  ','left');
  $this->db->join('sub_department sb2','sb2.id=transaction.to_godown  ','left');
@@ -73,7 +76,7 @@ public function get($col,$godown,$type)
     
    
  }
-  public function get_stock($data)
+  public function get_stock($data,$type)
   {
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
@@ -85,10 +88,16 @@ public function get($col,$godown,$type)
       $data=$data['godown'];   
      }
     $this->db->where('to_godown', $data);
+    if($type== 'recieve'){
+      $this->db->where('stat', $type);
+    }
+    
     $query = $this->db->get();
     //print_r($this->db->last_query());
     return $query->result_array();
   }
+ 
+  
   public function get_stock_by_obc($data)
   {
     $this->db->select(" transaction_meta.trans_meta_id AS trans_meta_id,

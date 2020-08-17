@@ -25,7 +25,7 @@
               <th>ORDER DATE</th>
               <th>ORDER NUMBER</th>
               <th>RECORD / ORDER</th>
-              <th>Branch</th>
+              <th>Branch Name</th>
               <th>Branch OD No.</th>
 
               <th>CUSTOMER NAME</th>
@@ -43,8 +43,9 @@
                 <td><?php echo my_date_show($orders_value['order_date']); ?></td>
                 <td><?php echo $orders_value['order_number']; ?></td>
                 <td><?php echo $orders_value['pcs']; ?></td>
-                <td><?php echo $orders_value['branch_order_number']; ?></td>
                 <td><?php echo $orders_value['branch']; ?></td>
+                <td><?php echo $orders_value['branch_order_number']; ?></td>
+
 
                 <td><?php echo $orders_value['customer_name']; ?></td>
                 <td><?php echo $orders_value['order_type']; ?></td>

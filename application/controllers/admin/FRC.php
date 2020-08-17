@@ -345,7 +345,7 @@ class FRC extends CI_Controller
 		$data['page_name'] = 'Create TC Chalan';
 		$data1['tc'] = $this->Frc_model->pbc_tc_history();
 		$data1['frc_data'] = $this->Frc_model->get_tc();
-		
+		//pre($data1['tc']);exit;
 		$data1['content'] = $this->load->view('admin/FRC/tc/tc_index', $data1, TRUE);
 		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data1, TRUE);
 		$this->load->view('admin/index', $data);

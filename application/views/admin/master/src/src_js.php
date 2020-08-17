@@ -61,8 +61,38 @@
       $(".code").val($("#code1 :selected").text());
     });
     $("#next").on('click', function() {
+      var fabric = $("#fabricName").val();
+      var code = $("#code1").val();
+      $.ajax({
+        type: "POST",
+        url: "<?= base_url() ?>admin/SRC/get_src",
+        cache: false,
+        data: {
+          'fabric': fabric,
+          'code': code,
+          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        success: function(response) {
 
-      $("#FormGrade").show();
+          response = JSON.parse(response);
+          console.log(response);
+          if (response != "Null") {
+
+            response.forEach(myFunction);
+
+            function myFunction(item, index) {
+              // console.log(item.grade);
+              $('#tr' + item.grade + '').find('.rate').val(item.rate);
+            }
+          } else {
+            $('.rate').val(0);
+          }
+         
+          $("#FormGrade").show();
+
+        }
+      });
+
     });
     $("#rate0").on('change', function() {
       var count = <?php echo $count ?>;
@@ -88,14 +118,20 @@
         },
         datatype: 'json',
         success: function(data) {
-          $('#lastRate').val(data[0].purchase_rate);
-          $('#oldRate').val(data[1].purchase_rate);
+          if (data != '') {
+            $('#lastRate').val(data[0].purchase_rate);
+            $('#oldRate').val(data[1].purchase_rate);
+          } else {
+            $('#lastRate').val("0");
+            $('#oldRate').val("0");
+          }
+
         }
       });
     });
     $("#add_src").on('click', function() {
       var form = $("form").serializeArray();
-      console.log(form);
+      // console.log(form);
       $.ajax({
         type: "POST",
         url: "<?php echo base_url('admin/SRC/add_src') ?>",

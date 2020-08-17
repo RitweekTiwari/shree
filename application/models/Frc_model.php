@@ -609,7 +609,7 @@ public function getId($type)
     sb2.subDeptName AS challan_to');
     $this->db->from('fabric_stock_received');
     $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-    $this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','inner');
+    $this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','left');
     $this->db->join('sub_department sb1','sb1.id=fc.challan_from  ','left');
     $this->db->join('sub_department sb2','sb2.id=fc.challan_to  ','left');
     if(isset($id['barcode'])){

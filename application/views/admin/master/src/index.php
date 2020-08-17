@@ -18,19 +18,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-3 col-xlg-3">
-                                <div class="card card-hover">
-                                    <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
-                                        <h1 class="font-light text-white">
-                                            <i class="mdi mdi-eye"></i>
-                                        </h1>
-                                        <a href="<?php echo base_url('admin/SRC/show_list'); ?>">
-                                            <h4 class="font-light text-white"><i class="mdi mdi-cart"></i></h4>
-                                            <h5 class="text-white">SRC List</h5>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
                                     <div class="box  text-center" style="background: linear-gradient(45deg,#5b247a,#ea6060);">
