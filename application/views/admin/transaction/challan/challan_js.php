@@ -61,10 +61,10 @@
         $(this).focus();
         $(this).css("border-color", "red");
         toastr.error('Failed!', "Already Entered");
-        window.add = 0;
+
       } else {
         $(this).css("border-color", "");
-        window.add = 1;
+
 
         var csrf_name = $("#get_csrf_hash").attr('name');
         var csrf_val = $("#get_csrf_hash").val();
@@ -104,6 +104,7 @@
               $('#stitch' + button_id + '').val(data[0]['stitch']);
               $('#dye' + button_id + '').val(data[0]['dye']);
               $('#matching' + button_id + '').val(data[0]['matching']);
+
               if (godown == 19) {
                 $('#qty' + button_id + '').val(data[0]['finish_qty']);
 
@@ -126,6 +127,15 @@
               } else {
                 $('#submit_button').hide();
               }
+              var current = 0;
+              $("input[name='quantity[]']").each(function() {
+                current += Number($(this).val());
+                console.log("Current=" + current);
+              });
+
+
+              $('#thtotal').html(current)
+              console.log("quantity=" + current);
             } else {
               toastr.error('Failed!', "OBC Not Found");
               $('#designName' + button_id + '').val("");
@@ -145,18 +155,18 @@
     $("body").keypress(function(e) {
       if (e.which == 13) {
         event.preventDefault();
-        if (window.add == 1) {
-          addmore();
-          window.add = 0;
-        }
+
+        addmore();
+
+
 
       }
     });
     $('#add_more').on('click', function() {
-      if (window.add == 1) {
-        addmore();
-        window.add = 0;
-      }
+
+      addmore();
+
+
     });
 
 

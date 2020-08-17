@@ -85,25 +85,46 @@
                 <tbody id="fresh_data">
                   <tr id="0">
                     <td><input type="text" class="form-control" readonly value="1"></td>
-                    <td><input type="text" class="form-control pbc"  value="" id='pbc0' readonly></td>
+                    <td><input type="text" class="form-control pbc" value="" id='pbc0' readonly></td>
                     <td><input type="text" class="form-control obc" name="obc[]" id="obc0"></td>
-                    <td><input type="text" class="form-control "  value="" id="orderNo0"  readonly></td>
-                    <td><input type="text"  class="form-control " id='fabric0' readonly></td>
-                    <td><input type="text" class="form-control "  value="" id='hsn0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id="orderNo0" readonly></td>
+                    <td><input type="text" class="form-control " id='fabric0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id='hsn0' readonly></td>
                     <td><input type="text" class="form-control " name="design[]" value="" id='design0' readonly></td>
-                    <td><input type="text" class="form-control "  value="" id='DesignCode0' readonly></td>
-                    <td><input type="text" class="form-control "  value="" id='dye0' readonly></td>
-                    <td><input type="text" class="form-control "  value="" id='matching0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id='DesignCode0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id='dye0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id='matching0' readonly></td>
                     <td><input type="text" class="form-control" name="quantity[]" value="" id='qty0' readonly></td>
-                    <td><input type="text"  class="form-control unit " id='unit0' readonly>
-                    <td><input type="text" class="form-control"  value="" id='image0' readonly></td>
-                    <td><input type="text" class="form-control "  value="" id='days0' readonly></td>
-                    <td><input type="text" class="form-control"  value="" id='remark0' readonly>
+                    <td><input type="text" class="form-control unit " id='unit0' readonly>
+                    <td><input type="text" class="form-control" value="" id='image0' readonly></td>
+                    <td><input type="text" class="form-control " value="" id='days0' readonly></td>
+                    <td><input type="text" class="form-control" value="" id='remark0' readonly>
                       <input type="hidden" name="trans_id[]" id='trans_id0'>
                     </td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>
+                <tfoot>
+                  <tr>
+                    <th>#</th>
+                    <th></th>
+                    <th></th>
+                    <th> </th>
+                    <th></th>
+                    <th></th>
+                    <th> </th>
+                    <th> </th>
+                    <th> </th>
+                    <th>Total</th>
+                    <th id="thtotal"> </th>
+                    <th></th>
+                    <th></th>
+                    <th> </th>
+                    <th></th>
+                    <th></th>
+
+                  </tr>
+                </tfoot>
               </table>
               <hr>
               <div class="col-md-3" id='submit_button'>

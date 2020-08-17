@@ -254,6 +254,7 @@ fabric_stock_view.hsn ,
     fabric_stock_view.fabricName");
     $this->db->from('pbc_tc_history');
     $this->db->join('fabric_stock_view', 'fabric_stock_view.parent_barcode=pbc_tc_history.pbc', 'inner');
+    $this->db->where('isTc',0);
     $query = $this->db->get();
     //echo"<pre>"; print_r($query);exit;
     $query = $query->result_array();

@@ -343,11 +343,11 @@ class FRC extends CI_Controller
 	{
 		$data = array();
 		$data['page_name'] = 'Create TC Chalan';
-		$data1['tc'] = $this->Frc_model->pbc_tc_history();
-		$data1['frc_data'] = $this->Frc_model->get_tc();
-		//pre($data1['tc']);exit;
-		$data1['content'] = $this->load->view('admin/FRC/tc/tc_index', $data1, TRUE);
-		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data1, TRUE);
+		$data['tc'] = $this->Frc_model->pbc_tc_history();
+		$data['frc_data'] = $this->Frc_model->get_tc();
+		//pre($data['tc']);exit;
+		$data['content'] = $this->load->view('admin/FRC/tc/tc_index', $data, TRUE);
+		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
 	public function add_tc()
@@ -421,6 +421,7 @@ class FRC extends CI_Controller
 
 				];
 				$this->Frc_model->update($data3, 'fsr_id', $data['fsr_id'][$i], 'fabric_stock_received');
+				$this->Frc_model->update($data3, 'pbc', $data['pbc'][$i], 'pbc_tc_history');
 			}
 		}
 		$this->session->set_flashdata('success', 'Added Successfully!!');

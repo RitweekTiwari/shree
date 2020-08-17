@@ -47,7 +47,7 @@
                                               ?>" readonly></td>
 
                                           <td><input type="text" class="form-control " name="pbc[]" value="<?php echo $value2['pbc'];?>" readonly></td>
-                                          <td><input type="text" class="form-control " name="fabric[]" value="<?php echo $value2['fabricName'];?>" readonly><input type="hidden"  name="fabric_id[]" value="<?php echo $value['fabric_id'];?>" ></td>
+                                          <td><input type="text" class="form-control " name="fabric[]" value="<?php echo $value2['fabricName'];?>" readonly><input type="hidden"  name="fabric_id[]" value="<?php echo $value2['fabric_id'];?>" ></td>
                                            <td><input type="text" class="form-control " name="color[]" value="<?php echo $value2['color_name'];?>" readonly></td>
                                           
                                           <td><input type="text" class="form-control " name="sqty[]" value="<?php echo $value2['stock_quantity']?>" readonly></td>

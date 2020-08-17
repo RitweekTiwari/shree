@@ -50,10 +50,10 @@
         $(this).focus();
         $(this).css("border-color", "red");
         toastr.error('Failed!', "Already Entered");
-        window.add = 0;
+
       } else {
         $(this).css("border-color", "");
-        window.add = 1;
+
         var csrf_name = $("#get_csrf_hash").attr('name');
         var csrf_val = $("#get_csrf_hash").val();
         $.ajax({
@@ -98,6 +98,7 @@
               $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
               $('#hsn' + button_id + '').val(data[0]['hsn']);
               $('#unit' + button_id + '').val(data[0]['unit']);
+
               if (data[0]['trans_meta_id']) {
                 $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
               } else {
@@ -108,6 +109,15 @@
               } else {
                 $('#submit_button').hide();
               }
+              var current = 0;
+              $("input[name='quantity[]']").each(function() {
+                current += Number($(this).val());
+                console.log("Current=" + current);
+              });
+
+
+              $('#thtotal').html(current)
+              console.log("quantity=" + current);
             } else {
               toastr.error('Failed!', "OBC Not Found");
 
@@ -123,21 +133,21 @@
         });
       }
     });
+
+
     $("body").keypress(function(e) {
       if (e.which == 13) {
         event.preventDefault();
-        if (window.add == 1) {
-          addmore();
-          window.add = 0;
-        }
+
+        addmore();
+
 
       }
     });
     $('#add_more').on('click', function() {
-      if (window.add == 1) {
-        addmore();
-        window.add = 0;
-      }
+
+      addmore();
+
 
     });
 
