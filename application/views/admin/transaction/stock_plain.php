@@ -294,7 +294,7 @@
         $("#frc tbody tr").each(function() {
 
             var self = $(this);
-            var fabric = self.find("td:eq(5)").text().trim();
+            var fabric = self.find("td:eq(4)").text().trim();
             var qty = Number(self.find("td:eq(11)").text().trim());
             console.log('fabric=' + fabric);
             console.log('summary=' + summary);

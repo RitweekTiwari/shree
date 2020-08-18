@@ -32,7 +32,7 @@
 
                             </Div>
 
-                            <table class=" table-bordered  text-center " id="list">
+                            <table class=" table-bordered datatable text-center " id="list">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
@@ -121,7 +121,47 @@
     var count = 0;
     var i = 0;
     $(document).ready(function() {
-       
+
+        var table = $('.datatable ').DataTable({
+
+
+            
+            select: true,
+
+
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }, {
+                    extend: 'pdf',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }, {
+                    extend: 'print',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+
+                'selectAll',
+                'selectNone',
+                'colvis'
+            ],
+            scrollY: 500,
+            scrollX: false,
+            scrollCollapse: true,
+            paging: false,
+
+
+        });
         $("table tbody tr").each(function() {
 
             var self = $(this);

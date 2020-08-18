@@ -88,12 +88,12 @@ public function get($col,$godown,$type)
       $data=$data['godown'];   
      }
     $this->db->where('to_godown', $data);
-    if($type== 'recieve'){
-      $this->db->where('stat', $type);
+    if($type!= 'all'){
+      $this->db->where('transaction_type', $type);
     }
-    
+    $this->db->where('stat', 'recieved');
     $query = $this->db->get();
-    //print_r($this->db->last_query());
+    //print_r($this->db->last_query());exit;
     return $query->result_array();
   }
  

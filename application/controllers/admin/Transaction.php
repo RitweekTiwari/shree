@@ -179,7 +179,7 @@
 			if($godown==23){
 				$data['frc_data'] = $this->Transaction_model->get_stock($godown,'all');
 			}else{
-				$data['frc_data'] = $this->Transaction_model->get_stock($godown,'recieve');
+				$data['frc_data'] = $this->Transaction_model->get_stock($godown,'challan');
 			}
 		
 		$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
@@ -449,7 +449,7 @@
 					if ($type == 'tc') {
 						$r = $this->Transaction_model->get_tc_stock($data1);
 					} else {
-						$r = $this->Transaction_model->get_stock($data1,'recieve');
+						$r = $this->Transaction_model->get_stock($data1,'challan');
 					}
 					if(isset($r[0])){
 						$data['data'][] = $r[0];
@@ -628,8 +628,8 @@
 			
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
-				 //echo "<pre>"; print_r($data);exit;
-				$count =count($data['design']);
+				// echo "<pre>"; print_r(count($data['obc']));exit;
+				$count =count($data['obc']);
 			$id = $this->Transaction_model->getId('from_godown',$godown,'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'],'arr');
 			if (!$id) {
@@ -668,7 +668,7 @@
 				];
 				$id =	$this->Transaction_model->insert($data1, 'transaction');
 				for ($i=0; $i < $count; $i++) {
-				if ($_POST['design'][$i] ) {
+				if ($_POST['quantity'][$i] ) {
 				$data2=[
 					'transaction_id' => $id,
 					
@@ -692,7 +692,7 @@
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
 			// echo "<pre>"; print_r($data);exit;
-			$count = count($data['pbc']);
+			$count = count($data['obc']);
 			$id = $this->Transaction_model->getId('from_godown',$godown,'dispatch');
 			if (!$id) {
 				$challan = 'PKG-SL/1' ;
@@ -718,6 +718,7 @@
 			];
 			$id =	$this->Transaction_model->insert($data1, 'transaction');
 			for ($i = 0; $i < $count; $i++) {
+				if($data['quantity'][$i]!=""){
 				$data2 = [
 					'transaction_id' => $id,
 
@@ -729,7 +730,7 @@
 
 				$this->Transaction_model->insert($data2, 'transaction_meta');
 				$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
-
+			}
 			}
 		}
 		redirect($_SERVER['HTTP_REFERER']);
