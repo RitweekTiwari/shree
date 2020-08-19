@@ -46,9 +46,10 @@
       $('.clear').val("");
     });
 
-    $('.find_id').on('click', function() {
 
+    $(document).on('click', '.find_id', function() {
       var id = $(this).prop('id');
+
       $('#embid').val(id);
       // console.log(id);
       // alert(id);
@@ -130,7 +131,6 @@
         }
       }
     });
-
 
 
   });

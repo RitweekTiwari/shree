@@ -19,6 +19,7 @@ class SRC extends CI_Controller {
 	}
 	public function show_src(){
 		$data['page_name'] = 'ADD SRC /' . '<a href="' . base_url('admin/SRC') . '">Home</a>';
+		
 		$data['febName'] = $this->Src_model->get_fabric_name();
 		
 		
@@ -45,9 +46,10 @@ class SRC extends CI_Controller {
 		$code = $this->security->xss_clean($_POST['code']);
 		$data[] = array('name' => 'code', 'value' => $code);
 		
-		$data['src'] = $this->Src_model->get_src_by_col($data);
-		if($data['src']!=0){
-			echo json_encode($data['src']);
+		$data1['src'] = $this->Src_model->get_src_by_col($data);
+		$data1['percent'] = $this->Src_model->get_percent($fabric);
+		if($data!=0){
+			echo json_encode($data1);
 		}else{
 			echo json_encode(array("0" => "Null"));
 		}
@@ -63,6 +65,13 @@ class SRC extends CI_Controller {
 			}
 			return $result;
 		}
+	}
+	public function change_src()
+	{
+		$fabric = $this->security->xss_clean($_POST['fab']);
+		$op = $this->security->xss_clean($_POST['op']);
+		$rate = $this->security->xss_clean($_POST['rate']);
+		return $this->Src_model->change_src($fabric, $op, $rate);
 	}
 
 	public function getfabricRate()
@@ -106,9 +115,16 @@ public function update()
 				$data[]= $arr;
 			}
 		}
-	
+		//pre($data);exit;
 		$count = count($data['rate']);
 		$done=0;
+		$data1 = array(
+
+			'fabric' => $data[0]['fabricName'],
+			'code_rate' => "Code : ".$data[2]['code2']. ",Rate : " . $data['rate'][0] ,
+			
+		);
+		$id = $this->Src_model->update_fabric_rate($data1);	
 		for ($i = 0; $i < $count; $i++) {	
 		$data1=array(
 
@@ -139,6 +155,7 @@ public function update()
 						$done+=1;
 					}
 		}
+	
 		if($done>0){
 			echo 1;	
 		}	else{

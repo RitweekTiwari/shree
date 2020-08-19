@@ -277,7 +277,7 @@
       element += '<td><input type="text" class="form-control "  value="" id=DesignCode' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control " value="" id=dye' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control "  value="" id=matching' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control"  value="" id=qty' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control"  value="" name="quantity[]" id=qty' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control unit " id=unit' + count + ' readonly>'
       element += '<td><input type="text" class="form-control" value="" id=image' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly></td>'

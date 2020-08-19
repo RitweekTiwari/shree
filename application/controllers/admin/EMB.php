@@ -10,6 +10,7 @@ class EMB extends CI_Controller
 		$this->load->model('common_model');
 		$this->load->model('Erc_model');
 		$this->load->model('Emb_model');
+		$this->load->model('Orders_model');
 	}
 	public function index()
 	{
@@ -18,22 +19,93 @@ class EMB extends CI_Controller
 
 
 		$data['worker'] = $this->Emb_model->get_worker_name();
-		$data['emb'] = $this->Emb_model->get_emb();
+		// $data['emb'] = $this->Emb_model->get_emb();
 		$data['erc_value'] = $this->Emb_model->get_erc_value();
 		//$data['erc'] = $this->Emb_model->get_erc_fresh_value();
 		$data['erc'] = $this->Emb_model->get_erc_fresh_value();
+		//	pre($data['erc']);exit;
 		$data['main_content'] = $this->load->view('admin/master/emb/emb', $data, TRUE);
 		$this->load->view('admin/index', $data);
+	}
+
+	public function get_emb_list()
+	{
+		$output = array();
+		$data = array();
+		$record = array();
+
+		$caption = '';
+		if ($_POST) {
+			if (!empty($_POST["search"]["value"])) {
+
+				$data['Value'] = $_POST["search"]["value"];
+				$data['search'] = 'search';
+				$data['emb'] = $this->Emb_model->get_emb($data);
+			}
+			$data['emb'] = $this->Emb_model->get_emb($data);
+			foreach ($data['emb'] as $key => $value) {
+				$output[$key]['id'] = $value['id'];
+				$output[$key]['emb_rate'] = $value['emb_rate'];
+				$output[$key]['designName'] = $value['designName'];
+				$output[$key]['worker'] = self::get_array($value['workerName'], $value['rate']);
+			}
+			if (isset($output)) {
+				$data['output'] = $output;
+			}
+			$id = 1;
+			foreach ($data['output'] as $value) {
+				$sub_array = array();
+				$sub_array['row'] = 'row_'.$value['id'];
+				$sub_array['id'] = '<input type="checkbox" class="sub_chk" data-id=' . $value['id'] . '>';
+				$sub_array['sno'] = $id;
+				$sub_array['emb_rate'] = $value['emb_rate'];
+				$sub_array['design'] = $value['designName'];
+				
+					$sub_array['worker']=
+				$value['worker'];
+				$sub_array['action'] = '
+			<a class="text-center tip find_id" id=' . $value['id'] . ' data-original-title="Edit">
+				<i class="fas fa-edit blue"></i>
+			</a>
+			<a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(' . $value['id'] . ')" data-original-title="Delete">
+					<i class="mdi mdi-delete red"></i>
+				</a>  &nbsp;&nbsp;&nbsp;
+				';
+
+				
+
+				$record[] = $sub_array;
+				$id++;
+			}
+
+			$output = array(
+
+				"recordsTotal" => $this->Emb_model->get_count("emb"),
+				"recordsFiltered" =>	$this->Emb_model->get_count("emb"),
+
+				"draw"   =>  intval($_POST["draw"]),
+				"data" => $record
+			);
+
+			echo json_encode($output);
+		}
+	}
+	public function get_array($worker, $rate)
+	{
+		$worker = explode(',', $worker);
+		$rate = explode(',', $rate);
+		if (count($worker) == count($rate)) {
+			for ($i=0; $i< count($rate);$i++) {
+				$result[] = array('worker'=> $worker[$i],'rate'=>$rate[$i]);
+			}
+			return $result;
+		}
 	}
 	public function edit_part()
 	{
 		if ($_POST) {
-			
+
 			$data['worker'] = $this->Emb_model->get_embmeta($_POST['id']);
-
-			
-
-
 		}
 		echo json_encode($data['worker']);
 	}
@@ -46,7 +118,7 @@ class EMB extends CI_Controller
 
 			$data = array(
 				'designName' => $_POST['design'],
-				// 'embrate'=> $_POST['embrate'],
+				'emb_rate'=> $_POST['embrate'],
 			);
 			$id = $this->Emb_model->insert($data, 'emb');
 			if ($id) {
@@ -141,9 +213,9 @@ class EMB extends CI_Controller
 	{
 		if ($_POST) {
 			$data = $this->Emb_model->embRate($_POST['desName']);
-			if($data!=''){
-			echo $data->rate;
-			}else{
+			if ($data != '') {
+				echo $data->rate;
+			} else {
 				echo 'Null';
 			}
 		}
@@ -152,7 +224,7 @@ class EMB extends CI_Controller
 	public function delete($id)
 	{
 		$this->Emb_model->delete($id);
-		$this->db->delete('emb_meta', array('embId' => $id));
+		$this->db->delete('emb', array('id' => $id));
 		redirect(base_url('admin/EMB'));
 	}
 
@@ -160,12 +232,10 @@ class EMB extends CI_Controller
 	{
 		$ids = $this->input->post('ids');
 		$userid = explode(",", $ids);
-		
-			foreach ($userid as $value) {
-				$this->db->delete('emb', array('id' => $value));
-				$this->db->delete('embmeta', array('embId' => $value));
-			}
-		
-		
+
+		foreach ($userid as $value) {
+			$this->db->delete('emb', array('id' => $value));
+			$this->db->delete('embmeta', array('embId' => $value));
+		}
 	}
 }

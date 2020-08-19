@@ -1,46 +1,51 @@
-
 <script type="text/javascript">
   $(document).ready(function() {
-     var table=  $('.data-table ').DataTable({
+    var table = $('.data-table ').DataTable({
 
 
-     "pageLength": 50,
-     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-     select: true,
+      "pageLength": 50,
+      "lengthMenu": [
+        [50, 100, 150, -1],
+        [50, 100, 150, "All"]
+      ],
+      select: true,
 
 
-     dom: 'Bfrtip',
-        buttons: [
-            'pageLength', {
-                extend: 'excel', footer: true,
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'pdf', footer: true,
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }, {
-                extend: 'print', footer: true,
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
+      dom: 'Bfrtip',
+      buttons: [
+        'pageLength', {
+          extend: 'excel',
+          footer: true,
+          exportOptions: {
+            columns: ':visible'
+          }
+        }, {
+          extend: 'pdf',
+          footer: true,
+          exportOptions: {
+            columns: ':visible'
+          }
+        }, {
+          extend: 'print',
+          footer: true,
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
 
-            'selectAll',
-            'selectNone',
-            'colvis'
-        ],
-         scrollY:        500,
-        scrollX:        false,
-        scrollCollapse: true,
-        paging:         true,
+        'selectAll',
+        'selectNone',
+        'colvis'
+      ],
+      scrollY: 500,
+      scrollX: false,
+      scrollCollapse: true,
+      paging: true,
 
 
-    } );
+    });
     // Multi Select
-     $(document).on('click','#master', function(e) {
+    $(document).on('click', '#master', function(e) {
 
       var rows = table.rows({
         'search': 'applied'
@@ -49,7 +54,7 @@
       $('input[type="checkbox"]', rows).prop('checked', this.checked);
     });
 
-    $('#frc tbody').on('change', 'input[type="checkbox"]', function () {
+    $('#frc tbody').on('change', 'input[type="checkbox"]', function() {
       // If checkbox is not checked
       if (!this.checked) {
         var el = $('#master').get(0);
@@ -61,12 +66,12 @@
         }
       }
     });
-     $(".select2").select2();
+    $(".select2").select2();
+    $('.select2-container').css("width", "100%");
 
 
-
-     // use Class to remove datatable
-     $('.remove_datatable').DataTable().destroy();
+    // use Class to remove datatable
+    $('.remove_datatable').DataTable().destroy();
 
     $("#filter").on("submit", function(event) {
       event.preventDefault();
@@ -107,7 +112,7 @@
         }
       });
     });
-      $("#jobWorkTypeFilter").on("submit", function(event) {
+    $("#jobWorkTypeFilter").on("submit", function(event) {
       event.preventDefault();
       var form = $(this).serialize();
       console.log(form);
@@ -273,7 +278,7 @@
       });
     });
 
-$("#frcFilter, #frcAdvanceFilter").on("submit", function(event) {
+    $("#frcFilter, #frcAdvanceFilter").on("submit", function(event) {
       event.preventDefault();
       var form = $(this).serialize();
       console.log(form);
@@ -288,24 +293,24 @@ $("#frcFilter, #frcAdvanceFilter").on("submit", function(event) {
       });
     });
 
-//  $("#frc_dateFilter").on("submit", function(event) {
-//       event.preventDefault();
-//       var form = $(this).serialize();
-//       console.log(form);
-//       $.ajax({
-//         'url': "<?php echo base_url('/admin/frc/date_filter'); ?>",
-//         'type': 'POST',
-//         'data': form,
-//         'success': function(response) {
+    //  $("#frc_dateFilter").on("submit", function(event) {
+    //       event.preventDefault();
+    //       var form = $(this).serialize();
+    //       console.log(form);
+    //       $.ajax({
+    //         'url': "<?php echo base_url('/admin/frc/date_filter'); ?>",
+    //         'type': 'POST',
+    //         'data': form,
+    //         'success': function(response) {
 
-//           $('#frc').find('tbody').html(JSON.parse(response));
-//         }
-//       });
-//     });
-        	});
+    //           $('#frc').find('tbody').html(JSON.parse(response));
+    //         }
+    //       });
+    //     });
+  });
 
   $(document).change(function() {
-  $(document).on('click','#master', function(e) {
+    $(document).on('click', '#master', function(e) {
       if ($(this).is(':checked', true)) {
         $(".sub_chk").prop('checked', true);
       } else {
@@ -313,7 +318,7 @@ $("#frcFilter, #frcAdvanceFilter").on("submit", function(event) {
       }
     });
 
-	});
+  });
 
   function goPage(newURL) {
 

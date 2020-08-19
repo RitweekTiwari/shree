@@ -9,7 +9,6 @@
             <form class="form-horizontal" method="post" action="<?php echo base_url('admin/EMB/add_emb') ?>" name="basic_validate" novalidate="novalidate">
               <div class="card-header">
                 <h5 class="card-title">Add Detail</h5>
-
               </div>
 
               <div class="form-group row">
@@ -35,7 +34,7 @@
                 <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label> <label class="col-md-4">Job Worker</label><label class="col-md-2">Rate</label>
                 <?php foreach ($worker as $value) : ?>
                   <div class="col-md-4">
-                    <select name="job[]" class="form-control" readonly >
+                    <select name="job[]" class="form-control" readonly>
                       <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
                     </select>
                   </div>
@@ -86,45 +85,21 @@
                     </div>
                     <hr>
                     <div class="widget-content nopadding">
-                      <table class="table table-striped table-bordered data-table" id="jobWorktype">
+                      <table class="table table-striped table-bordered " id="example">
                         <thead>
                           <tr>
+                            <th></th>
                             <th><input type="checkbox" class="sub_chk" id="master"></th>
-                            <th>S/No</th>
-                            <th>Design</th>
-                            <!-- <th>Rate</th> -->
 
-                            <th>Action</th>
+                            <th>Sno</th>
+                            <th>Emb rate</th>
+                            <th>Design</th>
+                            <th>worker</th>
+                            <th>action</th>
+
                           </tr>
                         </thead>
-                        <tbody>
-                          <?php
-                          if ($emb > 0) {
-                            $id = 1;
-                            foreach ($emb as $value) { ?>
-                              <tr>
-                                <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"></td>
-                                <td><?php echo $id ?></td>
-                                <td><?php echo $value['designName'] ?></td>
 
-                                <td>
-                                  <a class="text-center  tip find_id" id="<?php echo $value['id'] ?>" data-original-title="Edit">
-                                    <i class="fas fa-edit blue"></i>
-                                  </a>
-
-                                  &nbsp;&nbsp;&nbsp;
-                                  <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value['id']; ?>)" data-original-title="Delete">
-                                    <i class="mdi mdi-delete red"></i>
-                                  </a>
-                                </td>
-                              </tr>
-
-
-
-                          <?php $id = $id + 1;
-                            }
-                          } ?>
-                        </tbody>
                       </table>
 
 
@@ -144,13 +119,11 @@
                     </div>
 
                     <div class="widget-content nopadding">
-                      <table class="table table-striped table-bordered data-table" id="jobWorktype">
+                      <table class="table table-striped table-bordered data-table" id="">
                         <thead>
                           <tr>
-
                             <th>S/No</th>
                             <th>Design</th>
-
                           </tr>
                         </thead>
                         <tbody>
@@ -166,8 +139,6 @@
                           <?php $id = $id + 1;
                             }
                           } ?>
-
-
                     </div>
                   </div>
                   <!-- End Edit modal wind-->
@@ -188,9 +159,164 @@
 </div>
 </div>
 </div>
-
-
 <script>
+  $(document).ready(function() {
+    var fil = '';
+    var table;
+    var dt = '';
+    getlist(fil);
+
+
+    function getlist(filter1) {
+
+
+      var csrf_name = $("#get_csrf_hash").attr('name');
+      var csrf_val = $("#get_csrf_hash").val();
+      dt = $('#example').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "pageLength": 250,
+        "lengthMenu": [
+          [250, 500, 1000, -1],
+          [250, 500, 1000, "All"]
+        ],
+        select: true,
+
+        dom: 'Bfrtip',
+        buttons: [
+          'pageLength', {
+            extend: 'excel',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'pdf',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'print',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+
+          'selectAll',
+          'selectNone',
+          'colvis'
+        ],
+
+        "destroy": true,
+        scrollY: 500,
+        paging: true,
+
+
+        "ajax": {
+          url: "<?php echo base_url('admin/Emb/get_emb_list') ?>",
+          type: "post",
+          data: {
+            filter: filter1,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          datatype: 'json',
+          "dataSrc": function(json) {
+            if (json.caption && json.caption == true) {
+              // $('#caption').text(json.caption);
+              $('#example').append('<caption style="caption-side: top-right">' + json.caption + '</caption>');
+            } else {
+              $('#caption').text("Emb List");
+            }
+            // if (json.caption && json.caption == true) {
+
+            return json.data;
+          },
+
+        },
+        "columns": [{
+            "class": "details-control",
+            "orderable": false,
+            "data": null,
+            "defaultContent": ""
+          },
+          {
+            "data": "id"
+          },
+          {
+            "data": "sno"
+          },
+          {
+            "data": "emb_rate"
+          },
+
+          {
+            "data": "design"
+          },
+          {
+            "data": "worker",
+
+          },
+          {
+            "data": "action",
+
+          }
+        ],
+        "columnDefs": [{
+            "targets": [5],
+            "visible": false,
+            "searchable": false
+          },
+
+        ]
+      });
+    }
+
+    function format(d) {
+      var html = '';
+      //sconsole.log(d.worker);
+      d.worker.forEach(myFunction);
+
+      function myFunction(item, index, arr) {
+        //console.log(arr[index].worker);
+        html += arr[index].worker + ' : ' + arr[index].rate + '<br>   ';
+      }
+
+      return html;
+    }
+    // Array to track the ids of the details displayed rows
+    var detailRows = [];
+    $('#example tbody').on('click', 'tr td.details-control', function() {
+      var tr = $(this).closest('tr');
+      var row = dt.row(tr);
+      var idx = $.inArray(tr.attr('id'), detailRows);
+
+      if (row.child.isShown()) {
+        tr.removeClass('details');
+        row.child.hide();
+
+        // Remove from the 'open' array
+        detailRows.splice(idx, 1);
+      } else {
+        tr.addClass('details');
+        row.child(format(row.data())).show();
+
+        // Add to the 'open' array
+        if (idx === -1) {
+          detailRows.push(tr.attr('id'));
+        }
+      }
+    });
+
+    // On each draw, loop over the `detailRows` array and show any child rows
+    dt.on('draw', function() {
+      $.each(detailRows, function(i, id) {
+        $('#' + id + ' td.details-control').trigger('click');
+      });
+    });
+  });
+
   function delete_detail(id) {
     var del = confirm("Do you want to Delete");
     if (del == true) {
@@ -202,6 +328,7 @@
     }
   }
 </script>
+
 <style>
   #DataTables_Table_0_previous {
     display: none;

@@ -37,13 +37,18 @@ public function update($id,$data)
     return $this->db->update('src', array('rate'=> $data['rate']));
      
   }
+  public function update_fabric_rate($data)
+  {
 
+    $this->db->where('id', $data['fabric']);
+   
+    return $this->db->update('fabric', array('code_rate'=>$data['code_rate']));
+  } 
 
  public function get_fabric_fresh_value()
  {
-   $this->db->select('*');
+   $this->db->select('id,fabricName,code_rate');
    $this->db->from('fabric');
-   $this->db->where('src',0);
 
 
    $query = $this->db->get();
@@ -52,7 +57,23 @@ public function update($id,$data)
    return $query;
  }
 
-
+  
+  public function get_percent($data)
+  {
+    $this->db->select('grade,percent');
+    $this->db->from('gpercent');
+    
+      $this->db->where('fabric', $data);
+   
+    $query = $this->db->get();
+    // echo $query->num_rows();
+    // exit;
+    if ($query->num_rows() > 0) {
+      return $query->result_array();
+    } else {
+      return 0;
+    }
+  }
   public function get_src_by_col($data)
   {
     $this->db->select('*');
@@ -88,7 +109,22 @@ public function update($id,$data)
     } else {
       return 0;
     }
-  } 
+  }
+  public function change_src($fab,$op,$rate)
+  {
+    $r= 'rate '.$op." ". $rate;
+    $this->db->set('rate', $r, FALSE);
+    $this->db->where('fabric', $fab);
+  return  $this->db->update('src');
+    //echo $this->db->last_query();exit;
+  }
+  
+  public function get_fabric_count()
+  {
+    $sql = "SELECT `fabric`,count(`fabric`) as count FROM `src` GROUP by `fabric`";
+    $result = $this->db->query($sql);
+    return $result->result_array();
+  }
  public function get_src()
  {
     $sql = "SELECT src.id,src.fabric, fabric.fabricName, fabric_code.fbcode, GROUP_CONCAT(grade.grade) AS grade, GROUP_CONCAT(src.rate) AS rate, src.created_at FROM src Join fabric ON fabric.id=src.fabric Join fabric_code on fabric_code.id=src.code Join grade on grade.id=src.grade GROUP BY src.fabric,src.code HAVING src.fabric IN (SELECT src.fabric From src GROUP BY src.fabric)";

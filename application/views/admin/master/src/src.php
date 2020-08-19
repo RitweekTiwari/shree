@@ -44,8 +44,26 @@
                             <input type="text" class="form-control  " id="lastRate">
                           </div>
                         </div>
+                        <hr>
+                        <div class="form-group row">
+                          <label class="col-sm-4">Update Fabric Rate:-</label>
+                          <div class="col-sm-3">
+                            <select class="form-control  " id="operation">
+                              <option value="">Select one</option>
+                              <option value="+">Add +</option>
+                              <option value="-">Sub -</option>
 
+                            </select>
+                          </div>
 
+                          <div class="col-sm-3">
+                            <input type="number" min="0" class="form-control" id="new_rate">
+                          </div>
+                          <div class="col-sm-2">
+                            <input type="BUTTON" class="btn btn-danger text-right" value="update" id='update'>
+                          </div>
+                        </div>
+                        <hr>
 
                         <div class="form-group row">
                           <label class="col-sm-4">CODE:-</label>
@@ -69,10 +87,7 @@
                         </div>
                         <div class="row">
                           <div class="col-sm-8">
-                            <a href="<?php echo base_url('admin/SRC/show_list'); ?>">
 
-                              <h6>SRC List</h6>
-                            </a>
                           </div>
                           <div class="col-sm-2"><input type="BUTTON" class="btn btn-warning text-right" value="Clear"></div>
 
@@ -94,7 +109,9 @@
                             <?php $i = 0;
                             foreach ($grade as $row) { ?>
                               <tr id="tr<?php echo $row['id'] ?>">
-                                <td><input type="text" class="form-control   code" readonly></td>
+                                <td><input type="text" class="form-control   code" readonly <?php if ($i == 0) {
+                                                                                              echo 'name="code2"';
+                                                                                            } ?>></td>
                                 <td><input type="text" value="<?php echo $row['grade'] ?>" class="form-control  " readonly>
                                   <input type="hidden" name="grade" value="<?php echo $row['id'] ?>"></td>
                                 <td><input type="number" min="0" max="100" id="percent<?php echo $i ?>" class="form-control  percent" <?php if ($i == 0) {
@@ -130,8 +147,8 @@
                       <table class=" data-table table-bordered">
                         <thead>
                           <tr>
-                            <th>Fabric Name</th>
-                            <th>LAST PURCHASE RATE </th>
+                            <th>Fabric_Name</th>
+                            <th>Last_code_Rate </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -140,7 +157,7 @@
 
                               <td><?php echo $value['fabricName']; ?></td>
 
-                              <td><?php echo $value['sale_rate']; ?></td>
+                              <td><?php echo $value['code_rate']; ?></td>
 
                             </tr>
 
@@ -315,23 +332,23 @@
                 <?php endforeach; ?>
               </thead>
               <tbody>
-                <?php if(isset($output)){
-                foreach ($output as $val) : ?>
-                  <tr>
-                    <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"> </td>
-                    <td><?php echo $val['fabric'] ?></td>
-                    <td><?php echo $val['code'] ?></td>
+                <?php if (isset($output)) {
+                  foreach ($output as $val) : ?>
+                    <tr>
+                      <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"> </td>
+                      <td><?php echo $val['fabric'] ?></td>
+                      <td><?php echo $val['code'] ?></td>
 
-                    <?php foreach ($grade as $value) : ?>
-                      <?php if (array_key_exists($value['grade'], $val['grade'])) : ?>
-                        <td><?php echo $val['grade'][$value['grade']]; ?></td>
-                      <?php else : ?>
-                        <td>N/A</td>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
-                  </tr>
+                      <?php foreach ($grade as $value) : ?>
+                        <?php if (array_key_exists($value['grade'], $val['grade'])) : ?>
+                          <td><?php echo $val['grade'][$value['grade']]; ?></td>
+                        <?php else : ?>
+                          <td>N/A</td>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    </tr>
                 <?php endforeach;
-                }else{
+                } else {
                   echo "No Result Found";
                 } ?>
               </tbody>

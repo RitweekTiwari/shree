@@ -19,23 +19,28 @@ class Emb_model extends CI_Model {
    $this->db->insert('fabric', $data);
  }
 
- public function get_emb()
- {
-   $this->db->select('emb.id,design.designName');
-   $this->db->from('emb');
+  public function get_emb()
+  {
+    $this->db->select(' `emb`.`id`,`emb`.`emb_rate`, `design`.`designName`, GROUP_CONCAT(`job_work_party`.`name`) AS `workerName`, GROUP_CONCAT(`embmeta`.`rate`) as rate ');
+    $this->db->from('emb');
+    $this->db->join('embmeta', 'embmeta.embId=emb.id', 'inner');
     $this->db->join('design', 'design.id=emb.designName', 'inner');
-   $this->db->order_by('id','desc');
-   $query = $this->db->get();
-   $query = $query->result_array();
-   return $query;
- }
+    $this->db->join('job_work_party', 'job_work_party.id=embmeta.workerName', 'inner');
+    $this->db->group_by('`design`.`designName`');
+    $query = $this->db->get();
+    // echo $this->db->last_query();
+    // exit;
+    $query = $query->result_array();
+    return $query;
+  }
+
  public function get_embmeta($id)
  {
    $this->db->select('embmeta.*,job_work_party.name,emb.designName');
    $this->db->from('embmeta');
    $this->db->where('embmeta.embid',$id);
-    $this->db->join('emb', 'emb.id=embmeta.embid', 'inner');
-    $this->db->join('job_work_party', 'job_work_party.id=embmeta.workerName', 'inner');
+   $this->db->join('emb', 'emb.id=embmeta.embid', 'inner');
+   $this->db->join('job_work_party', 'job_work_party.id=embmeta.workerName', 'inner');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
@@ -85,7 +90,10 @@ public function get_design_name()
    return true;
  }
 
-
+  public function get_count($table)
+  {
+    return $this->db->count_all($table);
+  }
 
  public function get_emb_name($designName,$workerName)
  {
@@ -132,17 +140,17 @@ public function get_design_name()
    $query = $query->result_array();
    return $query;
  }
- public function get_erc_fresh_value()
-{
-  $sql = 'SELECT id,designName FROM design where designSeries="0" and
- id NOT IN(SELECT designName FROM emb) order by designName
-';
+   public function get_erc_fresh_value()
+    {
+      $sql = 'SELECT id,designName FROM design where designSeries="0" and
+      id NOT IN(SELECT designName FROM emb) order by designName
+    ';
 
-  $query = $this->db->query($sql);
-//  echo $this->db->last_query($query);exit;
-  $query = $query->result_array();
-  return $query;
-}
+      $query = $this->db->query($sql);
+      // echo $this->db->last_query($query);exit;
+      $query = $query->result_array();
+      return $query;
+   }
 
  public function delete($id)
  {
@@ -170,4 +178,3 @@ public function get_design_name()
 
 /* End of file Branch_model.php */
 /* Location: ./application/models/Branch_model.php */
-?>

@@ -63,36 +63,51 @@
     $("#next").on('click', function() {
       var fabric = $("#fabricName").val();
       var code = $("#code1").val();
-      $.ajax({
-        type: "POST",
-        url: "<?= base_url() ?>admin/SRC/get_src",
-        cache: false,
-        data: {
-          'fabric': fabric,
-          'code': code,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-        success: function(response) {
+      if (fabric != "" && code != "") {
 
-          response = JSON.parse(response);
-          console.log(response);
-          if (response != "Null") {
 
-            response.forEach(myFunction);
+        $.ajax({
+          type: "POST",
+          url: "<?= base_url() ?>admin/SRC/get_src",
+          cache: false,
+          data: {
+            'fabric': fabric,
+            'code': code,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          success: function(response) {
 
-            function myFunction(item, index) {
-              // console.log(item.grade);
-              $('#tr' + item.grade + '').find('.rate').val(item.rate);
+            response = JSON.parse(response);
+            console.log(response.percent);
+            if (response.src != 0) {
+
+              response.src.forEach(myFunction);
+
+              function myFunction(item, index) {
+                // console.log(item.grade);
+                $('#tr' + item.grade + '').find('.rate').val(item.rate);
+              }
+            } else {
+              $('.rate').val(0);
             }
-          } else {
-            $('.rate').val(0);
+            if (response.percent != 0) {
+
+              response.percent.forEach(myFunction);
+
+              function myFunction(item, index) {
+                // console.log(item.grade);
+                $('#tr' + item.grade + '').find('.percent').val(item.percent);
+              }
+            } else {
+              $('.percent').val(0);
+            }
+            $("#FormGrade").show();
+
           }
-         
-          $("#FormGrade").show();
-
-        }
-      });
-
+        });
+      } else {
+        toastr.info('Info!', "Please select fabric and code");
+      }
     });
     $("#rate0").on('change', function() {
       var count = <?php echo $count ?>;
@@ -149,5 +164,33 @@
         }
       });
     });
+    $("#update").on('click', function() {
+      var fab = $("#fabricName").val();
+      var op = $("#operation").val();
+      var rate = $("#new_rate").val();
+      if (fab != "" && rate != "") {
+        $.ajax({
+          type: "POST",
+          url: "<?php echo base_url('admin/SRC/change_src') ?>",
+          data: {
+            'fab': fab,
+            'op': op,
+            'rate': rate,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          datatype: 'json',
+          success: function(data) {
+            if (data = 1) {
+              toastr.success('Success!', "Updated Successfully");
+            } else {
+              toastr.error('Error!', "Something went wrong");
+            }
+          }
+        });
+      } else {
+        toastr.info('Info!', "Please select and enter something");
+      }
+    });
+
   });
 </script>
