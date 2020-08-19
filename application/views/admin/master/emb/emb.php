@@ -81,7 +81,8 @@
                     </div>
                     <hr>
                     <div class="row well">
-                      &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+                      <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>
                     </div>
                     <hr>
                     <div class="widget-content nopadding">
@@ -166,6 +167,22 @@
     var dt = '';
     getlist(fil);
 
+    $("#printAll").on("click", function() {
+
+      //Open all of the child rows
+      $("td.details-control").click();
+
+      //Wait for all the ajax requests to finish, then launch the print window
+
+      var divToPrint = document.getElementById("example");
+      newWin = window.open("");
+      newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
+      newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css\" type=\"text/css\" media=\"print\"/>");
+
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.document.close();
+      newWin.print();
+    });
 
     function getlist(filter1) {
 
@@ -206,7 +223,7 @@
 
           'selectAll',
           'selectNone',
-          'colvis'
+          
         ],
 
         "destroy": true,

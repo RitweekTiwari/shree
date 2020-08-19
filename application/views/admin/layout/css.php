@@ -1,7 +1,7 @@
 <?php
 $system_name = $this->db->get_where('settings', array('type' => 'system_name'))->row()->description;
 $system_title = $this->db->get_where('settings', array('type' => 'system_title'))->row()->description;
-$godown= $this->db->get('sub_department')->result();
+$godown = $this->db->get('sub_department')->result();
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -57,6 +57,15 @@ $godown= $this->db->get('sub_department')->result();
             right: 0;
             z-index: 999;
             display: none;
+        }
+
+        td.details-control {
+            background: url('<?php echo base_url('optimum/admin') ?>/assets/images/plus.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.details td.details-control {
+            background: url('<?php echo base_url('optimum/admin') ?>/assets/images/minus.png') no-repeat center center;
         }
 
         div#overlay img {
