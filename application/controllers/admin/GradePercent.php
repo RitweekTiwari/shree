@@ -10,15 +10,16 @@
 				check_login_user();
         $this->load->model('Grade_model');
 				$this->load->model('Percent_model');
+		$this->load->model('Common_model');
     	}
 
 
     	public function index(){
 	        $data = array();
-				  $data['name']='Order Type';
-	        $data['grade_data']=$this->Percent_model->get('grade');
+		$data['page_name'] = 'ADD Percent / ' . '<a href="' . base_url('admin/SRC') . '">SRC Home</a>';
+	        $data['grade_data']=$this->Common_model->select('grade');
 //pre($data['grade_data']);exit;
-					$data['fabric_data']=$this->Percent_model->get('fabric');
+					$data['fabric_data']=$this->Common_model->select('fabric');
 					$data['grade_percent']=$this->Percent_model->get('Gpercent');
 					$data['main_content'] = $this->load->view('admin/master/percent/index', $data, TRUE);
 					$this->load->view('admin/index', $data);

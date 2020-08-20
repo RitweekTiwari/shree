@@ -199,109 +199,113 @@
                 </div>
 
                 <div id="summary" class="tab-pane fade p-20" role="tabpanel">
-                 
+
                   <hr>
-                  <?php if (isset($frc_data['summary'])) {; ?>
-                    <table class="table-bordered table-responsive  " id='dt_summary'>
-                      <tr>
-                        <caption class="text-center text-info" style='caption-side : top'>Summary</caption>
-                        <?php foreach ($frc_data['type'] as $fabtype) { ?>
-                          <td class="align-top">
-                            <table class="datatable    ">
-                              <caption class="text-center text-info" style='caption-side : top'><?php echo $fabtype['type'] ?></caption>
-                              <thead>
-                                <th>Fabric</th>
-                                <th>Pcs</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                              </thead>
-                              <tbody><?php
-                                      $pcs = 0;
-                                      $qty = 0;
-                                      $total = 0;
-                                      $i = 1;
-                                      foreach ($frc_data['summary'] as $value) {
-                                        if ($value['fabric_type'] == $fabtype['type']) {
-                                          $pcs += $value['pcs'];
-                                          $qty += $value['qty'];
-                                          $total += $value['total'];
-                                      ?>
-                                    <tr>
-                                      <td><a href="<?php echo base_url('/admin/FRC/show_stock/') . serve_url($value['fabricName']) ?>"><?php echo  $value['fabricName'] ?></a></td>
-                                      <td><?php echo  $value['pcs'] ?></td>
-                                      <td><?php echo  $value['qty'] ?></td>
-                                      <td><?php echo  $value['total'] ?></td>
-                                    </tr>
-
-                                <?php }
-                                        $i += 1;
-                                      } ?>
-                              </tbody>
-                              <tfoot>
-                                <tr>
-                                  <th>Total</th>
-                                  <th><?php echo  $pcs ?></th>
-                                  <th><?php echo  $qty ?></th>
-                                  <th><?php echo  $total ?></th>
-                                </tr>
-                              </tfoot>
-                            </table>
-                          </td>
-                          <td></td>
-
-
-                        <?php } ?>
-                      </tr>
-                    </table>
-                  <?php } ?>
+                  <a type="button" class="btn  pull-left  btn-info" target="_blank" id='Print_summary' style="color:#fff;"><i class="fa fa-print"></i></a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn  pull-left  btn-info" id='Excel' style="color:#fff;">Excel</a>
                   <hr>
-                  <?php if (isset($frc_data['summary2'])) {; ?>
-
-                    <table class="table-bordered table-responsive" id="summary2">
-                      <caption class="text-center text-info" style='caption-side : top'><?php echo  $fabric ?></caption>
-                      <thead>
-                        <th>Color</th>
-                        <th>Pcs</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                      </thead>
-                      <tbody><?php
-                              $pcs = 0;
-                              $qty = 0;
-                              $total = 0;
-                              $i = 1;
-                              foreach ($frc_data['summary2'] as $value) {
-
-                                $pcs += $value['pcs'];
-                                $qty += $value['qty'];
-                                $total += $value['total'];
-                              ?>
-                          <tr>
-                            <td><?php echo  $value['color_name'] ?></td>
-                            <td><?php echo  $value['pcs'] ?></td>
-                            <td><?php echo  $value['qty'] ?></td>
-                            <td><?php echo  $value['total'] ?></td>
-                          </tr>
-
-                        <?php
-                                $i += 1;
-                              } ?>
-                      </tbody>
-                      <tfoot>
+                  <div id='summary_p'>
+                    <?php if (isset($frc_data['summary'])) {; ?>
+                      <table class="table-bordered table-responsive " id='dt_summary'>
                         <tr>
-                          <th>Total</th>
-                          <th><?php echo  $pcs ?></th>
-                          <th><?php echo  $qty ?></th>
-                          <th><?php echo  $total ?></th>
+                          <caption class="text-center text-info" style='caption-side : top'>Summary</caption>
+                          <?php foreach ($frc_data['type'] as $fabtype) { ?>
+                            <td class="align-top">
+                              <table class="datatable    ">
+                                <caption class="text-center text-info" style='caption-side : top'><?php echo $fabtype['type'] ?></caption>
+                                <thead>
+                                  <th>Fabric</th>
+                                  <th>Pcs</th>
+                                  <th>Quantity</th>
+                                  <th>Total</th>
+                                </thead>
+                                <tbody><?php
+                                        $pcs = 0;
+                                        $qty = 0;
+                                        $total = 0;
+                                        $i = 1;
+                                        foreach ($frc_data['summary'] as $value) {
+                                          if ($value['fabric_type'] == $fabtype['type']) {
+                                            $pcs += $value['pcs'];
+                                            $qty += $value['qty'];
+                                            $total += $value['total'];
+                                        ?>
+                                      <tr>
+                                        <td><a href="<?php echo base_url('/admin/FRC/show_stock/') . serve_url($value['fabricName']) ?>"><?php echo  $value['fabricName'] ?></a></td>
+                                        <td><?php echo  $value['pcs'] ?></td>
+                                        <td><?php echo  $value['qty'] ?></td>
+                                        <td><?php echo  $value['total'] ?></td>
+                                      </tr>
+
+                                  <?php }
+                                          $i += 1;
+                                        } ?>
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <th>Total</th>
+                                    <th><?php echo  $pcs ?></th>
+                                    <th><?php echo  $qty ?></th>
+                                    <th><?php echo  $total ?></th>
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </td>
+                            <td></td>
+
+
+                          <?php } ?>
                         </tr>
-                      </tfoot>
-                    </table>
-                    </td>
-                    <td></td>
+                      </table>
+                    <?php } ?>
+                    <hr>
+                    <?php if (isset($frc_data['summary2'])) {; ?>
+
+                      <table class="table-bordered table-responsive" id="summary2">
+                        <caption class="text-center text-info" style='caption-side : top'><?php echo  $fabric ?></caption>
+                        <thead>
+                          <th>Color</th>
+                          <th>Pcs</th>
+                          <th>Quantity</th>
+                          <th>Total</th>
+                        </thead>
+                        <tbody><?php
+                                $pcs = 0;
+                                $qty = 0;
+                                $total = 0;
+                                $i = 1;
+                                foreach ($frc_data['summary2'] as $value) {
+
+                                  $pcs += $value['pcs'];
+                                  $qty += $value['qty'];
+                                  $total += $value['total'];
+                                ?>
+                            <tr>
+                              <td><?php echo  $value['color_name'] ?></td>
+                              <td><?php echo  $value['pcs'] ?></td>
+                              <td><?php echo  $value['qty'] ?></td>
+                              <td><?php echo  $value['total'] ?></td>
+                            </tr>
+
+                          <?php
+                                  $i += 1;
+                                } ?>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th>Total</th>
+                            <th><?php echo  $pcs ?></th>
+                            <th><?php echo  $qty ?></th>
+                            <th><?php echo  $total ?></th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                      </td>
+                      <td></td>
 
 
-                  <?php } ?>
-
+                    <?php } ?>
+                  </div>
                 </div>
               </div>
             </div>
@@ -319,55 +323,55 @@
             buttons: [{
                 extend: 'excel',
                 footer: true,
-               
+
               }, {
                 extend: 'print',
                 footer: true,
-                
+
               },
 
             ],
 
-            paging: true,
+            paging: false,
 
           });
 
-          // function printData() {
-          //   var divToPrint = document.getElementById("dt_summary");
-          //   newWin = window.open("");
-          //   newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
-          //   newWin.document.write(divToPrint.outerHTML);
-          //   newWin.document.close();
-          //   newWin.print();
+          function printData() {
+            var divToPrint = document.getElementById("summary_p");
+            newWin = window.open("");
+            newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
+            newWin.document.write(divToPrint.outerHTML);
+            newWin.document.close();
+            newWin.print();
 
-          // }
+          }
 
-          // $('#Print_summary').on('click', function() {
-          //   printData();
+          $('#Print_summary').on('click', function() {
+            printData();
 
-          // })
-          // $('#Excel').on('click', function() {
+          })
+          $('#Excel').on('click', function() {
 
-          //   var htmltable = document.getElementById('dt_summary');
-          //   var html = htmltable.outerHTML;
-          //   window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
+            var htmltable = document.getElementById('dt_summary');
+            var html = htmltable.outerHTML;
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
 
-          // })
+          })
 
-          // function filter() {
-          //   var fabric = $(this).text();
-          //   $.ajax({
-          //     type: "POST",
-          //     url: "<?= base_url() ?>admin/FRC/show_stock",
-          //     cache: false,
-          //     data: {
-          //       'fabric': fabric,
+          function filter() {
+            var fabric = $(this).text();
+            $.ajax({
+              type: "POST",
+              url: "<?= base_url() ?>admin/FRC/show_stock",
+              cache: false,
+              data: {
+                'fabric': fabric,
 
-          //       '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-          //     },
+                '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+              },
 
-          //   });
-          // }
+            });
+          }
           <?php if ($this->session->flashdata('success')) { ?>
             toastr.success("<?php echo $this->session->flashdata('success'); ?>");
           <?php } else if ($this->session->flashdata('error')) {  ?>

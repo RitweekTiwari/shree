@@ -118,12 +118,14 @@ public function update()
 		//pre($data);exit;
 		$count = count($data['rate']);
 		$done=0;
+		//echo $data['rate'][0];exit;
 		$data1 = array(
 
 			'fabric' => $data[0]['fabricName'],
-			'code_rate' => "Code : ".$data[2]['code2']. ",Rate : " . $data['rate'][0] ,
+			'code_rate' => "Code : <b>".$data[2]['code2']. "</b><br>Rate :  <b> " .$data['rate'][0]."</b>" ,
 			
 		);
+	
 		$id = $this->Src_model->update_fabric_rate($data1);	
 		for ($i = 0; $i < $count; $i++) {	
 		$data1=array(

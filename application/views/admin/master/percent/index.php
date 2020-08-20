@@ -64,13 +64,13 @@
                         <tr class="gradeU" id="tr_<?php echo $value['id'] ?>">
                           <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['id'] ?>"></td>
                           <td><?php echo $id; ?></td>
-                          <td><?php 
-                                  echo $value['fabricName'];
-                               ?></td>
+                          <td><?php
+                              echo $value['fabricName'];
+                              ?></td>
 
-                          <td><?php 
-                                  echo $value['grade'];
-                                ?>
+                          <td><?php
+                              echo $value['grade'];
+                              ?>
                           </td>
                           <td><?php echo $value['percent'];  ?></td>
                           <td>
@@ -98,7 +98,7 @@
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Fabric Name</label>
                                       <div class="col-sm-9">
-                                        <select  name="fabric" class="form-control">
+                                        <select name="fabric" class="form-control">
                                           <option value="">-- Select Fabric --</option>
                                           <?php foreach ($fabric_data as $row) : ?>
                                             <option value="<?php echo $row['id'] ?>" <?php if ($row['id'] == $value['fabric']) {
@@ -170,7 +170,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Fabric Name</label>
               <div class="col-sm-9">
-                <select  name="fabric" class="form-control select2" required>
+                <select name="fabric" class="form-control select2" required>
                   <option value="">-- Select Fabric --</option>
                   <?php foreach ($fabric_data as $value) : ?>
                     <option value="<?php echo $value['id'] ?>"><?php echo $value['fabricName'] ?></option>
@@ -178,11 +178,12 @@
                 </select>
               </div>
             </div>
-            <?php foreach ($grade_data as $value) : ?>
+            <?php $i = 0;
+            foreach ($grade_data as $value) : ?>
               <div class="form-group row">
                 <label class="control-label col-sm-3">Grade </label>
                 <div class="col-sm-3">
-                  <select id="searchByCat" name="grade[]" class="form-control ">
+                  <select  name="grade[]" class="form-control " readonly>
                     <option value="<?php echo $value['id'] ?>"><?php echo $value['grade'] ?></option>
 
                   </select>
@@ -190,10 +191,11 @@
 
                 <label class="control-label col-sm-3">Percent</label>
                 <div class="col-sm-3">
-                  <input type="number" min="0" max="100" class="form-control" name="percent[]"  required>
+                  <input type="number" min="0" <?php if ($i==0){ echo "value=100 readonly";} ?> class="form-control" name="percent[]" required>
                 </div>
               </div>
-            <?php endforeach; ?>
+            <?php $i++;
+          endforeach; ?>
           </div>
         </div>
         <div class="modal-footer">

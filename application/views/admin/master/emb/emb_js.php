@@ -44,6 +44,8 @@
     });
     $('#clear').on('click', function() {
       $('.clear').val("");
+      $('#update').hide();
+      $('#submit').show();
     });
 
 

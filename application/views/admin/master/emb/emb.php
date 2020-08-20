@@ -82,7 +82,10 @@
                     <hr>
                     <div class="row well">
                       <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                      <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>
+                      <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                      <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>
+                      <hr>
                     </div>
                     <hr>
                     <div class="widget-content nopadding">
@@ -93,8 +96,9 @@
                             <th><input type="checkbox" class="sub_chk" id="master"></th>
 
                             <th>Sno</th>
-                            <th>Emb rate</th>
+
                             <th>Design</th>
+                            <th>Emb rate</th>
                             <th>worker</th>
                             <th>action</th>
 
@@ -223,7 +227,7 @@
 
           'selectAll',
           'selectNone',
-          
+
         ],
 
         "destroy": true,
@@ -264,12 +268,12 @@
           {
             "data": "sno"
           },
-          {
-            "data": "emb_rate"
-          },
 
           {
             "data": "design"
+          },
+          {
+            "data": "emb_rate"
           },
           {
             "data": "worker",
@@ -289,6 +293,13 @@
         ]
       });
     }
+    // Handle click on "Expand All" button
+    $('#btn-show-all-children').on('click', function() {
+      // Expand row details
+      dt.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click');
+    });
+
+
 
     function format(d) {
       var html = '';
@@ -297,7 +308,7 @@
 
       function myFunction(item, index, arr) {
         //console.log(arr[index].worker);
-        html += arr[index].worker + ' : ' + arr[index].rate + '<br>   ';
+        html += '<b> ₹ ' + arr[index].rate + '</b>&nbsp;&nbsp; :&nbsp;&nbsp; ' + arr[index].worker + '<br>   ';
       }
 
       return html;

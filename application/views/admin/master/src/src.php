@@ -87,7 +87,7 @@
                         </div>
                         <div class="row">
                           <div class="col-sm-8">
-
+                            <a href="<?php echo base_url('admin/GradePercent') ?>" target="_blank">Add Percent</a>
                           </div>
                           <div class="col-sm-2"><input type="BUTTON" class="btn btn-warning text-right" value="Clear"></div>
 

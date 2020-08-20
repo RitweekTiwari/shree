@@ -39,7 +39,6 @@ public function update($id,$data)
   }
   public function update_fabric_rate($data)
   {
-
     $this->db->where('id', $data['fabric']);
    
     return $this->db->update('fabric', array('code_rate'=>$data['code_rate']));
