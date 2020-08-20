@@ -21,7 +21,7 @@
 			$data['febName']=$this->Common_model->febric_name();
 			$data['unit']=$this->DyeTransaction_model->select('unit');
 			$data['branch_data']=$this->Job_work_party_model->get();
-	        //echo print_r($data['fabric_data']);exit;
+	        // pre($data['branch_data']);exit;
 		      $data['main_content'] = $this->load->view('admin/dye_transaction/issue/add', $data, TRUE);
   	      $this->load->view('admin/index', $data);
     	}
@@ -63,52 +63,70 @@
 		  $this->db->delete( 'fabric_challan',array('id' => $value));
 		}
         }
-  		
-		public function addRecieve(){
-			if($_POST){
-				$data = $this->security->xss_clean($_POST);
-				// echo "<pre>"; print_r($data);exit;
-				$count =count($data['pbc']);
-				$total_qty=0; 
-				$total_val =0;
-				for ($i=0; $i < $count ; $i++) { 
-					$total_qty =$total_qty +  $data['qty'][$i];
-					$total_val =$total_val + $data['total'][$i];
+
+	public function addChallan($godown)
+	{
+
+		if ($_POST) {
+			$data = $this->security->xss_clean($_POST);
+			// echo "<pre>"; print_r(count($data['obc']));exit;
+			$count = count($data['pbc']);
+			$id = $this->Transaction_model->getId('from_godown', $godown, 'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'], 'arr');
+			if (!$id) {
+				$challan1 =
+				$godown_name->outPrefix . '/OUT/' . $godown_name->outStart . '/' . $godown_name->outSuffix;
+			} else {
+				$cc = $id[0]['count'];
+				$cc = $cc + 1;
+				$challan1 = $godown_name->outPrefix . '/ OUT /' . (string) $cc . '/' . $godown_name->outSuffix;
+			}
+			$id = $this->Transaction_model->getId('to_godown', $godown, 'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
+			if (!$id) {
+				$challan2 =  $godown_name->inPrefix . '/ IN /' . $godown_name->inStart . '/' . $godown_name->inSuffix;
+			} else {
+				$cc1 = $id[0]['count'];
+				$cc1 = $cc1 + 1;
+				$challan2 = $godown_name->inPrefix . '/ IN /' . (string) $cc . '/' . $godown_name->inSuffix;
+			}
+			$data1 = [
+				'from_godown' => $data['FromGodown'],
+				'to_godown'  => $data['ToGodown'],
+				'fromParty' => $data['FromParty'],
+				'toParty'  => $data['toParty'],
+				'created_at' => date('Y-m-d'),
+				'created_by' => $_SESSION['userID'],
+				'challan_out' => $challan1,
+				'challan_in' => $challan2,
+				'counter' => $cc,
+				'counter2' => $cc1,
+				'pcs' => $count,
+				'jobworkType' => $data['workType'],
+
+				'transaction_type' => 'dye'
+
+			];
+			$id =	$this->Transaction_model->insert($data1, 'transaction');
+			for ($i = 0; $i < $count; $i++) {
+				if ($_POST['color'][$i]) {
+					$data2 = [
+						'transaction_id' => $id,
+
+						'order_barcode' => $data['pbc'][$i],
+
+						'color ' => $data['color'][$i],
+
+					];
+
+					$this->Transaction_model->insert($data2, 'transaction_meta');
+					$this->Transaction_model->update(array('isStock' => 0), 'parent_barcode', $data['pbc'][$i],  'fabric_stock_received');
+					$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
 				}
-				$data1 =[
-					'challan_from' =>$data['fromGodown'],
-					'challan_to'  => $data['toGodown'],
-					'challan_date' => $data['PBC_date'],
-					'created_by' => $_SESSION['userID'],
-					'challan_no' =>  $data['PBC_challan'],
-					'total_pcs' => $count,
-					'total_quantity' => $total_qty,
-					'total_amount' => $total_val,
-					'fabric_type' => $data['fabType'][0],
-					'unit' => $data['unit'][0],
-					'challan_type' => 'recieve'
-				];
-				$id =	$this->Frc_model->insert($data1, 'fabric_challan');
-				for ($i=0; $i < $count; $i++) { 
-				$data2=[
-					'fabric_challan_id' => $id,
-					'parent_barcode' =>$data['pbc'][$i],
-					'fabric_id' => $data['fabric_name'][$i],
-					'fabric_type' =>$data['fabType'][$i],
-					'hsn' => $data['hsn'][$i],
-					'stock_quantity' => $data['qty'][$i],
-					'stock_unit' => $data['unit'][$i],
-					'ad_no ' => $data['ADNo'][$i],
-					'color_name ' => $data['color'][$i],
-					'purchase_code' => $data['pcode'][$i],
-					'purchase_rate' => $data['prate'][$i],
-					'total_value' =>$data['total'][$i]
-				]	;
-					$this->DyeTransaction_model->insert($data2, 'fabric_stock_received');
-				}
-				
-			} redirect($_SERVER['HTTP_REFERER']);
+			}
 		}
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 		
 		public function addIssue(){
 			if($_POST){

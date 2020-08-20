@@ -277,7 +277,7 @@
                       <tr class="gradeU" id="<?php echo $i ?>">
                         <td><input type="checkbox" class="sub_chk2" data-id="<?php echo $value['order_product_id'] ?>">
                         </td>
-                        <td><input type="text" class="form-control pbc" name='pbc' value='<?php echo $value['pbc'] ?>' id="pbc<?php echo $i ?>">
+                        <td><input type="text" style="width: 100px;" class="form-control pbc" name='pbc' value='<?php echo $value['pbc'] ?>' id="pbc<?php echo $i ?>">
                         </td>
                         <td><?php echo my_date_show($value['order_date']); ?></td>
                         <td><?php echo $value['order_number']; ?></td>

@@ -38,7 +38,7 @@
       <?php foreach ($plain as $row) { ?>
         plain.push(<?php echo $row; ?>);
       <?php } ?>
-      console.log(plain);
+      //console.log(plain);
       if (plain.includes(godown)) {
         var url = "<?php echo base_url('admin/orders/getOrderDetails') ?>";
       } else {

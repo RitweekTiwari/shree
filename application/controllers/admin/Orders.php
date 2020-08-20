@@ -184,10 +184,13 @@ class Orders extends CI_Controller
   public function getOrderDetails()
   {
     $id = $this->security->xss_clean($_POST['id']);
-   
     $data = array();
-    $data['febName'] = $this->Orders_model->getOrderDetails($id);
-    
+    if(isset($_POST['type'])){
+      $data['febName'] = $this->Orders_model->getOrderDetails2($id);
+    }else{
+      $data['febName'] = $this->Orders_model->getOrderDetails($id);
+    }
+   
     if($data['febName']){
       if(isset($_POST['godown'])){
       $godown = $this->security->xss_clean($_POST['godown']);

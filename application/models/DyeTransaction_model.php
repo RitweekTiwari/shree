@@ -116,12 +116,10 @@ public function select($table)
  }
 public function getPBC_deatils($id)
  {
-   $this->db->select('unit.unitName,fabric.fabricName,fabric_stock_received.hsn,fabric_stock_received.stock_quantity,fabric_challan.challan_date');
-   $this->db->from("fabric_stock_received");
+   $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date');
+   $this->db->from("fabric_stock_view");
    $this->db->where("parent_barcode",$id);
-   $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-   $this->db->join('fabric_challan','fabric_challan.fc_id=fabric_stock_received.fabric_challan_id','inner');
-   $this->db->join('unit','unit.id=fabric_stock_received.stock_unit','inner');
+  
    $rec=$this->db->get();
    return $rec->result_array();
  
