@@ -115,8 +115,8 @@
                         <option value="1">Barcode </option>
                         <option value="2"> Manual </option>
                       </select></td>
-                    <td><input type="text" class="form-control" name="serial_number[]" value="" id='serial_number0'></td>
-                    <td id='tdbarcode0'></td>
+                    <td style="width: 10%;"><input type="text" class="form-control" name="serial_number[]" value="" id='serial_number0'></td>
+                    <td id='tdbarcode0' style="width: 10%;"></td>
                     <td id='tdfab0' style="width: 10%;"><input type="text" class="form-control fabric_name " name="fabric_name[]" readonly value="" id='fabric0'>
                     </td>
                     <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
