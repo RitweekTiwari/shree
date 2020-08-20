@@ -9,9 +9,11 @@ class Orders extends CI_Controller
     check_login_user();
     $this->load->model('common_model');
     $this->load->model('login_model');
-    $this->load->model('Orders_model');;
+    $this->load->model('Orders_model');
+    // $this->load->model('Frc_model');
     $this->load->library('pdf');
     $this->load->library('barcode');
+
   }
   public function index()
   {
@@ -19,10 +21,157 @@ class Orders extends CI_Controller
     $data['page_name'] = 'ORDER / ' .'<a href=' . base_url('admin/Orders/dashboard'). '>Home</a>';
     $data['all_Order_list'] = $this->Orders_model->select('order_product');
     $data['data_cat'] = $this->common_model->select('data_category');
-    $data['all_Order'] = $this->Orders_model->get_order_value();
+    $data['branch_name'] = $this->common_model->select(' branch_detail');
+    // $data['all_Order'] = $this->Orders_model->get_order_value();
     $data['main_content'] = $this->load->view('admin/order/order', $data, TRUE);
     $this->load->view('admin/index', $data);
   }
+
+  public function get_order_list(){
+    $output = array();
+    $data = array();
+    $record =array();
+
+    $caption='';
+    if($_POST){
+      if (!empty($_POST["search"]["value"])) {
+ 			 //pre($_POST["search"]["value"]);exit;
+ 			  $data['Value']=$_POST["search"]["value"];
+        $data['search']='search';
+
+ 				$data['to']=date('Y-m-d');
+ 				$data['from']=date('Y-04-01');
+
+ 			  $data['all_Order'] = $this->Orders_model->get_order_search_value($data);
+ 		 }
+ 			 elseif(!empty($_POST["filter"])){
+ 				 // pre($_POST["filter"]);exit;
+
+ 				if ($_POST['filter']['search'] == 'simple') {
+ 					if ($_POST['filter']['searchByCat'] != "" || $_POST['filter']['searchValue'] != "") {
+ 						$data['cat'] =$_POST['filter']['searchByCat'];
+ 						$data['Value'] = $_POST['filter']['searchValue'];
+
+ 						$data['to']=$_POST['filter']['to'];
+ 						$data['from']=$_POST['filter']['from'];
+
+ 						$caption = $caption . $_POST['filter']['searchByCat'] . " = " . $_POST['filter']['searchValue'] . " ";
+ 					}
+ 	       			$data['all_Order'] = $this->Orders_model->get_order_search_value($data);
+ 				}
+ 				elseif($_POST['filter']['search'] == 'advance'){
+ 						if(isset($_POST['filter']['financial_year']) && $_POST['filter']['financial_year']!="" ){
+ 							$data['cat'][]='session.financial_year';
+ 							$fab=$_POST['filter']['financial_year'];
+ 							$data['Value'][]=$fab;
+ 							$caption=$caption.'financial_year'." = ".$fab." ";
+ 							}
+
+ 						if(isset($_POST['filter']['order_number']) && $_POST['filter']['order_number']!="" ){
+ 						$data['cat'][]='order_table.order_number';
+ 						$fab=$_POST['filter']['order_number'];
+ 						$data['Value'][]=$fab;
+ 						$caption=$caption.'order_number'." = ".$fab." ";
+ 						}
+ 						if(isset($_POST['filter']['pcs']) && $_POST['filter']['pcs']!="" ){
+ 						$data['cat'][]='order_table.pcs';
+ 						$fab=$_POST['filter']['pcs'];
+ 						$data['Value'][]=$fab;
+ 						$caption=$caption.'pcs'." = ".$fab." ";
+ 						}
+ 						if(isset($_POST['filter']['branch_order_number']) && $_POST['filter']['branch_order_number']!="" ){
+ 						$data['cat'][]='order_table.branch_order_number';
+ 						$fab=$_POST['filter']['branch_order_number'];
+ 						$data['Value'][]=$fab;
+ 						$caption=$caption.'branch_order_number'." = ".$fab." ";
+ 						}
+ 						if(isset($_POST['filter']['name']) && $_POST['filter']['name']!="" ){
+ 						$data['cat'][]='customer_detail.name';
+ 						$fab=$_POST['filter']['name'];
+ 						$data['Value'][]=$fab;
+ 						$caption=$caption.'name'." = ".$fab." ";
+ 						}
+					if(isset($_POST['filter']['orderType']) && $_POST['filter']['orderType']!="" ){
+						$data['cat'][]='order_type.orderType';
+						$doc_challan=$_POST['filter']['orderType'];
+						$data['Value'][]=$doc_challan;
+						$caption=$caption.'orderType'." = ".$doc_challan." ";
+						}
+            if(isset($_POST['filter']['dataCategory']) && $_POST['filter']['dataCategory']!="" ){
+  						$data['cat'][]='data_category.dataCategory';
+  						$doc_challan=$_POST['filter']['dataCategory'];
+  						$data['Value'][]=$doc_challan;
+  						$caption=$caption.'dataCategory'." = ".$doc_challan." ";
+  						}
+ 								if(isset($data['cat']) && isset($data['Value']) ){
+
+ 									$data['to']=$_POST['filter']['to'];
+ 									$data['from']=$_POST['filter']['from'];
+
+ 									$data['all_Order'] = $this->Orders_model->get_order_search_value($data);
+ 								}else{
+ 									$this->session->set_flashdata('error', 'please enter some keyword');
+ 								  redirect($_SERVER['HTTP_REFERER']);
+ 								}
+ 				}
+ 				elseif($_POST['filter']['search'] == 'datefilter'){
+
+ 						$data['to']=$_POST['filter']['to'];
+ 						$data['from']=$_POST['filter']['from'];
+            $data['Dsearch']=$_POST['filter']['search'];
+ 					  $caption = "Order List";
+ 						$data['all_Order'] = $this->Orders_model->get_order_search_value($data);
+ 				}
+        elseif($_POST['filter']['search'] == 'searchBranch'){
+            $data['branch_name']=$_POST['filter']['branch_name'];
+            $data['branchsearch']=$_POST['filter']['search'];
+            $data['to']=date('Y-m-d');
+     				$data['from']=date('Y-04-01');
+            $data['all_Order'] = $this->Orders_model->get_order_search_value($data);
+        }
+
+ 				}
+
+ 				else{
+ 				 $data['all_Order'] = $this->Orders_model->get_order_value();
+ 				}
+
+      foreach($data['all_Order'] as $value) {
+      $sub_array = array();
+      $sub_array[] = '<input type="checkbox" class="sub_chk" data-id='.$value['order_id'].'>';
+      $sub_array[] = $value['financial_year'];
+      $sub_array[] = $value['order_date'];
+      $sub_array[] = $value['order_number'];
+      $sub_array[] = $value['pcs'];
+      $sub_array[] = $value['branch'];
+      $sub_array[] = $value['branch_order_number'];
+      $sub_array[] = $value['customer_name'];
+      $sub_array[] = $value['order_type'];
+      $sub_array[] = $value['data_category'];
+
+      $sub_array[] =  '
+                    <a class="text-center tip"  href="'. base_url("admin/orders/get_details/") . $value['order_id'].' ">
+                      <i class="fa fa-eye" aria-hidden="true"></i></a>';
+    $sub_array[] =  '<a class="text-danger text-center tip"  href="'. base_url('admin/Orders/edit_order_product_details/').$value['order_id'].'" >
+                                      <i class="mdi mdi-pen blue"></i>
+                                    </a>
+                                  ';
+      $record[] = $sub_array;
+
+    }
+
+    $output = array(
+
+      "recordsTotal" => $this->Orders_model->get_count("order_table"),
+      "recordsFiltered" =>	$this->Orders_model->get_count("order_table"),
+
+      "draw"   =>  intval($_POST["draw"]),
+      "data" => $record
+    );
+
+    echo json_encode($output);
+}
+}
 
   public function dashboard()
   {
@@ -31,7 +180,7 @@ class Orders extends CI_Controller
     $data['cause'] = $this->common_model->select('cause_list');
     $data['order_count'] = $this->Orders_model->get_order_count();
     $data['get_complete'] = $this->Orders_model->get_order_complete();
-    
+
     $data['get_cancel'] = $this->Orders_model->get_order_cancel();
     $data['get_pending'] = $this->Orders_model->get_order_pending();
     $data['main_content'] = $this->load->view('admin/order/dashboard', $data, TRUE);
@@ -184,13 +333,10 @@ class Orders extends CI_Controller
   public function getOrderDetails()
   {
     $id = $this->security->xss_clean($_POST['id']);
+
     $data = array();
-    if(isset($_POST['type'])){
-      $data['febName'] = $this->Orders_model->getOrderDetails2($id);
-    }else{
-      $data['febName'] = $this->Orders_model->getOrderDetails($id);
-    }
-   
+    $data['febName'] = $this->Orders_model->getOrderDetails($id);
+
     if($data['febName']){
       if(isset($_POST['godown'])){
       $godown = $this->security->xss_clean($_POST['godown']);
@@ -202,11 +348,11 @@ class Orders extends CI_Controller
       }else{
       echo json_encode($data['febName']);
       }
-     
+
     }else{
       echo json_encode(0);
     }
-    
+
   }
 
   public function getFabricDetails()
@@ -277,7 +423,7 @@ class Orders extends CI_Controller
     }
   }
 
-  
+
 
   // Dashbord Actions
 
@@ -338,10 +484,10 @@ class Orders extends CI_Controller
     }else{
       $data['main_content'] = 'No Result Found';
     }
-    
+
     $this->load->view('admin/print/index', $data);
   }
- 
+
   public function edit_order_product_details($order_id)
   {
     $order_id = sanitize_url($order_id);
@@ -362,16 +508,16 @@ class Orders extends CI_Controller
       $data = $this->security->xss_clean($data);
       // echo"<pre>"; print_r($data);exit;
       for ($i = 0; $i < count($data['serial_number']); $i++) {
-       
+
           $data1 = array(
 
-           
+
             'series_number' => $data['serial_number'][$i],
-            
+
             'unit' => $data['unit'][$i],
             'quantity' => $data['quantity'][$i],
             'priority' => $data['priority'][$i],
-           
+
             'design_barcode' => $data['design_barcode'][$i],
             'design_name' => $data['design_name'][$i],
             'design_code' => $data['design_code'][$i],
@@ -384,15 +530,15 @@ class Orders extends CI_Controller
           );
           $this->Orders_model->edit_order_product_details($data1, $data['pro_id'][$i], 'order_product');
         }
-     
-    
-     
+
+
+
         $this->session->set_flashdata(array('error' => 0, 'msg' => 'ORDER PRODUCT UPDATE DONE'));
-     
+
       redirect($_SERVER['HTTP_REFERER']);
     }
   }
-  
+
   public function assignPbc()
   {
     if ($_POST) {
@@ -401,7 +547,7 @@ class Orders extends CI_Controller
         //echo "<pre>"; print_r($_POST);exit;
       try {
        $obc= $this->Orders_model->get_order_by_id2($data['order_product_id']);
-       
+
        if(isset($obc[0]['pbc']) && $obc[0]['pbc']!=""){
           $this->Orders_model->edit_by_node('parent_barcode', $obc[0]['pbc'],  array('isStock'=> 1),'fabric_stock_received');
        }
@@ -415,21 +561,21 @@ class Orders extends CI_Controller
              $data1['godown'] = $pbc[0]['godownid'];
             $this->Orders_model->edit_by_node('order_product_id', $data['order_product_id'], $data1, 'order_product');
             $this->Orders_model->edit_by_node('fsr_id', $pbc[0]['fsr_id'],  array('isStock' => 0), 'fabric_stock_received');
-            echo '1'; 
+            echo '1';
         }else{
          echo '0';
           }
         }else{
           echo '2';
-        }      
+        }
       }catch (\Exception $e) {
         $error = $e->getMessage();
         echo $error;
       }
     }
-    
+
   }
-  
+
   public function deassign()
   {
     if ($_POST) {
@@ -452,8 +598,8 @@ class Orders extends CI_Controller
               $data1['godown'] =0;
             $j+=  $this->Orders_model->edit_by_node('order_product_id', $value , $data1, 'order_product');
             }
-         
-           $c+=1; 
+
+           $c+=1;
           }
         }
         if($i==$c && $j==$c){
@@ -461,7 +607,7 @@ class Orders extends CI_Controller
         }else{
           echo "0";
         }
-      
+
       } catch (\Exception $e) {
         $error = $e->getMessage();
         // echo $error;
@@ -474,15 +620,15 @@ class Orders extends CI_Controller
     if ($_POST) {
       //  echo "<pre>"; print_r($_POST);exit;
       try {
-        
+
         $ids = $this->input->post('ids');
         $userid = explode(",", $ids);
         foreach ($userid as $value) {
           $pbc= $this->Orders_model->get_pbc_by_order($value);
         // pre($pbc);  exit;
-          
-            $this->Orders_model->edit_by_node('parent_barcode', $pbc, array('isStock' => 1), 'fabric_stock_received'); 
-         
+
+            $this->Orders_model->edit_by_node('parent_barcode', $pbc, array('isStock' => 1), 'fabric_stock_received');
+
           $data = [
             'status' => 'CANCEL',
             'quantity' => 0,

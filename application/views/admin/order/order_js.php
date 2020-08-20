@@ -30,7 +30,6 @@
 
 
 
-
     $('#fresh_form').hide();
     $('#order_form').hide();
     $('#submit_button').hide();
@@ -285,7 +284,6 @@
         data: {
 
           'id': order,
-          'type':'prm',
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
 

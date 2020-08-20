@@ -13,10 +13,9 @@ class Design extends CI_Controller
 		$this->load->library('barcode');
 		$this->load->library('pdf');
 		$this->load->library("pagination");
+
 		$this->load->helper('url');
 	}
-
-
 
 	public function index()
 	{
@@ -30,10 +29,10 @@ class Design extends CI_Controller
 			$start = ((int) $this->uri->segment(3) ) + 1;
 			$end = ((int) $this->uri->segment(3) + $config['per_page']  > $config['total_rows']) ? $config['total_rows'] : (int) $this->uri->segment(3)+ $config['per_page']  ;
 		}
-		
+
 
 		$data['result_count'] = "Showing " . $start . " - " . $end . " of " . $config['total_rows'] . " Results";
-		
+
 		$data["links"] = $this->pagination->create_links();
 		$data['caption'] = ' Design List';
 		$data['design_data'] = $this->Design_model->get($config["per_page"], $page);
@@ -42,7 +41,7 @@ class Design extends CI_Controller
 		$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
-	
+
 	public function fabricOn()
 	{
 		if ($_POST) {
@@ -54,27 +53,28 @@ class Design extends CI_Controller
 
 	public function addDesign()
 	{
-
-
 		if ($_POST) {
+			$lastId = $this->Design_model->getLastId();
+ 		  $pre = explode("D", $lastId->barCode);
+ 		  $newId = (int) ($pre[1]) + 1;
+ 		  $barCode = "D" . (string) $newId;
+
+      $pic=$_FILES['designPic']['name'];
+			$new=substr($pic,strpos($pic,"."));
+			$new_name =  $barCode.$new;
+
 			$config['upload_path']          = './upload/';
 			$config['allowed_types']        = 'gif|jpg|png|jpeg';
 			$config['max_size']             = 11264;
 			$config['max_width']            = 3840;
 			$config['max_height']           = 2160;
-
+      $config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
-			$this->upload->do_upload('designPic');
+		  $this->upload->do_upload('designPic');
 			$img = $this->upload->data();
-			//  echo "<pre>";
-			//  print_r($img);
-			//  exit();
-			$pic = $img['file_name'];
+			$pic1 = $img['file_name'];
 
-			$lastId = $this->Design_model->getLastId();
-			$pre = explode("D", $lastId->barCode);
-			$newId = (int) ($pre[1]) + 1;
-			$id = "D" . (string) $newId;
+
 
 			if (!empty($pic)) {
 
@@ -88,9 +88,9 @@ class Design extends CI_Controller
 					'matching' => $_POST['matching'],
 					// 'saleRate'=>$_POST['saleRate'],
 					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => $pic,
+					'designPic' => $pic1,
 					'fabricName' => $_POST['fabricName'],
-					'barCode' => $id,
+					'barCode' => $barCode,
 					'designOn' => trim($_POST['designOn'])
 				);
 				//print_r($data); exit();
@@ -100,7 +100,6 @@ class Design extends CI_Controller
 
 				$data = array(
 					'designName' => $_POST['designName'],
-
 					'designSeries' => $_POST['designSeries'],
 					// 'designCode'=>$_POST['designCode'],
 					'stitch' => $_POST['stitch'],
@@ -110,7 +109,7 @@ class Design extends CI_Controller
 					'htCattingRate' => $_POST['htCattingRate'],
 
 					'fabricName' => $_POST['fabricName'],
-					'barCode' => $id,
+					'barCode' => $barCode,
 					'designOn' => trim($_POST['designOn'])
 				);
 				// print_r($data); exit();
@@ -145,18 +144,34 @@ class Design extends CI_Controller
 	public function edit()
 	{
 		if ($_POST) {
+
+			$id = $_POST['designId'];
+			$data= $this->Design_model->get_dpic($id);
+			$picture=$data->designPic;
+
+			$barCode = $_POST['barCode'];
+
+			$pic=$_FILES['designPic']['name'];
+			$new=substr($pic,strpos($pic,"."));
+			$new_name =  $barCode.$new;
+
 			$config['upload_path']          = './upload/';
 			$config['allowed_types']        = 'gif|jpg|png|jpeg';
 			$config['max_size']             = 2048000;
 			$config['max_width']            = 1500;
 			$config['max_height']           = 1000;
+			$config['file_name'] = $new_name;
+
+
+		//	pre($path);exit;
+			//pre($config);exit;
 			$this->load->library('upload', $config);
 			$this->upload->do_upload('designPic');
 			$img = $this->upload->data();
-
-			$pic = $img['file_name'];
-			$id = $_POST['designId'];
-			if ($pic != '') {
+			$pic1 = $img['file_name'];
+		//	pre($pic);exit;
+			if (!empty($pic)) {
+					unlink("upload/".$picture);
 				$data = array(
 					'designName' => $_POST['designName'],
 					'designSeries' => $_POST['designSeries'],
@@ -166,7 +181,7 @@ class Design extends CI_Controller
 					'matching' => $_POST['matching'],
 					// 'saleRate'=>$_POST['saleRate'],
 					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => $pic,
+					'designPic' => $pic1,
 					'fabricName' => $_POST['fabricName'],
 					'designOn' => trim($_POST['designOn'])
 
@@ -188,7 +203,7 @@ class Design extends CI_Controller
 		}
 		// print_r($data); exit();
 		$id=	$this->Design_model->edit($id, $data);
-		
+
 		if ($id) {
 			$this->session->set_flashdata('success', 'Added Successfully');
 		} else {
@@ -243,14 +258,14 @@ class Design extends CI_Controller
 		$this->security->xss_clean($_POST);
 		if ($_POST) {
 				// echo"<pre>";	print_r($_POST); exit;
-			
+
 			$data1['search'] = $this->input->post('search');
-			
+
 			$config = $this->pagination_Config();
 			$data1['per_page'] = $config["per_page"];
 			$data1['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-			
-			
+
+
 			$caption = 'Search Result For : ';
 			if ($data1['search'] == 'simple') {
 				if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
@@ -342,12 +357,12 @@ class Design extends CI_Controller
 					$this->session->set_flashdata('error', 'please enter some keyword');
 					redirect($_SERVER['HTTP_REFERER']);
 				}
-				
+
 			}
 
 			$data['caption'] = $caption;
-			
-			
+
+
 			$data["links"] = $this->pagination->create_links();
 			$data['febName'] = $this->common_model->febric_name();
 			$data['febType'] = $this->common_model->febric_type();
@@ -369,9 +384,9 @@ class Design extends CI_Controller
 		$config["uri_segment"] = 3;
 		// $config['use_page_numbers'] = TRUE;
 		$config['num_links'] =9;
-		
+
 		$config['display_pages'] = TRUE;
-		
+
 		$config['next_link']        = 'Next';
 		$config['prev_link']        = 'Prev';
 		$config['first_link']       = 'First';
@@ -392,7 +407,7 @@ class Design extends CI_Controller
 		$config['num_tag_open']     = '<li class="page-item">';
 		$config['num_tag_close']    = '</li>';
 		$this->pagination->initialize($config);
-		
+
 		return $config;
 	}
 }

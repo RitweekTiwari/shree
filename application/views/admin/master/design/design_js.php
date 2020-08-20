@@ -1,5 +1,10 @@
 <script type="text/javascript">
   $(document).ready(function() {
+   // $('.font-button').hide();
+   // $("#pop").on("click", function() {
+   //    $(this).modal();
+   //    $('.font-button').show();
+   // });
 
     jQuery('#master').on('click', function(e) {
       if ($(this).is(':checked', true)) {

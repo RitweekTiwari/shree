@@ -286,8 +286,9 @@
                           <td><?php echo $value->htCattingRate ?></td>
                           <td>
                             <div class="actions">
-                              <a class="btn default btn-outline image-popup-vertical-fit el-link" href="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>"> <img src="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>" alt="image" style="height: 40px; width: 40px;">
+                              <a class="btn default btn-outline image-popup-vertical-fit el-link " id="pop" href="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>"> <img class="my-gallery" src="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>" alt="image" style="height: 40px; width: 40px;">
                               </a>
+                               <!-- <span class="font-button plus">+</span>  <span class="font-button minus">-</span> -->
 
                             </div>
                           </td>
@@ -385,7 +386,7 @@
                 <img src="" alt="image" style="height: 50px; width: 50px;" id='designPic1'>
               </div>
               <div class="col-sm-7">
-                <input type="file" class="form-control" name="designPic1">
+                <input type="file" class="form-control" name="designPic">
               </div>
 
             </div>
@@ -418,6 +419,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="designId" id='designId'>
+          <input type="hidden" name="barCode" id='barCode'>
           <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <input type="submit" value="Update" class="btn btn-primary">
           <a data-dismiss="modal" class="btn" href="#">Cancel</a>
@@ -429,6 +431,7 @@
 
 
     <script>
+
       function delete_detail(id) {
         var del = confirm("Do you want to Delete");
         if (del == true) {
@@ -439,8 +442,10 @@
         }
       }
 
+
       $(".edit").click(function() {
         var id = $(this).parent().parent().attr("id");
+
         console.log(id);
         $.ajax({
           type: "POST",
@@ -461,9 +466,10 @@
             $("#dye1").val(response['dye']);
             $("#matching1").val(response['matching']);
             $("#htCattingRate1").val(response['htCattingRate']);
-            $("#designPic1").attr('src', '<?php echo base_url('upload / ') ?>' + response['designPic']);
+            $("#designPic1").attr('src', '<?php echo base_url('/upload/') ?>' + response['designPic']);
             $("#designOn1").val(response['designOn']);
             $("#fabricName1").val(response['fabricName']);
+             $("#barCode").val(response['barCode']);
             $("#edit").modal();
           }
         });
@@ -471,5 +477,6 @@
 
 
       });
+
     </script>
     <?php include('design_js.php'); ?>

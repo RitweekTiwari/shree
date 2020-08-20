@@ -7,14 +7,13 @@ class Design_model extends CI_Model {
 	{
 		// print_r($data); exit();
     return($this->db->insert('design', $data));
-    
 	}
 	public function get($limit, $start)
 	{
     $this->db->limit($limit, $start);
     $this->db->select('*');
 		$this->db->from('design_view');
-  
+
     $rec=$this->db->get();
     // print_r($this->db->last_query());exit;
 
@@ -34,20 +33,28 @@ class Design_model extends CI_Model {
 		$this->db->where('id', $id);
      	$this->db->delete('design');
 	}
-	
+
   public function get_single_value_by_id($id)
   {
     $this->db->select('*');
     $this->db->from('design_view');
     // $this->db->like($searchByCat, $searchValue);
     $this->db->where('id',$id);
-    
+
     $rec=$this->db->get();
      //print_r($this->db->last_query());exit;
     return $rec->row();
     // print_r($searchValue);
-    
+  }
+  public function get_dpic($id)
+  {
 
+    $this->db->select('designPic');
+    $this->db->from('design');
+    $this->db->where('id',$id);
+    $rec=$this->db->get();
+//echo $this->db->last_query($rec);exit;
+    return $rec->row();
   }
 
     public function get_multi_value_by_id($id)
@@ -89,7 +96,7 @@ class Design_model extends CI_Model {
       $this->db->where($data['searchByCat'], $data['searchValue'] );
       $this->db->update('design', array($data['searchByCat'] => $data['replaceValue']));
       return true;
-     
+
   }
 
   function select_value($table,$id){
@@ -122,7 +129,7 @@ function getLastId(){
     		}
     public function search1($data)
     {
-     
+
         $this->db->select('*');
         $this->db->from('design_view');
         $this->db->limit($data['per_page'], $data['page']);
@@ -136,7 +143,7 @@ function getLastId(){
             $this->db->like($data['cat'][$i], $data['Value'][$i]);
           }
         }
-     
+
       $rec = $this->db->get();
       //echo $this->db->last_query($rec);exit;
       return $rec->result();
