@@ -105,7 +105,7 @@
                                     $c = 1;
                                     $qty = 0.0;
                                     foreach ($frc_data as $value) {
-                                        $qty +=  $value['quantity'];
+                                        $qty +=  $value['finish_qty'];
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>

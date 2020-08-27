@@ -338,13 +338,13 @@ public function get_design_name()
 	  }
 	 }
 	 if(isset($data['search'])){
-		 $this->db->where('session.financial_year',$data['Value']);
-		 $this->db->or_where('order_table.order_number',$data['Value']);
-		 $this->db->or_where('order_table.pcs',$data['Value']);
-		 $this->db->or_where('order_table.branch_order_number',$data['Value']);
-		 $this->db->or_where('customer_detail.name',$data['Value']);
-		 $this->db->or_where('order_type.orderType',$data['Value']);
-		$this->db->or_where('data_category.dataCategory',$data['Value']);
+		 $this->db->like('session.financial_year',$data['Value']);
+		 $this->db->or_like('order_table.order_number',$data['Value']);
+		 $this->db->or_like('order_table.pcs',$data['Value']);
+		 $this->db->or_like('order_table.branch_order_number',$data['Value']);
+		 $this->db->or_like('customer_detail.name',$data['Value']);
+		 $this->db->or_like('order_type.orderType',$data['Value']);
+		$this->db->or_like('data_category.dataCategory',$data['Value']);
 	 }
 	 if($data['from']==$data['to']){
 		$this->db->where('order_table.order_date ', $data['from']);

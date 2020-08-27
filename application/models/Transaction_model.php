@@ -162,6 +162,15 @@ public function get($col,$godown,$type)
     $query = $this->db->get();
     return $query->result_array();
   }
+  
+  public function get_dye_godown()
+  {
+    $this->db->select("distinct(subDeptName)");
+    $this->db->from('job_work_party');
+    $this->db->where('job_work_type', 130);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_distinct_plain_godown()
   {
     $this->db->select("distinct(godownid)");
@@ -258,7 +267,7 @@ public function view_tc($data)
 
     $this->db->where("transaction_id", $id);
     $this->db->join('order_view', 'order_view.order_barcode=transaction_meta.order_barcode', 'inner');
-
+    $this->db->order_by('trans_meta_id', 'asc');
    
     $query = $this->db->get(); //echo"<pre>"; print_r($query);exit;
     $query = $query->result_array();
@@ -272,7 +281,7 @@ public function view_tc($data)
     $this->db->where("transaction_id", $id);
     $this->db->join('sub_department sb1','sb1.id=transaction.from_godown  ','left');
  $this->db->join('sub_department sb2','sb2.id=transaction.to_godown  ','left');
-
+    
     $query = $this->db->get(); //echo"<pre>"; print_r($query);exit;
     $query = $query->result_array();
     return $query;
@@ -294,7 +303,7 @@ public function view_tc($data)
     $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
   
     $this->db->where('to_godown', $id);
-    $this->db->where('finish_qty !=', 0);
+    $this->db->where('tc !=', 0);
     $this->db->where('is_tc', 0);
     $query = $this->db->get();
     //print_r($this->db->last_query());

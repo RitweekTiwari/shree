@@ -12,6 +12,8 @@
         $this->load->model('Job_work_party_model');
         $this->load->model('Transaction_model');
 		$this->load->model('Sub_department_model');
+		$this->load->model('Job_work_party_model');
+		$this->load->model('DyeTransaction_model');
 		
 		}
 		
@@ -21,13 +23,22 @@
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $godown_name.'  DASHBOARD';
-		
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		$dye_godown = $this->Transaction_model->get_dye_godown();
+		foreach ($dye_godown as $row) {
+			$data['dye'][] = $row['subDeptName'];
+		}
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
 		$data['godown'] = $godown;
-		if($godown==17){
+		if(in_array($godown, $data['plain'])){
 			$data['main_content'] = $this->load->view('admin/transaction/index_plain', $data, TRUE);
 
 		}else if($godown == 19){
 			$data['main_content'] = $this->load->view('admin/transaction/index_finish', $data, TRUE);
+		} else if (in_array($godown, $data['dye'])) {
+			$data['main_content'] = $this->load->view('admin/transaction/index_dye', $data, TRUE);
 		}else{
 			$data['main_content'] = $this->load->view('admin/transaction/index', $data, TRUE);
 		}
@@ -64,7 +75,25 @@
 		$data['main_content'] = $this->load->view('admin/transaction/dispatch/add', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
-		
+	public function showDye($godown)
+	{
+		$data = array();
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+		$data['id'] = $godown;
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
+		$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
+		$data['febName'] = $this->Common_model->febric_name();
+		$data['unit'] = $this->DyeTransaction_model->select('unit');
+		$data['branch_data'] = $this->Job_work_party_model->get();
+		// pre($data['branch_data']);exit;
+		$data['main_content'] = $this->load->view('admin/dye_transaction/issue/add', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}	
 		  public function showRecieve($godown){
 	        $data = array();
 			$data['page_name']= '  DASHBOARD';
@@ -79,8 +108,14 @@
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
 			$data['page_name']= $data['godown']. '  DASHBOARD /' . $link;
+		$dye_godown = $this->Transaction_model->get_dye_godown();
+		foreach ($dye_godown as $row) {
+			$data['dye'][] = $row['subDeptName'];
+		}
 		if($godown==23)	{
 			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all');	
+		} else if (in_array($godown, $data['dye'])) {
+			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'dye');
 		}else{
 			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan');
 		}
@@ -301,7 +336,7 @@
 			$sub_array[] = $value['design_code'];
 			$sub_array[] = $value['dye'];
 			$sub_array[] = $value['matching'];
-			$sub_array[] = $value['quantity'];
+			$sub_array[] = $value['finish_qty'];
 			$sub_array[] =  $value['unit'];
 			$sub_array[] =   $value['image'];
 			$sub_array[] = $value['days_left'];
@@ -634,20 +669,20 @@
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'],'arr');
 			if (!$id) {
 				$challan1 =
-				$godown_name->outPrefix.'/OUT/'. $godown_name->outStart.'/'. $godown_name->outSuffix;
+				$godown_name->outPrefix. $godown_name->outStart. $godown_name->outSuffix;
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan1 = $godown_name->outPrefix. '/ OUT /'. (string) $cc . '/' . $godown_name->outSuffix;
+				$challan1 = $godown_name->outPrefix.  (string) $cc .  $godown_name->outSuffix;
 			}
 			$id = $this->Transaction_model->getId('to_godown', $godown, 'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
 			if (!$id) {
-				$challan2 =  $godown_name->inPrefix. '/ IN /' . $godown_name->inStart . '/' . $godown_name->inSuffix;
+				$challan2 =  $godown_name->inPrefix.  $godown_name->inStart .  $godown_name->inSuffix;
 			} else {
 				$cc1 = $id[0]['count'];
 				$cc1 = $cc1 + 1;
-				$challan2 = $godown_name->inPrefix . '/ IN /' . (string) $cc . '/' . $godown_name->inSuffix;
+				$challan2 = $godown_name->inPrefix . (string) $cc .  $godown_name->inSuffix;
 			}
 				$data1 =[
 					'from_godown' =>$data['FromGodown'],
@@ -709,6 +744,7 @@
 				'created_at' => date('Y-m-d'),
 				'created_by' => $_SESSION['userID'],
 				'challan_out' => $challan,
+				'challan_in' => $challan,
 				'counter' => $cc,
 				'pcs' => $count,
 				'jobworkType' => $data['workType'],

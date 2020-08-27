@@ -114,14 +114,20 @@ public function select($table)
  
 
  }
-public function getPBC_deatils($id)
+public function getPBC_deatils($id,$godown)
  {
    $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date');
    $this->db->from("fabric_stock_view");
    $this->db->where("parent_barcode",$id);
-  
+    $this->db->where("godownid", $godown);
    $rec=$this->db->get();
-   return $rec->result_array();
+    //pre($this->db->last_query());exit;
+   if($rec->num_rows()>=1){
+      return $rec->result_array();
+   }else{
+     return 0; 
+   }
+  
  
 
  } 

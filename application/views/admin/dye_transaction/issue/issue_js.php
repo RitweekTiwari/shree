@@ -75,7 +75,9 @@
 
     $(document).on('change', '.pbc', function(e) {
       var pbc = $(this).val();
-      var godown = $(this).val();
+      pbc = pbc.toUpperCase();
+      $(this).val(pbc);
+      var godown = <?php echo $id ?>;
       var id = $(this).parent().parent().attr("id");
       console.log("id=" + id);
       var csrf_name = $("#get_csrf_hash").attr('name');
@@ -92,7 +94,7 @@
 
         success: function(data) {
           data = JSON.parse(data);
-          if (data != "") {
+          if (data != 0) {
 
             var date = data[0]['created_date'];
             var d = date.split(" ", 1);
@@ -243,7 +245,7 @@
       element += '<td><input type="text" class="form-control" name="color[]" value=""></td>'
       element += '<td><input type="text"  class="form-control unit " readonly id=unit' + count + ' ></td>'
       element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' readonly></td>'
+      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' ></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);

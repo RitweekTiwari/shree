@@ -11,20 +11,11 @@
         $this->load->model('Common_model');
         $this->load->model('Job_work_party_model');
         $this->load->model('DyeTransaction_model');
-        
+		$this->load->model('Transaction_model');
     	}
 
 
-    	public function index(){
-	        $data = array();
-	        $data['name']='Fabric Return Chalan';
-			$data['febName']=$this->Common_model->febric_name();
-			$data['unit']=$this->DyeTransaction_model->select('unit');
-			$data['branch_data']=$this->Job_work_party_model->get();
-	        // pre($data['branch_data']);exit;
-		      $data['main_content'] = $this->load->view('admin/dye_transaction/issue/add', $data, TRUE);
-  	      $this->load->view('admin/index', $data);
-    	}
+    	
 		  public function showRecieve(){
 	        $data = array();
 			$data['name']='Add Dye Recieve Transaction';
@@ -69,26 +60,26 @@
 
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
-			// echo "<pre>"; print_r(count($data['obc']));exit;
+			 //echo "<pre>"; print_r($data);exit;
 			$count = count($data['pbc']);
 			$id = $this->Transaction_model->getId('from_godown', $godown, 'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'], 'arr');
 			if (!$id) {
 				$challan1 =
-				$godown_name->outPrefix . '/OUT/' . $godown_name->outStart . '/' . $godown_name->outSuffix;
+				$godown_name->outPrefix  . $godown_name->outStart .  $godown_name->outSuffix;
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan1 = $godown_name->outPrefix . '/ OUT /' . (string) $cc . '/' . $godown_name->outSuffix;
+				$challan1 = $godown_name->outPrefix . (string) $cc .  $godown_name->outSuffix;
 			}
 			$id = $this->Transaction_model->getId('to_godown', $godown, 'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
 			if (!$id) {
-				$challan2 =  $godown_name->inPrefix . '/ IN /' . $godown_name->inStart . '/' . $godown_name->inSuffix;
+				$challan2 =  $godown_name->inPrefix .  $godown_name->inStart . $godown_name->inSuffix;
 			} else {
 				$cc1 = $id[0]['count'];
 				$cc1 = $cc1 + 1;
-				$challan2 = $godown_name->inPrefix . '/ IN /' . (string) $cc . '/' . $godown_name->inSuffix;
+				$challan2 = $godown_name->inPrefix .  (string) $cc .  $godown_name->inSuffix;
 			}
 			$data1 = [
 				'from_godown' => $data['FromGodown'],
@@ -127,55 +118,116 @@
 		}
 		redirect($_SERVER['HTTP_REFERER']);
 	}
-		
-		public function addIssue(){
-			if($_POST){
-				$data = $this->security->xss_clean($_POST);
-				// echo "<pre>"; print_r($data);exit;
-				$count =count($data['pbc']);
-				$total_qty=0;
-				for ($i=0; $i < $count ; $i++) { 
-					$total_qty =$total_qty +  $data['quantity'][$i];
-				}
-				$data1 =[
-					'from_godown' =>$data['FromGodown'],
-					'to_godown'  => $data['ToGodown'],
-					'fromParty' =>$data['FromParty'],
-					'toParty'  => $data['toParty'],
-					'created_at' => date('Y-m-d'),
-					'created_by' => $_SESSION['userID'],
-					
-					'jobworkType' => $data['workType'],
-					
-					'transaction_type' => 'issue'
 
-				];
-				$id =	$this->DyeTransaction_model->insert($data1, 'dye_transaction');
-				for ($i=0; $i < $count; $i++) { 
-				$data2=[
-					'dye_transaction_id' => $id,
-					'pbc' =>$data['pbc'][$i],
-					'fabric' => $data['fabric_name'][$i],
-					'color' => $data['color'][$i],
-					'hsn' => $data['hsn'][$i],
-					'current_qty' => $data['quantity'][$i],
-					'unit' => $data['unit'][$i],
-					'remark' =>  $data['remark'][$i],
-					'days_left' => $data['days'][$i],
-				]	;
-					$this->DyeTransaction_model->insert($data2, 'dye_transaction_meta');
-				}
-				
-			} redirect($_SERVER['HTTP_REFERER']);
+	public function viewDye($id)
+	{
+		$data = array();
+		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
+
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub2'] . '  DASHBOARD /' . $link;
+		$data['godown'] = $data['trans_data'][0]['to_godown'];
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
+		$data['id'] = $id;
+		$data['branch_data'] = $this->Job_work_party_model->get();
+		//echo "<pre>"; print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/dye_transaction/issue/view', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function showDyeInList($godown)
+	{
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+	
+			$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'dye');
+		
+
+		$data['main_content'] = $this->load->view('admin/transaction/dye_in', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function getChallan($id)
+	{
+		$query = '';
+
+		$output = array();
+
+		$data = array();
+
+		if (!empty($_GET["search"]["value"])) {
+
+			$query .= 'SELECT * FROM transaction_meta WHERE transaction_id = "' . $id . '" AND';
+			$query .= ' pbc LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR order_barcode LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR order_number LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR fabric_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR hsn LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR design_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR design_code LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR unit LIKE "%' . $_GET["search"]["value"] . '%" ';
+		} else {
+
+			$query .= 'SELECT transaction_meta.*,fsr.current_stock,fsr.stock_unit,fsr.current_stock,fabric.fabricName,fabric.fabHsnCode FROM transaction_meta join fabric_stock_received fsr on fsr.parent_barcode=transaction_meta.order_barcode 
+			Join fabric on fabric.id=fsr.fabric_id
+			WHERE transaction_id = "' . $id . '" ';
+		}
+
+		if (!empty($_GET["order"])) {
+			$query .= ' ORDER BY ' . $_GET['order']['0']['column'] . ' ' . $_GET['order']['0']['dir'] . ' ';
+		} 
+
+		if ($_GET["length"] != -1) {
+			$query .= 'LIMIT ' . $_GET['start'] . ', ' . $_GET['length'];
 		}
 		
-	   
+		$sql = $this->db->query($query);
+		$result = $sql->result_array();
+		
+		$filtered_rows = $sql->num_rows();
+
+		$c = 1;
+		$i = 1;
+		foreach ($result as $value) {
+			if ($value['stat'] == 'recieved') {
+				$c += 1;
+			}
+			$i += 1;
+			$sub_array = array();
+			$sub_array[] = "<input type=checkbox class=sub_chk data-id=" . $value['transaction_id'] . ">";
+			
+			$sub_array[] = $value['order_barcode'];
+			$sub_array[] = $value['fabricName'];
+			$sub_array[] = $value['fabHsnCode'];
+			$sub_array[] = $value['color'];
+			$sub_array[] = $value['current_stock'];
+			$sub_array[] =  $value['stock_unit'];
+			
+			$sub_array[] =  $value['stat'];
+			$data[] = $sub_array;
+		}
+		if ($c == $i) {
+			$recieved = true;
+		} else {
+			$recieved = false;
+		}
+		$output = array(
+			"recieved" => $recieved,
+			"draw" => intval($_GET["draw"]),
+			"recordsTotal" => $filtered_rows,
+			"recordsFiltered" => $filtered_rows,
+			"data" => $data
+		);
+
+		echo json_encode($output);
+	}   
 		   
  public function getPBC()
     {
-      $id= $this->security->xss_clean($_POST['id']);
+	  $id= $this->security->xss_clean($_POST['id']);
+		$godown = $this->security->xss_clean($_POST['godown']);
     $data = array();
-     $data['pbc']=$this->DyeTransaction_model->getPBC_deatils($id);
+	 $data['pbc']=$this->DyeTransaction_model->getPBC_deatils($id, $godown);
+	 
      echo json_encode($data['pbc']);
 
     }
@@ -187,123 +239,7 @@
      echo json_encode($data['godown']);
 
     }
-		public function filter()
-        {
-            $data=array();
-            if ($_POST) {
-              $data['cat']=$this->input->post('searchByCat');
-			  $data['Value']=$this->input->post('searchValue');
-			  $data['type']=$this->input->post('type');
-                $output = "";
-
-				$data=$this->Frc_model->search($data);
-				
-                foreach ($data as $value) {
-                    
-                    $output .= "<tr id='tr_".$value['fc_id']."'>";
-                    $output .="<td><input type='checkbox' class='sub_chk' data-id=".$value['fc_id']."></td>";
-						 $output .="<td>".$value['challan_date']."</td>
-
-                                          <td>".$value['sort_name']."</td>
-                                         <td>". $value['challan_no']."</td>
-                                           <td>". $value['fabric_type']."</td>
-                                          
-                                          <td>".$value['total_quantity']."</td>
-                                          <td>".$value['unitName']."</td>
-                                          <td>". $value['total_amount']."</td>";
-                    
-                    $output .= "<td><a href='#".$value['fc_id']."' class='text-center tip' data-toggle='modal' data-original-title='Edit'><i class='fas fa-edit blue'></i></a>
-                    
-                    </td>";
-                   $output .= "</tr>";
-                            }
-              echo json_encode($output);
-            }
-        }
-public function date_filter()
-        {
-            $data=array();
-            if ($_POST) {
-             
-			  $data['from']=$this->input->post('date_from');
-			  $data['to']=$this->input->post('date_to');
-			  $data['type']=$this->input->post('type');
-                $output = "";
-
-				$data=$this->Frc_model->search_by_date($data);
-				
-                foreach ($data as $value) {
-                    
-                    $output .= "<tr id='tr_".$value['fc_id']."'>";
-                    $output .="<td><input type='checkbox' class='sub_chk' data-id=".$value['fc_id']."></td>";
-						 $output .="<td>".$value['challan_date']."</td>
-
-                                          <td>".$value['sort_name']."</td>
-                                         <td>". $value['challan_no']."</td>
-                                           <td>". $value['fabric_type']."</td>
-                                          
-                                          <td>".$value['total_quantity']."</td>
-                                          <td>".$value['unitName']."</td>
-                                          <td>". $value['total_amount']."</td>";
-                    
-                    $output .= "<td><a href='#".$value['fc_id']."' class='text-center tip' data-toggle='modal' data-original-title='Edit'><i class='fas fa-edit blue'></i></a>
-                    
-                    </td>";
-                   $output .= "</tr>";
-                            }
-              echo json_encode($output);
-            }
-        }
-public function filter1()
-							{
-						$data1=array();
-						$this->security->xss_clean($_POST);
-									if ($_POST) {
-						//	echo"<pre>";	print_r($_POST); exit;
-								$data1['from']=$this->input->post('date_from');
-								$data1['to']=$this->input->post('date_to');
-								$data1['search']=$this->input->post('search');
-								$data1['type']=$this->input->post('type');
-								$data['from']=$data1['from'];
-								$data['to']=$data1['to'];
-								$data['type']=$data1['type'];
-								$caption='Search Result For : ';
-										if($data1['search']=='simple'){
-											if($_POST['searchByCat']!="" || $_POST['searchValue']!=""){
-												$data1['cat']=$this->input->post('searchByCat');
-												$data1['Value']=$this->input->post('searchValue');
-												$caption=$caption.$data1['cat']." = ".$data1['Value']." ";
-											}
-										$data['frc_data']=$this->DyeTransaction_model->search($data1);
-
-							}else{
-							if(isset($_POST['from_godown']) && $_POST['from_godown']!="" ){
-							  $data1['cat'][]='from_godown';
-							  $fab=$this->input->post('from_godown');
-								$data1['Value'][]=$fab;
-								$caption=$caption.'from godown'." = ".$fab." ";
-								}
-								$data['frc_data']=$this->DyeTransaction_model->search($data1);
-							}
-								if($data1['type']=='issue'){
-									$data['caption']=$caption;
-									$data['febName']=$this->Common_model->febric_name();
-									$data['main_content'] = $this->load->view('admin/dye_transaction/issue/list_issue', $data, TRUE);
-									$this->load->view('admin/index', $data);
-
-								}	elseif($data1['type']=='receive'){
-												$data['caption']=$caption;
-												$data['febName']=$this->Common_model->febric_name();
-												$data['main_content'] = $this->load->view('admin/dye_transaction/recieve/list_recieve', $data, TRUE);
-												$this->load->view('admin/index', $data);
-											}
-												else{
-													 $data['main_content'] = $this->load->view('admin/FRC/stock/search');
-													 $this->load->view('admin/index', $data);
-												}
-									}
-							}
-
+		
 
 	}
 

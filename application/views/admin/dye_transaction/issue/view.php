@@ -1,0 +1,277 @@
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+
+    <!-- **************** Product List *****************  -->
+    <div class="col-md-12 bg-white">
+        <div class="card">
+            <div class="card-body" id="Print">
+                <h4 class="card-title">Challan Receive Detail</h4>
+
+                <hr>
+                <div class="row ">
+
+
+                    <div class="col-md-4 "><input type="text" id="pbc" class="form-control" placeholder="PBC Recieve"> </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-8">
+
+                        <table class="table-box">
+                            <tr>
+                                <td><label>From</label></td>
+                                <td>
+                                    <div class="col-md-12">
+                                        <label>Job Work Party Name</label>
+
+                                        <select name="FromParty" class="form-control" id="toParty" readonly>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
+
+                                        </select>
+                                    </div>
+                                </td>
+                                <td><label>From Godown</label>
+                                    <input type="text" class="form-control " name="FromGodown" value="<?php echo $trans_data[0]['sub1']; ?>" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>To</label>
+                                </td>
+                                <td>
+                                    <div class="col-md-12">
+                                        <label>Job Work Party Name</label>
+                                        <select name="toParty" class="form-control" id="toParty" readonly>
+                                            <?php foreach ($branch_data as $value) : ?>
+                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
+                                                                                                echo "selected";
+                                                                                            } ?>> <?php echo $value->name; ?></option>
+                                            <?php endforeach; ?>
+
+                                        </select>
+                                    </div>
+                                </td>
+                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
+
+                            </tr>
+                            <tr>
+                                <td><label>Job Work type</label></td>
+                                <td>
+                                    <div class="col-md-12"><input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td><label>Challan No</label></td>
+                                            <td><input type="text" class="form-control " name="challan" value="<?php echo $trans_data[0]['challan_in']; ?>" readonly></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="col-md-4 "><img src="" alt=""> </div>
+                </div>
+                <hr>
+
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+                        <div class="widget-content nopadding">
+
+
+                            <table class=" table-bordered  text-center " id="list1">
+
+                                <thead class="bg-dark text-white">
+                                    <tr>
+                                        <th>#</th>
+
+                                        <th>OBC</th>
+
+                                        <th>Fabric</th>
+                                        <th>Hsn</th>
+                                        <th>Color</th>
+                                        <th>Current Qty</th>
+                                        <th>Unit</th>
+
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+
+
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div id="Recieve">
+                    <form action="<?php echo base_url('admin/Transaction/recieve/')  ?>" method="post">
+                        <input type="hidden" name="trans_id" value="<?php echo $trans_data[0]['transaction_id']; ?>">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
+                        <button type="submit" name="submit" class="btn btn-success btn-md">Recieve</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div id='summary'></div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        getlist();
+
+        var table;
+
+        $(document).on('change', '#pbc', function(e) {
+            var pbc = $('#pbc').val();
+
+            var csrf_name = $("#get_csrf_hash").attr('name');
+            var csrf_val = $("#get_csrf_hash").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url('admin/transaction/recieve_obc') ?>",
+                data: {
+                    'trans_id': <?php echo $trans_data[0]['transaction_id']; ?>,
+                    'obc': pbc,
+                    'godown': <?php echo $godown; ?>,
+                    '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+                },
+
+                success: function(data) {
+                    if (data == 0) {
+                        toastr.error('Failed!', "OBC did not match");
+                    } else if (data == 1) {
+                        toastr.success('Success!', "Recieved successfully");
+                        $('#obc').val("");
+                        $('#obc').focus();
+                        table.ajax.reload();
+                    } else if (data == 2) {
+                        toastr.error('Failed!', "Something went wrong..Status not updated");
+                    } else {
+                        toastr.error('Failed!', data);
+                    }
+
+
+                }
+            });
+        });
+
+        function getlist() {
+            table = $('#list1').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "order": [],
+                "ajax": {
+                    url: "<?php echo base_url('admin/Dye_transaction/getChallan/') . $id ?>",
+                    type: "GET",
+                    "dataSrc": function(json) {
+                        if (json.recieved && json.recieved == true) {
+                            $('#Recieve').show();
+                        } else {
+                            $('#Recieve').hide();
+                        }
+                        // You can also modify `json.data` if required
+                        console.log(json.data);
+                        return json.data;
+                    },
+                },
+                "footerCallback": function(row, data, start, end, display) {
+                    var api = this.api(),
+                        data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function(i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(5)
+                        .data()
+                        .reduce(function(a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                   
+
+                    // Update footer
+                    $(api.column(5).footer()).html(
+                        total 
+                    );
+                },
+
+                "createdRow": function(row, data, dataIndex) {
+                    if (data[7] == `pending`) {
+                        $(row).addClass('bg-secondary text-white');
+                    }
+                },
+                "columnDefs": [{
+                        "targets": [7],
+                        "visible": false,
+                        "searchable": false
+                    },
+
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'pageLength', {
+                        extend: 'excel',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'pdf',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'print',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+
+                    'selectAll',
+                    'selectNone',
+                    'colvis'
+                ],
+                scrollY: 500,
+                scrollX: false,
+                scrollCollapse: true,
+                paging: false
+
+            });
+        }
+
+    });
+</script>

@@ -180,7 +180,7 @@
                                     $c = 1;
                                     $qty = 0.0;
                                     foreach ($plain_data as $value) {
-                                        $qty += $value['quantity'];
+                                        $qty += $value['finish_qty'];
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['order_product_id'] ?>"></td>
@@ -196,7 +196,7 @@
                                             <td><?php echo $value['design_code']; ?></td>
                                             <td><?php echo $value['dye'] ?></td>
                                             <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['quantity'] ?></td>
+                                            <td><?php echo $value['finish_qty'] ?></td>
                                             <td><?php echo $value['unit'] ?></td>
                                             <td><?php echo $value['image'] ?></td>
 
