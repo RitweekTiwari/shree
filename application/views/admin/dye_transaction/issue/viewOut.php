@@ -7,7 +7,7 @@
     <div class="col-md-12 bg-white" id="Print_div">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Challan Out Detail</h4>
+                <h4 class="card-title">Delivery Challan Detail(Out)</h4>
 
 
                 <hr>
@@ -20,7 +20,7 @@
                                 <td><label>From</label></td>
                                 <td>
                                     <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
+                                        <label>Party Name</label>
                                         <select name="FromParty" class="form-control" id="toParty" readonly>
                                             <?php foreach ($branch_data as $value) : ?>
                                                 <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
@@ -40,7 +40,7 @@
                                 </td>
                                 <td>
                                     <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
+                                        <label>Party Name</label>
                                         <select name="toParty" class="form-control" id="toParty" readonly>
                                             <?php foreach ($branch_data as $value) : ?>
                                                 <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
@@ -51,13 +51,13 @@
                                         </select>
                                     </div>
                                 </td>
-                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
+                                <td><label>To Godown </label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
 
                             </tr>
                             <tr>
-                                <td><label>Job Work type</label></td>
+                                <td></td>
                                 <td>
-                                    <div class="col-md-12"><input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
+                                    <div class="col-md-12"><label>Job Work</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
                                 </td>
                                 <td>
                                     <table>
@@ -80,24 +80,21 @@
                         <div class="widget-content nopadding">
 
 
-                            <table class="table table-bordered  text-center table-responsive">
+                            <table class="table table-bordered  text-center table-responsive" id="list">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
                                         <th>#</th>
-                                        <th>PBC</th>
+
                                         <th>OBC</th>
-                                        <th>Order No</th>
+
                                         <th>Fabric</th>
                                         <th>Hsn</th>
-                                        <th>Design Name </th>
-                                        <th>Design Code</th>
-                                        <th>Dye </th>
-                                        <th>Matching</th>
+                                        <th>Color</th>
                                         <th>Current Qty</th>
                                         <th>Unit</th>
-                                        <th>Image</th>
-                                        <th>Days Rem</th>
+
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,35 +102,23 @@
                                     $c = 1;
                                     $qty = 0.0;
                                     foreach ($frc_data as $value) {
-                                        $qty +=  $value['finish_qty'];
+                                        $qty +=  $value['current_stock'];
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
 
-                                            <td><?php echo $value['pbc']; ?></td>
+
                                             <td><?php echo $value['order_barcode']; ?></td>
 
-                                            <td><?php echo $value['order_number']; ?></td>
-                                            <td><?php echo $value['fabric_name']; ?></td>
+
+                                            <td><?php echo $value['fabricName']; ?></td>
                                             <td><?php echo $value['hsn']; ?></td>
-                                            <td><?php echo $value['design_name']; ?></td>
-                                            <td><?php echo $value['design_code']; ?></td>
-                                            <td><?php echo $value['dye'] ?></td>
-                                            <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['finish_qty'] ?></td>
-                                            <td><?php echo $value['unit'] ?></td>
-                                            <td><?php echo $value['image'] ?></td>
-
-                                            <td><?php
-                                                $date1 = date('Y-m-d');
-                                                $date2 = $value['order_date'];
-                                                $diff = strtotime($date1) - strtotime($date2);
+                                            <td><?php echo $value['color'] ?></td>
+                                            <td><?php echo $value['current_stock'] ?></td>
+                                            <td><?php echo $value['stock_unit'] ?></td>
 
 
-                                                $diff = 30
-                                                    - ceil(abs($diff / 86400));
-                                                echo $diff;
-                                                ?></td>
+
 
 
 
@@ -148,16 +133,9 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
                                         <th>Total</th>
                                         <th><?php echo $qty;
                                             ?></th>
-                                        <th></th>
-                                        <th></th>
                                         <th></th>
 
 
@@ -206,11 +184,11 @@
 
         });
 
-        $("table tbody tr").each(function() {
+        $("#list tbody tr").each(function() {
 
             var self = $(this);
-            var fabric = self.find("td:eq(4)").text().trim();
-            var qty = Number(self.find("td:eq(10)").text().trim());
+            var fabric = self.find("td:eq(2)").text().trim();
+            var qty = Number(self.find("td:eq(5)").text().trim());
             console.log('fabric=' + fabric);
             console.log('summary=' + summary);
             pcs = 1;
@@ -273,7 +251,7 @@
                 html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
                 html += '</tr></tbody>';
             }
-            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
+            html += '<tr class="bg-secondary text-white"><th style="text-align:right">Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
                 '</th></tr>';
             html += '</table>';
 

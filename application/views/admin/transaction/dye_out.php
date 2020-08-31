@@ -179,7 +179,7 @@
 
 
                       <td>
-                        <a href="<?php echo base_url('admin/Transaction/viewChallanOut/') . $value['transaction_id'] ?> ">
+                        <a href="<?php echo base_url('admin/Dye_transaction/viewChallanOut/') . $value['transaction_id'] ?> ">
                           <i class="fas fa-eye"></i>
                         </a>
                      

@@ -189,15 +189,7 @@
               <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/show_stock'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Stock of plain fabric </span></a></li>
             </ul>
           </li>
-          <li class="sidebar-item "> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-border-color"></i><span class="hide-menu">Dye Transaction</span></a>
-            <ul aria-expanded="false" class="collapse  first-level">
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Issue Transaction </span></a></li>
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showReturnList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Issue Transaction List </span></a></li>
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showRecieve'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Add Recieve Transaction </span></a></li>
-              <li class="sidebar-item"><a href="<?php echo base_url('admin/Dye_transaction/showRecieveList'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Recieve Transaction List </span></a></li>
-
-            </ul>
-          </li>
+         
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/Dashboard/print_barcode'); ?>" aria-expanded="false"><i class="mdi mdi-printer"></i><span class="hide-menu">Barcode Printing
               </span></a></li>
           <li class="sidebar-item hideElement"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('admin/FDA'); ?>" aria-expanded="false"><i class="mdi mdi-forward"></i><span class="hide-menu">Fabric Design

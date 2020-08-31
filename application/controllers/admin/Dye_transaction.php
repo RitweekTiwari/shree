@@ -14,46 +14,78 @@
 		$this->load->model('Transaction_model');
     	}
 
-
-    	
-		  public function showRecieve(){
-	        $data = array();
-			$data['name']='Add Dye Recieve Transaction';
-			$data['febName']=$this->Common_model->febric_name();
-			$data['unit']=$this->DyeTransaction_model->select('unit');
-			$data['branch_data']=$this->Job_work_party_model->get();
-            
-		      $data['main_content'] = $this->load->view('admin/dye_transaction/recieve/addRecieve', $data, TRUE);
-  	      $this->load->view('admin/index', $data);
-    	}  
-		
-		public function showRecieveList(){
-	        $data = array();
-			$data['name']='RECIEVE List';
-			$type='recieve';
-            $data['frc_data']=$this->DyeTransaction_model->get($type);
-		      $data['main_content'] = $this->load->view('admin/dye_transaction/recieve/list_recieve', $data, TRUE);
-  	      $this->load->view('admin/index', $data);
+	public function recieve_obc()
+	{
+		$obc = $this->security->xss_clean($_POST['obc']);
+		$trans_id = $this->security->xss_clean($_POST['trans_id']);
+		$id = $this->security->xss_clean($_POST['godown']);
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$plain[] = $row['godownid'];
 		}
-		public function showReturnList(){
-	        $data = array();
-			$data['name']='iSSUE List';
-			$type='issue';
-            $data['frc_data']=$this->DyeTransaction_model->get($type);
-		      $data['main_content'] = $this->load->view('admin/dye_transaction/issue/list_issue', $data, TRUE);
-  	      $this->load->view('admin/index', $data);
-    	}
-		
-          public function delete($id)
-        {
-            
-           $ids = $this->input->post('ids');
+		//print_r($plain_godown);exit;
+		try {
 
-		 $userid= explode(",", $ids);
-		 foreach ($userid as $value) {
-		  $this->db->delete( 'fabric_challan',array('id' => $value));
+			$status = $this->Transaction_model->check_obc_by_trans_id($obc, $trans_id);
+			//echo "<pre>"; print_r($status);exit;
+			if ($status) {
+
+				$data['stat'] = 'recieved';
+				$st =	$this->Transaction_model->update($data, 'trans_meta_id', $status->trans_meta_id, "transaction_meta");
+				if (in_array($id, $plain)) {
+					$data = array();
+					$data['isStock'] = 1;
+					$data['color_name'] = $status->color;
+					$st1 =	$this->Transaction_model->update($data, 'parent_barcode', $obc, "fabric_stock_received");
+					if ($st1) {
+						echo "1";
+					} else {
+						echo "2";
+					}
+				} else {
+					if ($st) {
+						echo "1";
+					} else {
+						echo "2";
+					}
+				}
+			} else {
+				echo "0";
+			}
+		} catch (\Exception $e) {
+			$error = $e->getMessage();
+			echo $error;
 		}
-        }
+	}
+
+	public function viewChallanOut($id)
+	{
+		$data = array();
+		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
+		$data['frc_data'] = $this->DyeTransaction_model->get_by_id($id);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub2'] . '  DASHBOARD /' . $link;
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
+		$data['branch_data'] = $this->Job_work_party_model->get();
+		$data['id'] = $id;
+
+		//echo "<pre>"; print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/dye_transaction/issue/viewOut', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+
+	public function showDyeOutList($godown)
+	{
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+
+		$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'dye');
+
+
+		$data['main_content'] = $this->load->view('admin/transaction/dye_out', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
 
 	public function addChallan($godown)
 	{
@@ -219,18 +251,47 @@
 		);
 
 		echo json_encode($output);
-	}   
-		   
+	}
+	public function showStock($godown)
+	{
+
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['godownid'] = $godown;
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+		
+		
+		
+		$data['frc_data'] = $this->DyeTransaction_model->get_stock($data);
+		//$data['godown_data'] = $this->Transaction_model->get_stock($godown);	
+		//echo "<pre>";print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/transaction/stock_dye', $data, TRUE);
+
+
+		$this->load->view('admin/index', $data);
+	}	   
  public function getPBC()
     {
 	  $id= $this->security->xss_clean($_POST['id']);
 		$godown = $this->security->xss_clean($_POST['godown']);
-    $data = array();
-	 $data['pbc']=$this->DyeTransaction_model->getPBC_deatils($id, $godown);
+	$data = array();
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
+		if (in_array($godown, $data['plain'])) {
+			$data['pbc'] = $this->DyeTransaction_model->getPBC_deatils($id, $godown);
+
+		} else {
+			$data['pbc'] = $this->DyeTransaction_model->getPBC_order_deatils($id, $godown);
+
+		}
 	 
      echo json_encode($data['pbc']);
 
-    }
+	}
+	
+
      public function get_godown()
     {
       $id= $this->security->xss_clean($_POST['party']);

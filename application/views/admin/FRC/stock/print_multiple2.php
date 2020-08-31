@@ -42,9 +42,9 @@
                 <svg class="barCodeImage" id="barcode1<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
                   JsBarcode("#barcode1<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
-                    height: 50,
+                    height: 25,
                     fontSize: 14,
-                    width: 1.0
+                    width: 1.5
                   });
                 </script>
               </div>
@@ -93,9 +93,9 @@
                 <svg class="barCodeImage" id="barcode2<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
                   JsBarcode("#barcode2<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
-                    height: 50,
+                    height: 25,
                     fontSize: 14,
-                    width: 1.0
+                    width: 1.5
                   });
                 </script>
               </div>
@@ -108,7 +108,12 @@
               :-<?php echo  $value->parent_barcode ?></td>
           </tr>
           <tr>
-
+            <td colspan="2">&nbsp;&nbsp;
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"> &nbsp;&nbsp;
+            </td>
           </tr>
           <tr>
             <td colspan="2" class=" main-text">
@@ -116,9 +121,9 @@
                 <svg class="barCodeImage" id="barcode3<?php echo $value->fsr_id; ?>" /></svg>
                 <script>
                   JsBarcode("#barcode3<?php echo $value->fsr_id; ?>", "<?php echo $value->parent_barcode; ?>", {
-                    height: 50,
+                    height: 25,
                     fontSize: 14,
-                    width: 1.0
+                    width: 1.5
                   });
                 </script>
               </div>

@@ -91,8 +91,10 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-alert"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">CANCEL ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/Dye_transaction/showDyeInList/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i></h4>
+                                            <h5 class="text-white">Dye MATERIAL IN</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -102,8 +104,10 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-border-outside"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">INPROCESS ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/Dye_transaction/showDyeOutList/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i></h4>
+                                            <h5 class="text-white">Dye MATERIAL OUT</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

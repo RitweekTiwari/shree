@@ -80,55 +80,73 @@
       var godown = <?php echo $id ?>;
       var id = $(this).parent().parent().attr("id");
       console.log("id=" + id);
-      var csrf_name = $("#get_csrf_hash").attr('name');
-      var csrf_val = $("#get_csrf_hash").val();
-      $.ajax({
-        type: "POST",
-        url: "<?php echo base_url('admin/Dye_transaction/getPBC') ?>",
-        data: {
-
-          'id': pbc,
-          'godown': godown,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-
-        success: function(data) {
-          data = JSON.parse(data);
-          if (data != 0) {
-
-            var date = data[0]['created_date'];
-            var d = date.split(" ", 1);
-            $("#msg").html("");
-            $('#hsn' + id + '').val(data[0]['hsn']);
-            $('#fabric' + id + '').val(data[0]['fabricName']);
-            $('#qty' + id + '').val(data[0]['current_stock']);
-            $('#days' + id + '').val(d);
-
-            $('#unit' + id + '').val(data[0]['stock_unit']);
-            $('#remark' + id + '').val(data[0]['remark']);
-            var current = 0;
-            $(".qty").each(function() {
-              current += Number($(this).val());
-              console.log("Current=" + current);
-            });
-
-
-            $('#thtotal').html(current)
-            console.log("quantity=" + current);
-          } else {
-            toastr.error('Failed!', "PBC Not Found");
-
-            $('#fabric').val("");
-            $('#quantity').val("");
-            $('#date').val("");
-            $('#challan_no').val("");
-            $('#ad_no').val("");
-            $('#Cur_quantity').val("");
-          }
+      var count1 = 0;
+      $("input[name='pbc[]']").each(function(index, element) {
+        current = $(this).val();
+        if (current == order) {
+          count1 += 1;
 
         }
       });
+      if (count1 > 1) {
+        $(this).val("");
+        $(this).focus();
+        $(this).css("border-color", "red");
+        toastr.error('Failed!', "Already Entered");
+
+      } else {
+        $(this).css("border-color", "");
+        var csrf_name = $("#get_csrf_hash").attr('name');
+        var csrf_val = $("#get_csrf_hash").val();
+        $.ajax({
+          type: "POST",
+          url: "<?php echo base_url('admin/Dye_transaction/getPBC') ?>",
+          data: {
+
+            'id': pbc,
+            'godown': godown,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+
+          success: function(data) {
+            data = JSON.parse(data);
+            if (data != 0) {
+
+              var date = data[0]['created_date'];
+              var d = date.split(" ", 1);
+              $("#msg").html("");
+              $('#hsn' + id + '').val(data[0]['hsn']);
+              $('#fabric' + id + '').val(data[0]['fabricName']);
+              $('#qty' + id + '').val(data[0]['current_stock']);
+              $('#days' + id + '').val(d);
+
+              $('#unit' + id + '').val(data[0]['stock_unit']);
+              $('#remark' + id + '').val(data[0]['remark']);
+              var current = 0;
+              $(".qty").each(function() {
+                current += Number($(this).val());
+                console.log("Current=" + current);
+              });
+
+
+              $('#thtotal').html(current)
+              console.log("quantity=" + current);
+            } else {
+              toastr.error('Failed!', "PBC Not Found");
+
+              $('#fabric').val("");
+              $('#quantity').val("");
+              $('#date').val("");
+              $('#challan_no').val("");
+              $('#ad_no').val("");
+              $('#Cur_quantity').val("");
+            }
+
+          }
+        });
+      }
     });
+
     $(document).on('click', '.btn_remove', function() {
       var button_id = $(this).attr("id");
       $('#row' + button_id + '').remove();
@@ -174,6 +192,7 @@
         }
       }
     });
+
     $(document).on('change', "#FromParty", function() {
       var party = $(this).val();
 
@@ -202,6 +221,7 @@
         $("#FromGodown").val('');
       }
     });
+
     $(document).on('change', "#toParty", function() {
       var party = $(this).val();
 

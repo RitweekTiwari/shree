@@ -236,7 +236,7 @@
 
 
         "ajax": {
-          url: "<?php echo base_url('admin/Emb/get_emb_list') ?>",
+          url: "<?php echo base_url('admin/EMB/get_emb_list') ?>",
           type: "post",
           data: {
             filter: filter1,

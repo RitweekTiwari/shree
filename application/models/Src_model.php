@@ -59,10 +59,10 @@ public function update($id,$data)
   
   public function get_percent($data)
   {
-    $this->db->select('grade,percent');
+    $this->db->select('gprecent_meta.grade,gprecent_meta.percent');
     $this->db->from('gpercent');
-    
-      $this->db->where('fabric', $data);
+    $this->db->join('gprecent_meta', 'gprecent_meta.percentId=gpercent.id');
+      $this->db->where('gpercent.fabric', $data);
    
     $query = $this->db->get();
     // echo $query->num_rows();

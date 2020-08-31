@@ -54,7 +54,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-folder-star"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/transaction/showStock/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/Dye_transaction/showStock/') . $godown; ?>">
                                             <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
                                             <h5 class="text-white">STOCK OF GODOWN</h5>
                                         </a>

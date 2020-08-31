@@ -13,274 +13,55 @@ class Design extends CI_Controller
 		$this->load->library('barcode');
 		$this->load->library('pdf');
 		$this->load->library("pagination");
-
 		$this->load->helper('url');
 	}
 
 	public function index()
 	{
 		$data = array();
-		$config=$this->pagination_Config();
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		if($page==0){
-			$start =  1;
-			$end =  $config['per_page'];
-		}else{
-			$start = ((int) $this->uri->segment(3) ) + 1;
-			$end = ((int) $this->uri->segment(3) + $config['per_page']  > $config['total_rows']) ? $config['total_rows'] : (int) $this->uri->segment(3)+ $config['per_page']  ;
-		}
-
-
-		$data['result_count'] = "Showing " . $start . " - " . $end . " of " . $config['total_rows'] . " Results";
-
-		$data["links"] = $this->pagination->create_links();
-		$data['caption'] = ' Design List';
-		$data['design_data'] = $this->Design_model->get($config["per_page"], $page);
 		$data['febName'] = $this->common_model->febric_name();
 		$data['febType'] = $this->common_model->febric_type();
 		$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
-
-	public function fabricOn()
+	public function get_design_list()
 	{
-		if ($_POST) {
-			$data = $this->common_model->febric_type_byId($_POST['fabricName']);
-			//    print_r($data);exit;
-			echo $data->fabricType;
-		}
-	}
+		$query = '';
+		$output = array();
+		$data = array();
 
-	public function addDesign()
-	{
-		if ($_POST) {
-			$lastId = $this->Design_model->getLastId();
- 		  $pre = explode("D", $lastId->barCode);
- 		  $newId = (int) ($pre[1]) + 1;
- 		  $barCode = "D" . (string) $newId;
-
-      $pic=$_FILES['designPic']['name'];
-			$new=substr($pic,strpos($pic,"."));
-			$new_name =  $barCode.$new;
-
-			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'gif|jpg|png|jpeg';
-			$config['max_size']             = 11264;
-			$config['max_width']            = 3840;
-			$config['max_height']           = 2160;
-      $config['file_name'] = $new_name;
-			$this->load->library('upload', $config);
-		  $this->upload->do_upload('designPic');
-			$img = $this->upload->data();
-			$pic1 = $img['file_name'];
-
-
-
-			if (!empty($pic)) {
-
-				$data = array(
-					'designName' => $_POST['designName'],
-
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => $pic1,
-					'fabricName' => $_POST['fabricName'],
-					'barCode' => $barCode,
-					'designOn' => trim($_POST['designOn'])
-				);
-				//print_r($data); exit();
-				$this->Design_model->add($data);
-				redirect(base_url('admin/Design'));
-			} else {
-
-				$data = array(
-					'designName' => $_POST['designName'],
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-
-					'fabricName' => $_POST['fabricName'],
-					'barCode' => $barCode,
-					'designOn' => trim($_POST['designOn'])
-				);
-				// print_r($data); exit();
-			$id=	$this->Design_model->add($data);
-				if($id){
-					$this->session->set_flashdata('success', 'Added Successfully');
-				}else{
-					$this->session->set_flashdata('error', 'please enter some keyword');
-				}
-				redirect(base_url('admin/Design'));
-			}
-		}
-	}
-	public function design_print($id)
-	{
-
-		$data['data'] = $this->Design_model->get_single_value_by_id($id);
-		$data['pdf'] = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		$this->load->view('admin/master/design/index', $data);
-	}
-	public function getDesign()
-	{
-
-		$id = $this->security->xss_clean($_POST['id']);
-
-		$data['data'] = $this->Design_model->get_single_value_by_id($id);
-
-		echo json_encode($data['data']);
-	}
-
-
-	public function edit()
-	{
-		if ($_POST) {
-
-			$id = $_POST['designId'];
-			$data= $this->Design_model->get_dpic($id);
-			$picture=$data->designPic;
-
-			$barCode = $_POST['barCode'];
-
-			$pic=$_FILES['designPic']['name'];
-			$new=substr($pic,strpos($pic,"."));
-			$new_name =  $barCode.$new;
-
-			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'gif|jpg|png|jpeg';
-			$config['max_size']             = 2048000;
-			$config['max_width']            = 1500;
-			$config['max_height']           = 1000;
-			$config['file_name'] = $new_name;
-
-
-		//	pre($path);exit;
-			//pre($config);exit;
-			$this->load->library('upload', $config);
-			$this->upload->do_upload('designPic');
-			$img = $this->upload->data();
-			$pic1 = $img['file_name'];
-		//	pre($pic);exit;
-			if (!empty($pic)) {
-					unlink("upload/".$picture);
-				$data = array(
-					'designName' => $_POST['designName'],
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => $pic1,
-					'fabricName' => $_POST['fabricName'],
-					'designOn' => trim($_POST['designOn'])
-
-				);
-			} else {
-				$data = array(
-					'designName' => $_POST['designName'],
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-					'fabricName' => $_POST['fabricName'],
-					'designOn' => trim($_POST['designOn'])
-				);
-			}
-		}
-		// print_r($data); exit();
-		$id=	$this->Design_model->edit($id, $data);
-
-		if ($id) {
-			$this->session->set_flashdata('success', 'Added Successfully');
-		} else {
-			$this->session->set_flashdata('error', 'please enter some keyword');
-		}
-		redirect(base_url('admin/Design'));
-	}
-
-
-	public function delete($id)
-	{
-		$id = $this->Design_model->delete($id);
-		if ($id) {
-			$this->session->set_flashdata('success', 'Added Successfully');
-		} else {
-			$this->session->set_flashdata('error', 'please enter some keyword');
-		}
-		redirect(base_url('admin/Design'));
-	}
-
-
-	public function get_data()
-	{
-		$ids = $this->input->post('ids');
-		$userid = explode(",", $ids);
-		foreach ($userid as $value) {
-			$data[] = $this->Design_model->select_value('design', $value);
-		}
-		$data['pdf'] = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		$this->load->view('admin/master/design/multiple', $data);
-	}
-
-	public function designExist()
-	{
-		if ($_POST) {
-			$output = '';
-			$check = $this->security->xss_clean($_POST);
-			$data = $this->Design_model->get_design_set_exist($check);
-			//echo print_r($data);exit;
-			if ($data) {
-				echo 1;
-			} else {
-				echo 0;
-			}
-		} else {
-			echo json_encode(array('error' => true, 'msg' => 'somthing want wrong :('));
-		}
-	}
-	public function filter1()
-	{
-		$data1 = array();
-		$this->security->xss_clean($_POST);
-		if ($_POST) {
-				// echo"<pre>";	print_r($_POST); exit;
-
-			$data1['search'] = $this->input->post('search');
-
-			$config = $this->pagination_Config();
-			$data1['per_page'] = $config["per_page"];
-			$data1['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-
-
+		if (!empty($_POST["search"]["value"])) {
+			//	pre($_POST["search"]["value"]);exit;
+			$query .= 'SELECT * FROM design_view  where ';
+			$query .= 'fabricName LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR designName LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR designSeries LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR desCode LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR rate LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR stitch LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR dye LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR matching LIKE "%' . $_POST["search"]["value"] . '%" ';
+			// $query .= 'OR sale_rate LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR htCattingRate LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR dye LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$query .= 'OR barCode LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$caption = 'Search Result For : ' . $_POST["search"]["value"] . '';
+		} elseif (!empty($_POST["filter"])) {
+			$data1['filter'] = $this->input->post('filter');
 			$caption = 'Search Result For : ';
-			if ($data1['search'] == 'simple') {
-				if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
-					$data1['cat'] = $this->input->post('searchByCat');
-					$data1['Value'] = $this->input->post('searchValue');
-					$caption = $caption . $data1['cat'] . " = " . $data1['Value'] . " ";
+			if ($data1['filter']['search'] == 'simple') {
+				if ($_POST['filter']['searchByCat'] != "" || $_POST['filter']['searchValue'] != "") {
+					$query .= 'SELECT * FROM design_view  where';
+					$query .= ' ' . $_POST['filter']['searchByCat'] . ' LIKE "%' . $_POST['filter']['searchValue'] . '%" ';
+					$caption = $caption . $data1['filter']['searchByCat'] . " = " . $data1['filter']['searchValue'] . " ";
 				}
-				// echo "<pre>";
-				// print_r($data1);
-				// exit;
-				$data['design_data'] = $this->Design_model->search1($data1);
 			} else {
+
 				if (isset($_POST['designName']) && $_POST['designName'] != "") {
 					$data1['cat'][] = 'designName';
 					$fab = $this->input->post('designName');
+
+
 					$data1['Value'][] = $fab;
 					$caption = $caption . ' designName' . " = " . $fab . " ";
 				}
@@ -351,28 +132,308 @@ class Design extends CI_Controller
 					$caption = $caption . 'designOn' . " = " . $fab . " ";
 				}
 				if (isset($data1['cat']) && $data1['Value']) {
-					//echo"<pre>";	print_r( $data1); exit;
-					$data['design_data'] = $this->Design_model->search1($data1);
+					$query .= 'SELECT * FROM design_view  where ';
+					$count = count($data['cat']);
+					for ($i = 0; $i < $count; $i++) {
+						$query .= ' ' . $data['cat'][$i] . ' LIKE "%' . $data['Value'][$i] . '%" ';
+					}
 				} else {
 					$this->session->set_flashdata('error', 'please enter some keyword');
 					redirect($_SERVER['HTTP_REFERER']);
 				}
-
 			}
-
-			$data['caption'] = $caption;
-
-
-			$data["links"] = $this->pagination->create_links();
-			$data['febName'] = $this->common_model->febric_name();
-			$data['febType'] = $this->common_model->febric_type();
-
-			$data['main_content'] = $this->load->view('admin/master/design/design', $data, TRUE);
-			$this->load->view('admin/index', $data);
+		} else {
+			$caption = "Design List";
+			$query .= 'SELECT * FROM design_view ';
 		}
-		// else{
-		// 	$id =	$this->Design_model->update($_POST);
-		// }
+
+		if (!empty($_POST["order"]) && isset($_POST["order"])) {
+			$query .= ' ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+		} else {
+			$query .= ' ORDER BY id desc ';
+		}
+		$sql = $this->db->query($query);
+		
+		$filtered_rows = $sql->num_rows();
+		if (isset($_POST["length"]) && $_POST["length"] != -1) {
+			$query .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+		} else {
+			$query .= 'LIMIT  1 , 50';
+		}
+
+		$sql = $this->db->query($query);
+		$result = $sql->result_array();
+		
+		//echo "<pre>"; print_r($result);exit;
+		foreach ($result as $value) {
+			$sub_array = array();
+			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['id'] . '>';
+			$sub_array[] = $value['id'];
+			$sub_array[] = $value['designName'];
+			$sub_array[] = $value['designSeries'];
+			$sub_array[] = $value['desCode'];
+			$sub_array[] = $value['rate'];
+			$sub_array[] = $value['stitch'];
+			$sub_array[] = $value['dye'];
+			$sub_array[] = $value['matching'];
+			// $sub_array[] = $value['sale_rate'];
+			$sub_array[] = $value['htCattingRate'];
+			$sub_array[] =  '<a class="btn default btn-outline image-popup-vertical-fit el-link" href="' . base_url('/upload /') . $value['designPic'] . ' ?>"> <img src="' . base_url('/upload/') . $value['designPic'] . '" alt="image" style="height: 40px; width: 40px;">
+                              </a>';
+			$sub_array[] =   $value['fabricName'];
+			$sub_array[] = $value['barCode'];
+			$sub_array[] =  $value['designOn'];
+			$sub_array[] =  '<a class="text-danger text-center tip" href="javascript:void(0)" onclick="edit( ' . $value['id'] . ')" data-original-title="Delete">
+                      <i class="mdi mdi-pen blue"></i>
+                    </a>
+                    <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail( ' . $value['id'] . ')" data-original-title="Delete">
+                      <i class="mdi mdi-delete red"></i>
+                    </a>
+                    <a class="text-center tip" target="_blank" href="' . base_url("admin/design/design_print/") . $value['id'] . ' ">
+                      <i class="fa fa-print" aria-hidden="true"></i></a>';
+			$data[] = $sub_array;
+		}
+
+		$output = array(
+			'caption' => $caption,
+			"draw"       =>  intval($_POST["draw"]),
+			"recordsTotal" => $this->Design_model->get_count(),
+			"recordsFiltered" =>
+			$filtered_rows,
+			"data" => $data
+		);
+
+		echo json_encode($output);
+	}
+
+
+	public function fabricOn()
+	{
+		if ($_POST) {
+			$data = $this->common_model->febric_type_byId($_POST['fabricName']);
+			//    print_r($data);exit;
+			echo $data->fabricType;
+		}
+	}
+
+	public function addDesign()
+	{
+		if ($_POST) {
+			$lastId = $this->Design_model->getLastId();
+			$pre = explode("D", $lastId->barCode);
+			$newId = (int) ($pre[1]) + 1;
+			$barCode = "D" . (string) $newId;
+
+			
+			$new_name =  $barCode ;
+
+			$config['upload_path']          = './upload/';
+			$config['allowed_types']        = 'gif|jpg|png|jpeg';
+			
+			$config['file_name'] = $new_name;
+			$this->load->library('upload', $config);
+			$this->upload->do_upload('designPic');
+			$img = $this->upload->data();
+			$pic1 = $img['file_name'];
+
+
+
+			if (!empty($pic1)) {
+
+				$data = array(
+					'designName' => $_POST['designName'],
+
+					'designSeries' => $_POST['designSeries'],
+					// 'designCode'=>$_POST['designCode'],
+					'stitch' => $_POST['stitch'],
+					'dye' => $_POST['dye'],
+					'matching' => $_POST['matching'],
+					// 'saleRate'=>$_POST['saleRate'],
+					'htCattingRate' => $_POST['htCattingRate'],
+					'designPic' => $pic1,
+					'fabricName' => $_POST['fabricName'],
+					'barCode' => $barCode,
+					'designOn' => trim($_POST['designOn'])
+				);
+				//print_r($data); exit();
+				$this->Design_model->add($data);
+				redirect(base_url('admin/Design'));
+			} else {
+
+				$data = array(
+					'designName' => $_POST['designName'],
+					'designSeries' => $_POST['designSeries'],
+					// 'designCode'=>$_POST['designCode'],
+					'stitch' => $_POST['stitch'],
+					'dye' => $_POST['dye'],
+					'matching' => $_POST['matching'],
+					// 'saleRate'=>$_POST['saleRate'],
+					'htCattingRate' => $_POST['htCattingRate'],
+					'designPic' => "",
+					'fabricName' => $_POST['fabricName'],
+					'barCode' => $barCode,
+					'designOn' => trim($_POST['designOn'])
+				);
+				// print_r($data); exit();
+				$id =	$this->Design_model->add($data);
+				if ($id) {
+					$this->session->set_flashdata('success', 'Added Successfully');
+				} else {
+					$this->session->set_flashdata('error', 'please enter some keyword');
+				}
+				redirect(base_url('admin/Design'));
+			}
+		}
+	}
+	public function design_print($id)
+	{
+
+		$data['data'] = $this->Design_model->get_single_value_by_id($id);
+		$data['pdf'] = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$this->load->view('admin/master/design/index', $data);
+	}
+	public function getDesign()
+	{
+
+		$id = $this->security->xss_clean($_POST['id']);
+
+		$data['data'] = $this->Design_model->get_single_value_by_id($id);
+
+		echo json_encode($data['data']);
+	}
+
+
+	public function edit()
+	{
+		if ($_POST) {
+
+			$id = $_POST['designId'];
+			$data = $this->Design_model->get_dpic($id);
+			$picture = $data->designPic;
+
+			$barCode = $_POST['barCode'];
+
+			
+			$new_name =  $barCode ;
+			//echo $new_name;exit;
+
+			$config['upload_path']          = './upload/';
+			$config['allowed_types']        = 'gif|jpg|png|jpeg';
+			
+			$config['file_name'] = $new_name;
+			$this->load->library('upload', $config);
+			$this->upload->do_upload('designPic1');
+			$img = $this->upload->data();
+			$pic1 = $img['file_name'];
+
+			if (!empty($pic1)) {
+				unlink("upload/" . $picture);
+				$data = array(
+					'designName' => $_POST['designName'],
+					'designSeries' => $_POST['designSeries'],
+					// 'designCode'=>$_POST['designCode'],
+					'stitch' => $_POST['stitch'],
+					'dye' => $_POST['dye'],
+					'matching' => $_POST['matching'],
+					// 'saleRate'=>$_POST['saleRate'],
+					'htCattingRate' => $_POST['htCattingRate'],
+					'designPic' => $pic1,
+					'fabricName' => $_POST['fabricName'],
+					'designOn' => trim($_POST['designOn'])
+
+				);
+			} else {
+				$data = array(
+					'designName' => $_POST['designName'],
+					'designSeries' => $_POST['designSeries'],
+					// 'designCode'=>$_POST['designCode'],
+					'stitch' => $_POST['stitch'],
+					'dye' => $_POST['dye'],
+					'matching' => $_POST['matching'],
+					'designPic' => "",
+					'htCattingRate' => $_POST['htCattingRate'],
+					'fabricName' => $_POST['fabricName'],
+					'designOn' => trim($_POST['designOn'])
+				);
+			}
+		}
+		// print_r($data); exit();
+		$id =	$this->Design_model->edit($id, $data);
+
+		if ($id) {
+			$this->session->set_flashdata('success', 'Added Successfully');
+		} else {
+			$this->session->set_flashdata('error', 'please enter some keyword');
+		}
+		redirect(base_url('admin/Design'));
+	}
+
+
+	public function delete($id)
+	{
+		$id = $this->Design_model->delete($id);
+		if ($id) {
+			$this->session->set_flashdata('success', 'Added Successfully');
+		} else {
+			$this->session->set_flashdata('error', 'please enter some keyword');
+		}
+		redirect(base_url('admin/Design'));
+	}
+	public function deletedesign()
+	{
+		$ids = $this->input->post('ids');
+		$userid = explode(",", $ids);
+		$count=0;$del=0;
+		foreach ($userid as $value) {
+			$id=$this->db->delete('design', array('id' => $value));
+			$del=$del+$id;
+			$count++;
+		}
+		if($count==$del){
+			echo 1;
+		}else{
+			echo 2;
+		}
+	}
+
+	public function get_data()
+	{
+		$ids = $this->input->post('ids');
+		$userid = explode(",", $ids);
+		foreach ($userid as $value) {
+			$data[] = $this->Design_model->select_value('design', $value);
+		}
+		$data['pdf'] = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$this->load->view('admin/master/design/multiple', $data);
+	}
+
+	public function designExist()
+	{
+		if ($_POST) {
+			$output = '';
+			$check = $this->security->xss_clean($_POST);
+			$data = $this->Design_model->get_design_set_exist($check);
+			//echo print_r($data);exit;
+			if ($data) {
+				echo 1;
+			} else {
+				echo 0;
+			}
+		} else {
+			echo json_encode(array('error' => true, 'msg' => 'somthing want wrong :('));
+		}
+	}
+	public function filter1()
+	{
+		$data1 = array();
+		$this->security->xss_clean($_POST);
+		if ($_POST) {
+			// echo"<pre>";	print_r($_POST); exit;
+
+			$config = $this->pagination_Config();
+			$data1['per_page'] = $config["per_page"];
+			$data1['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		}
 	}
 
 	public function pagination_Config()
@@ -383,7 +444,7 @@ class Design extends CI_Controller
 		$config["per_page"] = 100;
 		$config["uri_segment"] = 3;
 		// $config['use_page_numbers'] = TRUE;
-		$config['num_links'] =9;
+		$config['num_links'] = 9;
 
 		$config['display_pages'] = TRUE;
 

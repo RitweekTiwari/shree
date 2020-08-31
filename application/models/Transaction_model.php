@@ -50,7 +50,7 @@ public function get_godown($id)
   public function check_obc_by_trans_id($obc, $trans_id)
   {
     
-    $this->db->select('trans_meta_id');
+    $this->db->select('trans_meta_id,color');
     $this->db->from('transaction_meta');
     $this->db->where('order_barcode', $obc);
     $this->db->where('transaction_id', $trans_id);
@@ -303,8 +303,8 @@ public function view_tc($data)
     $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
   
     $this->db->where('to_godown', $id);
-    $this->db->where('tc !=', 0);
     $this->db->where('is_tc', 0);
+    $this->db->where('tc !=', 0);
     $query = $this->db->get();
     //print_r($this->db->last_query());
     return $query->result_array();

@@ -127,7 +127,10 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-
+                                <?php if ($godownid == 19) { ?>
+                                    <div class="col-6"> <a type="button" class="btn  pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
+                                        <a type="button" class="btn btn-info pull-left print1 " style="color:#fff;"><i class="fa fa-print"></i></a>
+                                    </div> <?php } ?>
                                 <div class="col-6">
 
                                     <form id="frc_dateFilter">
@@ -157,19 +160,16 @@
                                     <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>
                                         <th>PBC</th>
-                                        <th>OBC</th>
-                                        <th>ORDER NO</th>
+
+                                        <th>FABRIC CODE</th>
                                         <th>FABRIC NAME</th>
                                         <th>HSN</th>
-                                        <th>DESIGN BARCODE</th>
-                                        <th>DESIGN NAME</th>
-                                        <th>DESIGN CODE</th>
+
                                         <th>DYE</th>
-                                        <th>MATCHING</th>
+
                                         <th>QUANTITY</th>
                                         <th>UNIT</th>
-                                        <th>IMAGE</th>
-                                        <th>DAYS REM.</th>
+
 
 
 
@@ -179,69 +179,22 @@
                                     <?php
                                     $c = 1;
                                     $qty = 0.0;
-                                    foreach ($plain_data as $value) {
-                                        $qty += $value['quantity'];
-                                    ?>
-                                        <tr class="gradeU" id="tr_<?php echo $c ?>">
-                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['order_product_id'] ?>"></td>
-
-                                            <td><?php echo $value['pbc']; ?></td>
-                                            <td><?php echo $value['order_barcode']; ?></td>
-
-                                            <td><?php echo $value['order_number']; ?></td>
-                                            <td><?php echo $value['fabric_name']; ?></td>
-                                            <td><?php echo $value['hsn']; ?></td>
-                                            <td><?php echo $value['design_barcode']; ?></td>
-                                            <td><?php echo $value['design_name']; ?></td>
-                                            <td><?php echo $value['design_code']; ?></td>
-                                            <td><?php echo $value['dye'] ?></td>
-                                            <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['quantity'] ?></td>
-                                            <td><?php echo $value['unit'] ?></td>
-                                            <td><?php echo $value['image'] ?></td>
-
-                                            <td><?php
-                                                $date1 = date('Y-m-d');
-                                                $date2 = $value['order_date'];
-                                                $diff = strtotime($date1) - strtotime($date2);
-
-
-                                                $diff = 30
-                                                    - ceil(abs($diff / 86400));
-                                                echo $diff;
-                                                ?></td>
-
-
-
-                                        </tr>
-
-                                    <?php $c = $c + 1;
-                                    } ?>
-
-                                    <?php
-
                                     foreach ($frc_data as $value) {
                                         $qty += $value['current_stock'];
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
-                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['fsr_id'] ?>"></td>
+                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
 
-                                            <td><?php echo $value['parent_barcode']; ?></td>
-                                            <td>Null</td>
 
-                                            <td>Null</td>
+
+                                            <td><?php echo $value['order_barcode']; ?></td>
+                                            <td><?php echo $value['fabricCode']; ?></td>
                                             <td><?php echo $value['fabricName']; ?></td>
                                             <td><?php echo $value['hsn']; ?></td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
-                                            <td>Null</td>
+                                            <td><?php echo $value['color']; ?></td>
                                             <td><?php echo $value['current_stock'] ?></td>
                                             <td><?php echo $value['stock_unit'] ?></td>
-                                            <td>Null</td>
 
-                                            <td><?php echo $value['created_date'] ?></td>
 
 
 
@@ -251,25 +204,16 @@
                                     } ?>
                                 </tbody>
                                 <tfoot>
-                                    <tr class="odd" role="row">
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th> </th>
-                                        <th> </th>
-                                        <th></th>
-                                        <th> </th>
-                                        <th> </th>
-                                        <th> </th>
-                                        <th></th>
-                                        <th></th>
-                                        <th> <?php echo $qty
-                                                ?></th>
+                                    <tr>
+                                        <th>Total</th>
                                         <th></th>
                                         <th></th>
                                         <th> </th>
-
-
+                                        <th></th>
+                                        <th></th>
+                                        <th><?php echo $qty
+                                            ?></th>
+                                        <th></th>
 
                                     </tr>
                                 </tfoot>
@@ -294,8 +238,8 @@
         $("#frc tbody tr").each(function() {
 
             var self = $(this);
-            var fabric = self.find("td:eq(4)").text().trim();
-            var qty = Number(self.find("td:eq(11)").text().trim());
+            var fabric = self.find("td:eq(3)").text().trim();
+            var qty = Number(self.find("td:eq(6)").text().trim());
             console.log('fabric=' + fabric);
             console.log('summary=' + summary);
             pcs = 1;
@@ -362,6 +306,52 @@
     });
 </script>
 <script>
+    jQuery('.print1').on('click', function(e) {
+        var allVals = [];
+        $(".sub_chk:checked").each(function() {
+            allVals.push($(this).attr('data-id'));
+        });
+        //alert(allVals.length); return false;
+        if (allVals.length <= 0) {
+            alert("Please select row.");
+        } else {
+            //$("#loading").show();
+            WRN_PROFILE_DELETE = "Are you sure you want to Print this rows?";
+            var check = confirm(WRN_PROFILE_DELETE);
+            if (check == true) {
+                //for server side
+                var join_selected_values = allVals.join(",");
+                // alert (join_selected_values);exit;
+                var ids = join_selected_values.split(",");
+                var data = [];
+                $.each(ids, function(index, value) {
+                    if (value != "") {
+                        data[index] = value;
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "<?= base_url() ?>admin/Transaction/return_print_multiple",
+                    cache: false,
+                    data: {
+                        'ids': data,
+                        'godown': '<?php echo $godownid ?>',
+                        'type': 'barcode2',
+                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+                    },
+                    success: function(response) {
+                        var w = window.open('about:blank');
+                        w.document.open();
+                        w.document.write(response);
+                        w.document.close();
+                    }
+                });
+                //for client side
+
+            }
+        }
+    });
+
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];
         $(".sub_chk:checked").each(function() {
@@ -391,7 +381,8 @@
                     cache: false,
                     data: {
                         'ids': data,
-                        'godown': '<?php echo $godown ?>',
+                        'godown': '<?php echo $godownid ?>',
+                        'type': 'barcode1',
                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                     },
                     success: function(response) {

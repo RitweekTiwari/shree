@@ -95,6 +95,7 @@
                                         <th>Dye </th>
                                         <th>Matching</th>
                                         <th>Current Qty</th>
+                                       
                                         <th>Unit</th>
                                         <th>Image</th>
                                         <th>Days Rem</th>
@@ -104,8 +105,15 @@
                                     <?php
                                     $c = 1;
                                     $qty = 0.0;
+                                    $fqty = 0.0;
                                     foreach ($frc_data as $value) {
-                                        $qty +=  $value['quantity'];
+                                        if ($is_plain == 0){
+                                            $qty +=  $value['quantity'];
+                                        }else{
+                                            $qty +=  $value['finish_qty'];
+                                        }
+                                       
+                                        
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
                                             <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
@@ -120,7 +128,8 @@
                                             <td><?php echo $value['design_code']; ?></td>
                                             <td><?php echo $value['dye'] ?></td>
                                             <td><?php echo $value['matching'] ?></td>
-                                            <td><?php echo $value['finish_qty'] ?></td>
+                                            <td><?php if($is_plain==0){echo $value['quantity'];}else{echo $value['finish_qty'];} ?></td>
+                                          
                                             <td><?php echo $value['unit'] ?></td>
                                             <td><?php echo $value['image'] ?></td>
 
@@ -156,6 +165,7 @@
                                         <th>Total</th>
                                         <th><?php echo $qty;
                                             ?></th>
+                                       
                                         <th></th>
                                         <th></th>
                                         <th></th>

@@ -114,11 +114,11 @@
                 </div>
                 <div id="collapseOne" class="collapse show" data-parent="#accordion">
                   <div class="modal-body">
-                    <form action="<?php echo base_url('/admin/Design/filter1'); ?>" method="post">
+                    <form method="post">
                       <div class="form-row">
 
                         <div class="col-3">
-                          <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
+                          <select name="searchByCat" class="form-control form-control-sm" required id='searchByCat'>
                             <option value="">-- Select Category --</option>
                             <option value="designName">Design Name</option>
                             <option value="desCode">Design Code</option>
@@ -129,17 +129,16 @@
                             <option value="stitch">Stitch</option>
                             <option value="dye">Dye</option>
                             <option value="matching">Matching</option>
+                            <option value="sale_rate">Sale rate</option>
                             <option value="htCattingRate">Ht cating rate</option>
                             <option value="designOn">Design On</option>
                           </select>
                         </div>
                         <div class="col-3">
-                          <input type="text" name="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
+                          <input type="text" name="searchValue" id='searchValue' class="form-control form-control-sm" value="" placeholder="Search" required>
                         </div>
 
-
-                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                        <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
+                        <button type="button" id='simplefilter' class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
 
 
                         <!-- <div class="col-3">
@@ -164,7 +163,7 @@
                 </div>
                 <div id="collapseTwo" class="collapse" data-parent="#accordion">
                   <div class="modal-body">
-                    <form action="<?php echo base_url('/admin/Design/filter1'); ?>" method="post">
+                    <form method="post">
                       <table class=" remove_datatable">
                         <caption>Advance Filter</caption>
                         <thead>
@@ -181,16 +180,16 @@
                         </thead>
                         <tr>
 
-                          <td><input type="text" name="designName" class="form-control form-control-sm" value="" placeholder="designName"></td>
+                          <td><input type="text" id="fdesignName" class="form-control form-control-sm" value="" placeholder="designName"></td>
 
-                          <td><input type="text" name="designSeries" class="form-control form-control-sm" value="" placeholder="design Series"></td>
+                          <td><input type="text" id="fdesignSeries" class="form-control form-control-sm" value="" placeholder="design Series"></td>
 
-                          <td><input type="text" name="desCode" class="form-control form-control-sm" value="" placeholder="DesignCode"></td>
+                          <td><input type="text" id="fdesCode" class="form-control form-control-sm" value="" placeholder="DesignCode"></td>
 
-                          <td><input type="text" name="rate" class="form-control form-control-sm" value="" placeholder="Emb rate"></td>
+                          <td><input type="text" id="frate" class="form-control form-control-sm" value="" placeholder="Emb rate"></td>
 
-                          <td><input type="text" name="stitch" class="form-control form-control-sm" value="" placeholder="stitch"></td>
-                          <td><input type="text" name="dye" class="form-control form-control-sm" value="" placeholder="Dye"></td>
+                          <td><input type="text" id="fstitch" class="form-control form-control-sm" value="" placeholder="stitch"></td>
+                          <td><input type="text" id="fdye" class="form-control form-control-sm" value="" placeholder="Dye"></td>
                         </tr>
 
                         <th>Matching</th>
@@ -200,25 +199,22 @@
                         <th>Barcode</th>
                         <th>designOn</th>
                         <tr>
+                          <td><input type="text" id="fmatching" class="form-control form-control-sm" value="" placeholder="Matching"></td>
 
+                          <td><input type="text" id="fsale_rate" class="form-control form-control-sm" value="" placeholder="Sale Rate"></td>
 
+                          <td><input type="text" id="fhtCattingRate" class="form-control form-control-sm" value="" placeholder="Ht Cathing Rate"></td>
 
-                          <td><input type="text" name="matching" class="form-control form-control-sm" value="" placeholder="Matching"></td>
+                          <td><input type="text" id="ffabricName" class="form-control form-control-sm" value="" placeholder="Fabric Name"></td>
 
+                          <td><input type="text" id="fbarCode" class="form-control form-control-sm" value="" placeholder=" BarCode"></td>
 
-                          <td><input type="text" name="htCattingRate" class="form-control form-control-sm" value="" placeholder="Ht Cathing Rate"></td>
-
-                          <td><input type="text" name="fabricName" class="form-control form-control-sm" value="" placeholder="Fabric Name"></td>
-
-                          <td><input type="text" name="barCode" class="form-control form-control-sm" value="" placeholder=" BarCode"></td>
-
-                          <td><input type="text" name="designOn" class="form-control form-control-sm" value="" placeholder="Design On"></td>
+                          <td><input type="text" id="fdesignOn" class="form-control form-control-sm" value="" placeholder="Design On"></td>
                         </tr>
                       </table>
-                      <input type="hidden" name="search" value="advance">
-                      <input type="hidden" name="type" value="design">
-                      <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                      <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
+
+
+                      <button type="button" id='advancefilter' class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
 
                     </form>
                   </div>
@@ -238,13 +234,13 @@
                 <div class="row well">
                   &nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
                   &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
-                  &nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info   btn-success" href='<?php echo base_url('/admin/design'); ?>' style="color:#fff;">Clear filter</a>
+                  &nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info   btn-success" id='clearfilter' style="color:#fff;">Clear filter</a>
 
                 </div>
                 <hr>
                 <table class=" table-striped  table-responsive  table-bordered  table-responsive" id="design">
                   <caption style='caption-side : top' class=" text-info">
-                    <h6 class="text-center"> <?php echo $caption; ?></h6>
+                    <h6 class="text-center" id='caption1'></h6>
                   </caption>
                   <thead>
                     <tr class="odd" role="row">
@@ -257,6 +253,7 @@
                       <th>Stitch</th>
                       <th>Dye</th>
                       <th>Matching</th>
+                      <!-- <th>Sale Rate</th> -->
                       <th>HT Catting Rate</th>
                       <th>Design Image</th>
                       <th>Fabric Name</th>
@@ -265,62 +262,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <?php
-                    // echo "<pre>";
-                    // print_r($design_data); exit();
-                    if ($design_data > 0) {
-                      $id = 1;
-                      foreach ($design_data as $value) { ?>
-                        <tr class="gradeU" id="<?php echo $value->id ?>">
-
-                          <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value->id ?>"></td>
-                          <td><?php echo $id ?></td>
-                          <td><?php echo $value->designName; ?></td>
-                          <td><?php echo $value->designSeries; ?></td>
-                          <td><?php echo $value->desCode ?></td>
-                          <td><?php echo $value->rate ?></td>
-                          <td><?php echo $value->stitch ?></td>
-                          <td><?php echo $value->dye ?></td>
-                          <td width="40%"><?php echo $value->matching ?></td>
-                          <td><?php echo $value->htCattingRate ?></td>
-                          <td>
-                            <div class="actions">
-                              <a class="btn default btn-outline image-popup-vertical-fit el-link " id="pop" href="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>"> <img class="my-gallery" src="<?php echo base_url('/upload/') ?><?php echo $value->designPic; ?>" alt="image" style="height: 40px; width: 40px;">
-                              </a>
-                               <!-- <span class="font-button plus">+</span>  <span class="font-button minus">-</span> -->
-
-                            </div>
-                          </td>
-                          <td><?php echo $value->fabricName; ?></td>
-                          <td><?php echo $value->barCode ?></td>
-                          <td><?php echo $value->designOn ?></td>
-                          <td>
-                            <a class="text-center tip edit">
-                              <i class="fas fa-edit blue"></i>
-                            </a>
-
-                            <a class="text-danger text-center tip" href="javascript:void(0)" onclick="delete_detail(<?php echo $value->id; ?>)" data-original-title="Delete">
-                              <i class="mdi mdi-delete red"></i>
-                            </a>
-                            <a class="text-center tip" target="_blank" href="<?php echo base_url('admin/design/design_print/') . $value->id ?>">
-                              <i class="fa fa-print" aria-hidden="true"></i></a>
-                          </td>
-                        </tr>
-
-                        <!-- edit modal wind-->
-
-                        <!-- end edit modal wind-->
-
-                    <?php $id = $id + 1;
-                      }
-                    } ?>
-                  </tbody>
                 </table>
-                <?php echo $result_count; ?>
-                <?php echo $links ?>
-
-
               </div>
             </div>
           </div>
@@ -386,7 +328,7 @@
                 <img src="" alt="image" style="height: 50px; width: 50px;" id='designPic1'>
               </div>
               <div class="col-sm-7">
-                <input type="file" class="form-control" name="designPic">
+                <input type="file" class="form-control" name="designPic1">
               </div>
 
             </div>
@@ -397,8 +339,7 @@
 
                 <select name="designOn" class="form-control" id='designOn1'>
                   <?php foreach ($febType as $rec) : ?>
-                    <option <?php if ($value->designOn == $rec->fabricType) {
-                            ?>selected<?php } ?> value="<?php echo $rec->fabricType ?>">
+                    <option value="<?php echo $rec->fabricType ?>">
                       <?php echo $rec->fabricType ?></option>
                   <?php endforeach; ?>
                 </select>
@@ -430,8 +371,7 @@
     </div>
 
 
-    <script>
-
+    <script type="text/javascript">
       function delete_detail(id) {
         var del = confirm("Do you want to Delete");
         if (del == true) {
@@ -443,10 +383,8 @@
       }
 
 
-      $(".edit").click(function() {
-        var id = $(this).parent().parent().attr("id");
+      function edit(id) {
 
-        console.log(id);
         $.ajax({
           type: "POST",
           url: "<?= base_url() ?>admin/design/getDesign",
@@ -466,17 +404,14 @@
             $("#dye1").val(response['dye']);
             $("#matching1").val(response['matching']);
             $("#htCattingRate1").val(response['htCattingRate']);
-            $("#designPic1").attr('src', '<?php echo base_url('/upload/') ?>' + response['designPic']);
+            $("#designPic1").attr('src', '<?php echo base_url('upload/') ?>' + response['designPic']);
             $("#designOn1").val(response['designOn']);
             $("#fabricName1").val(response['fabricName']);
-             $("#barCode").val(response['barCode']);
+            $("#barCode").val(response['barCode']);
             $("#edit").modal();
           }
         });
 
-
-
-      });
-
+      }
     </script>
     <?php include('design_js.php'); ?>

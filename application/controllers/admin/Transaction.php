@@ -244,13 +244,21 @@
 		$data = array();
 		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
 		$data['frc_data'] = $this->Transaction_model->get_by_id($id);
-		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
-		$data['page_name'] = $data['trans_data'][0]['sub2']. '  DASHBOARD /' . $link;
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['from_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub1']. '  DASHBOARD /' . $link;
 		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
 		$data['branch_data']=$this->Job_work_party_model->get();
 		$data['id'] = $id;
-		
-		//echo "<pre>"; print_r($data['frc_data']);exit;
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
+		if(in_array($data['trans_data'][0]['from_godown'], $data['plain'])){
+			$data['is_plain']=0;
+		}else{
+			$data['is_plain'] = 1;
+		}
+		//echo "<pre>"; print_r($data['is_plain']);exit;
 		$data['main_content'] = $this->load->view('admin/transaction/challan/viewOut', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
@@ -302,13 +310,13 @@
 			$query .= 'OR unit LIKE "%' . $_GET["search"]["value"] . '%" ';
 		} else {
 
-			$query .= 'SELECT * FROM transaction_meta join order_view on order_view.order_barcode=transaction_meta.order_barcode WHERE transaction_id = "' . $id . '" ';
+			$query .= 'SELECT * FROM godown_stock_view  WHERE transaction_id = "' . $id . '" ';
 		}
 
 		if (!empty($_GET["order"])) {
 			$query .= ' ORDER BY ' . $_GET['order']['0']['column'] . ' ' . $_GET['order']['0']['dir'] . ' ';
 		} else {
-			$query .= ' ORDER BY order_view.order_barcode ASC ';
+			$query .= ' ORDER BY order_barcode ASC ';
 		}
 
 		if ($_GET["length"] != -1) {
@@ -336,11 +344,10 @@
 			$sub_array[] = $value['design_code'];
 			$sub_array[] = $value['dye'];
 			$sub_array[] = $value['matching'];
-			$sub_array[] = $value['finish_qty'];
+			$sub_array[] = $value['quantity'];
 			$sub_array[] =  $value['unit'];
 			$sub_array[] =   $value['image'];
-			$sub_array[] = $value['days_left'];
-			$sub_array[] =  $value['remark'];
+			
 			$sub_array[] =  $value['stat'];
 			$data[] = $sub_array;                    
 		 }
@@ -616,7 +623,7 @@
 			if($_POST){
 				$data = $this->security->xss_clean($_POST);
 				// echo "<pre>"; print_r($data);exit;
-				$count =count($data['pbc']);
+				$count =count($data['obc']);
 			$id = $this->Transaction_model->getId('from_godown',$godown,'tc');
 			if (!$id) {
 				$challan = 'TC/1';
@@ -644,7 +651,7 @@
 					'transaction_id' => $id,
 					
 					'order_barcode' =>$data['obc'][$i],
-					
+					'quantity ' => $data['cqty'][$i],
 					'finish_qty ' => $data['fqty'][$i],
 					
 				]	;
@@ -708,7 +715,7 @@
 					'transaction_id' => $id,
 					
 					'order_barcode' =>$data['obc'][$i],
-					
+						'quantity ' => $data['quantity'][$i],
 					'finish_qty ' => $data['quantity'][$i],
 					
 				]	;
@@ -759,7 +766,7 @@
 					'transaction_id' => $id,
 
 					'order_barcode' => $data['obc'][$i],
-					'stat' => 'pending',
+					'stat' => 'pending', 'quantity ' => $data['quantity'][$i],
 					'finish_qty ' => $data['quantity'][$i],
 
 				];

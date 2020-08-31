@@ -153,7 +153,7 @@
             var csrf_val = $("#get_csrf_hash").val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url('admin/transaction/recieve_obc') ?>",
+                url: "<?php echo base_url('admin/Dye_transaction/recieve_obc') ?>",
                 data: {
                     'trans_id': <?php echo $trans_data[0]['transaction_id']; ?>,
                     'obc': pbc,
@@ -166,8 +166,8 @@
                         toastr.error('Failed!', "OBC did not match");
                     } else if (data == 1) {
                         toastr.success('Success!', "Recieved successfully");
-                        $('#obc').val("");
-                        $('#obc').focus();
+                        $('#pbc').val("");
+                        $('#pbc').focus();
                         table.ajax.reload();
                     } else if (data == 2) {
                         toastr.error('Failed!', "Something went wrong..Status not updated");

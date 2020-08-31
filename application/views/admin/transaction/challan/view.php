@@ -102,8 +102,7 @@
                                         <th>Current Qty</th>
                                         <th>Unit</th>
                                         <th>Image</th>
-                                        <th>Days Rem</th>
-                                        <th>Remark</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -121,8 +120,7 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th></th>
-                                        <th></th>
+                                       
 
 
                                     </tr>
@@ -243,12 +241,12 @@
                 },
 
                 "createdRow": function(row, data, dataIndex) {
-                    if (data[15] == `pending`) {
+                    if (data[13] == `pending`) {
                         $(row).addClass('bg-secondary text-white');
                     }
                 },
                 "columnDefs": [{
-                        "targets": [15],
+                        "targets": [13],
                         "visible": false,
                         "searchable": false
                     },
