@@ -52,11 +52,12 @@
 		//  print_r($rec);exit;
 		return $rec->result_array();
 	}
-	public function getId($type)
+	public function getId($type,$branch)
 	{
 		$this->db->select('Max(counter) as count');
 		$this->db->from("order_table");
 		$this->db->where('data_category', $type);
+		$this->db->where('branch_name', $branch);
 		$rec = $this->db->get();
 		//  print_r($rec);exit;
 		return $rec->result_array();
@@ -306,7 +307,7 @@ public function get_design_name()
 			}
 
 			function get_order_value(){
-				$sql = 'SELECT order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
+				$sql = 'SELECT order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.sort_name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
 								INNER JOIN data_category ON order_table.data_category = data_category.id
 								INNER JOIN session ON session.id = order_table.session
 								INNER JOIN order_type ON order_type.id = order_table.order_type
@@ -318,7 +319,7 @@ public function get_design_name()
 				return $query;
 	    }
 			function get_order_search_value($data){
-			$this->db->select('order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type');
+			$this->db->select('order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.sort_name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type');
 	 	  $this->db->from('order_table');
      if(isset($data['branchsearch']))
 			{
@@ -342,7 +343,7 @@ public function get_design_name()
 		 $this->db->or_where('order_table.order_number',$data['Value']);
 		 $this->db->or_where('order_table.pcs',$data['Value']);
 		 $this->db->or_where('order_table.branch_order_number',$data['Value']);
-		 $this->db->or_where('customer_detail.name',$data['Value']);
+		 $this->db->or_where('customer_detail.sort_name',$data['Value']);
 		 $this->db->or_where('order_type.orderType',$data['Value']);
 		$this->db->or_where('data_category.dataCategory',$data['Value']);
 	 }

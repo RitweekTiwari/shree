@@ -83,7 +83,7 @@
       var count1 = 0;
       $("input[name='pbc[]']").each(function(index, element) {
         current = $(this).val();
-        if (current == order) {
+        if (current == pbc) {
           count1 += 1;
 
         }

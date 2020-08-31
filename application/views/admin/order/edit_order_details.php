@@ -39,6 +39,7 @@
                       <th>Unit</th>
                       <th>Image</th>
                       <th>priority</th>
+                      <th>Status</th>
                       <th>Order Barcode</th>
                       <th>Remark</th>
 
@@ -73,6 +74,7 @@
                         <td><input type="text" name="unit[]" class="form-control " value="<?php echo $value['unit'] ?>" readonly id="unit<?php echo $id ?>"></td>
                         <td><input type="text" name="image[]" class="form-control image" value="<?php echo $value['image'] ?>" readonly id="image<?php echo $id ?>"></td>
                         <td> <input type="text" class="form-control" name="priority[]" value="30"></td>
+                        <td><input type="text" class="form-control" name="status[]" value=""></td>
                         <td> <input type="text" class="form-control" name="order_barcode[]" value="<?php echo $value['order_barcode'] ?>" id="obc<?php echo $id ?>" readonly></td>
                         <td><input type="text" class="form-control" name="remark[]" value="<?php echo $value['remark'] ?>"></td>
                       </tr>

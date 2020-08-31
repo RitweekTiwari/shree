@@ -3,21 +3,35 @@
   $(document).ready(function() {
     $('#branch_name').on('change', function() {
       var id = $(this).val();
-      //alert(name);
+      var category = $('#Select_Category').val();
       $.ajax({
         type: "POST",
         url: "<?= base_url() ?>admin/Orders/customerName",
         cache: false,
         data: {
           'id': id,
+          'category': category,
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
         success: function(response) {
           //alert(response);
           response = JSON.parse(response);
+          console.log('count=' + response['count']);
+          counter = Number(response['count']);
+          console.log('counter=' + counter);
+          $('#order_number').val(response['orderno']);
+          if (counter == "") {
+            counter = 1;
+            var obc = 'O' + counter;
+          } else {
+            counter += 1;
+            var obc = 'O' + counter;
+          }
 
+          $('#obc0').val(obc);
           var html = '';
-          response.forEach(summary);
+          html += ' <option value="">Select Customer</option>';
+          response.name.forEach(summary);
 
           function summary(item, index, arr1) {
             // console.log(arr1[index]);
@@ -52,27 +66,7 @@
         alert("Please select some value");
       } else {
         $('#order_form').show();
-        $.ajax({
-          type: "get",
-          url: "<?php echo base_url('admin/orders/getOrder_id/') ?>" + category,
 
-          success: function(data) {
-            data = JSON.parse(data);
-            console.log('count=' + data['count']);
-            counter = Number(data['count']);
-            console.log('counter=' + counter);
-            $('#order_number').val(data['orderno']);
-            if (counter == "") {
-              counter = 1;
-              var obc = 'O' + counter;
-            } else {
-              counter += 1;
-              var obc = 'O' + counter;
-            }
-
-            $('#obc0').val(obc);
-          }
-        });
         if (stype == 1) {
           $('#tdbarcode0').html(des);
           $('#barcode_head').html('Design Barcode');
@@ -430,10 +424,11 @@
       element += '<td>  <input type="text" class="form-control" name="priority[]"  value="30"></td>'
       element += '<td> <input type="text" class="form-control" name="order_barcode[]" readonly min="1" value=O' + counter + ' id=obc' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="remark[]" value=""></td>'
+      element += '<td><input type="text" class="form-control" name="status[]" value=""></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);
-      $('#tdbarcode input' + count + '').focus();
+
       if (stype == 1) {
         $('#tdbarcode' + count + '').html(des);
         $('#barcode_head').html('Design Barcode');
@@ -444,6 +439,7 @@
         $('#tdbarcode' + count + '').html(des);
         $('#barcode_head').html('Design Barcode');
       }
+      $('#tdbarcode' + count + '').find('input').focus();
     }
     $("body").keypress(function(e) {
       if (e.which == 13) {

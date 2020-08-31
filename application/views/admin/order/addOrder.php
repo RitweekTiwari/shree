@@ -53,14 +53,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-2">
-                  <label>Branch Order Number</label>
-                  <input type="text" class="form-control " name="branch_order_number" id='Branch_order_number'>
-                </div>
-                <div class="col-md-2">
-                  <label>Order Number</label>
-                  <input type="text" class="form-control order_number" name="order_number" id='order_number' readonly>
-                </div>
+
                 <div class="col-md-2">
                   <label>Branch Name</label>
                   <select name="branch_name" class="form-control" id="branch_name">
@@ -78,7 +71,14 @@
 
                   </select>
                 </div>
-
+                <div class="col-md-2">
+                  <label>Branch Order Number</label>
+                  <input type="text" class="form-control " name="branch_order_number" id='Branch_order_number' required>
+                </div>
+                <div class="col-md-2">
+                  <label>Order Number</label>
+                  <input type="text" class="form-control order_number" name="order_number" id='order_number' readonly>
+                </div>
                 <div class="col-md-3"><label>IMAGE</label><img src="" alt="" id="preview" style="width:100px"> </div>
               </div>
             </div>
@@ -105,6 +105,7 @@
                   <th>priority</th>
                   <th>Order Barcode</th>
                   <th>Remark</th>
+                  <th>Status</th>
                   <th>Option</th>
                 </thead>
                 <tbody id="fresh_data">
@@ -134,6 +135,7 @@
                     <td> <input type="text" class="form-control" name="priority[]" value="30"></td>
                     <td> <input type="text" class="form-control" name="order_barcode[]" value="" id="obc0" readonly></td>
                     <td><input type="text" class="form-control" name="remark[]" value=""></td>
+                    <td><input type="text" class="form-control" name="status[]" value=""></td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>
                 </tbody>

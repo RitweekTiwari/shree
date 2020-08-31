@@ -198,7 +198,7 @@ class Orders extends CI_Controller
   public function add_new_order()
   {
     if ($_POST) {
-      $id = $this->Orders_model->getId($_POST['category']);
+      $id = $this->Orders_model->getId($_POST['category'], $_POST['branch_name']);
       if (!$id) {
         if ($_POST['category'] == 3) {
           $orderno = "ORD1";
@@ -264,7 +264,8 @@ class Orders extends CI_Controller
               'hsn' => $_POST['hsn'][$i],
               'stitch' => $_POST['stitch'][$i],
               'dye' => $_POST['dye'][$i],
-              'matching' => $_POST['matching'][$i]
+              'matching' => $_POST['matching'][$i],
+                'order_status' => $_POST['status'][$i]
             );
             $this->Orders_model->insert($data, 'order_product');
           }
@@ -283,8 +284,29 @@ class Orders extends CI_Controller
   {
     if ($_POST) {
       $data['name'] = $this->Orders_model->get_customer($_POST['id']);
+      $type = $_POST['category'];
+      $id = $this->Orders_model->getId($type, $_POST['id']);
+      if (!$id) {
+        if ($type == 3) {
+          $data['orderno'] = "ORD1";
+        } else {
+          $data['orderno'] = "STK1";
+        }
 
-      echo json_encode($data['name']);
+        $cc = 1;
+      } else {
+        $cc = $id[0]['count'];
+        $cc = $cc + 1;
+        if ($type == 3) {
+          $data['orderno'] = "ORD" . (string) $cc;
+        } else {
+          $data['orderno'] = "STK" . (string) $cc;
+        }
+      }
+      $counter = $this->Orders_model->getCount();
+      $data['count'] = $counter[0]['count'];
+      echo json_encode($data);
+      
     }
   }
   public function addOrders()
@@ -307,27 +329,7 @@ class Orders extends CI_Controller
   public function getOrder_id($type)
   {
     $type = sanitize_url($type);
-    $id = $this->Orders_model->getId($type);
-    if (!$id) {
-      if ($type == 3) {
-        $data['orderno'] = "ORD1";
-      } else {
-        $data['orderno'] = "STK1";
-      }
-
-      $cc = 1;
-    } else {
-      $cc = $id[0]['count'];
-      $cc = $cc + 1;
-      if ($type == 3) {
-        $data['orderno'] = "ORD" . (string) $cc;
-      } else {
-        $data['orderno'] = "STK" . (string) $cc;
-      }
-    }
-    $counter = $this->Orders_model->getCount();
-    $data['count'] = $counter[0]['count'];
-    echo json_encode($data);
+   
   }
 
   public function getOrderDetails()
@@ -526,7 +528,8 @@ class Orders extends CI_Controller
             'hsn' => $data['hsn'][$i],
             'stitch' => $data['stitch'][$i],
             'dye' => $data['dye'][$i],
-            'matching' => $data['matching'][$i]
+            'matching' => $data['matching'][$i],
+          'order_status' => $_POST['status'][$i]
           );
           $this->Orders_model->edit_order_product_details($data1, $data['pro_id'][$i], 'order_product');
         }
