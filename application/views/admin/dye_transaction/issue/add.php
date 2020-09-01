@@ -81,7 +81,7 @@
                     <td><input type="text" class="form-control " value="" id='hsn0' readonly></td>
 
                     <td><input type="text" class="form-control qty" value="" id='qty0' readonly></td>
-                    <td><input type="text" class="form-control" name="color[]" value="" id='color0'></td>
+                    <td><input type="text" class="form-control" name="color[]" value="" id='color0' required></td>
                     <td><input type="text" class="form-control unit " id='unit0' readonly>
                     </td>
                     <td><input type="text" class="form-control " value="" id='days0' readonly></td>

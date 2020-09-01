@@ -119,7 +119,7 @@
               $('#fabric' + id + '').val(data[0]['fabricName']);
               $('#qty' + id + '').val(data[0]['current_stock']);
               $('#days' + id + '').val(d);
-
+              $('#color' + id + '').val(data[0]['color_name']);
               $('#unit' + id + '').val(data[0]['stock_unit']);
               $('#remark' + id + '').val(data[0]['remark']);
               var current = 0;
@@ -262,7 +262,7 @@
       element += '<td> <input type="text"  class="form-control " id=fabric' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control"  value="" id=hsn' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control qty"  value="" id=qty' + count + '  readonly></td>'
-      element += '<td><input type="text" class="form-control" name="color[]" value=""></td>'
+      element += '<td><input type="text" class="form-control" name="color[]" value="" id=color' + count + ' required></td>'
       element += '<td><input type="text"  class="form-control unit " readonly id=unit' + count + ' ></td>'
       element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly></td>'
       element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' ></td>'

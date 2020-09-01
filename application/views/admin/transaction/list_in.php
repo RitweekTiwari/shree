@@ -155,11 +155,12 @@
                     <th>Date</th>
 
                     <th>Party name</th>
+                    <th>Doc No</th>
                     <th>Challan no</th>
 
-                  
+
                     <th>View </th>
-                   
+
 
                   </tr>
                 </thead>
@@ -174,15 +175,16 @@
 
 
                       <td><?php echo $value['sub1']; ?></td>
-                      <td><?php echo $value['challan_in']; ?> <?php if($value['status']=='new') {
-                        echo '<span class="badge badge-pill badge-danger">New</span>';
-                      } ?></td>
+                      <td><?php echo $value['challan_out']; ?></td>
+                      <td><?php echo $value['challan_in']; ?> <?php if ($value['status'] == 'new') {
+                                                                echo '<span class="badge badge-pill badge-danger">New</span>';
+                                                              } ?></td>
                       <td>
-                       
+
                         <a href="<?php echo base_url('admin/Transaction/viewChallan/') . $value['transaction_id'] ?> ">
                           <i class="fas fa-eye"></i>
                         </a>
-                     
+
 
                     </tr>
 

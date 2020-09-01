@@ -148,7 +148,7 @@ class DyeTransaction_model extends CI_Model
   }
   public function getPBC_deatils($id, $godown)
   {
-    $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date');
+    $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date,color_name');
     $this->db->from("fabric_stock_view");
     $this->db->where("parent_barcode", $id);
     $this->db->where("godownid", $godown);
