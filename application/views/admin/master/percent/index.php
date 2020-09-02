@@ -83,8 +83,8 @@
           <div class="widget-content nopadding">
             <div class="form-group row">
               <label class="control-label col-sm-3">Fabric Name</label>
-              <div class="col-sm-9">
-                <select name="fabric" class="form-control select2" id="fabric" required>
+              <div class="col-sm-9" id="fabric">
+                <select name="fabric" class="form-control select2"  required>
                   <option value="">-- Select Fabric --</option>
                   <?php foreach ($fabric_data as $value) : ?>
                     <option value="<?php echo $value['id'] ?>"><?php echo $value['fabricName'] ?></option>
@@ -253,7 +253,7 @@
     function format(d) {
       var html = '';
       //sconsole.log(d.worker);
-     
+
       d.grade.forEach(myFunction);
 
       function myFunction(item, index, arr) {

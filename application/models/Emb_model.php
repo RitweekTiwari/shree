@@ -36,15 +36,17 @@ class Emb_model extends CI_Model {
 
  public function get_embmeta($id)
  {
-   $this->db->select('embmeta.*,job_work_party.name,emb.designName');
+   $this->db->select('embmeta.*,job_work_party.name,design.designName,emb.emb_rate');
    $this->db->from('embmeta');
    $this->db->where('embmeta.embid',$id);
    $this->db->join('emb', 'emb.id=embmeta.embid', 'inner');
    $this->db->join('job_work_party', 'job_work_party.id=embmeta.workerName', 'inner');
+   $this->db->join('design','design.id=emb.designName', 'inner');
    $query = $this->db->get();
    $query = $query->result_array();
    return $query;
- }
+  }
+
   public function get_design_fresh_value()
  {
    $this->db->select('*');

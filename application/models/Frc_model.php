@@ -498,15 +498,18 @@ public function getPBC_deatils($id)
  
 
  }
- public function getPBC_by_type($col,$id)
+ public function getPBC_by_type($col,$id,$type)
  {
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where($col,$id);
-    $this->db->where("isStock", 1);
-    $this->db->where('deleted ', 0);
-    $this->db->where('challan_type ', 'recieve');
-    $this->db->or_like($col, $id.'/');
+   if($type==1){
+      $this->db->where("isStock", 1);
+      $this->db->where('deleted ', 0);
+      $this->db->where('challan_type ', 'recieve');
+      $this->db->or_like($col, $id . '/');
+   }
+    
   
 
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');

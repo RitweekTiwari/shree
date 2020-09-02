@@ -1,6 +1,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('#update').hide();
+    var html='';
     $("#submitpercent").on('submit', function() {
       event.preventDefault();
       var form = $(this).serialize();
@@ -41,8 +42,11 @@
           data = JSON.parse(data);
           // console.log(data);
           var des = data[0].fabricName;
-          //console.log(des);
-          $('#fabric').select2().val(des).trigger("change.select2");
+
+
+          html +='<p class="form-control" readonly>'+data[0].fabricName+'</p>';
+          $('#fabric').html(html);
+          html='';
           data.forEach(value);
 
           function value(item, index, arr) {
@@ -121,17 +125,13 @@
               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
             success: function(response) {
-
               //referesh table
               $(".delete_all").click(function() {
                 location.reload();
               });
-
-
             }
           });
           //for client side
-
         }
       }
     });

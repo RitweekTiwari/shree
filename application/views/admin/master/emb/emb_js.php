@@ -50,6 +50,7 @@
 
 
     $(document).on('click', '.find_id', function() {
+      var html='';
       var id = $(this).prop('id');
 
       $('#embid').val(id);
@@ -70,9 +71,11 @@
           data = JSON.parse(data);
           // console.log(data);
           var des = data[0].designName;
-          console.log(des);
-          $('#desname').select2().val(des).trigger("change.select2");
-
+          // console.log(des);
+           $('#rate').val(data[0].emb_rate);
+          html +='<input type="text" value='+ data[0].designName +' class="form-control" readonly>';
+          $('#desname').html(html);
+          html='';
 
 
           data.forEach(value);

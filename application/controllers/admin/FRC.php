@@ -190,7 +190,7 @@ class FRC extends CI_Controller
 		$data['sub_dept_data'] = $this->Sub_department_model->get();
 		$data['frc_data'] = $this->Frc_model->get_frc_by_id($id);
 
-		$data['pbc'] = $this->Frc_model->getPBC_by_type("fabric_challan_id", $id);
+		$data['pbc'] = $this->Frc_model->getPBC_by_type("fabric_challan_id", $id,0);
 		$data['main_content'] = $this->load->view('admin/FRC/recieve/edit', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
@@ -847,7 +847,7 @@ class FRC extends CI_Controller
 		$id = $this->security->xss_clean($_POST['id']);
 		$data = array();
 		$data['pbc'][] = $this->Frc_model->getPBC_deatils($id);
-		$pbc = $this->Frc_model->getPBC_by_type('parent', $id);
+		$pbc = $this->Frc_model->getPBC_by_type('parent', $id,1);
 		$pbc2 = $this->Frc_model->getPBC_history( $id);
 		$output ='<div class="row">';
 		if ($pbc2) {

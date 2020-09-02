@@ -24,7 +24,6 @@
 		}
 		public function get_all_data($id)
 		{
-
 			$this->db->select('fabric.id,fabric.fabricName,fabric.fabHsnCode,fabric.fabricCode,fabric.fabricType,fabric.purchase,  fabric.fabricUnit, GROUP_CONCAT(f1.fabricName) AS fName,GROUP_CONCAT(fd.fabricId) AS fabricId,GROUP_CONCAT(fd.id) AS fdid, GROUP_CONCAT(fd.segmentName) AS segmentName, GROUP_CONCAT(fd.length) AS length, GROUP_CONCAT(fd.width) AS width,');
 			$this->db->from('fabric');
 			$this->db->where('fabric.id', $id);
@@ -43,25 +42,12 @@
 			$this->db->select('fabric.id,fabric.fabricName,fabric.fabHsnCode,fabric.fabricCode,fabric.fabricType,fabric.purchase, unit.unitName as fabricUnit, GROUP_CONCAT(f1.fabricName) AS fabricId, GROUP_CONCAT(fd.segmentName) AS segmentName, GROUP_CONCAT(fd.length) AS length, GROUP_CONCAT(fd.width) AS width');
 			$this->db->from('fabric');
 
-			if (isset($data['cat'])) {
-				if (!is_array($data['cat'])) {
-					if ($data['cat'] != "") {
-						$this->db->like($data['cat'], $data['Value']);
-					}
-				} else {
-					$count = count($data['cat']);
-					for ($i = 0; $i < $count; $i++) {
-						$this->db->like($data['cat'][$i], $data['Value'][$i]);
-					}
-				}
-			}
 			if (isset($data['search'])) {
-				$this->db->LIKE('fabricName', $data['Value']);
-				$this->db->or_LIKE('fabHsnCode', $data['Value']);
-				$this->db->or_LIKE('fabricType', $data['Value']);
-				$this->db->or_LIKE('fabricCode', $data['Value']);
-				$this->db->or_LIKE('fabricUnit', $data['Value']);
-				$this->db->or_LIKE('purchase', $data['Value']);
+				$this->db->LIKE('fabric.fabricName', $data['Value']);
+				$this->db->or_LIKE('fabric.fabHsnCode', $data['Value']);
+				$this->db->or_LIKE('fabric.fabricType', $data['Value']);
+				$this->db->or_LIKE('fabric.fabricCode', $data['Value']);
+				$this->db->or_LIKE('fabric.purchase', $data['Value']);
 				$this->db->or_LIKE('fabric.fabricUnit', $data['Value']);
 			}
 			$this->db->JOIN('unit', 'unit.id = fabric.fabricUnit', 'left');

@@ -191,6 +191,8 @@ class Orders extends CI_Controller
   {
     $data = array();
     $data['page_name'] = 'ORDER FLOW CHART';
+    $data['godown'] = $this->common_model->select('sub_department');
+   // pre($data['godown']);exit;
     $data['main_content'] = $this->load->view('admin/order/order_flow_chart', $data, TRUE);
     $this->load->view('admin/index', $data);
   }

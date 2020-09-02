@@ -14,9 +14,9 @@
               <div class="form-group row">
                 <label class="control-label col-sm-6">Design</label>
                 <label class="control-label col-sm-6">EMB Rate</label>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="desname">
 
-                  <select name="design" class="form-control select2 clear" id="desname">
+                  <select name="design" class="form-control select2 clear" >
                     <option value="">Select Design</option>
                     <?php foreach ($erc as $value) : ?>
                       <option value="<?php echo $value['id'] ?>"><?php echo $value['designName'] ?></option>

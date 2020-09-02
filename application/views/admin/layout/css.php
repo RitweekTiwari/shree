@@ -39,6 +39,35 @@ $godown = $this->db->get('sub_department')->result();
 
 
     <style>
+        th.rotate {
+            height: 150px;
+            padding: 0px;
+            /*width: 20px !important;*/
+            font-weight: bold;
+
+        }
+
+        .dataTable th {
+            word-wrap: break-word;
+        }
+
+        .rotate {
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+            /* IE6,IE7 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+            /* IE8 */
+            -moz-transform: rotate(-90.0deg);
+            /* FF3.5+ */
+            -ms-transform: rotate(-90.0deg);
+            /* IE9+ */
+            -o-transform: rotate(-90.0deg);
+            /* Opera 10.5 */
+            -webkit-transform: rotate(-90.0deg);
+            /* Safari 3.1+, Chrome */
+            transform: rotate(-90.0deg);
+            /* Standard */
+        }
+
         .tip {
             display: inline-block;
             font-size: 18px;
