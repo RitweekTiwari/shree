@@ -232,57 +232,78 @@ class Design extends CI_Controller
 			
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
-			$this->upload->do_upload('designPic');
-			$img = $this->upload->data();
-			$pic1 = $img['file_name'];
-
-
-
-			if (!empty($pic1)) {
-
+			if (!$this->upload->do_upload('designPic')) {
+			
+				$this->session->set_flashdata('error', $this->upload->display_errors());
 				$data = array(
-					'designName' => $_POST['designName'],
-
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => $pic1,
-					'fabricName' => $_POST['fabricName'],
-					'barCode' => $barCode,
-					'designOn' => trim($_POST['designOn'])
-				);
-				//print_r($data); exit();
-				$this->Design_model->add($data);
-				redirect(base_url('admin/Design'));
+						'designName' => $_POST['designName'],
+						'designSeries' => $_POST['designSeries'],
+						// 'designCode'=>$_POST['designCode'],
+						'stitch' => $_POST['stitch'],
+						'dye' => $_POST['dye'],
+						'matching' => $_POST['matching'],
+						// 'saleRate'=>$_POST['saleRate'],
+						'htCattingRate' => $_POST['htCattingRate'],
+						'designPic' => "",
+						'fabricName' => $_POST['fabricName'],
+						'barCode' => $barCode,
+						'designOn' => trim($_POST['designOn'])
+					);
+					// print_r($data); exit();
+					$id =	$this->Design_model->add($data);
+					if ($id) {
+						$this->session->set_flashdata('success', 'Added Successfully');
+					} else {
+						$this->session->set_flashdata('error', 'please enter some keyword');
+					}
+					redirect(base_url('admin/Design'));
 			} else {
+				$data = $this->upload->data();
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = './upload/' . $data["file_name"];
+				
+				
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['quality'] = '30%';
+				$config['width'] = 720;
+				
+				$config['new_image'] = './upload/' . $data["file_name"];
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+				$img = $this->upload->data();
+				$pic1 = $img['file_name'];
 
-				$data = array(
-					'designName' => $_POST['designName'],
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					// 'saleRate'=>$_POST['saleRate'],
-					'htCattingRate' => $_POST['htCattingRate'],
-					'designPic' => "",
-					'fabricName' => $_POST['fabricName'],
-					'barCode' => $barCode,
-					'designOn' => trim($_POST['designOn'])
-				);
-				// print_r($data); exit();
-				$id =	$this->Design_model->add($data);
+
+
+				
+					$data = array(
+						'designName' => $_POST['designName'],
+
+						'designSeries' => $_POST['designSeries'],
+						// 'designCode'=>$_POST['designCode'],
+						'stitch' => $_POST['stitch'],
+						'dye' => $_POST['dye'],
+						'matching' => $_POST['matching'],
+						// 'saleRate'=>$_POST['saleRate'],
+						'htCattingRate' => $_POST['htCattingRate'],
+						'designPic' => $pic1,
+						'fabricName' => $_POST['fabricName'],
+						'barCode' => $barCode,
+						'designOn' => trim($_POST['designOn'])
+					);
+				//print_r($data); exit();
+				$id=	$this->Design_model->add($data);
 				if ($id) {
 					$this->session->set_flashdata('success', 'Added Successfully');
 				} else {
 					$this->session->set_flashdata('error', 'please enter some keyword');
 				}
-				redirect(base_url('admin/Design'));
+					redirect(base_url('admin/Design'));
+				
 			}
+		
+			
 		}
 	}
 	public function design_print($id)
@@ -319,15 +340,50 @@ class Design extends CI_Controller
 
 			$config['upload_path']          = './upload/';
 			$config['allowed_types']        = 'gif|jpg|png|jpeg';
-			
+			$config['overwrite'] = TRUE;
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
-			$this->upload->do_upload('designPic1');
-			$img = $this->upload->data();
-			$pic1 = $img['file_name'];
-
-			if (!empty($pic1)) {
+			if (!$this->upload->do_upload('designPic1')) {
+				//echo "Not Uploaded". $this->upload->display_errors();exit;
+				$error= $this->upload->display_errors();
+				$this->session->set_flashdata('error', $error );
+				$data = array(
+					'designName' => $_POST['designName'],
+					'designSeries' => $_POST['designSeries'],
+					// 'designCode'=>$_POST['designCode'],
+					'stitch' => $_POST['stitch'],
+					'dye' => $_POST['dye'],
+					'matching' => $_POST['matching'],
+					'designPic' => "",
+					'htCattingRate' => $_POST['htCattingRate'],
+					'fabricName' => $_POST['fabricName'],
+					'designOn' => trim($_POST['designOn'])
+				);
+				
+			} else {
+				// echo " Uploaded";
+				// exit;
 				unlink("upload/" . $picture);
+				$data = $this->upload->data();
+				$config['image_library'] = 'gd2';
+				$config['source_image'] = './upload/' . $data["file_name"];
+
+
+				$config['create_thumb'] = FALSE;
+				$config['maintain_ratio'] = TRUE;
+				$config['quality'] = '30%';
+				$config['width'] = 720;
+
+				$config['new_image'] = './upload/' . $data["file_name"];
+				$this->load->library('image_lib', $config);
+				$this->image_lib->resize();
+				$img = $this->upload->data();
+				$pic1 = $img['file_name'];
+
+
+
+
+				
 				$data = array(
 					'designName' => $_POST['designName'],
 					'designSeries' => $_POST['designSeries'],
@@ -342,30 +398,19 @@ class Design extends CI_Controller
 					'designOn' => trim($_POST['designOn'])
 
 				);
-			} else {
-				$data = array(
-					'designName' => $_POST['designName'],
-					'designSeries' => $_POST['designSeries'],
-					// 'designCode'=>$_POST['designCode'],
-					'stitch' => $_POST['stitch'],
-					'dye' => $_POST['dye'],
-					'matching' => $_POST['matching'],
-					'designPic' => "",
-					'htCattingRate' => $_POST['htCattingRate'],
-					'fabricName' => $_POST['fabricName'],
-					'designOn' => trim($_POST['designOn'])
-				);
+			
 			}
-		}
-		// print_r($data); exit();
-		$id =	$this->Design_model->edit($id, $data);
+			// print_r($data); exit();
+			$id =	$this->Design_model->edit($id, $data);
 
-		if ($id) {
-			$this->session->set_flashdata('success', 'Added Successfully');
-		} else {
-			$this->session->set_flashdata('error', 'please enter some keyword');
+			if ($id) {
+				$this->session->set_flashdata('success', 'Added Successfully');
+			} else {
+				$this->session->set_flashdata('error', 'please enter some keyword');
+			}
+			redirect(base_url('admin/Design'));
 		}
-		redirect(base_url('admin/Design'));
+		
 	}
 
 
