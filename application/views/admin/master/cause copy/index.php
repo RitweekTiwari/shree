@@ -76,7 +76,7 @@
               <div id="<?php echo $value->id; ?>" class="modal hide" >
                    <div class="modal-dialog" role="document ">
                     <div class="modal-content">
-                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Unit/edit/').$value->id;?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Unit/edit/').$value->id;?>" >
                   <div class="modal-header">
                       <h5 class="modal-title">Edit Unit</h5>
                     <button data-dismiss="modal" class="close" type="button">×</button>
@@ -87,13 +87,13 @@
                       <div class="form-group row">
                         <label class="control-label col-sm-3">Unit Name</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="unitName" value="<?php echo $value->unitName; ?>" id="required">
+                          <input type="text" class="form-control" name="unitName" value="<?php echo $value->unitName; ?>" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="control-label col-sm-3">Unit Symbol</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="unitSymbol" value="<?php echo $value->unitSymbol; ?>" id="required">
+                          <input type="text" class="form-control" name="unitSymbol" value="<?php echo $value->unitSymbol; ?>" >
                         </div>
                       </div>
                       </div>
@@ -125,7 +125,7 @@
 <div id="addnew" class="modal hide">
      <div class="modal-dialog" role="document ">
      <div class="modal-content">
-  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Unit/addUnit')?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Unit/addUnit')?>" >
     <div class="modal-header">
         <h5 class="modal-title">Add Unit</h5>
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -136,13 +136,13 @@
         <div class="form-group row">
           <label class="control-label col-sm-3">Unit Name</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" name="unitName" value="" id="required">
+            <input type="text" class="form-control" name="unitName" value="" >
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Unit Symbol</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" name="unitSymbol" value="" id="required">
+            <input type="text" class="form-control" name="unitSymbol" value="" >
           </div>
         </div>
       </div>

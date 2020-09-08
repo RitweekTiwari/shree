@@ -14,7 +14,7 @@
                     <div class="widget-box">
                         <div class="widget-content nopadding">
                             <div class="row well">
-                                &nbsp;&nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="<?php echo base_url('admin/Orders/back') ?>" style="">GO Back</a>
                             </div>
                             <hr>

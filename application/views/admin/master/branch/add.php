@@ -2,7 +2,7 @@
 <div id="addnew" class="modal hide">
     <div class="modal-dialog" role="document ">
     <div class="modal-content">
-  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Branch_detail/addBranch') ?>" name="basic_validate" novalidate="novalidate">
+  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Branch_detail/addBranch') ?>" >
     <div class="modal-header">
         <h5 class="modal-title">Add Detail</h5>
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -13,37 +13,37 @@
         <div class="form-group row">
           <label class="col-sm-3">Name</label>
           <div class="col-sm-9">
-            <input type="text" name="name" value="">
+            <input type="text" name="name" required value="" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Sort Name</label>
           <div class="col-sm-9">
-            <input type="text" name="sort_name" value="">
+            <input type="text" name="sort_name" value="" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Phone Number</label>
           <div class="col-sm-9">
-            <input type="number" name="phone_no" value="">
+            <input type="number" name="phone_no" value="" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Email</label>
           <div class="col-sm-9">
-            <input type="email" name="email" value="">
+            <input type="email" name="email" value="" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Remark</label>
           <div class="col-sm-9">
-            <input type="text" name="remark" value="">
+            <input type="text" name="remark" value="" required>
           </div>
         </div>
         <div class="form-group row">
           <label class="control-label col-sm-3">Category</label>
           <div class="col-sm-9">
-            <input type="text" name="category" value="">
+            <input type="text" name="category" value="" required>
           </div>
         </div>
         <div class="form-group row">

@@ -28,6 +28,7 @@ class Transaction_model extends CI_Model {
 
  public function get_fabric_name()
  {
+    
    $this->db->select('id ,fabricType, fabricName, fabricCode');
    $this->db->from('fabric');
    $query = $this->db->get();
@@ -36,6 +37,7 @@ class Transaction_model extends CI_Model {
  }
 public function get_godown($id)
  {
+    
    $this->db->select('sub_department.id as id,sub_department.subDeptName as godown,job_work_type.type as job');
    $this->db->from('job_work_party');
     $this->db->join('sub_department ','sub_department.id=job_work_party.subDeptName','inner');
@@ -49,7 +51,7 @@ public function get_godown($id)
  }
   public function check_obc_by_trans_id($obc, $trans_id)
   {
-    
+   
     $this->db->select('trans_meta_id,color');
     $this->db->from('transaction_meta');
     $this->db->where('order_barcode', $obc);
@@ -61,6 +63,7 @@ public function get_godown($id)
   
 public function get($col,$godown,$type)
  {
+    
    $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('transaction');
    if($type!='all'){
@@ -78,6 +81,7 @@ public function get($col,$godown,$type)
  }
   public function get_stock($data,$type)
   {
+    
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
     $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
@@ -100,6 +104,7 @@ public function get($col,$godown,$type)
   
   public function get_stock_by_obc($data)
   {
+    
     $this->db->select(" transaction_meta.trans_meta_id AS trans_meta_id,
     transaction.challan_out AS challan_out,
     transaction.from_godown AS from_godown,
@@ -139,6 +144,7 @@ public function get($col,$godown,$type)
   }
   public function get_tc_stock($data)
   {
+    
     $this->db->select("godown_tc_view.*,fabric.fabricCode");
     $this->db->from('godown_tc_view');
     $this->db->join('fabric', 'fabric.fabricName=godown_tc_view.fabric_name', 'inner');
@@ -156,6 +162,7 @@ public function get($col,$godown,$type)
   
    public function get_plain_stock($data)
   {
+    
     $this->db->select("*");
     $this->db->from('plain_godown_stock');
     $this->db->where('godown', $data);
@@ -165,6 +172,7 @@ public function get($col,$godown,$type)
   
   public function get_dye_godown()
   {
+    
     $this->db->select("distinct(subDeptName)");
     $this->db->from('job_work_party');
     $this->db->where('job_work_type', 130);
@@ -173,6 +181,7 @@ public function get($col,$godown,$type)
   }
   public function get_distinct_plain_godown()
   {
+    
     $this->db->select("distinct(godownid)");
     $this->db->from('fabric_stock_view');
     
@@ -181,6 +190,7 @@ public function get($col,$godown,$type)
   }
    public function get_frc_stock($data)
   {
+    
     $this->db->select("*");
     $this->db->from('fabric_stock_view');
      $this->db->where('godownid', $data);
@@ -189,6 +199,7 @@ public function get($col,$godown,$type)
   }
   public function get_dispatch($data)
   {
+    
     $this->db->select("dispatch_view.*,fabric.fabricCode,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
     $this->db->from('dispatch_view');
     $this->db->join('fabric', 'fabric.fabricName=dispatch_view.fabric_name', 'inner');
@@ -211,6 +222,7 @@ public function get($col,$godown,$type)
   }
 public function view_tc($data)
   {
+    
     $this->db->select("godown_tc_view.*,fabric.fabricCode,sb1.subDeptName as sub1");
     $this->db->from('godown_tc_view');
     $this->db->join('fabric', 'fabric.fabricName=godown_tc_view.fabric_name', 'inner');
@@ -298,6 +310,7 @@ public function view_tc($data)
   }
    public function get_tc($id)
   {
+    
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
     $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
@@ -311,6 +324,7 @@ public function view_tc($data)
   }
   public function getOrderDetails($data)
   {
+    
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
     $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
@@ -337,6 +351,7 @@ public function view_tc($data)
  }
  public function search($data)
  {
+    
    $this->db->select('fabric_challan.fc_id,fabric_challan.challan_date,branch_detail.sort_name, fabric_challan.challan_no,fabric_challan.fabric_type, fabric_challan.total_quantity,unit.unitName,fabric_challan.total_amount');
    $this->db->from('fabric_challan');
 
@@ -354,6 +369,7 @@ public function view_tc($data)
  }
  public function search_by_date($data)
  {
+    
    $this->db->select('fabric_challan.fc_id,fabric_challan.challan_date,branch_detail.sort_name, fabric_challan.challan_no,fabric_challan.fabric_type, fabric_challan.total_quantity,unit.unitName,fabric_challan.total_amount');
    $this->db->from('fabric_challan');
    $this->db->where('fabric_challan.challan_date >=', $data['from']);

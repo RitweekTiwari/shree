@@ -5,6 +5,7 @@
 
     public function allOrder()
 		{
+		
 			$this->db->select('*');
             $this->db->from('orders');
             $this->db->order_by("id", "desc");
@@ -14,6 +15,7 @@
 		}
 		public function getFabricDetails($id)
  {
+		
    $this->db->select('hsn.unit,fabric.fabHsnCode');
    $this->db->from('fabric');
    $this->db->join('hsn','hsn.hsn_code=fabric.fabHsnCode','left');
@@ -24,6 +26,7 @@
  }
  	public function getFabricDesign($id)
  {
+		
    $this->db->select('design.designName,fda_table.design_id');
    $this->db->from('fda_table');
    $this->db->join('design','design.id=fda_table.design_id','inner');
@@ -35,7 +38,7 @@
  }
  public function getDesignDetails($id)
  {
-   $this->db->select();
+		 $this->db->select();
    $this->db->from('design_view');
 
    $this->db->where('barCode',$id);
@@ -65,6 +68,7 @@
 
  public function getDesign($id)
 	{
+		
 		$this->db->select('desCode,stitch,dye,matching');
 		$this->db->from('design_view');
 
@@ -76,6 +80,7 @@
 	}
 public function get_design_name()
  {
+		
    $this->db->select('distinct(designName)');
    $this->db->from('design');
    $query = $this->db->get();
@@ -84,7 +89,7 @@ public function get_design_name()
  }
  public function get_order($order_id)
  {
-
+		
    $this->db->select('order_product.*,customer_detail.name as customer,order_table.order_number');
    $this->db->from('order_table');
    $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
@@ -96,6 +101,7 @@ public function get_design_name()
  }
  public function get_order_complete()
  {
+		
    $this->db->select('*');
    $this->db->from('order_view');
    $this->db->where('status', 'DONE');
@@ -107,6 +113,7 @@ public function get_design_name()
  }
  public function get_order_pending()
  {
+		
 
    $this->db->select('*');
    $this->db->from('order_view');
@@ -117,6 +124,7 @@ public function get_design_name()
  }
 	public function get_branch()
 	{
+		
 		$this->db->select('id,name');
 		$this->db->from('branch_detail');
 		$query = $this->db->get();
@@ -125,6 +133,7 @@ public function get_design_name()
 	}
 	public function get_customer($id)
 	{
+		
 		$this->db->select('id,name');
 		$this->db->where('under_branch', $id);
 		$this->db->from('customer_detail');
@@ -135,6 +144,7 @@ public function get_design_name()
 	}
 	public function get_pbc_by_order($id)
  {
+		
 		$this->db->select('pbc');
 		$this->db->from('order_product');
 		$this->db->where('order_product_id', $id);
@@ -148,7 +158,7 @@ public function get_design_name()
  }
  public function get_order_cancel()
  {
-
+		
    $this->db->select('*');
    $this->db->from('order_cancel_cause');
 	$this->db->join('order_view ', 'order_cancel_cause.order_id = order_view.order_product_id','inner');
@@ -161,6 +171,7 @@ public function get_design_name()
  }
  public function get_order_count()
  {
+		
         $this->db->select('count(*) as total');
         $this->db->select('(SELECT count(order_id)
                             FROM order_product
@@ -198,7 +209,7 @@ public function get_design_name()
 		}
 	}
   public function checkorder($order){
-
+		
         $this->db->select('*');
 
         $this->db->from('order_table');
@@ -223,7 +234,7 @@ public function get_design_name()
 
 		public function get_order_product($order_id)
 		{
-
+		
 			$this->db->select('*');
 			$this->db->from('order_product');
 		 $this->db->join('order_table ','order_table.order_id = order_product.order_id','inner');
@@ -244,7 +255,7 @@ public function get_design_name()
 		}
 	public function get_order_by_id2($order_id)
 	{
-
+		
 		$this->db->select('order_product.*,customer_detail.name as customer,order_table.order_number');
 		$this->db->from('order_table');
 		$this->db->join('order_product ', 'order_table.order_id = order_product.order_id', 'inner');
@@ -260,6 +271,7 @@ public function get_design_name()
 	}
 	public function getPBC_deatils($id)
 	{
+		
 		$this->db->select('fsr_id,current_stock,fabricName,godownid');
 		$this->db->from("fabric_stock_view");
 		$this->db->where("parent_barcode",$id);
@@ -271,6 +283,7 @@ public function get_design_name()
 	}
  public function get_design_code()
  {
+		
    $this->db->select('distinct(designCode)');
    $this->db->from('design');
    $query = $this->db->get();
@@ -279,6 +292,7 @@ public function get_design_name()
  }
  public function get_unit()
  {
+		
    $this->db->select('distinct(unitName)');
    $this->db->from('unit');
    $query = $this->db->get();
@@ -300,6 +314,7 @@ public function get_design_name()
 
 		public function Pending_Orders_Count()
 			{
+		
 				$this->db->where('status', "pending");
 				$res=$this->db->get('orders');
 				return $res->num_rows();
@@ -307,6 +322,7 @@ public function get_design_name()
 			}
 
 			function get_order_value(){
+		
 				$sql = 'SELECT order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.sort_name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type  FROM order_table
 								INNER JOIN data_category ON order_table.data_category = data_category.id
 								INNER JOIN session ON session.id = order_table.session
@@ -319,6 +335,7 @@ public function get_design_name()
 				return $query;
 	    }
 			function get_order_search_value($data){
+		
 			$this->db->select('order_table.order_id order_id,order_table.pcs,order_table.branch_order_number, order_table.order_number order_number,branch_detail.sort_name as branch, customer_detail.name customer_name, order_table.status status, order_table.order_date order_date, data_category.dataCategory data_category, session.financial_year financial_year, order_type.orderType  order_type');
 	 	  $this->db->from('order_table');
      if(isset($data['branchsearch']))
@@ -366,6 +383,7 @@ public function get_design_name()
 			}
 
 		function select($table){
+		
 				$this->db->select('*');
 				$this->db->from($table);
 				$this->db->join('order_table', 'order_table.order_number = order_table.order_number');
@@ -376,6 +394,7 @@ public function get_design_name()
                  }
 
 		function select_order_product($id){
+		
 				$this->db->select('order_id,order_id,series_number,customer_name,unit,quantity,priority,order_barcode,remark,design_code,fabric_name,hsn,design_name,stitch,dye,matching');
 				$this->db->from('order_product');
 				$this->db->where('order_id',$id);
@@ -386,6 +405,7 @@ public function get_design_name()
 		         }
 
     	function select_order_type($table){
+		
 				$this->db->select('*');
 				$this->db->from($table);
 				$query = $this->db->get();
@@ -404,6 +424,7 @@ public function get_design_name()
 
 		public function find_data($design_code)
 		{
+		
 			$this->db->select('*');
 			$this->db->from('order');
 		  $this->db->where('obc',$design_code);
@@ -425,7 +446,7 @@ public function get_design_name()
 
 
      function get_designcode_value($order_id){
-
+		
 				$this->db->select('*');
 				$this->db->from('order_product');
 				$this->db->where('order_id', $order_id);
@@ -456,6 +477,7 @@ public function get_design_name()
 		}
 
       function get_single_value($id,$table){
+		
         $this->db->select('*');
         $this->db->from($table);
 				$this->db->join('order_table', 'order_table.order_number = order_table.order_number');
@@ -469,6 +491,7 @@ public function get_design_name()
 
 
 	function get_order_number($name){
+		
 			$this->db->select('order_number');
 			$this->db->from('order_table');
 			$this->db->like('order_number', $name);
@@ -517,6 +540,7 @@ public function get_design_name()
 
 	public function getOrderDetails($id)
 	{
+		
 		$this->db->select('*');
 		$this->db->from('order_product');
 		$this->db->where('order_product.order_barcode', $id);
@@ -539,7 +563,7 @@ public function get_design_name()
 
 	public function get_order_by_id($order_id)
 	 	{
-
+		
 	   $this->db->select('*');
 	   $this->db->from('order_table');
 	   $this->db->join('order_product ','order_table.order_id = order_product.order_id','inner');
@@ -550,6 +574,7 @@ public function get_design_name()
 	 	}
 
 		public function last_id(){
+		
 		   $this->db->select('max(id) AS last_id');
 		   $this->db->from('order_product');
 			 $query = $this->db->get();
@@ -557,6 +582,7 @@ public function get_design_name()
 			 return $query->last_id;
 		}
   public function get_fabric_by_name($name){
+		
       $this->db->select(' id, fabricName AS text');
       $this->db->from('fabric');
       $this->db->where('fabricName LIKE', $name.'%');
@@ -565,6 +591,7 @@ public function get_design_name()
     }
 
 		public function show_order_flow_chart(){
+		
 			$this->db->select('*');
 			$this->db->from('order_flow_chart');
 			$query = $this->db->get();

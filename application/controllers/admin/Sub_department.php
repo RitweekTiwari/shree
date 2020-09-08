@@ -26,7 +26,8 @@
     		{
     			$data=array(
     				'deptName'=>$_POST['deptName'],
-    				'subDeptName'=>$_POST['subDeptName'],
+					'subDeptName'=>$_POST['subDeptName'],
+				'sortname' => $_POST['sortname'],
 						'inPrefix'=>$_POST['inPrefix'],
 						'inStart'=>$_POST['inStart'],
 						'inSuffix'=>$_POST['inSuffix'],
@@ -46,6 +47,7 @@
 							$data=array(
 								'deptName'=>$_POST['deptName'],
 								'subDeptName'=>$_POST['subDeptName'],
+				'sortname' => $_POST['sortname'],
 								'inPrefix'=>$_POST['inPrefix'],
 								'inStart'=>$_POST['inStart'],
 								'inSuffix'=>$_POST['inSuffix'],

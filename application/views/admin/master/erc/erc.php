@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class='card container'>
-          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/add_erc')  ?>" name="basic_validate" novalidate="novalidate">
+          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/add_erc')  ?>" >
             <div class="card-header">
               <h5 class="card-title">ADD</h5>
 
@@ -58,7 +58,7 @@
               </div>
 
               <hr>
-              &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+              &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
               <hr>
               <table class="data-table text-center table-bordered">
                 <thead>
@@ -143,7 +143,7 @@
 <div id="edit" class="modal hide">
   <div class="modal-dialog" role="document ">
     <div class="modal-content">
-      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/update/')  ?>" name="basic_validate" novalidate="novalidate">
+      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/ERC/update/')  ?>" >
         <div class="modal-header">
           <h5 class="modal-title">Edit Department</h5>
           <button data-dismiss="modal" class="close" type="button">×</button>

@@ -5,7 +5,7 @@
         <!-- add modal wind-->
         <div class="card container">
           <div class="card-body" id="result">
-            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fabric/addFabric') ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fabric/addFabric') ?>" >
               <div class="card-header">
                 <h5 class="card-title">FABRIC CREATION </h5>
 
@@ -176,11 +176,11 @@
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Fabric List</h5>
               </div>
-              <div class="row well">
-                &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+              <hr><div class="row well">
+                &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
                 &nbsp;&nbsp;<a type="button" class="btn btn-info  btn-success" id='clearfilter' style="color:#fff;">Clear filter</a>&nbsp;&nbsp; &nbsp;&nbsp;
                 <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>
-              </div><br>
+              </div><hr>
 
               <div class="widget-content nopadding">
                 <table class="table table-striped table-bordered " id="fabric">

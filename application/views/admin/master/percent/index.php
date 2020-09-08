@@ -41,7 +41,7 @@
               </div>
               <hr>
               <div class="row well">
-                <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                 &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>&nbsp;&nbsp;&nbsp;&nbsp;
 
                 <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>

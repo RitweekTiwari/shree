@@ -26,6 +26,7 @@ class Frc_model extends CI_Model {
 
  public function get_fabric_name()
  {
+    
    $this->db->select('id ,fabricType, fabricName, fabricCode');
    $this->db->from('fabric');
    $query = $this->db->get();
@@ -35,6 +36,7 @@ class Frc_model extends CI_Model {
 
 public function get($data)
  {
+    
    $this->db->select("fabric_challan.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $data['type']);
@@ -54,7 +56,7 @@ public function get($data)
  }
  public function get_summary($data)
  {
-   
+    
    $this->db->select("fabric_type as fabtype,sum(total_quantity) as qty,sum(total_amount) as amount,sum(total_tc) as tc");
    $this->db->from('fabric_challan');
    $this->db->where("challan_type", $data['type']);
@@ -73,7 +75,9 @@ public function get($data)
  }
  public function get_frc_by_id($id)
  {
-   $this->db->select("fabric_challan.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
+    
+  
+  $this->db->select("fabric_challan.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('fabric_challan');
    
    $this->db->where("fc_id", $id);
@@ -87,6 +91,7 @@ public function get($data)
  }
 public function get_by_id($id)
  {
+    
     $this->db->select('fabric_stock_received.fsr_id AS fsr_id,
     fabric_stock_received.parent_barcode AS parent_barcode,
     fabric_stock_received.parent AS parent,
@@ -122,6 +127,7 @@ public function get_by_id($id)
 
  public function get_stock($data)
  {
+    
    //pre($data);
    $this->db->select("*");
    
@@ -240,6 +246,7 @@ public function get_by_id($id)
    
  }
   public function pbc_tc_history(){
+    
     $this->db->select("pbc_tc_history.*,fabric_stock_view.fsr_id ,fabric_stock_view.parent_barcode ,fabric_stock_view.fabric_type ,
 fabric_stock_view.hsn ,
     fabric_stock_view.stock_quantity ,
@@ -262,6 +269,7 @@ fabric_stock_view.hsn ,
   }
   public function get_tc()
  {
+    
    $this->db->select("*");
    $this->db->from('tc_view');
    
@@ -273,7 +281,7 @@ fabric_stock_view.hsn ,
  }
  public function tc_summary()
  {
-   
+    
    $this->db->select("fabric_type as fabtype, fabricName as fabric,sum(current_stock)  as qty, sum(tc) as tc ");
    $this->db->from('tc_view');
     
@@ -294,6 +302,7 @@ fabric_stock_view.hsn ,
  
  public function search($data)
  {
+    
    //echo"<pre>";	print_r( $data); exit;
                 if($data['type']=="recieve" || $data['type']=="return" ){
                   $this->db->select("fabric_challan.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
@@ -400,6 +409,7 @@ fabric_stock_view.hsn ,
 
 public function select($table)
  {
+    
    $this->db->select('*');
    $this->db->from($table);
    
@@ -410,6 +420,7 @@ public function select($table)
  }
   public function get_fabric_recieve($id)
   {
+    
     $this->db->select('*');
     $this->db->from('fabric_challan');
     $this->db->where('fc_id',$id);
@@ -422,6 +433,7 @@ public function select($table)
   }
  public function select_PBC($data)
  {
+    
    $this->db->select('*');
    $this->db->from('second_pbc_view');
     if ($data['from'] == $data['to']) {
@@ -438,7 +450,7 @@ public function select($table)
  }
   public function PBC_summary($data)
   {
-
+    
     $this->db->select("fabricName,count(fabricName) as pcs,sum(current_stock) as qty,sum(tc) as tc");
     $this->db->from('second_pbc_view');
 
@@ -459,6 +471,7 @@ public function select($table)
 
  public function select_PBC_by_id($pbc)
  {
+    
    $this->db->select('*');
    $this->db->from('fabric_stock_received');
    $this->db->where("fsr_id",$pbc);
@@ -471,6 +484,7 @@ public function select($table)
  }
 public function getPBC_deatils($id)
  {
+    
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where("parent_barcode",$id);
@@ -484,6 +498,7 @@ public function getPBC_deatils($id)
  }
  public function getPBC_by_godown($id,$from)
  {
+    
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where("parent_barcode",$id);
@@ -500,6 +515,7 @@ public function getPBC_deatils($id)
  }
  public function getPBC_by_type($col,$id,$type)
  {
+    
    $this->db->select('*');
    $this->db->from("fabric_stock_received");
    $this->db->where($col,$id);
@@ -522,6 +538,7 @@ public function getPBC_deatils($id)
  }
   public function getPBC_history( $id)
   {
+    
     $this->db->select('*');
     $this->db->from("pbc_tc_history");
     $this->db->where('pbc', $id);
@@ -532,6 +549,7 @@ public function getPBC_deatils($id)
   }
 public function getfabric_details($id)
  {
+    
    $this->db->select('fabric.fabricType,fabric.fabHsnCode,hsn.unit');
    $this->db->from("fabric");
    $this->db->where("fabric.id",$id);
@@ -589,7 +607,7 @@ public function getId($type)
 
   public function get_stock_value_by_id($id)
   {
-   
+    
     $this->db->select('fabric_stock_received.fsr_id AS fsr_id,
     fabric_stock_received.parent_barcode AS parent_barcode,
     fabric_stock_received.parent AS parent,

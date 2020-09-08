@@ -14,60 +14,24 @@ $godown = $this->db->get('sub_department')->result();
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('optimum/admin') ?>/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('optimum/admin') ?>/assets/images/favicon.webp">
     <title><?php echo $system_title . " || " . $system_name ?></title>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/multicheck/multicheck.css">
+    <!-- <link rel="preload" as="style" onload="this.rel = 'stylesheet'" type="text/css" href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/multicheck/multicheck.css"> -->
     <!-- Custom CSS -->
-    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="stylesheet" media='all'>
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/libs/select2/dist/css/select2.min.css" rel="stylesheet">
-    <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/select2/dist/js/select2.min.js"></script>
+    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'">
 
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" />
+
+
     <!-- Datatable -->
+    <link rel="preload" as="style" onload="this.rel = 'stylesheet'" href='https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/sl-1.3.1/datatables.min.css'>
 
 
-
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/DataTables/Buttons-1.6.2/css/buttons.bootstrap4.min.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/DataTables/DataTables-1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/DataTables/Buttons-1.6.2/css/buttons.dataTables.min.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/DataTables/Select-1.3.1/css/select.dataTables.min.css" rel="stylesheet">
-    <link href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/DataTables/FixedHeader-3.1.7/css/fixedHeader.dataTables.min.css" rel="stylesheet">
 
 
     <style>
-        th.rotate {
-            height: 150px;
-            padding: 0px;
-            /*width: 20px !important;*/
-            font-weight: bold;
-
-        }
-
-        .dataTable th {
-            word-wrap: break-word;
-        }
-
-        .rotate {
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);
-            /* IE6,IE7 */
-            -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
-            /* IE8 */
-            -moz-transform: rotate(-90.0deg);
-            /* FF3.5+ */
-            -ms-transform: rotate(-90.0deg);
-            /* IE9+ */
-            -o-transform: rotate(-90.0deg);
-            /* Opera 10.5 */
-            -webkit-transform: rotate(-90.0deg);
-            /* Safari 3.1+, Chrome */
-            transform: rotate(-90.0deg);
-            /* Standard */
-        }
-
         .tip {
             display: inline-block;
             font-size: 18px;
@@ -110,3 +74,4 @@ $godown = $this->db->get('sub_department')->result();
 </head>
 
 <body>
+    <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>

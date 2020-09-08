@@ -83,7 +83,7 @@
               <div id="<?php echo $value['id']; ?>" class="modal hide" >
                    <div class="modal-dialog" role="document ">
                     <div class="modal-content">
-              <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Employee/employee/edit/').$value['id']; ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+              <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Employee/employee/edit/').$value['id']; ?>" >
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Detail</h5>
                   <button data-dismiss="modal" class="close" type="button">×</button>
@@ -152,7 +152,7 @@
 <div id="addnew" class="modal hide">
 <div class="modal-dialog" role="document ">
 <div class="modal-content">
-<form class="form-horizontal" method="post" action="<?php echo base_url('admin/Employee/employee/Adduser') ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+<form class="form-horizontal" method="post" action="<?php echo base_url('admin/Employee/employee/Adduser') ?>" >
   <div class="modal-header">
     <h5 class="modal-title">Add Detail</h5>
     <button data-dismiss="modal" class="close" type="button">×</button>

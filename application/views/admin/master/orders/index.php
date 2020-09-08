@@ -36,7 +36,7 @@
               <h5>Order List</h5>
           </div>
           <div class="row well">
-           <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
           </div>
         <div class="widget-content nopadding">
           <table class="table table-striped table-bordered data-table" id="orderType">
@@ -73,7 +73,7 @@
               <div id="<?php echo $value->id; ?>" class="modal hide" >
                    <div class="modal-dialog" role="document ">
                    <div class="modal-content">
-                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Order_type/edit/').$value->id;?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+                <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Order_type/edit/').$value->id;?>" >
                   <div class="modal-header">
                       <h5 class="modal-title">Edit Order Type</h5>
                     <button data-dismiss="modal" class="close" type="button">×</button>
@@ -83,7 +83,7 @@
                       <div class="form-group row">
                         <label class="control-label col-sm-3">Order Type</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="orderType" value="<?php echo $value->orderType; ?>" id="required">
+                          <input type="text" class="form-control" name="orderType" value="<?php echo $value->orderType; ?>" >
                         </div>
                       </div>
                       </div>
@@ -115,7 +115,7 @@
 <div id="addnew" class="modal hide">
     <div class="modal-dialog" role="document ">
     <div class="modal-content">
-  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Order_type/addOrder')?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+  <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Order_type/addOrder')?>" >
     <div class="modal-header">
          <h5 class="modal-title">Add Order Type</h5>
       <button data-dismiss="modal" class="close" type="button">×</button>
@@ -126,7 +126,7 @@
         <div class="form-group row">
           <label class="control-label col-sm-3">Order Type</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" name="orderType" value="" id="required">
+            <input type="text" class="form-control" name="orderType" value="" >
           </div>
         </div>
         </div>

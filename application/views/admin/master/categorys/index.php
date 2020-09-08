@@ -84,7 +84,7 @@
                         <div class="modal-content">
                           <form class="form-horizontal" method="post"
                             action="<?php echo base_url('admin/Data_category/edit/').$value->id;?>"
-                            name="basic_validate" id="basic_validate" novalidate="novalidate">
+                            >
                             <div class="modal-header">
                               <h5 class="modal-title">Edit Order Category</h5>
                               <button data-dismiss="modal" class="close" type="button">×</button>
@@ -96,7 +96,7 @@
                                   <label class="control-label col-sm-3">Order Category Name</label>
                                   <div class="col-sm-9">
                                     <input type="text" name="dataCategory" class="form-control"
-                                      value="<?php echo $value->dataCategory; ?>" id="required">
+                                      value="<?php echo $value->dataCategory; ?>" >
                                   </div>
                                 </div>
                               </div>
@@ -131,7 +131,7 @@
   <div class="modal-dialog" role="document ">
     <div class="modal-content">
       <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Data_category/addDataCate')?>"
-        name="basic_validate" id="basic_validate" novalidate="novalidate">
+        >
         <div class="modal-header">
           <h5 class="modal-title">Add Order Category</h5>
           <button data-dismiss="modal" class="close" type="button">×</button>
@@ -141,7 +141,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Order Category Name</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="dataCategory" value="" id="required">
+                <input type="text" class="form-control" name="dataCategory" value="" required>
               </div>
             </div>
           </div>

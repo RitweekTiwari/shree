@@ -22,15 +22,15 @@
                   <div class="row" id="details">
                     <div class="col-md-3">
                       <label>Job</label>
-                      <input type="text" class="form-control clear" name="job[]" value="">
+                      <input type="text" class="form-control clear" name="job[]" value="" required>
                     </div>
                     <div class="col-md-3">
                       <label>Rate</label>
-                      <input type="text" class="form-control clear" name="rate[]" value="">
+                      <input type="number" class="form-control clear" name="rate[]" value="0" required>
                     </div>
                     <div class="col-md-4">
                       <label>Choose Unit</label>
-                      <select name="unit[]" class="form-control">
+                      <select name="unit[]" class="form-control" required>
                         <option value="">Select Unit</option>
                         <?php foreach ($units as $value) : ?>
                           <option value="<?php echo $value['id'] ?>"><?php echo $value['unitSymbol']; ?></option>
@@ -102,13 +102,13 @@
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Job Work Type List</h5>
               </div>
-              <hr>
-              <div class="row well">
-                &nbsp;&nbsp; &nbsp;&nbsp; <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+              
+              <hr><div class="row well">
+                &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
                 &nbsp;&nbsp;<a type="button" class="btn btn-info  btn-success" id='clearfilter' style="color:#fff;">Clear filter</a>&nbsp;&nbsp; &nbsp;&nbsp;
                 <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>
-              </div><br>
-              <hr>
+              </div><hr>
+             
               <div class="widget-content nopadding">
                 <table class="table table-striped table-bordered " id="jobWorklist">
                   <thead>
@@ -144,13 +144,13 @@
   <div id="addNewRow" class="row" style="display: none">
     <div class="row">
       <div class="col-md-3">
-        <input type="text" class="form-control clear" name="job[]" value="">
+        <input type="text" class="form-control clear" name="job[]" value="" required>
       </div>
       <div class="col-md-3">
-        <input type="text" class="form-control clear" name="rate[]" value="">
+        <input type="number" class="form-control clear" name="rate[]" value="0" required>
       </div>
       <div class="col-md-4">
-        <select name="unit[]" class="form-control">
+        <select name="unit[]" class="form-control" required>
           <option value="">Select Unit</option>
           <?php foreach ($units as $value) : ?>
             <option value="<?php echo $value['id'] ?>"><?php echo $value['unitSymbol'] ?></option>

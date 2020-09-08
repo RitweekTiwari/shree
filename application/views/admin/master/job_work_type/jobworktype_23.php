@@ -17,7 +17,7 @@
         <div class="card">
 
           <div class="card-body">
-          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_type/addType') ?>" name="basic_validate"  novalidate="novalidate">
+          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_type/addType') ?>" name="basic_validate"  >
             <div class="modal-header">
               <h5 class="modal-title">Add Detail</h5>
               <button data-dismiss="modal" class="close" type="button">×</button>
@@ -149,7 +149,7 @@
                                    <div class="modal-content">
                                      <form class="form-horizontal" method="post"
                                        action="<?php echo base_url('admin/Job_work_type/edit/').$value->id; ?>"
-                                       name="basic_validate" id="basic_validate" novalidate="novalidate">
+                                       >
                                        <div class="modal-header">
                                          <h5 class="modal-title">Edit Detail</h5>
                                          <button data-dismiss="modal" class="close" type="button">×</button>

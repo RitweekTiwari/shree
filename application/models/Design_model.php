@@ -11,6 +11,7 @@
     }
     public function get($limit, $start)
     {
+      
       $this->db->limit($limit, $start);
       $this->db->select('*');
       $this->db->from('design_view');
@@ -96,6 +97,7 @@
 
     function select_value($table, $id)
     {
+      
       // echo $id.$table;exit;
       $this->db->select('*');
       $this->db->from($table);
@@ -138,7 +140,7 @@
     }
     public function search1($data)
     {
-
+      
       $this->db->select('*');
       $this->db->from('design_view');
       $this->db->limit($data['per_page'], $data['page']);

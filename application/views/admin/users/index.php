@@ -83,7 +83,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Name</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="name" value="" id="role_name" required>
+                <input type="text" class="form-control" name="name" required value="" id="role_name" required>
               </div>
             </div>
           </div>

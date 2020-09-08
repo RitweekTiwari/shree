@@ -29,6 +29,7 @@ class Common_model extends CI_Model {
     }
 
     function select_value($id,$table){
+        
         $this->db->select('*');
         $this->db->from($table);
         $this->db->where(array('id' => $id));
@@ -47,6 +48,7 @@ class Common_model extends CI_Model {
 
     //-- select function
     function select($table){
+        
         $this->db->select();
         $this->db->from($table);
         $this->db->order_by('id','ASC');
@@ -57,6 +59,7 @@ class Common_model extends CI_Model {
 
     //-- select by id
     function select_option($id,$table){
+        
         $this->db->select();
         $this->db->from($table);
         $this->db->where('id', $id);
@@ -327,7 +330,7 @@ class Common_model extends CI_Model {
 	}
 	public function department()
 	{
-
+        
     $this->db->select('id,deptName');
     $this->db->order_by('deptName', 'asc');
 		$rec=$this->db->get('department');
@@ -335,6 +338,7 @@ class Common_model extends CI_Model {
 	}
 	public function subDept()
 	{
+        
 		$this->db->select('*');
 		$rec=$this->db->get('sub_department');
 		return $rec->result();
@@ -342,6 +346,7 @@ class Common_model extends CI_Model {
 
 	public function febric_name()
 	{
+        
         $this->db->select('id , fabricName');
         $this->db->order_by('fabricName','asc');
 		$rec=$this->db->get('fabric');
@@ -349,12 +354,14 @@ class Common_model extends CI_Model {
 	}
 	public function febric_type()
 	{
+        
 		$this->db->select('fabricType');
 		$rec=$this->db->get('fabric');
 		return $rec->result();
 	}
 	public function febric_type_byId($fabricName)
 	{
+        
 		$this->db->select('fabricType');
 		$this->db->where('fabricName', $fabricName);
         $rec=$this->db->get('fabric');
@@ -363,6 +370,7 @@ class Common_model extends CI_Model {
 	}
 	public function user_name()
 	{
+        
 		$this->db->select('*');
 		$rec=$this->db->get('users');
 		return $rec->result();

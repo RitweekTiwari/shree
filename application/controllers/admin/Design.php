@@ -29,7 +29,7 @@ class Design extends CI_Controller
 		$query = '';
 		$output = array();
 		$data = array();
-
+	
 		if (!empty($_POST["search"]["value"])) {
 			//	pre($_POST["search"]["value"]);exit;
 			$query .= 'SELECT * FROM design_view  where ';
@@ -157,8 +157,6 @@ class Design extends CI_Controller
 		$filtered_rows = $sql->num_rows();
 		if (isset($_POST["length"]) && $_POST["length"] != -1) {
 			$query .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-		} else {
-			$query .= 'LIMIT  1 , 50';
 		}
 
 		$sql = $this->db->query($query);
@@ -178,7 +176,7 @@ class Design extends CI_Controller
 			$sub_array[] = $value['matching'];
 			// $sub_array[] = $value['sale_rate'];
 			$sub_array[] = $value['htCattingRate'];
-			$sub_array[] =  '<a class="btn default btn-outline image-popup-vertical-fit el-link" href="' . base_url('/upload /') . $value['designPic'] . ' ?>"> <img src="' . base_url('/upload/') . $value['designPic'] . '" alt="image" style="height: 40px; width: 40px;">
+			$sub_array[] =  '<a class=" image-popup-vertical-fit " href="' . base_url('/upload/') . $value['designPic'] .'"> <img src="' . base_url('/upload/') . $value['designPic'] . '" title="image" style="height: 40px; width: 40px;">
                               </a>';
 			$sub_array[] =   $value['fabricName'];
 			$sub_array[] = $value['barCode'];
@@ -344,7 +342,7 @@ class Design extends CI_Controller
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('designPic1')) {
-				//echo "Not Uploaded". $this->upload->display_errors();exit;
+				echo "Not Uploaded". $this->upload->display_errors();exit;
 				$error= $this->upload->display_errors();
 				$this->session->set_flashdata('error', $error );
 				$data = array(
@@ -361,8 +359,8 @@ class Design extends CI_Controller
 				);
 				
 			} else {
-				// echo " Uploaded";
-				// exit;
+				//  echo " Uploaded";
+				//  exit;
 				unlink("upload/" . $picture);
 				$data = $this->upload->data();
 				$config['image_library'] = 'gd2';

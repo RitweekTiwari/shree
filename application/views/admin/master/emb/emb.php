@@ -6,7 +6,7 @@
 
         <div class="card container">
           <div class="card-body" id="result">
-            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/EMB/add_emb') ?>" name="basic_validate" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/EMB/add_emb') ?>" >
               <div class="card-header">
                 <h5 class="card-title">Add Detail</h5>
               </div>
@@ -81,7 +81,7 @@
                     </div>
                     <hr>
                     <div class="row well">
-                      <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                       &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                       <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>&nbsp;&nbsp;&nbsp;&nbsp;
 
                       <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>

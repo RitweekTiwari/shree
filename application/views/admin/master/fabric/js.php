@@ -342,7 +342,7 @@
                 html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger removedata">-</button></div>';
 
                 $('#extra-details').html(html);
-                $('.read').attr('readonly', true);
+                // $('.read').attr('readonly', true);
                 // $('#find_id').prop("id","newId");
                 // $("#fabric_name").removeAttr("id");
                 // $("#fabric-error").removeAttr("id");
@@ -377,7 +377,7 @@
             $('.edit_details').show();
             $('#cancle').hide();
             $('#submit').show();
-            $('.read').attr('readonly', false);
+            // $('.read').attr('readonly', false);
           } else {
             toastr.error('Error!', "Something went wrong");
           }
@@ -392,7 +392,7 @@
       $('.edit_details').show();
       $('#submit').show();
       $('#cancle').hide();
-      $('.read').attr('readonly', false);
+      // $('.read').attr('readonly', false);
     });
 
     $("#radio1").click(function() {

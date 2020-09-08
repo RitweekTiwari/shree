@@ -414,8 +414,8 @@
 
       element += '<td id=tddesign' + count + ' style="width: 10%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id=designName' + count + '></td>'
       element += '<td> <input type="text" name="design_code[]" class="form-control" value="" readonly id=designCode' + count + '></td>'
-      element += '<td><input type="text" class="form-control" name="stitch[]" value="" readonly id=stitch' + count + '></td>'
-      element += '<td>  <input type="text" class="form-control" name="dye[]" value="" readonly id=dye' + count + '></td>'
+      element += '<td><input type="text" class="form-control" name="stitch[]" value=""  id=stitch' + count + '></td>'
+      element += '<td>  <input type="text" class="form-control" name="dye[]" value=""  id=dye' + count + '></td>'
       element += '<td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id=matching' + count + '></td>'
       element += '<td><input type="text" class="form-control" name="quantity[]" value=""></td>'
       element += '<td><input type="number" class="form-control" name="pcs[]" value="1" id=pcs' + count + ' required></td>'

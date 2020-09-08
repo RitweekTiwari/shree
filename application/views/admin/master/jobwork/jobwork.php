@@ -41,10 +41,11 @@
             <div class="widget-box">
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Job Work Party List</h5>
-              </div>
+              </div><hr>
               <div class="row well">
-                &nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+                 &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
               </div>
+              <hr>
               <div class="widget-content nopadding">
                 <table class="table table-striped table-bordered data-table table-responsive" id="jobWork">
                   <thead>
@@ -91,7 +92,7 @@
                         <div id="<?php echo $value->id; ?>" class="modal hide">
                           <div class="modal-dialog" role="document ">
                             <div class="modal-content">
-                              <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_party/edit/') . $value->id; ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+                              <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_party/edit/') . $value->id; ?>">
                                 <div class="modal-header">
                                   <h5 class="modal-title">Edit Detail</h5>
                                   <button data-dismiss="modal" class="close" type="button">×</button>
@@ -103,7 +104,7 @@
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Name</label>
                                       <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="name" value="<?php echo $value->name ?>">
+                                        <input type="text" class="form-control" name="name" required value="<?php echo $value->name ?>">
                                       </div>
                                     </div>
                                     <div class="form-group row">
@@ -121,7 +122,7 @@
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Department</label>
                                       <div class="col-sm-9">
-                                        <select name="deptName" class="form-control">
+                                        <select name="deptName" class="form-control" required>
                                           <?php foreach ($dept_name as $dept) : ?>
 
                                             <option value="<?php echo $dept->id ?>" <?php if ($value->deptName == $dept->id) {  ?> selected <?php } ?>><?php echo $dept->deptName  ?></option>
@@ -133,7 +134,7 @@
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Godown</label>
                                       <div class="col-sm-9">
-                                        <select name="subDeptName" class="form-control">
+                                        <select name="subDeptName" class="form-control" required>
                                           <?php foreach ($subDept_name as $rec) : ?>
                                             <option <?php if ($value->subDeptName == $rec->id) { ?>selected <?php } ?> value="<?php echo $rec->id ?>"><?php echo $rec->subDeptName ?></option>
                                           <?php endforeach; ?>
@@ -141,10 +142,10 @@
                                       </div>
                                     </div>
                                     <div class="form-group row">
-                                      <label class="control-label col-sm-3">Job Work Typr</label>
+                                      <label class="control-label col-sm-3">Job Work Type</label>
                                       <div class="col-sm-9">
 
-                                        <select name="job_work_type" class="form-control">
+                                        <select name="job_work_type" class="form-control" required>
                                           <?php foreach ($job_type_name as $job) : ?>
                                             <option <?php if ($value->job_work_type == $job->id) { ?> selected <?php } ?> value="<?php echo $job->id ?>"><?php echo $job->type ?></option>
                                           <?php endforeach; ?>
@@ -187,7 +188,7 @@
 <div id="addnew" class="modal hide">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_party/addJob') ?>" name="basic_validate" id="basic_validate" novalidate="novalidate">
+      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Job_work_party/addJob') ?>">
         <div class="modal-header">
           <h5 class="modal-title">Add Detail</h5>
           <button data-dismiss="modal" class="close" type="button">×</button>
@@ -197,7 +198,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Name</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="name" value="">
+                <input type="text" class="form-control" name="name" required value="">
               </div>
             </div>
             <div class="form-group row">
@@ -215,7 +216,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Department</label>
               <div class="col-sm-9">
-                <select name="deptName" class="form-control">
+                <select name="deptName" class="form-control" required>
                   <?php foreach ($dept_name as $rec) : ?>
                     <option value="<?php echo $rec->id; ?>"><?php echo $rec->deptName; ?></option>
                   <?php endforeach; ?>
@@ -225,7 +226,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Godown</label>
               <div class="col-sm-9">
-                <select name="subDeptName" class="form-control">
+                <select name="subDeptName" class="form-control" required>
                   <?php foreach ($subDept_name as $rec) : ?>
                     <option value="<?php echo $rec->id; ?>"><?php echo $rec->subDeptName; ?></option>
                   <?php endforeach; ?>
@@ -235,7 +236,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Job Work Name</label>
               <div class="col-sm-9">
-                <select name="job_work_type" class="form-control">
+                <select name="job_work_type" class="form-control" required>
                   <?php foreach ($job_type_name as $rec) : ?>
                     <option value="<?php echo $rec->id; ?>"><?php echo $rec->type; ?></option>
                   <?php endforeach; ?>

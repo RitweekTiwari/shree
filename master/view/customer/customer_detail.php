@@ -43,9 +43,9 @@
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Customer Details List</h5>
               </div>
-              <div class="row well">
-                <a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
-              </div>
+               <hr><div class="row well">
+                 &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+              </div><hr>
               <div class="widget-content nopadding">
 
                 <table class="table table-striped table-bordered data-table" id="customer">
@@ -95,7 +95,7 @@
                     <div id="<?php echo $value->id; ?>" class="modal hide">
                       <div class="modal-dialog" role="document ">
                         <div class="modal-content">
-                          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/edit/').$value->id ?>" name="" novalidate="novalidate">
+                          <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/edit/').$value->id ?>" name="" >
                             <div class="modal-header">
                               <h5 class="modal-title">Edit Detail</h5>
                               <button data-dismiss="modal" class="close" type="button">×</button>
@@ -107,7 +107,7 @@
                                 <div class="form-group row">
                                   <label class="control-label col-sm-3">Name</label>
                                   <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="name" value="<?php echo $value->name ?>">
+                                    <input type="text" class="form-control" name="name" required value="<?php echo $value->name ?>">
                                   </div>
                                 </div>
                                 <div class="form-group row">
@@ -186,7 +186,7 @@
 <div id="addnew" class="modal hide">
   <div class="modal-dialog" role="document ">
     <div class="modal-content">
-      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/addCust') ?>" name="basic_validate" novalidate="novalidate">
+      <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Customer_detail/addCust') ?>" >
         <div class="modal-header">
           <h5 class="modal-title">Add Detail</h5>
           <button data-dismiss="modal" class="close" type="button">×</button>
@@ -198,7 +198,7 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Name</label>
               <div class="controls col-sm-9">
-                <input type="text" class="form-control" name="name" value="" id="customername">
+                <input type="text" class="form-control" name="name" required value="" id="customername">
                 <span id="customername-error" class="error" style="color:red;"></span>
               </div>
             </div>
