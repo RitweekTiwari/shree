@@ -12,48 +12,51 @@
           <hr>
           <table class="table-bordered text-center table-responsive ">
             <thead>
-              <th class="rotate">
-                <p>OD DATE</p>
+              <th class="">
+                OD DATE
+              </th>
+              <th class="">
+                ORDER NO
               </th>
               <th class="rotate">
-                <p>ORDER NO</p>
+                TOTAL
               </th>
               <th class="rotate">
-                <p>TOTAL</p>
+                BALANCE
               </th>
               <th class="rotate">
-                <p>BALANCE</p>
+                PENDING
               </th>
               <th class="rotate">
-                <p>PENDING</p>
+                CANCEL
               </th>
               <th class="rotate">
-                <p>CANCEL</p>
-              </th>
-              <th class="rotate">
-                <p>PG LIST</p>
+                PG LIST
               </th>
               <?php foreach ($godown as $row) { ?>
                 <th class="rotate">
-                  <p><?php echo $row['subDeptName'] ?></p>
+                  <?php echo $row['sortname'] ?>
                 </th>
               <?php } ?>
             </thead>
             <tbody>
-              <tr>
-                <td>12/04.2020</td>
-                <td>ORD1</td>
-                <td>12</td>
-                <td>12</td>
-                <td>12</td>
-                <td>12</td>
-                <td>12</td>
-                <?php foreach ($godown as $row) { ?>
-                  <td>
-                    <p><?php echo $row['id'] ?></p>
-                  </td>
-                <?php } ?>
-              </tr>
+              <?php foreach ($godown as $row1) { ?>
+               
+                <tr>
+                  <td>12/04.2020</td>
+                  <td>ORD1</td>
+                  <td>12</td>
+                  <td>12</td>
+                  <td>12</td>
+                  <td>12</td>
+                  <td>12</td>
+                  <?php foreach ($godown as $row) { ?>
+                    <td>
+                      <?php echo $row['id'] ?>
+                    </td>
+                  <?php } ?>
+                </tr>
+              <?php } ?>
             </tbody>
           </table>
         </div>
@@ -61,4 +64,3 @@
     </div>
   </div>
 </div>
-<?php include('_order_flow_chart.php'); ?>

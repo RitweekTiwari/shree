@@ -17,6 +17,7 @@ class Status_model extends CI_Model {
       $this->db->where($clm,$value);
       $query = $this->db->get();
       $query = $query->row();
+      
       return $query;
   }
   function select_pbc_barcode($value,$clm,$table){

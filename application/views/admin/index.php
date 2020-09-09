@@ -170,7 +170,7 @@
           <li class="sidebar-item hideElement "> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Godown </span></a>
             <ul aria-expanded="false" class="collapse  first-level">
               <?php foreach ($godown as $row) { ?>
-                <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction/home/') . $row->id; ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> <?php echo  $row->subDeptName; ?> </span></a></li>
+                <li class="sidebar-item"><a href="<?php echo base_url('admin/transaction/home/') . $row->id; ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> <?php echo  $row->sortname; ?> </span></a></li>
               <?php } ?>
             </ul>
           </li>

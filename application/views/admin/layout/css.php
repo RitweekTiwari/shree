@@ -19,8 +19,8 @@ $godown = $this->db->get('sub_department')->result();
     <!-- Custom CSS -->
     <!-- <link rel="preload" as="style" onload="this.rel = 'stylesheet'" type="text/css" href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/multicheck/multicheck.css"> -->
     <!-- Custom CSS -->
-    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'">
+    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all'/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'"/>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" />
 
@@ -32,6 +32,31 @@ $godown = $this->db->get('sub_department')->result();
 
 
     <style>
+        th.rotate {
+            height: 150px;
+            padding: 0px;
+
+            font-weight: bold;
+
+        }
+
+        .rotate {
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+            /* IE6,IE7 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+            /* IE8 */
+            -moz-transform: rotate(-90.0deg);
+            /* FF3.5+ */
+            -ms-transform: rotate(-90.0deg);
+            /* IE9+ */
+            -o-transform: rotate(-90.0deg);
+            /* Opera 10.5 */
+            -webkit-transform: rotate(-90.0deg);
+            /* Safari 3.1+, Chrome */
+            transform: rotate(-90.0deg);
+            /* Standard */
+        }
+
         .tip {
             display: inline-block;
             font-size: 18px;
@@ -74,4 +99,4 @@ $godown = $this->db->get('sub_department')->result();
 </head>
 
 <body>
-    <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script  src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>

@@ -3,6 +3,7 @@
     $("#update").hide();
     $("#cancle").hide();
     $("#details").hide();
+    $("#addbtn").hide();
 
     var fil = '';
     var table;
@@ -241,10 +242,8 @@
             success: function(response) {
 
               //referesh table
-              $(".sub_chk:checked").each(function() {
-                var id = $(this).attr('data-id');
-                $('#tr_' + id).remove();
-              });
+              $('#fabric').DataTable().ajax.reload();
+
 
 
             }
@@ -290,7 +289,8 @@
     $(document).on('click', '.find_id', function() {
       var id = $(this).prop('id');
       var html = '';
-      $('#details').show();
+
+      $("#addbtn").show();
       $('#update').show();
       $('#cancle').show();
       $('.edit_details').hide();
@@ -339,7 +339,7 @@
                 html += '<input type="number" class="form-control" name="width[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1">';
                 html += '<label>Action</label>';
-                html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger removedata">-</button></div>';
+                html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger btn_remove removedata">X</button></div>';
 
                 $('#extra-details').html(html);
                 // $('.read').attr('readonly', true);
@@ -372,11 +372,13 @@
             $('#fabric').DataTable().ajax.reload();
             $('.clear').val("");
             $('#extra-details').html('');
-            $('#details').hide();
+            $('#fresh_field').html('');
             $("#update").hide();
+            $("#addbtn").hide();
             $('.edit_details').show();
             $('#cancle').hide();
             $('#submit').show();
+
             // $('.read').attr('readonly', false);
           } else {
             toastr.error('Error!', "Something went wrong");
@@ -392,6 +394,7 @@
       $('.edit_details').show();
       $('#submit').show();
       $('#cancle').hide();
+      $("#addbtn").hide();
       // $('.read').attr('readonly', false);
     });
 
@@ -404,6 +407,7 @@
       var fabricUnit = $('#fabricUnit').val();
       if (radio1 == 'Yes' && fabric_name != '' && fabHsnCode != '' && fabricType != '' && fabricCode != '' && fabricUnit != '') {
         $("#details").show();
+        $("#addbtn").show();
       } else {
         toastr.error('Error!', " fill all Element");
       }
@@ -414,6 +418,7 @@
       // alert(radio2);
       if (radio2 == 'No') {
         $("#details").hide();
+        $("#addbtn").hide();
       }
     });
     $(document).on('click', '.removedata', function() {
@@ -430,10 +435,10 @@
         success: function(response) {
           if (response) {
             $('#fabric').DataTable().ajax.reload();
-            toastr.success('Success!', " deleted Successfully");
+            // toastr.success('Success!', " deleted Successfully");
             $('.clear').val("");
-            $('#extra-details').html('');
-            $('#details').hide();
+            // $('#extra-details').html('');
+
             $("#update").hide();
             $('.edit_details').show();
             $('#submit').show();
@@ -443,7 +448,6 @@
         }
       });
     });
-
 
 
 

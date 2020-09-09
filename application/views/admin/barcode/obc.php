@@ -1,4 +1,4 @@
-<div class="col-5">
+<div class="col-3">
   <div class="card">
     <div class="card-body">
       <div class="widget-box">
@@ -8,97 +8,152 @@
         <hr>
         <?php if (isset($order_list)) { ?>
 
-          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5> Barcode :&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $order_list->order_barcode; ?> </h5>
-          </div>
-          <div class="row">
-            <div class="col-5">
-              <h6>Order Date : </h6>
-            </div>
-            <div class="col-7"><?php echo my_date_show($order_list->order_date); ?></div>
-            <div class="col-5">
-              <h6>Customer Name: </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->customer_name; ?></div>
-            <div class="col-5">
-              <h6>Godown: </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->godown; ?></div>
-            <div class="col-5">
-              <h6>Order Number : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->order_number; ?></div>
-            <div class="col-5">
-              <h6>Parent Barcode : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->pbc; ?></div>
-            <div class="col-5">
-              <h6>Series Number : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->series_number; ?></div>
-            <div class="col-5">
-              <h6>Design Barcode : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->design_barcode; ?></div>
-            <div class="col-5">
-              <h6>Fabric Name: </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->fabric_name; ?></div>
-            <div class="col-5">
-              <h6>Unit : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->unit; ?></div>
-            <div class="col-5">
-              <h6>Quantity : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->quantity; ?></div>
-            <div class="col-5">
-              <h6>Remark : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->remark; ?></div>
-            <div class="col-5">
-              <h6>Design Code : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->design_code; ?></div>
-            <div class="col-5">
-              <h6>Hsn : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->hsn; ?></div>
-            <div class="col-5">
-              <h6>Design Name : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->design_name; ?></div>
-            <div class="col-5">
-              <h6>Stitch : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->stitch; ?></div>
-            <div class="col-5">
-              <h6>Dye : </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->dye; ?></div>
-            <div class="col-5">
-              <h6>Matching: </h6>
-            </div>
-            <div class="col-7"><?php echo $order_list->matching; ?></div>
+          <table class=" text-center table-striped table-bordered  ">
+            <thead>
+              <tr>
+                <th> Barcode </th>
+                <th> <?php echo $order_list->order_barcode; ?> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <h6> Order Date </h6>
+                </td>
 
+                <td><?php echo my_date_show($order_list->order_date); ?></td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Customer </h6>
+                </td>
+                <td><?php echo $order_list->customer_name; ?></td>
 
-          </div>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Godown </h6>
+                </td>
+                <td><?php echo $order_list->godown; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>OD Number </h6>
+                </td>
+                <td><?php echo $order_list->order_number; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>PBC </h6>
+                </td>
+                <td><?php echo $order_list->pbc; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Series  </h6>
+                </td>
+                <td><?php echo $order_list->series_number; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>DBC </h6>
+                </td>
+                <td><?php echo $order_list->design_barcode; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Fabric </h6>
+                </td>
+                <td><?php echo $order_list->fabric_name; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Unit </h6>
+                </td>
+                <td><?php echo $order_list->unit; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Quantity </h6>
+                </td>
+                <td><?php echo $order_list->quantity; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Remark </h6>
+                </td>
+                <td><?php echo $order_list->remark; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Des Code </h6>
+                </td>
+                <td><?php echo $order_list->design_code; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Hsn  </h6>
+                </td>
+                <td><?php echo $order_list->hsn; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Design  </h6>
+                </td>
+                <td><?php echo $order_list->design_name; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Stitch  </h6>
+                </td>
+                <td><?php echo $order_list->stitch; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Dye  </h6>
+                </td>
+                <td><?php echo $order_list->dye; ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>Matching </h6>
+                </td>
+                <td><?php echo $order_list->matching; ?>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
         <?php } ?>
 
       </div>
     </div>
   </div>
 </div>
-<div class="col-7">
+<div class="col-9">
   <div class="card">
     <div class="card-body">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-          <h5> Transtion Details </h5>
+          <h5> Transaction Details </h5>
         </div>
         <hr>
         <div class="widget-content nopadding">
-          <table class="table table-striped table-bordered table-responsive data-table" id="">
+          <table class="text-center table-striped table-bordered  " id="">
             <thead>
               <tr>
                 <th><b>Order Date</b></th>
@@ -139,51 +194,22 @@
 
   </div>
 </div>
-<script>
-  $(document).ready(function() {
-    var table = $('.data-table ').DataTable({
+<div class="row well align-left">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button class="btn btn-info " id='printAll'><i class="fa fa-print "></i> Print </button>&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<script type="text/javascript">
+  $("#printAll").on("click", function() {
 
+    //Wait for all the ajax requests to finish, then launch the print window
 
-      "pageLength": 50,
-      "lengthMenu": [
-        [50, 100, 150, -1],
-        [50, 100, 150, "All"]
-      ],
-      select: true,
+    var divToPrint = document.getElementById("show");
+    newWin = window.open("");
+    newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
+    newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css\" type=\"text/css\" media=\"print\"/>");
 
-
-      dom: 'Bfrtip',
-      buttons: [
-        'pageLength', {
-          extend: 'excel',
-          footer: true,
-          exportOptions: {
-            columns: ':visible'
-          }
-        }, {
-          extend: 'pdf',
-          footer: true,
-          exportOptions: {
-            columns: ':visible'
-          }
-        }, {
-          extend: 'print',
-          footer: true,
-          exportOptions: {
-            columns: ':visible'
-          }
-        },
-
-        'selectAll',
-        'selectNone',
-        'colvis'
-      ],
-      scrollY: 500,
-      scrollX: false,
-      scrollCollapse: true,
-      paging: true,
-
-
-    });
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.close();
+    newWin.print();
   });
 </script>

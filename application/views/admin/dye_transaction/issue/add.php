@@ -86,7 +86,8 @@
                     </td>
                     <td><input type="text" class="form-control " value="" id='days0' readonly></td>
 
-                    <td><input type="text" class="form-control" name="remark[]" value="" id='remark0'></td>
+                    <td><input type="text" class="form-control" name="remark[]" value="" id='remark0'>
+                     <input type="hidden" name="trans_id[]" id='trans_id0'></td>
 
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>
                   </tr>

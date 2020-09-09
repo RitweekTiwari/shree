@@ -122,6 +122,11 @@
               $('#color' + id + '').val(data[0]['color_name']);
               $('#unit' + id + '').val(data[0]['stock_unit']);
               $('#remark' + id + '').val(data[0]['remark']);
+              if (data[0]['trans_meta_id']) {
+                $('#trans_id' + id + '').val(data[0]['trans_meta_id']);
+              } else {
+                $('#trans_id' + id + '').val("");
+              }
               var current = 0;
               $(".qty").each(function() {
                 current += Number($(this).val());
@@ -265,7 +270,7 @@
       element += '<td><input type="text" class="form-control" name="color[]" value="" id=color' + count + ' required></td>'
       element += '<td><input type="text"  class="form-control unit " readonly id=unit' + count + ' ></td>'
       element += '<td><input type="text" class="form-control "  value="" id=days' + count + ' readonly></td>'
-      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' ></td>'
+      element += '<td><input type="text" class="form-control" name="remark[]" value="" id=remark' + count + ' ><input type="hidden" name="trans_id[]" id=trans_id' + count + ' ></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>';
       $('#fresh_data').append(element);

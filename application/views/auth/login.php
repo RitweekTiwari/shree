@@ -13,8 +13,8 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('optimum/admin') ?>/assets/images/favicon.png">
-    <title><?php echo $system_title." || ".$system_name ?></title>
+    <link rel="icon" type="image/webp" sizes="16x16" href="<?php echo base_url('optimum/admin') ?>/assets/images/favicon.webp">
+    <title><?php echo $system_title . " || " . $system_name ?></title>
     <!-- Custom CSS -->
     <link href="<?php echo base_url('optimum/admin') ?>/assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -48,13 +48,13 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
             <div class="auth-box bg-dark border-top border-secondary">
                 <div id="loginform">
                     <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><img src="<?php echo base_url('optimum/admin') ?>/assets/images/shri1.png" alt="logo" /></span>
+                        <span class="db"><img src="<?php echo base_url('optimum/admin') ?>/assets/images/shri1.webp" alt="logo" /></span>
                     </div>
                     <!-- Form -->
                     <form class="form-horizontal m-t-20" id="loginform" action="<?php echo base_url('login') ?>" method="post">
 
-                      <?= isset($failed) && !empty($failed) ? '<div class="alert alert-danger" role="alert">'.$failed.'</div>' : ""; ?>
-                      <?= $this->session->flashdata('success'); ?>
+                        <?= isset($failed) && !empty($failed) ? '<div class="alert alert-danger" role="alert">' . $failed . '</div>' : ""; ?>
+                        <?= $this->session->flashdata('success'); ?>
                         <div class="row p-b-30">
                             <div class="col-12">
                                 <div class="input-group mb-3">
@@ -73,7 +73,7 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                                 </div>
                                 <div class="custom-control custom-checkbox">
                                     <label>
-                                        <input type="checkbox"  value="remember-me"> Remember me
+                                        <input type="checkbox" value="remember-me"> Remember me
                                     </label>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="p-t-20">
-                                      <input type="hidden" id="get_csrf_hash" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                                        <input type="hidden" id="get_csrf_hash" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                                         <button class="btn btn-info" id="to-recover" type="button"><i class="fa fa-lock m-r-5"></i> Lost password?</button>
                                         <button class="btn btn-success float-right" type="submit">Login</button>
                                     </div>
@@ -144,21 +144,20 @@ $system_title = $this->db->get_where('settings', array('type' => 'system_title')
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     <script>
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".preloader").fadeOut();
+        // ==============================================================
+        // Login and Recover Password
+        // ==============================================================
+        $('#to-recover').on("click", function() {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+        $('#to-login').click(function() {
 
-    $('[data-toggle="tooltip"]').tooltip();
-    $(".preloader").fadeOut();
-    // ==============================================================
-    // Login and Recover Password
-    // ==============================================================
-    $('#to-recover').on("click", function() {
-        $("#loginform").slideUp();
-        $("#recoverform").fadeIn();
-    });
-    $('#to-login').click(function(){
-
-        $("#recoverform").hide();
-        $("#loginform").fadeIn();
-    });
+            $("#recoverform").hide();
+            $("#loginform").fadeIn();
+        });
     </script>
 
 </body>

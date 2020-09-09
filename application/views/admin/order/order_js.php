@@ -1,4 +1,4 @@
-<script src="<?php echo base_url('jexcelmaster/') ?>asset/js/jquery.3.1.1.js"></script>
+
 <script type="text/javascript">
   $(document).ready(function() {
     $('#branch_name').on('change', function() {
@@ -129,10 +129,10 @@
       } else if (type == 2) {
         $('#designCode' + id + '').val("");
         $('#stitch' + id + '').val("");
-        $('#dye' + id + '').val("");
+       
         $('#dye' + id + '').attr("readonly", false);
         $('#matching' + id + '').attr("readonly", false);
-        $('#matching' + id + '').val("");
+        
         $('#hsn' + id + '').val("");
         $('#unit' + id + '').val("");
         $('#tdfab' + id + '').html(fab1);
@@ -197,8 +197,7 @@
 
           $('#designCode' + button_id + '').val(data[0]['desCode']);
           $('#stitch' + button_id + '').val(data[0]['stitch']);
-          $('#dye' + button_id + '').val(data[0]['dye']);
-          $('#matching' + button_id + '').val(data[0]['matching']);
+          
 
         }
       });

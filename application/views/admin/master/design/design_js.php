@@ -39,14 +39,16 @@
       table = $('#design').DataTable({
         "processing": true,
         "serverSide": true,
-        stateSave: true,
+
         "order": [],
+
         "pageLength": 250,
         "lengthMenu": [
           [250, 500, 1000, -1],
           [250, 500, 1000, "All"]
         ],
         select: true,
+        scroller: true,
         stateSave: true,
         dom: 'Bfrtip',
         buttons: [

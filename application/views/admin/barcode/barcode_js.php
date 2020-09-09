@@ -54,19 +54,7 @@
       });
     });
 
-    $("#printAll").on("click", function() {
-
-      //Wait for all the ajax requests to finish, then launch the print window
-
-      var divToPrint = document.getElementById("show");
-      newWin = window.open("");
-      newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css\" type=\"text/css\" media=\"print\"/>");
-      newWin.document.write("<link rel=\"stylesheet\" href=\"<?php echo base_url('optimum/admin') ?>/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css\" type=\"text/css\" media=\"print\"/>");
-
-      newWin.document.write(divToPrint.outerHTML);
-      newWin.document.close();
-      newWin.print();
-    });
+   
 
   });
 </script>

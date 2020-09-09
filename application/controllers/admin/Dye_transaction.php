@@ -280,9 +280,11 @@
 			$data['plain'][] = $row['godownid'];
 		}
 		if (in_array($godown, $data['plain'])) {
+			
 			$data['pbc'] = $this->DyeTransaction_model->getPBC_deatils($id, $godown);
 
 		} else {
+			
 			$data['pbc'] = $this->DyeTransaction_model->getPBC_order_deatils($id, $godown);
 
 		}

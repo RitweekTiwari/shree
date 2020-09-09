@@ -5,7 +5,7 @@
         <!-- add modal wind-->
         <div class="card container">
           <div class="card-body" id="result">
-            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fabric/addFabric') ?>" >
+            <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Fabric/addFabric') ?>">
               <div class="card-header">
                 <h5 class="card-title">FABRIC CREATION </h5>
 
@@ -59,9 +59,15 @@
                   <input type="radio" class="form-control " id="radio2" value="No" name="other">No
                 </div>
               </div>
-              <hr>
+
+
+              <div class="row " id="addbtn">
+                <div class="col-sm-12 " style="left:82%">
+                  <label class="control-label">Add Details </label> <button type="button" name="add" id="add_fresh" class="btn btn-primary btn-sm">+</button>
+                </div>
+              </div>
               <div class="form-group row " id="extra-details"></div>
-              <div class="form-group row " id="details">
+              <!-- <div class="form-group row " id="details">
 
                 <div class="col-sm-4">
                   <label>SEGAMENT NAME</label>
@@ -86,13 +92,11 @@
                   <label> WIDTH (INCHES) </label>
                   <input type="number" class="form-control clear" name="width[]" value="-1" id="width">
                 </div>
-
                 <div class="col-sm-1">
-                  <label>Action</label>
-                  <button type="button" name="add" id="add_fresh" class="btn btn-primary btn-sm">+</button>
+                  <br>
+                  <button type="button" name="remove" class="btn btn-danger btn-sm btn_remove">X</button>
                 </div>
-
-              </div>
+            </div> -->
 
               <div id="fresh_field"></div>
               <br>
@@ -123,12 +127,15 @@
         <input type="text" class="form-control" name="segmentName[]" value="">
       </div>
       <div class="col-sm-3">
-        <select name="fabricId[]" class="form-control">
+        <select name="fabricId[]" class="form-control clear">
+          <option>--Select One--</option>
+          <option value="0">Self</option>
           <?php foreach ($fabric_data as $value) : ?>
             <option value="<?php echo $value->id ?>"><?php echo $value->fabricName ?></option>
           <?php endforeach; ?>
           <input type="hidden" id="id<?php echo $value->id ?>" name="id">
         </select>
+
       </div>
 
       <div class="col-sm-2">
@@ -176,11 +183,13 @@
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Fabric List</h5>
               </div>
-              <hr><div class="row well">
+              <hr>
+              <div class="row well">
                 &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
                 &nbsp;&nbsp;<a type="button" class="btn btn-info  btn-success" id='clearfilter' style="color:#fff;">Clear filter</a>&nbsp;&nbsp; &nbsp;&nbsp;
                 <button id="btn-show-all-children" class="btn btn-success " type="button">Expand/Collapse</button>
-              </div><hr>
+              </div>
+              <hr>
 
               <div class="widget-content nopadding">
                 <table class="table table-striped table-bordered " id="fabric">
@@ -219,7 +228,17 @@
     if (del == true) {
       var sureDel = confirm("Are you sure want to delete");
       if (sureDel == true) {
-        window.location = "<?php echo base_url() ?>admin/Fabric/delete/" + id;
+        $.ajax({
+          type: "GET",
+          url: "<?php echo base_url() ?>admin/Fabric/delete/" + id,
+
+          success: function(response) {
+            $('#fabric').DataTable().ajax.reload();
+            //referesh table
+
+          }
+        });
+
       }
     }
   }
