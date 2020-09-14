@@ -16,7 +16,7 @@
                             </div>
                             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/Dye_transaction/showStock') . $godownid ?>" method="post">
                                         <div class="form-row">
                                             <div class="col-2">
                                                 <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
@@ -27,13 +27,15 @@
                                             <div class="col-2">
                                                 <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                                                     <option value="">-- Select Category --</option>
-                                                    <option value="sort_name">Party Name</option>
-                                                    <option value="challan_no">Challan no</option>
-                                                    <option value="fabric_type">Fabric Type</option>
-                                                    <option value="total_quantity">Quantity</option>
-                                                    <option value="unitName">Unit</option>
-                                                    <option value="total_amount">Total amount</option>
+                                                    <option value="order_barcode">PBC</option>
+                                                    <option value="fabricCode">FABRIC CODE</option>
+                                                    <option value="fabricName">FABRIC NAME</option>
+                                                    <option value="hsn">HSN</option>
+                                                    <option value="dye">DYE</option>
+                                                    <option value="current_stock">QUANTITY</option>
+                                                    <option value="stock_unit">UNIT</option>
                                                 </select>
+
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
@@ -55,15 +57,18 @@
                             </div>
                             <div id="collapseTwo" class="collapse" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/Dye_transaction/showStock') . $godownid ?>" method="post">
                                         <table class=" remove_datatable">
                                             <caption>Advance Filter</caption>
                                             <thead>
                                                 <tr>
                                                     <th>Date_from</th>
                                                     <th>Date_to</th>
-                                                    <th>Party Name</th>
-                                                    <th>challan No</th>
+
+                                                    <th>PBC</th>
+
+                                                    <th>FABRIC CODE</th>
+                                                    <th>FABRIC NAME</th>
 
 
                                                 </tr>
@@ -74,28 +79,32 @@
 
                                                 <td>
                                                     <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
-                                                <td><input type="text" name="sort_name" class="form-control form-control-sm" value="" placeholder="Party Name">
+                                                <td><input type="text" name="order_barcode" class="form-control form-control-sm" value="" placeholder="PBC">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="challan" class="form-control form-control-sm" value="" placeholder="challan"></td>
+                                                    <input type="text" name="fabricCode" class="form-control form-control-sm" value="" placeholder="fabricCode"></td>
+                                                <td><input type="text" name="fabricName" class="form-control form-control-sm" value="" placeholder="fabricName ">
+                                                </td>
                                             </tr>
 
-                                            <th>Fabric Type</th>
-                                            <th>Quantity</th>
-                                            <th>Unit</th>
-                                            <th>Total Amount</th>
+                                            <th>HSN</th>
+
+                                            <th>DYE</th>
+                                         
+                                            <th>QUANTITY</th>
+                                            <th>UNIT</th>
 
                                             <tr>
                                                 <td>
-                                                    <input type="text" name="fabric_type" class="form-control form-control-sm" value="" placeholder="Fab Type"></td>
+                                                    <input type="text" name="hsn" class="form-control form-control-sm" value="" placeholder="Hsn"></td>
+                                               
                                                 <td>
-                                                    <input type="text" name="total_quantity" class="form-control form-control-sm" value="" placeholder="Curr Qty"></td>
+                                                    <input type="text" name="color" class="form-control form-control-sm" value="" placeholder="Color"></td>
 
                                                 <td>
-                                                    <input type="text" name="unitName" class="form-control form-control-sm" value="" placeholder="Unit"></td>
-
+                                                    <input type="text" name="current_stock" class="form-control form-control-sm" value="" placeholder="Quantity"></td>
                                                 <td>
-                                                    <input type="text" name="total_amount" class="form-control form-control-sm" value="" placeholder="Total"></td>
+                                                    <input type="text" name="stock_unit" class="form-control form-control-sm" value="" placeholder="Unit"></td>
                                             </tr>
 
                                         </table>
@@ -155,7 +164,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class=" table-bordered data-table text-center table-responsive" id="frc">
+                            <table class=" table-bordered data-table text-center " id="frc">
                                 <thead class="">
                                     <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>
@@ -164,6 +173,7 @@
                                         <th>FABRIC CODE</th>
                                         <th>FABRIC NAME</th>
                                         <th>HSN</th>
+                                      
 
                                         <th>DYE</th>
 

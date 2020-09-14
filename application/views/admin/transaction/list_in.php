@@ -148,7 +148,7 @@
                 </div>
               </div>
               <hr>
-              <table class="table table-bordered data-table text-center table-responsive">
+              <table class=" table-bordered  text-center " id="list">
                 <thead class="">
                   <tr class="odd" role="row">
                     <th><input type="checkbox" class="sub_chk" id="master"></th>
@@ -164,33 +164,7 @@
 
                   </tr>
                 </thead>
-                <tbody>
-                  <?php
-                  $id = 1;
-                  foreach ($frc_data as $value) { ?>
-                    <tr class="gradeU" id="tr_<?php echo $id ?>">
 
-                      <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['transaction_id'] ?>"></td>
-                      <td><?php echo $value['created_at']; ?></td>
-
-
-                      <td><?php echo $value['sub1']; ?></td>
-                      <td><?php echo $value['challan_out']; ?></td>
-                      <td><?php echo $value['challan_in']; ?> <?php if ($value['status'] == 'new') {
-                                                                echo '<span class="badge badge-pill badge-danger">New</span>';
-                                                              } ?></td>
-                      <td>
-
-                        <a href="<?php echo base_url('admin/Transaction/viewChallan/') . $value['transaction_id'] ?> ">
-                          <i class="fas fa-eye"></i>
-                        </a>
-
-
-                    </tr>
-
-                  <?php $id = $id + 1;
-                  } ?>
-                </tbody>
               </table>
             </div>
           </div>
@@ -201,7 +175,119 @@
   </div>
 </div>
 
-
 <script>
 
+  $(document).ready(function() {
+    var fil = '';
+    var table;
+    getlist(fil);
+
+    function getlist(filter1) {
+      var csrf_name = $("#get_csrf_hash").attr('name');
+      var csrf_val = $("#get_csrf_hash").val();
+      table = $('#list').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "pageLength": 250,
+        "lengthMenu": [
+          [250, 500, 1000, -1],
+          [250, 500, 1000, "All"]
+        ],
+        select: true,
+
+        dom: 'Bfrtip',
+        buttons: [
+          'pageLength', {
+            extend: 'excel',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'pdf',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'print',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+
+          'selectAll',
+          'selectNone',
+          'colvis'
+        ],
+
+        "destroy": true,
+        scrollY: 500,
+        paging: true,
+
+
+        "ajax": {
+          url: "<?php echo base_url('admin/transaction/showInListdata/' . $id) ?>",
+          type: "post",
+          data: {
+            filter: filter1,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          datatype: 'json',
+          "dataSrc": function(json) {
+            return json.data;
+          },
+        },
+      });
+    }
+    $("#datefilter").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'from': $('#date_from').val(),
+        'to': $('#date_to').val(),
+        'search': 'datefilter'
+      };
+
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+
+    $("#simplefilter").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'searchByCat': $('#searchByCat').val(),
+        'searchValue': $('#searchValue').val(),
+        'challan_from': $('#sfrom').val(),
+        'challan_to': $('#sto').val(),
+        'search': 'simple'
+      };
+
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+    $("#clearfilter").click(function(event) {
+      $('#dye_in').DataTable().destroy();
+      getlist('');
+
+    });
+
+    $("#advance").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'search': 'advance',
+        'subDeptName': $('#subDeptName').val(),
+        'challan_out': $('#challan_out').val(),
+        'challan_in': $('#challan_in').val(),
+        'challan_from': $('#afrom').val(),
+        'challan_to': $('#ato').val(),
+      };
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+
+  });
 </script>

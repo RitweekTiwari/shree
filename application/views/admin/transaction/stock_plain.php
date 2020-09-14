@@ -16,7 +16,7 @@
                             </div>
                             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/Transaction/showStock/'). $godownid ?>" method="post">
                                         <div class="form-row">
                                             <div class="col-2">
                                                 <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
@@ -27,12 +27,17 @@
                                             <div class="col-2">
                                                 <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                                                     <option value="">-- Select Category --</option>
-                                                    <option value="sort_name">Party Name</option>
-                                                    <option value="challan_no">Challan no</option>
-                                                    <option value="fabric_type">Fabric Type</option>
-                                                    <option value="total_quantity">Quantity</option>
-                                                    <option value="unitName">Unit</option>
-                                                    <option value="total_amount">Total amount</option>
+                                                    <option value="pbc">PBC</option>
+                                                    <option value="order_barcode">OBC</option>
+                                                    <option value="order_number">ORDER NO</option>
+                                                    <option value="fabric_name">FABRIC NAME</option>
+                                                    <option value="hsn">HSN</option>
+                                                    <option value="design_barcode">DESIGN BARCODE</option>
+                                                    <option value="design_name">DESIGN NAME</option>
+                                                    <option value="design_code">DESIGN CODE</option>
+                                                    <option value="dye">DYE</option>
+                                                    <option value="matching">MATCHING</option>
+
                                                 </select>
                                             </div>
                                             <div class="col-2">
@@ -55,16 +60,18 @@
                             </div>
                             <div id="collapseTwo" class="collapse" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/Transaction/showStock'); ?>" method="post">
                                         <table class=" remove_datatable">
                                             <caption>Advance Filter</caption>
                                             <thead>
                                                 <tr>
                                                     <th>Date_from</th>
                                                     <th>Date_to</th>
-                                                    <th>Party Name</th>
-                                                    <th>challan No</th>
-
+                                                    <th>PBC</th>
+                                                    <th>OBC</th>
+                                                    <th>ORDER NO</th>
+                                                    <th>FABRIC NAME</th>
+                                                    <th>HSN</th>
 
                                                 </tr>
                                             </thead>
@@ -74,28 +81,42 @@
 
                                                 <td>
                                                     <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
-                                                <td><input type="text" name="sort_name" class="form-control form-control-sm" value="" placeholder="Party Name">
+                                                <td><input type="text" name="pbc" class="form-control form-control-sm" value="" placeholder="pbc">
+                                                </td>
+                                                <td><input type="text" name="order_barcode" class="form-control form-control-sm" value="" placeholder="obc">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="challan" class="form-control form-control-sm" value="" placeholder="challan"></td>
+                                                    <input type="text" name="order_number" class="form-control form-control-sm" value="" placeholder="order_number"></td>
+                                                <td>
+                                                    <input type="date" name="fabric_name" class="form-control form-control-sm" value="" placeholder="fabric_name"></td>
+
+                                                <td>
+                                                    <input type="date" name="hsn" class="form-control form-control-sm" value="" placeholder="hsn"></td>
+
                                             </tr>
 
-                                            <th>Fabric Type</th>
-                                            <th>Quantity</th>
-                                            <th>Unit</th>
-                                            <th>Total Amount</th>
-
+                                            <th>DESIGN BARCODE</th>
+                                            <th>DESIGN NAME</th>
+                                            <th>DESIGN CODE</th>
+                                            <th>DYE</th>
+                                            <th>MATCHING</th>
+                                            <th>QUANTITY</th>
                                             <tr>
                                                 <td>
-                                                    <input type="text" name="fabric_type" class="form-control form-control-sm" value="" placeholder="Fab Type"></td>
+                                                    <input type="text" name="design_barcode" class="form-control form-control-sm" value="" placeholder="DESIGN BARCODE"></td>
                                                 <td>
-                                                    <input type="text" name="total_quantity" class="form-control form-control-sm" value="" placeholder="Curr Qty"></td>
+                                                    <input type="text" name="design_name" class="form-control form-control-sm" value="" placeholder="DESIGN NAME"></td>
 
                                                 <td>
-                                                    <input type="text" name="unitName" class="form-control form-control-sm" value="" placeholder="Unit"></td>
+                                                    <input type="text" name="design_code" class="form-control form-control-sm" value="" placeholder="DESIGN CODE"></td>
 
                                                 <td>
-                                                    <input type="text" name="total_amount" class="form-control form-control-sm" value="" placeholder="Total"></td>
+                                                    <input type="text" name="dye" class="form-control form-control-sm" value="" placeholder="Dye"></td>
+                                                <td>
+                                                    <input type="text" name="matching" class="form-control form-control-sm" value="" placeholder="Matching"></td>
+                                                <td>
+                                                    <input type="text" name="quantity" class="form-control form-control-sm" value="" placeholder="Curr Qty"></td>
+
                                             </tr>
 
                                         </table>

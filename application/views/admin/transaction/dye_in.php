@@ -16,31 +16,28 @@
               </div>
               <div id="collapseOne" class="collapse show" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                  <form>
                     <div class="form-row">
                       <div class="col-2">
-                        <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
+                        <input type="date" name="date_from" id="sfrom" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
                       </div>
                       <div class="col-2">
-                        <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>">
+                        <input type="date" name="date_to" id="sto" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>">
                       </div>
                       <div class="col-2">
                         <select id="searchByCat" name="searchByCat" class="form-control form-control-sm" required>
                           <option value="">-- Select Category --</option>
-                          <option value="sort_name">Party Name</option>
-                          <option value="challan_no">Challan no</option>
-                          <option value="fabric_type">Fabric Type</option>
-                          <option value="total_quantity">Quantity</option>
-                          <option value="unitName">Unit</option>
-                          <option value="total_amount">Total amount</option>
+                          <option value="sb1.subDeptName">Party Name</option>
+                          <option value="challan_out">Challan Out</option>
+                          <option value="challan_in">Challan In</option>
                         </select>
                       </div>
                       <div class="col-2">
-                        <input type="text" name="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
+                        <input type="text" name="searchValue" id="searchValue" class="form-control form-control-sm" value="" placeholder="Search" required>
                       </div>
-                      <input type="hidden" name="type" value="return"><input type="hidden" name="search" value="simple">
+                      <input type="hidden" name="search" value="simple">
                       <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                      <button type="submit" name="search" value="simple" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
+                      <button type="submit" name="search" value="simple" id="simplefilter" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
                     </div>
                   </form>
                 </div>
@@ -55,7 +52,7 @@
               </div>
               <div id="collapseTwo" class="collapse" data-parent="#accordion">
                 <div class="modal-body">
-                  <form action="<?php echo base_url('/admin/Transaction/filter1'); ?>" method="post">
+                  <form>
                     <table class=" remove_datatable">
                       <caption>Advance Filter</caption>
                       <thead>
@@ -63,40 +60,26 @@
                           <th>Date_from</th>
                           <th>Date_to</th>
                           <th>Party Name</th>
-                          <th>challan No</th>
-                          <th>Fabric Type</th>
-                          <th>Quantity</th>
-                          <th>Unit</th>
-                          <th>Total Amount</th>
+                          <th>DOC Challan</th>
+                          <th>Challan No</th>
                         </tr>
                       </thead>
                       <tr>
-                        <td><input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>"></td>
+                        <td><input type="date" name="date_to" id="ato" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
                         <td>
-                          <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>"></td>
-                        <td><input type="text" name="sort_name" class="form-control form-control-sm" value="" placeholder="Party Name">
+                          <input type="date" name="date_to" id="afrom" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>"></td>
+                        <td><input type="text" name="subDeptName" id="subDeptName" class="form-control form-control-sm" value="" placeholder="Party Name">
                         </td>
                         <td>
-                          <input type="text" name="challan" class="form-control form-control-sm" value="" placeholder="challan"></td>
-
-
-
+                          <input type="text" name="challan_out" id="challan_out" class="form-control form-control-sm" value="" placeholder="Doc out"></td>
 
                         <td>
-                          <input type="text" name="fabric_type" class="form-control form-control-sm" value="" placeholder="Fab Type"></td>
-                        <td>
-                          <input type="text" name="total_quantity" class="form-control form-control-sm" value="" placeholder="Curr Qty"></td>
-
-                        <td>
-                          <input type="text" name="unitName" class="form-control form-control-sm" value="" placeholder="Unit"></td>
-
-                        <td>
-                          <input type="text" name="total_amount" class="form-control form-control-sm" value="" placeholder="Total"></td>
+                          <input type="text" name="challan_in" id="challan_in" class="form-control form-control-sm" value="" placeholder="challan no"></td>
                       </tr>
                     </table>
-                    <input type="hidden" name="type" value="return"><input type="hidden" name="search" value="advance">
+
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                    <button type="submit" name="search" value="advance" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
+                    <button type="submit" name="search" value="advance" id="advance" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
 
                   </form>
                 </div>
@@ -131,64 +114,35 @@
                     <div class="form-row ">
                       <div class="col-5">
                         <label>Date From</label>
-                        <input type="date" name="date_from" class="form-control" value="<?php echo date('Y-04-01') ?>">
+                        <input type="date" name="date_from" id="date_from" class="form-control" value="<?php echo date('Y-04-01') ?>">
                       </div>
                       <div class="col-5">
                         <label>Date To</label>
-                        <input type="date" name="date_to" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                        <input type="date" name="date_to" id="date_to" class="form-control" value="<?php echo date('Y-m-d') ?>">
                       </div>
-                      <input type="hidden" name="type" value="return">
+
                       <div class="col-2">
                         <label>Search</label>
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                        <button type="submit" class="btn btn-info"> <i class="fas fa-search"></i> Search</button>
+                        <button type="submit" class="btn btn-info" id="datefilter"> <i class="fas fa-search"></i> Search</button>
                       </div>
                     </div>
                   </form>
                 </div>
               </div>
               <hr>
-              <table class="table table-bordered data-table text-center table-responsive">
-                <thead class="">
+              <table class="table table-bordered  text-center table-responsive" id="dye_in">
+                <thead>
                   <tr class="odd" role="row">
                     <th><input type="checkbox" class="sub_chk" id="master"></th>
                     <th>Date</th>
-
-                    <th>Party name</th>
-                    <th>Challan no</th>
-
-                  
+                    <th>Party name </th>
+                    <th>DOC Challan </th>
+                    <th>Challan no </th>
                     <th>View </th>
-                   
-
                   </tr>
                 </thead>
-                <tbody>
-                  <?php
-                  $id = 1;
-                  foreach ($frc_data as $value) { ?>
-                    <tr class="gradeU" id="tr_<?php echo $id ?>">
 
-                      <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['transaction_id'] ?>"></td>
-                      <td><?php echo $value['created_at']; ?></td>
-
-
-                      <td><?php echo $value['sub1']; ?></td>
-                      <td><?php echo $value['challan_in']; ?> <?php if($value['status']=='new') {
-                        echo '<span class="badge badge-pill badge-danger">New</span>';
-                      } ?></td>
-                      <td>
-                       
-                        <a href="<?php echo base_url('admin/Dye_transaction/viewDye/') . $value['transaction_id'] ?> ">
-                          <i class="fas fa-eye"></i>
-                        </a>
-                     
-
-                    </tr>
-
-                  <?php $id = $id + 1;
-                  } ?>
-                </tbody>
               </table>
             </div>
           </div>
@@ -201,5 +155,117 @@
 
 
 <script>
+  $(document).ready(function() {
+    var fil = '';
+    var table;
+    getlist(fil);
 
+    function getlist(filter1) {
+      var csrf_name = $("#get_csrf_hash").attr('name');
+      var csrf_val = $("#get_csrf_hash").val();
+      table = $('#dye_in').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "pageLength": 250,
+        "lengthMenu": [
+          [250, 500, 1000, -1],
+          [250, 500, 1000, "All"]
+        ],
+        select: true,
+
+        dom: 'Bfrtip',
+        buttons: [
+          'pageLength', {
+            extend: 'excel',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'pdf',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }, {
+            extend: 'print',
+            footer: true,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+
+          'selectAll',
+          'selectNone',
+          'colvis'
+        ],
+
+        "destroy": true,
+        scrollY: 500,
+        paging: true,
+
+
+        "ajax": {
+          url: "<?php echo base_url('admin/Dye_transaction/showDyeInListdata/' . $id) ?>",
+          type: "post",
+          data: {
+            filter: filter1,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          datatype: 'json',
+          "dataSrc": function(json) {
+            return json.data;
+          },
+        },
+      });
+    }
+    $("#datefilter").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'from': $('#date_from').val(),
+        'to': $('#date_to').val(),
+        'search': 'datefilter'
+      };
+
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+
+    $("#simplefilter").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'searchByCat': $('#searchByCat').val(),
+        'searchValue': $('#searchValue').val(),
+        'challan_from': $('#sfrom').val(),
+        'challan_to': $('#sto').val(),
+        'search': 'simple'
+      };
+
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+    $("#clearfilter").click(function(event) {
+      $('#dye_in').DataTable().destroy();
+      getlist('');
+
+    });
+
+    $("#advance").click(function(event) {
+      event.preventDefault();
+      var filter = {
+        'search': 'advance',
+        'subDeptName': $('#subDeptName').val(),
+        'challan_out': $('#challan_out').val(),
+        'challan_in': $('#challan_in').val(),
+        'challan_from': $('#afrom').val(),
+        'challan_to': $('#ato').val(),
+      };
+      $('#dye_in').DataTable().destroy();
+      getlist(filter);
+
+    });
+
+  });
 </script>

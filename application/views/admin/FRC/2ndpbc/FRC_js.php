@@ -19,7 +19,8 @@
       tc = $('#tcmain').val();
       oldtc = $('#oldtc').val();
       pbc = $('#pbc').val();
-      qty = $('#Cur_quantity').val();
+      qty = $('#Tquantity').val();
+      cqty = $('#Cur_quantity').val();
       if (tc == "") {
         alert("please enter some value in tc");
       } else if (pbc == "") {
@@ -37,7 +38,8 @@
               'tc': tc,
               'qty': qty,
               'oldtc': oldtc,
-              '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+              'cqty': cqty,
+               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
             success: function(response) {
               location.reload();

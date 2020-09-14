@@ -114,14 +114,7 @@ public function get_design_name()
    //echo $this->db->last_query();exit;
 
  }
- public function get_erc_value()
- {
-   $this->db->select('*');
-   $this->db->from('erc');
-   $query = $this->db->get();
-   $query = $query->result_array();
-   return $query;
- }
+ 
  public function get_design_value()
  {
    $this->db->select('desName');

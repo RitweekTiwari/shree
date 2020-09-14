@@ -226,7 +226,7 @@ class Design extends CI_Controller
 			$new_name =  $barCode ;
 
 			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'gif|jpg|png|jpeg';
+			$config['allowed_types']        = 'webp|jpg|png|jpeg';
 			
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
@@ -337,7 +337,7 @@ class Design extends CI_Controller
 			//echo $new_name;exit;
 
 			$config['upload_path']          = './upload/';
-			$config['allowed_types']        = 'gif|jpg|png|jpeg';
+			$config['allowed_types']        = 'webp|jpg|png|jpeg';
 			$config['overwrite'] = TRUE;
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);

@@ -249,7 +249,7 @@ public function get_by_id($id)
     
     $this->db->select("pbc_tc_history.*,fabric_stock_view.fsr_id ,fabric_stock_view.parent_barcode ,fabric_stock_view.fabric_type ,
 fabric_stock_view.hsn ,
-    fabric_stock_view.stock_quantity ,
+    fabric_stock_view.current_stock ,
     fabric_stock_view.stock_unit,
     fabric_stock_view.challan_no ,
     fabric_stock_view.fabric_id,

@@ -19,14 +19,14 @@ $godown = $this->db->get('sub_department')->result();
     <!-- Custom CSS -->
     <!-- <link rel="preload" as="style" onload="this.rel = 'stylesheet'" type="text/css" href="<?php echo base_url('optimum/admin') ?>/assets/extra-libs/multicheck/multicheck.css"> -->
     <!-- Custom CSS -->
-    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all'/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'"/>
+    <link href="<?php echo base_url('optimum/admin') ?>/dist/css/style.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
 
 
     <!-- Datatable -->
-    <link rel="preload" as="style" onload="this.rel = 'stylesheet'" href='https://cdn.datatables.net/v/dt/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/sl-1.3.1/datatables.min.css'>
+    <link type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/b-1.6.3/b-colvis-1.6.3/b-html5-1.6.3/b-print-1.6.3/sc-2.0.2/sl-1.3.1/datatables.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
 
 
 
@@ -99,4 +99,4 @@ $godown = $this->db->get('sub_department')->result();
 </head>
 
 <body>
-    <script  src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="<?php echo base_url('optimum/admin') ?>/assets/libs/jquery/dist/jquery.min.js"></script>

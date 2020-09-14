@@ -48,7 +48,7 @@
           [250, 500, 1000, "All"]
         ],
         select: true,
-        scroller: true,
+       
         stateSave: true,
         dom: 'Bfrtip',
         buttons: [

@@ -3,13 +3,13 @@
     var table = $('.data-table ').DataTable({
 
 
-      "pageLength": 50,
+      "pageLength": 250,
       "lengthMenu": [
-        [50, 100, 150, -1],
-        [50, 100, 150, "All"]
+        [250, 500, 1000, -1],
+        [250, 500, 1000, "All"]
       ],
       select: true,
-
+     
 
       dom: 'Bfrtip',
       buttons: [

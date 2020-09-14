@@ -13,7 +13,7 @@
             <h5 class="modal-title"><i class="fa fa-plus"></i> Create TC Chalan</h5>
           </div>
           <div class="modal-body">
-         <?php  if($frc_data || $tc){ ?>
+         <?php  if($tc){ ?>
             <form method="post" action="<?php echo base_url('admin/FRC/add_tc')?>">
               <table class="remove_datatable">
                 <thead>

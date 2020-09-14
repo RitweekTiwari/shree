@@ -75,13 +75,31 @@ class DyeTransaction_model extends CI_Model
   {
     $this->db->select("dye_godown_stock.*");
     $this->db->from('dye_godown_stock');
+    if (isset($data['from']) && isset($data['to'])) {
+      if ($data['from'] == $data['to']) {
+        $this->db->where('created_date ', $data['from']);
+      } else {
+        $this->db->where('created_date >=', $data['from']);
+        $this->db->where('created_date <=', $data['to']);
+      }
+    }
+    if (isset($data['cat'])) {
+      if (!is_array($data['cat'])) {
+        if ($data['cat'] != "") {
+          $this->db->where($data['cat'], $data['Value']);
+        }
+      } else {
+        $count = count($data['cat']);
+        for ($i = 0; $i < $count; $i++) {
+          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+        }
+      }
+    }
     if (isset($data['id'])) {
       $this->db->where('trans_meta_id', $data['id']);
     }
-    if (isset($data['godownid'])) {
-      $data = $data['godownid'];
-    }
-    $this->db->where('to_godown', $data);
+   
+    $this->db->where('to_godown', $data['godownid']);
 
 
     $this->db->where('stat', 'recieved');

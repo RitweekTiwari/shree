@@ -80,7 +80,7 @@
                         <div class="widget-content nopadding">
 
 
-                            <table class="table table-bordered  text-center table-responsive data-table">
+                            <table class=" table-bordered  text-center  data-table">
 
                                 <thead class="bg-dark text-white">
                                     <tr>

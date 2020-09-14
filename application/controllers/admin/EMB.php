@@ -15,15 +15,13 @@ class EMB extends CI_Controller
 	public function index()
 	{
 		$data = array();
-		$data['name'] = 'ERC';
+		$data['page_name'] = 'ERC';
 
 
 		$data['worker'] = $this->Emb_model->get_worker_name();
-		// $data['emb'] = $this->Emb_model->get_emb();
-		$data['erc_value'] = $this->Emb_model->get_erc_value();
-		//$data['erc'] = $this->Emb_model->get_erc_fresh_value();
+		
 		$data['erc'] = $this->Emb_model->get_erc_fresh_value();
-		//	pre($data['erc']);exit;
+			//pre($data['erc_value']);exit;
 		$data['main_content'] = $this->load->view('admin/master/emb/emb', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}

@@ -344,7 +344,7 @@ class FRC extends CI_Controller
 		$data = array();
 		$data['page_name'] = 'Create TC Chalan';
 		$data['tc'] = $this->Frc_model->pbc_tc_history();
-		$data['frc_data'] = $this->Frc_model->get_tc();
+		//$data['frc_data'] = $this->Frc_model->get_tc();
 		//pre($data['tc']);exit;
 		$data['content'] = $this->load->view('admin/FRC/tc/tc_index', $data, TRUE);
 		$data['main_content'] = $this->load->view('admin/FRC/tc/tc_add', $data, TRUE);
@@ -851,13 +851,14 @@ class FRC extends CI_Controller
 		$pbc2 = $this->Frc_model->getPBC_history( $id);
 		$output ='<div class="row">';
 		if ($pbc2) {
-			$output .= "<div class='md-col-6'><div class='container'><table class=' table-bordered  text-center '><caption>TC History</caption><thead><tr><th>Date</th><th>PBC</th><th>Quantity</th>  <th>TC</th></tr></thead><tbody>";
+			$output .= "<div class='md-col-6'><div class='container'><table class=' table-bordered  text-center '><caption>TC History</caption><thead><tr><th>Date</th><th>PBC</th><th>Quantity</th><th>C Qty</th>  <th>TC</th></tr></thead><tbody>";
 
 			foreach ($pbc2 as $value) {
 
 				$output .= "<tr><td>" . $value['date'] . "</td>";
 				$output .= "<td>" . $value['pbc'] . "</td>";
 				$output .= "<td><b>" . $value['qty'] . "</b></td>";
+				$output .= "<td><b>" . $value['cqty'] . "</b></td>";
 				$output .= "<td>" . $value['tc'] . "</td></tr>";
 			}
 			$output .= "</tbody></table></div></div>";
@@ -910,17 +911,19 @@ class FRC extends CI_Controller
 		$pbc = $this->security->xss_clean($_POST['pbc']);
 		$tc = $this->security->xss_clean($_POST['tc']);
 		$qty = $this->security->xss_clean($_POST['qty']);
+		$cqty = $this->security->xss_clean($_POST['cqty']);
 		$oldtc = $this->security->xss_clean($_POST['oldtc']);
 		//echo "pbc=".$pbc."\n";echo "tc=".$tc."\n";echo "qty=".$qty."\n";exit;
 		$data3 = [
-			'current_stock' => ($qty - $tc),
+			'current_stock' => ($cqty - $tc),
 			'tc' => $tc + $oldtc,
 			'isSecond' => 1
 		];
 		$done =	$this->Frc_model->update($data3, 'parent_barcode', $pbc, 'fabric_stock_received');
 	
 			$data1 = [
-				'qty' => $qty,
+				'qty' => $cqty,
+				'cqty' => ($cqty - $tc),
 				'date' => date('Y-m-d'),
 				'tc' => $tc,
 				'pbc' => $pbc
