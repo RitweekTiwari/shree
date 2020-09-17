@@ -6,8 +6,8 @@
 
                     <div class="col-lg-12">
                         <div class="row">
-                            
-                           
+
+
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
                                     <div class="box  text-center" style="background: linear-gradient(45deg,#FF57B9,#A704FD);">
@@ -29,9 +29,12 @@
                                         </h1>
 
                                         <a href="<?php echo base_url('admin/Dye_transaction/showDyeInList/') . $godown; ?>">
-                                            <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i></h4>
+                                            <h4 class=" font-light text-white">New ( <?php echo $new; ?> )</i></h4>
                                             <h5 class="text-white">MATERIAL IN</h5>
                                         </a>
+                                        <?php if ($new > 0) { ?>
+                                            <span class="badge badge-pill  new-notify">New ( <?php echo $new; ?> )</span>
+                                            ><?php  } ?>
                                     </div>
                                 </div>
                             </div>

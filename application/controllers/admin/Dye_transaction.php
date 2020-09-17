@@ -207,7 +207,7 @@ class Dye_transaction extends CI_Controller
 			} else {
 				$cc1 = $id[0]['count'];
 				$cc1 = $cc1 + 1;
-				$challan2 = $godown_name->inPrefix .  (string) $cc .  $godown_name->inSuffix;
+				$challan2 = $godown_name->inPrefix .  (string) $cc1 .  $godown_name->inSuffix;
 			}
 			$data1 = [
 				'from_godown' => $data['FromGodown'],

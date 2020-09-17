@@ -342,7 +342,7 @@ class Design extends CI_Controller
 			$config['file_name'] = $new_name;
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload('designPic1')) {
-				echo "Not Uploaded". $this->upload->display_errors();exit;
+				//echo "Not Uploaded". $this->upload->display_errors();exit;
 				$error= $this->upload->display_errors();
 				$this->session->set_flashdata('error', $error );
 				$data = array(

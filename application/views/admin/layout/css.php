@@ -63,6 +63,19 @@ $godown = $this->db->get('sub_department')->result();
             margin: 0 4px;
         }
 
+        .new-notify {
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* bottom: 110; */
+            font-size: 16px;
+            background-color: yellow;
+            color: black;
+            padding: 1px;
+            border-radius: 50%;
+
+        }
+
         #overlay {
             font-family: monospace;
             width: 100%;

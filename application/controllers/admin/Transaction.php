@@ -24,6 +24,7 @@ class Transaction extends CI_Controller
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $godown_name . '  DASHBOARD';
+		$data['new']=$this->Transaction_model->get_new_stock_count($godown);
 		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
 		$dye_godown = $this->Transaction_model->get_dye_godown();
 		foreach ($dye_godown as $row) {
@@ -209,13 +210,17 @@ class Transaction extends CI_Controller
 			//pre($data['frc_data']);exit;
 		}
 		foreach ($data['frc_data'] as $value) {
-
+			if ($value['status'] == 'new') {
+				$challan= $value['challan_in'].' <span class="badge badge-pill badge-danger">New</span>';
+			}else{
+				$challan = $value['challan_in'];
+			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
 			$sub_array[] = $value['created_at'];
 			$sub_array[] = $value['sub1'];
 			$sub_array[] = $value['challan_out'];
-			$sub_array[] = $value['challan_in'];
+			$sub_array[] = $challan;
 
 			$sub_array[] =  '	<a class="text-center tip"  href="' .  base_url('admin/Transaction/viewChallan/') . $value['transaction_id'] . ' ">
 							<i class="fa fa-eye" aria-hidden="true"></i></a>';
@@ -413,99 +418,99 @@ class Transaction extends CI_Controller
 
 	public function showStock($godown)
 	{
-		if ($_POST) {
-			//pre($_POST);exit;
-			$data['from'] = $this->input->post('date_from');
-			$data['to'] = $this->input->post('date_to');
-			$data['search'] = $this->input->post('search');
-			$data['type'] = $this->input->post('type');
-			$caption = 'Search Result For : ';
-			if ($_POST['search'] == 'simple') {
-				if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
-					$data['cat'] = $this->input->post('searchByCat');
-					$data['Value'] = $this->input->post('searchValue');
-					$caption = $caption . $data['cat'] . " = " . $data['Value'] . " ";
-					$data['caption'] = $caption;
-				}
-			} else {
+		// if ($_POST) {
+		// 	//pre($_POST);exit;
+		// 	$data['from'] = $this->input->post('date_from');
+		// 	$data['to'] = $this->input->post('date_to');
+		// 	$data['search'] = $this->input->post('search');
+		// 	$data['type'] = $this->input->post('type');
+		// 	$caption = 'Search Result For : ';
+		// 	if ($_POST['search'] == 'simple') {
+		// 		if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
+		// 			$data['cat'] = $this->input->post('searchByCat');
+		// 			$data['Value'] = $this->input->post('searchValue');
+		// 			$caption = $caption . $data['cat'] . " = " . $data['Value'] . " ";
+		// 			$data['caption'] = $caption;
+		// 		}
+		// 	} else {
 
-				if (isset($_POST['challan_to']) && $_POST['challan_to'] != "") {
-					$data['cat'][] = 'challan_to';
-					$fab = $this->input->post('challan_to');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Godown' . " = " . $fab . " ";
-				}
-				if (isset($_POST['fabricName']) && $_POST['fabricName'] != "") {
-					$data['cat'][] = 'fabricName';
-					$fab = $this->input->post('fabricName');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Fabric Name' . " = " . $fab . " ";
-				}
-				if (isset($_POST['pbc']) && $_POST['pbc'] != "") {
-					$data['cat'][] = 'parent_barcode';
-					$fab = $this->input->post('pbc');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'PBC' . " = " . $fab . " ";
-				}
-				if (isset($_POST['challan']) && $_POST['challan'] != "") {
-					$data['cat'][] = 'challan_no';
-					$fab = $this->input->post('challan');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Challan No' . " = " . $fab . " ";
-				}
+		// 		if (isset($_POST['challan_to']) && $_POST['challan_to'] != "") {
+		// 			$data['cat'][] = 'challan_to';
+		// 			$fab = $this->input->post('challan_to');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Godown' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['fabricName']) && $_POST['fabricName'] != "") {
+		// 			$data['cat'][] = 'fabricName';
+		// 			$fab = $this->input->post('fabricName');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Fabric Name' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['pbc']) && $_POST['pbc'] != "") {
+		// 			$data['cat'][] = 'parent_barcode';
+		// 			$fab = $this->input->post('pbc');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'PBC' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['challan']) && $_POST['challan'] != "") {
+		// 			$data['cat'][] = 'challan_no';
+		// 			$fab = $this->input->post('challan');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Challan No' . " = " . $fab . " ";
+		// 		}
 
-				if (isset($_POST['Color']) && $_POST['Color'] != "") {
-					$data['cat'][] = 'color_name';
-					$fab = $this->input->post('Color');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Color' . " = " . $fab . " ";
-				}
-				if (isset($_POST['Ad_No']) && $_POST['Ad_No'] != "") {
-					$data['cat'][] = 'ad_no';
-					$fab = $this->input->post('Ad_No');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Ad_no' . " = " . $fab . " ";
-				}
-				if (isset($_POST['unit']) && $_POST['unit'] != "") {
-					$data['cat'][] = 'stock_unit';
-					$fab = $this->input->post('unit');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Unit' . " = " . $fab . " ";
-				}
-				if (isset($_POST['rate']) && $_POST['rate'] != "") {
-					$data['cat'][] = 'purchase_rate';
-					$fab = $this->input->post('rate');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Purchase_Rate' . " = " . $fab . " ";
-				}
-				if (isset($_POST['total']) && $_POST['total'] != "") {
-					$data['cat'][] = 'total_value';
-					$fab = $this->input->post('total');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Total' . " = " . $fab . " ";
-				}
-				if (isset($_POST['current_stock']) && $_POST['current_stock'] != "") {
-					$data['cat'][] = 'current_stock';
-					$fab = $this->input->post('current_stock');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'Curr_qty' . " = " . $fab . " ";
-				}
-				if (isset($_POST['fabric_type']) && $_POST['fabric_type'] != "") {
-					$data['cat'][] = 'fabric_type';
-					$fab = $this->input->post('fabric_type');
-					$data['Value'][] = $fab;
-					$caption = $caption . 'fab_type' . " = " . $fab . " ";
-				}
+		// 		if (isset($_POST['Color']) && $_POST['Color'] != "") {
+		// 			$data['cat'][] = 'color_name';
+		// 			$fab = $this->input->post('Color');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Color' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['Ad_No']) && $_POST['Ad_No'] != "") {
+		// 			$data['cat'][] = 'ad_no';
+		// 			$fab = $this->input->post('Ad_No');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Ad_no' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['unit']) && $_POST['unit'] != "") {
+		// 			$data['cat'][] = 'stock_unit';
+		// 			$fab = $this->input->post('unit');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Unit' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['rate']) && $_POST['rate'] != "") {
+		// 			$data['cat'][] = 'purchase_rate';
+		// 			$fab = $this->input->post('rate');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Purchase_Rate' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['total']) && $_POST['total'] != "") {
+		// 			$data['cat'][] = 'total_value';
+		// 			$fab = $this->input->post('total');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Total' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['current_stock']) && $_POST['current_stock'] != "") {
+		// 			$data['cat'][] = 'current_stock';
+		// 			$fab = $this->input->post('current_stock');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'Curr_qty' . " = " . $fab . " ";
+		// 		}
+		// 		if (isset($_POST['fabric_type']) && $_POST['fabric_type'] != "") {
+		// 			$data['cat'][] = 'fabric_type';
+		// 			$fab = $this->input->post('fabric_type');
+		// 			$data['Value'][] = $fab;
+		// 			$caption = $caption . 'fab_type' . " = " . $fab . " ";
+		// 		}
 
-				if (isset($data['cat']) && isset($data['Value'])) {
-					//echo"<pre>";	print_r( $data); exit;
-					$data['caption'] = $caption;
-				} else {
-					$this->session->set_flashdata('error', 'please enter some keyword');
-					redirect($_SERVER['HTTP_REFERER']);
-				}
-			}
-		}
+		// 		if (isset($data['cat']) && isset($data['Value'])) {
+		// 			//echo"<pre>";	print_r( $data); exit;
+		// 			$data['caption'] = $caption;
+		// 		} else {
+		// 			$this->session->set_flashdata('error', 'please enter some keyword');
+		// 			redirect($_SERVER['HTTP_REFERER']);
+		// 		}
+		// 	}
+		// }
 		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
 		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
 		$data['godownid'] = $godown;
@@ -526,6 +531,7 @@ class Transaction extends CI_Controller
 			if ($godown == 23) {
 				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'all');
 			} else {
+				
 				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'challan');
 			}
 
@@ -1016,6 +1022,7 @@ class Transaction extends CI_Controller
 				$cc = $cc + 1;
 				$challan1 = $godown_name->outPrefix .  (string) $cc .  $godown_name->outSuffix;
 			}
+		
 			$id = $this->Transaction_model->getId1('to_godown', $godown, 'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
 			if (!$id) {
@@ -1023,7 +1030,7 @@ class Transaction extends CI_Controller
 			} else {
 				$cc1 = $id[0]['count'];
 				$cc1 = $cc1 + 1;
-				$challan2 = $godown_name->inPrefix . (string) $cc .  $godown_name->inSuffix;
+				$challan2 = $godown_name->inPrefix . (string) $cc1 .  $godown_name->inSuffix;
 			}
 			$data1 = [
 				'from_godown' => $data['FromGodown'],

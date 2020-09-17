@@ -187,6 +187,7 @@
               <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/show_tc'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> TC List </span></a></li>
 
               <li class="sidebar-item"><a href="<?php echo base_url('admin/FRC/show_stock'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Stock of plain fabric </span></a></li>
+              <li class="sidebar-item"><a href="<?php echo base_url('admin/Segment'); ?>" class="sidebar-link"><i class="fas fa-code-branch"></i><span class="hide-menu"> Suit Saree Tc </span></a></li>
             </ul>
           </li>
 

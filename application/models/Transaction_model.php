@@ -110,7 +110,7 @@ public function get($col,$godown,$type,$data="")
 
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
-    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
+    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'left');
     if (isset($data['id'])) {
       $this->db->where('trans_meta_id', $data['id']);
     }
@@ -386,7 +386,7 @@ public function view_tc($data)
 
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
-    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
+    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'left');
 
     $this->db->where('to_godown', $id);
     $this->db->where('is_tc', 0);
@@ -400,7 +400,7 @@ public function view_tc($data)
 
     $this->db->select("godown_stock_view.*,fabric.fabricCode");
     $this->db->from('godown_stock_view');
-    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'inner');
+    $this->db->join('fabric', 'fabric.fabricName=godown_stock_view.fabric_name', 'left');
 
       $this->db->where('order_barcode', $data['obc']);
     $this->db->where('stat', 'recieved');
@@ -449,7 +449,7 @@ public function view_tc($data)
    $this->db->where('fabric_challan.challan_date <=', $data['to']);
     $this->db->where("challan_type", $data['type']);
 
-    $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','inner');
+    $this->db->join('branch_detail','branch_detail.id=fabric_challan.challan_to','left');
  $this->db->join('unit','unit.id=fabric_challan.unit','inner');
    $rec=$this->db->get();
   //  print_r($rec);
@@ -481,6 +481,16 @@ public function getOBC_deatils($id)
 
 
  }
+  
+  public function get_new_stock_count($id)
+  {
+    $this->db->select('*');
+    $this->db->from("transaction");
+    $this->db->where("to_godown", $id);
+    $this->db->where("status",'new');
+    $rec = $this->db->get();
+    return $rec->num_rows();
+  }
  public function getPBC()
  {
    $this->db->select('parent_barcode');

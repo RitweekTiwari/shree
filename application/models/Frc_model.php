@@ -506,7 +506,7 @@ public function getPBC_deatils($id)
    $this->db->where("fc.challan_to",$from);
    $this->db->where('fabric_stock_received.deleted', 0);
    $this->db->join('fabric','fabric.id=fabric_stock_received.fabric_id','inner');
-  $this->db->join('fabric_challan as fc','fc.fc_id=fabric_stock_received.fabric_challan_id','inner');
+  $this->db->join('fabric_challan as fc', 'fc.challan_no=fabric_stock_received.challan_no','inner');
   $rec=$this->db->get(); 
 //print_r($rec->result_array());exit;   
    return $rec->result_array();
