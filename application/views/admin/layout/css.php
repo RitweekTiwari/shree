@@ -68,10 +68,10 @@ $godown = $this->db->get('sub_department')->result();
             top: 0;
             right: 0;
             /* bottom: 110; */
-            font-size: 16px;
-            background-color: yellow;
-            color: black;
-            padding: 1px;
+            font-size: 18px;
+            background-color: #ffffff;
+            color: #f43c13;
+            padding: 5px;
             border-radius: 50%;
 
         }

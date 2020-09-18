@@ -192,7 +192,8 @@ class Orders extends CI_Controller
     $data = array();
     $data['page_name'] = 'ORDER FLOW CHART';
     $data['godown'] = $this->common_model->select('sub_department');
-   // pre($data['godown']);exit;
+    $data['flow'] = $this->Orders_model->get_order_flow();
+    //pre($data['flow']);exit;
     $data['main_content'] = $this->load->view('admin/order/order_flow_chart', $data, TRUE);
     $this->load->view('admin/index', $data);
   }
@@ -339,18 +340,18 @@ class Orders extends CI_Controller
     $id = $this->security->xss_clean($_POST['id']);
 
     $data = array();
-    $data['febName'] = $this->Orders_model->getOrderDetails($id);
+    $data['order'] = $this->Orders_model->getOrderDetails($id);
 
-    if($data['febName']){
+    if($data['order']){
       if(isset($_POST['godown'])){
       $godown = $this->security->xss_clean($_POST['godown']);
-          if($data['febName'][0]['godown']==$godown){
-            echo json_encode($data['febName']);
+          if($data['order'][0]['godown']==$godown){
+            echo json_encode($data);
           }else{
             echo json_encode(2);
           }
       }else{
-      echo json_encode($data['febName']);
+      echo json_encode($data['order']);
       }
 
     }else{

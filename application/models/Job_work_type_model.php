@@ -22,9 +22,10 @@
 			return $this->db->insert_id();
 		}
 
+
 		public function get($data)
 		{
-			$this->db->select('jw.id,jw.type,  GROUP_CONCAT(unit.unitSymbol) AS unit, GROUP_CONCAT(jc.job) AS job, GROUP_CONCAT(jc.rate) AS rate');
+			$this->db->select('jw.id,jw.type,jw.category,jw.rate_from,  GROUP_CONCAT(unit.unitSymbol) AS unit, GROUP_CONCAT(jc.job) AS job, GROUP_CONCAT(jc.rate) AS rate');
 			$this->db->from('job_work_type jw');
 
 			if (isset($data['search'])) {
@@ -40,9 +41,12 @@
 			$query = $query->result_array();
 			return $query;
 		}
+
+
+
 		public function get_all_edit_data($id)
 		{
-			$this->db->select('jw.id,jw.type, GROUP_CONCAT(jc.id) AS jcid,GROUP_CONCAT(jc.jobId) AS jobId, GROUP_CONCAT(unit.unitSymbol) AS unitSymbol,GROUP_CONCAT(jc.unit) AS unit, GROUP_CONCAT(jc.job) AS job, GROUP_CONCAT(jc.rate) AS rate');
+			$this->db->select('jw.id,jw.type,jw.category,jw.rate_from, GROUP_CONCAT(jc.id) AS jcid,GROUP_CONCAT(jc.jobId) AS jobId, GROUP_CONCAT(unit.unitSymbol) AS unitSymbol,GROUP_CONCAT(jc.unit) AS unit, GROUP_CONCAT(jc.job) AS job, GROUP_CONCAT(jc.rate) AS rate');
 			$this->db->from('job_work_type jw');
 			$this->db->where('jw.id', $id);
 			$this->db->JOIN('jobtypeconstant jc', 'jc.jobId = jw.id', 'left');

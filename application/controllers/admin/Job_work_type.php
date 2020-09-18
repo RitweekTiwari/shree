@@ -31,8 +31,12 @@ class Job_work_type extends CI_Controller
 		if ($_POST) {
 			$data = array();
 			$data['type'] = $this->input->post('type');
+			$data['category'] = $this->input->post('category');
+			$data['rate_from'] = $_POST['from'];
 			$jobid = $this->Job_work_type_model->add($data);
-			if ($jobid) {
+
+
+			if ($jobid){
 				for ($i = 0; $i < count($_POST['job']); $i++) {
 					$datajob = array(
 						'unit' => $_POST['unit'][$i],
@@ -48,11 +52,13 @@ class Job_work_type extends CI_Controller
 					echo 0;
 				}
 			}
+
+
 		}
 	}
 
 	public function get_jobworklist()
-	{
+	 {
 		$output = array();
 		$data = array();
 		$record = array();
@@ -67,23 +73,25 @@ class Job_work_type extends CI_Controller
 				$data['work_type'] = $this->Job_work_type_model->get($data);
 
 				foreach ($data['work_type'] as $key => $value) {
-
 					$output[$key]['id'] = $value['id'];
 					$output[$key]['type'] = $value['type'];
-
+		  			$output[$key]['category'] = $value['category'];
+					$output[$key]['from'] = $value['rate_from'];
 					$output[$key]['jobconstant'] = self::get_array($value['unit'], $value['job'], $value['rate']);
 					//pre($output[$key]['fabricId']);exit;
 				}
-				if (isset($output)) {
+				if(isset($output)){
 					$data['output'] = $output;
 					//pre($data['output']);exit;
 				}
 			} else {
 				$data['work_type'] = $this->Job_work_type_model->get($data);
 				//pre($data['work_type']);exit;
-				foreach ($data['work_type'] as $key => $value) {
+				foreach ($data['work_type'] as $key => $value){
 					$output[$key]['id'] = $value['id'];
 					$output[$key]['type'] = $value['type'];
+					$output[$key]['category'] = $value['category'];
+					$output[$key]['from'] = $value['rate_from'];
 					$output[$key]['jobconstant'] = self::get_array($value['unit'], $value['job'], $value['rate']);
 					//pre($output[$key]['fabricId']);exit;
 				}
@@ -98,6 +106,8 @@ class Job_work_type extends CI_Controller
 				$sub_array['row'] = 'row_' . $value['id'];
 				$sub_array['id'] = '<input type="checkbox" class="sub_chk" data-id=' . $value['id'] . '>';
 				$sub_array['type'] = $value['type'];
+				$sub_array['category'] = $value['category'];
+				$sub_array['from'] = $value['from'];
 				$sub_array['jobconstant'] = $value['jobconstant'];
 
 				$sub_array['action'] =  '<a id="' . $value['id'] . '"; class="text-center tip find_id"  data-original-title="Edit">
@@ -140,14 +150,14 @@ class Job_work_type extends CI_Controller
 	public function get_edit_data()
 	{
 		if ($_POST) {
-			$record = array();
+			
 			//	$data['fabricId']=$this->Fabric_model->get_fabricId('fabric_details');
 			$data['jobtype'] = $this->Job_work_type_model->get_all_edit_data($_POST['id']);
 
 			foreach ($data['jobtype'] as $key => $value) {
 				$output[$key]['id'] = $value['id'];
 				$output[$key]['type'] = $value['type'];
-
+        $output[$key]['category'] = $value['category'];
 				$output[$key]['bojconstant'] = self::get_edit_array($value['jcid'], $value['jobId'], $value['unit'], $value['unitSymbol'], $value['job'], $value['rate']);
 				//pre($output[$key]['fabricdetails']);exit;
 			}
@@ -186,6 +196,8 @@ class Job_work_type extends CI_Controller
 			$jobworkid = $this->input->post('jobworkId');
 			$data = array(
 				'type' => $_POST['type'],
+				'category' => $_POST['category'],
+				'rate_from' => $_POST['from'],
 			);
 
 			$id = $this->Job_work_type_model->edit($jobworkid, $data, 'job_work_type');
@@ -238,6 +250,7 @@ class Job_work_type extends CI_Controller
 			echo 0;
 		}
 	}
+
 	public function delete($id)
 	{
 		$this->Job_work_type_model->delete($id);
@@ -278,6 +291,7 @@ class Job_work_type extends CI_Controller
 			echo json_encode($output);
 		}
 	}
+
 }
 	/* End of file Dashboard.php */
 	/* Location: ./application/controllers/admin/Dashboard.php */

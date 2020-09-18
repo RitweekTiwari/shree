@@ -60,7 +60,7 @@
 
                   </table>
                 </div>
-                <div class="col-md-4 "><img src="" alt=""> </div>
+                <div class="col-md-4 text-center"><img src="<?php echo base_url('optimum/admin/assets/images/preview.webp') ?>" alt="preview" id="preview" style="width:150px; "> </div>
               </div>
               <hr>
               <table id="fresh_form" class="remove_datatable">

@@ -155,6 +155,7 @@
                     <th>Date</th>
 
                     <th>Party name</th>
+                    <th>Type</th>
                     <th>Doc No</th>
                     <th>Challan no</th>
 
@@ -176,7 +177,6 @@
 </div>
 
 <script>
-
   $(document).ready(function() {
     var fil = '';
     var table;

@@ -155,6 +155,7 @@
                     <th>Date</th>
 
                     <th>Party name</th>
+                    <th>Type </th>
                     <th>Challan no</th>
 
 
@@ -207,7 +208,7 @@
             'challan_id': data,
             'type': 'table',
             'godown': <?php echo $id ?>,
-             '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
           },
           success: function(response) {
             var w = window.open('about:blank');

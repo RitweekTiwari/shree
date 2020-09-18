@@ -186,7 +186,7 @@ public function get_design_name()
                             AS cancel',TRUE);
         $this->db->select('(SELECT count(order_id)
                             FROM order_product
-                            WHERE (status = "INPROCESS")
+                            WHERE (status = "OUT")
                             )
                             AS inprocess',TRUE);
         $this->db->select('(SELECT count(order_id)
@@ -231,7 +231,62 @@ public function get_design_name()
         }
 
     }
+	
 
+	public function get_order_flow()
+	{
+
+	$this->db->select(" ot.order_date,
+    order_product.order_id,
+    ot.order_number,
+   branch_detail.sort_name,
+customer_detail.name as customer,
+ot.branch_order_number,
+    COUNT(order_product.order_product_id) as total");
+		$this->db->select(" (
+    SELECT
+        COUNT(*) AS cancel
+    FROM
+        order_product AS c
+    WHERE
+        c.order_id = order_product.order_id AND c.status = 'CANCEL'
+) AS cancel",True);
+		$this->db->select("(
+    SELECT
+        COUNT(*) AS cancel
+    FROM
+        order_product AS c
+    WHERE
+        c.order_id = order_product.order_id AND c.status = 'DONE'
+) AS done",True);
+		$this->db->select("(
+    SELECT
+        COUNT(*) AS cancel
+    FROM
+        order_product AS c
+    WHERE
+        c.order_id = order_product.order_id AND c.status = 'PENDING'
+) AS pending",True);
+		$this->db->select("(
+    SELECT
+        COUNT(*) AS cancel
+    FROM
+        order_product AS c
+    WHERE
+        c.order_id = order_product.order_id AND c.status = 'OUT'
+) AS pglist",True);
+
+
+
+		$this->db->from('order_table ot');
+		$this->db->join('order_product ', 'ot.order_id = order_product.order_id', 'inner');
+		$this->db->join('branch_detail ', 'ot.branch_name=branch_detail.id', 'left');
+		$this->db->join('customer_detail ', 'customer_detail.id=ot.customer_name', 'left');
+		$this->db->group_by("ot.order_id");
+		$query = $this->db->get();
+		return $query->result_array();
+		
+	}
 		public function get_order_product($order_id)
 		{
 		

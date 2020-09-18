@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <a type="button" class="btn  pull-left print_all btn-success" target="_blank" style="color:#fff;"><i class="fa fa-print"></i></a>
-<hr>
+                        <hr>
                         <table class="table-box">
                             <tr>
                                 <td><label>From</label></td>
@@ -80,7 +80,7 @@
                         <div class="widget-content nopadding">
 
 
-                            <table class=" table-bordered  text-center  data-table">
+                            <table class=" table-bordered  text-center  datatable">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
@@ -194,104 +194,137 @@
     var summary = [];
     var count = 0;
     var i = 0;
+   
 
+        $(document).ready(function() {
+            $('.datatable ').DataTable({
 
-    $(document).ready(function() {
-        function printData() {
-            var divToPrint = document.getElementById("Print_div");
+                select: true,
+                dom: 'Bfrtip',
+                buttons: [{
+                        extend: 'excel',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'pdf',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    }, {
+                        extend: 'print',
+                        footer: true,
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
 
-            var htmlToPrint = '' +
-                '<style type="text/css">' +
-                'table th,table td {' +
-                'border-bottom:1px solid black;' +
-                'padding:0.5em;' + 'text-align: center;' +
-                '}' +
-                '</style>';
-            htmlToPrint += divToPrint.outerHTML;
-            newWin = window.open("");
-            newWin.document.write(htmlToPrint);
-            newWin.document.close();
-            newWin.print();
+                    'selectAll',
+                    'selectNone',
+                    'colvis'
+                ],
 
-        }
+                paging: false,
 
-        $('.print_all').on('click', function() {
-            printData();
+            });
 
-        });
+            function printData() {
+                var divToPrint = document.getElementById("Print_div");
 
-        $("table tbody tr").each(function() {
+                var htmlToPrint = '' +
+                    '<style type="text/css">' +
+                    'table th,table td {' +
+                    'border-bottom:1px solid black;' +
+                    'padding:0.5em;' + 'text-align: center;' +
+                    '}' +
+                    '</style>';
+                htmlToPrint += divToPrint.outerHTML;
+                newWin = window.open("");
+                newWin.document.write(htmlToPrint);
+                newWin.document.close();
+                newWin.print();
 
-            var self = $(this);
-            var fabric = self.find("td:eq(4)").text().trim();
-            var qty = Number(self.find("td:eq(10)").text().trim());
-            console.log('fabric=' + fabric);
-            console.log('summary=' + summary);
-            pcs = 1;
-            if (i == 0) {
-                var arr = [fabric, pcs, qty];
-                if (fabric != '') {
-                    summary.push(arr);
-                }
+            }
 
+            $('.print_all').on('click', function() {
+                printData();
 
+            });
 
-            } else {
-                var found = 0;
-                summary.forEach(myFunction);
+            $("table tbody tr").each(function() {
 
-                function myFunction(value, index, array) {
-
-                    if (fabric == array[index][0]) {
-                        found = 1;
-                        array[index][1] += 1;
-                        array[index][2] += Number(qty);
-
-                    }
-
-                }
-                if (found == 0) {
-                    pcs = 1;
-                    qty = Number(qty);
-                    arr = [fabric, pcs, qty];
+                var self = $(this);
+                var fabric = self.find("td:eq(4)").text().trim();
+                var qty = Number(self.find("td:eq(10)").text().trim());
+                console.log('fabric=' + fabric);
+                console.log('summary=' + summary);
+                pcs = 1;
+                if (i == 0) {
+                    var arr = [fabric, pcs, qty];
                     if (fabric != '') {
                         summary.push(arr);
                     }
 
+
+
+                } else {
+                    var found = 0;
+                    summary.forEach(myFunction);
+
+                    function myFunction(value, index, array) {
+
+                        if (fabric == array[index][0]) {
+                            found = 1;
+                            array[index][1] += 1;
+                            array[index][2] += Number(qty);
+
+                        }
+
+                    }
+                    if (found == 0) {
+                        pcs = 1;
+                        qty = Number(qty);
+                        arr = [fabric, pcs, qty];
+                        if (fabric != '') {
+                            summary.push(arr);
+                        }
+
+                    }
                 }
+                i = i + 1;
+            });
+            var html =
+                '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
+            html += '<tr><th >Fabric</th>';
+            html += '<th >PCS</th>';
+            html += '<th >Quantity</th>';
+
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+            if (summary) {
+
+                var stotal = 0;
+                var tqty = 0;
+                var Tpcs = 0;
+                summary.forEach(myFunction);
+
+                function myFunction(value, index, array) {
+                    stotal += array[index][3];
+                    tqty += array[index][2];
+                    Tpcs += array[index][1];
+                    html += ' <tr><td>' + array[index][0] + '</td>';
+                    html += '<td>' + array[index][1] + '</td>';
+                    html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
+                    html += '</tr></tbody>';
+                }
+                html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
+                    '</th></tr>';
+                html += '</table>';
+
+                $('#summary').html(html);
             }
-            i = i + 1;
         });
-        var html =
-            '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
-        html += '<tr><th >Fabric</th>';
-        html += '<th >PCS</th>';
-        html += '<th >Quantity</th>';
-
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
-        if (summary) {
-
-            var stotal = 0;
-            var tqty = 0;
-            var Tpcs = 0;
-            summary.forEach(myFunction);
-
-            function myFunction(value, index, array) {
-                stotal += array[index][3];
-                tqty += array[index][2];
-                Tpcs += array[index][1];
-                html += ' <tr><td>' + array[index][0] + '</td>';
-                html += '<td>' + array[index][1] + '</td>';
-                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
-                html += '</tr></tbody>';
-            }
-            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
-                '</th></tr>';
-            html += '</table>';
-
-            $('#summary').html(html);
-        }
-    });
 </script>

@@ -86,7 +86,7 @@
               var present_date = new Date();
 
               // 0-11 is Month in JavaScript 
-              var christmas_day = new Date(data[0]['order_date']);
+              var christmas_day = new Date(data['order'][0]['order_date']);
 
               // To Calculate the result in milliseconds and then converting into days 
               var Result = Math.round(present_date.getTime() - christmas_day.getTime()) / (one_day);
@@ -94,34 +94,37 @@
               // To remove the decimals from the (Result) resulting days value 
               var Final_Result = Result.toFixed(0);
               Final_Result = 30 - Final_Result;
-              fabric = data[0]['fabric_name'];
-              $(".msg").html("");
+              fabric = data['order'][0]['fabric_name'];
+              image = data['order'][0]['image'];
+            
               $('#days' + button_id + '').val(Final_Result);
-              $('#pbc' + button_id + '').val(data[0]['pbc']);
-              $('#orderNo' + button_id + '').val(data[0]['order_number']);
-              $('#design' + button_id + '').val(data[0]['design_name']);
-              $('#DesignCode' + button_id + '').val(data[0]['design_code']);
-              $('#stitch' + button_id + '').val(data[0]['stitch']);
-              $('#dye' + button_id + '').val(data[0]['dye']);
-              $('#matching' + button_id + '').val(data[0]['matching']);
+              $('#pbc' + button_id + '').val(data['order'][0]['pbc']);
+              $('#orderNo' + button_id + '').val(data['order'][0]['order_number']);
+              $('#design' + button_id + '').val(data['order'][0]['design_name']);
+              $('#DesignCode' + button_id + '').val(data['order'][0]['design_code']);
+              $('#stitch' + button_id + '').val(data['order'][0]['stitch']);
+              $('#dye' + button_id + '').val(data['order'][0]['dye']);
+              $('#matching' + button_id + '').val(data['order'][0]['matching']);
 
               if (godown == 19) {
-                $('#qty' + button_id + '').val(data[0]['finish_qty']);
+                $('#qty' + button_id + '').val(data['order'][0]['finish_qty']);
 
               } else {
-                $('#qty' + button_id + '').val(data[0]['quantity']);
+                $('#qty' + button_id + '').val(data['order'][0]['quantity']);
 
               }
-              if (data[0]['trans_meta_id']) {
-                $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
+              if (data['order'][0]['trans_meta_id']) {
+                $('#trans_id' + button_id + '').val(data['order'][0]['trans_meta_id']);
               } else {
                 $('#trans_id' + button_id + '').val("");
               }
               $('#fabric' + button_id + '').val(fabric);
-              $('#image' + button_id + '').val(data[0]['image']);
-              $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
-              $('#hsn' + button_id + '').val(data[0]['hsn']);
-              $('#unit' + button_id + '').val(data[0]['unit']);
+              $('#image' + button_id + '').val(image);
+              if (image == "Null" || Image == "") {
+                $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data['order'][0]['image']);
+              }
+              $('#hsn' + button_id + '').val(data['order'][0]['hsn']);
+              $('#unit' + button_id + '').val(data['order'][0]['unit']);
               if (fabric != "") {
                 $('#submit_button').show();
               } else {
@@ -175,43 +178,7 @@
       count = count - 1;
     });
 
-    $('.delete_all').on('click', function(e) {
-      var allVals = [];
-      $(".sub_chk:checked").each(function() {
-        allVals.push($(this).attr('data-id'));
-      });
-      //alert(allVals.length); return false;
-      if (allVals.length <= 0) {
-        alert("Please select row.");
-      } else {
-        //$("#loading").show();
-        WRN_PROFILE_DELETE = "Are you sure you want to delete this row?";
-        var check = confirm(WRN_PROFILE_DELETE);
-        if (check == true) {
-          //for server side
-          var join_selected_values = allVals.join(",");
-          // alert (join_selected_values);exit;
 
-          $.ajax({
-            type: "POST",
-            url: "<?= base_url() ?>admin/Transaction/delete",
-            cache: false,
-            data: {
-              'ids': join_selected_values,
-              '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-            },
-            success: function(response) {
-
-              //referesh table
-              $(".sub_chk:checked").each(function() {
-                var id = $(this).attr('data-id');
-                $('#tr_' + id).remove();
-              });
-            }
-          });
-        }
-      }
-    });
 
 
     $(document).on('click', '.btn_remove', function() {
@@ -259,34 +226,7 @@
         }
       }
     });
-    $(document).on('change', "#FromParty", function() {
-      var party = $(this).val();
 
-
-      if (party != "") {
-        var csrf_name = $("#get_csrf_hash").attr('name');
-        var csrf_val = $("#get_csrf_hash").val();
-        $.ajax({
-          type: "POST",
-          url: "<?php echo base_url('admin/transaction/get_godown') ?>",
-          data: {
-            'party': party,
-
-            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-          },
-          datatype: 'json',
-
-          success: function(data) {
-            data = JSON.parse(data);
-            $("#FromGodownId").val(data[0]['id']);
-            $("#FromGodown").val(data[0]['godown']);
-          }
-
-        });
-      } else {
-        $("#FromGodown").val('');
-      }
-    });
     $(document).on('change', "#toParty", function() {
       var party = $(this).val();
 

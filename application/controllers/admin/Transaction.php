@@ -24,7 +24,7 @@ class Transaction extends CI_Controller
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $godown_name . '  DASHBOARD';
-		$data['new']=$this->Transaction_model->get_new_stock_count($godown);
+		$data['new'] = $this->Transaction_model->get_new_stock_count($godown);
 		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
 		$dye_godown = $this->Transaction_model->get_dye_godown();
 		foreach ($dye_godown as $row) {
@@ -40,6 +40,8 @@ class Transaction extends CI_Controller
 			$data['main_content'] = $this->load->view('admin/transaction/index_finish', $data, TRUE);
 		} else if (in_array($godown, $data['dye'])) {
 			$data['main_content'] = $this->load->view('admin/transaction/index_dye', $data, TRUE);
+		} else if ($godown == 23) {
+			$data['main_content'] = $this->load->view('admin/transaction/index_ho', $data, TRUE);
 		} else {
 			$data['main_content'] = $this->load->view('admin/transaction/index', $data, TRUE);
 		}
@@ -99,8 +101,25 @@ class Transaction extends CI_Controller
 	public function showRecieve($godown)
 	{
 		$data = array();
-		$data['page_name'] = '  DASHBOARD';
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
 
+		$data['id'] = $godown;
+		$data['job'] = $this->Transaction_model->get_jobwork($godown);
+		if ($data['job']->category == "Constant") {
+			$data['job_meta'] = $this->Transaction_model->get_jobwork_details($data['job']->job_work_type);
+		} else if ($data['job']->category == "No Charge") {
+			$data['job_meta'] = array('rate' => 0.00, 'job' => 'Nill');
+		} else {
+			$data['job_meta'] = '';
+		}
+
+		//pre($data['job_meta']);exit;
 		$data['branch_data'] = $this->Job_work_party_model->get();
 
 		$data['main_content'] = $this->load->view('admin/transaction/bill/add', $data, TRUE);
@@ -134,7 +153,7 @@ class Transaction extends CI_Controller
 				if ($godown == 23) {
 					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all', $data1);
 				} else {
-					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan', $data1);
+					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, array('challan','bill'), $data1);
 				}
 			} elseif (!empty($_POST["filter"])) {
 				// pre($_POST["filter"]);exit;
@@ -150,7 +169,7 @@ class Transaction extends CI_Controller
 					if ($godown == 23) {
 						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all', $data1);
 					} else {
-						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan', $data1);
+						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, array('challan', 'bill'), $data1);
 					}
 				} elseif ($_POST['filter']['search'] == 'advance') {
 					if (isset($_POST['filter']['challan_in']) && $_POST['filter']['challan_in'] != "") {
@@ -181,7 +200,7 @@ class Transaction extends CI_Controller
 						if ($godown == 23) {
 							$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all', $data1);
 						} else {
-							$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan', $data1);
+							$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, array('challan', 'bill'), $data1);
 						}
 					} else {
 						$this->session->set_flashdata('error', 'please enter some keyword');
@@ -194,7 +213,7 @@ class Transaction extends CI_Controller
 					if ($godown == 23) {
 						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all', $data1);
 					} else {
-						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan', $data1);
+						$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, array('challan', 'bill'), $data1);
 					}
 				}
 			} else {
@@ -203,7 +222,7 @@ class Transaction extends CI_Controller
 				if ($godown == 23) {
 					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'all', $data1);
 				} else {
-					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, 'challan', $data1);
+					$data['frc_data'] = $this->Transaction_model->get('to_godown', $godown, array('challan', 'bill'), $data1);
 				}
 				// pre($data['frc_data']);exit;
 			}
@@ -211,14 +230,20 @@ class Transaction extends CI_Controller
 		}
 		foreach ($data['frc_data'] as $value) {
 			if ($value['status'] == 'new') {
-				$challan= $value['challan_in'].' <span class="badge badge-pill badge-danger">New</span>';
-			}else{
+				$challan = $value['challan_in'] . ' <span class="badge badge-pill badge-danger">New</span>';
+			} else {
 				$challan = $value['challan_in'];
+			}
+			if ($value['transaction_type'] == 'bill') {
+				$type = '<span class="badge  badge-primary">'.ucfirst($value['transaction_type']).'</span>' ;
+			} else {
+				$type = '<span class="badge  badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
 			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
 			$sub_array[] = $value['created_at'];
 			$sub_array[] = $value['sub1'];
+			$sub_array[] = $type ;
 			$sub_array[] = $value['challan_out'];
 			$sub_array[] = $challan;
 
@@ -253,7 +278,7 @@ class Transaction extends CI_Controller
 				if ($godown == 23) {
 					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'all', $data1);
 				} else {
-					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'challan', $data1);
+					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, array('challan', 'bill'), $data1);
 				}
 			} elseif (!empty($_POST["filter"])) {
 				// pre($_POST["filter"]);exit;
@@ -269,7 +294,7 @@ class Transaction extends CI_Controller
 					if ($godown == 23) {
 						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'all', $data1);
 					} else {
-						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'challan', $data1);
+						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, array('challan', 'bill'), $data1);
 					}
 				} elseif ($_POST['filter']['search'] == 'advance') {
 					// if(isset($_POST['filter']['challan_in']) && $_POST['filter']['challan_in']!="" ){
@@ -300,7 +325,7 @@ class Transaction extends CI_Controller
 						if ($godown == 23) {
 							$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'all', $data1);
 						} else {
-							$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'challan', $data1);
+							$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, array('challan', 'bill'), $data1);
 						}
 					} else {
 						$this->session->set_flashdata('error', 'please enter some keyword');
@@ -313,7 +338,7 @@ class Transaction extends CI_Controller
 					if ($godown == 23) {
 						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'all', $data1);
 					} else {
-						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'challan', $data1);
+						$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, array('challan', 'bill'), $data1);
 					}
 				}
 			} else {
@@ -322,18 +347,24 @@ class Transaction extends CI_Controller
 				if ($godown == 23) {
 					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'all', $data1);
 				} else {
-					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, 'challan', $data1);
+					$data['frc_data'] = $this->Transaction_model->get('from_godown', $godown, array('challan', 'bill'), $data1);
 				}
 				// pre($data['frc_data']);exit;
 			}
 			//pre($data['frc_data']);exit;
 		}
+		
 		foreach ($data['frc_data'] as $value) {
-
+			if ($value['transaction_type'] == 'bill') {
+				$type = '<span class="badge  badge-primary">' . ucfirst($value['transaction_type']) . '</span>';
+			} else {
+				$type = '<span class="badge  badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
+			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
 			$sub_array[] = $value['created_at'];
 			$sub_array[] = $value['sub2'];
+			$sub_array[] = $type;
 			$sub_array[] = $value['challan_out'];
 			$sub_array[] =  '	<a class="text-center tip"  href="' .  base_url('admin/Transaction/viewChallanOut/') . $value['transaction_id'] . ' ">
 					<i class="fa fa-eye" aria-hidden="true"></i></a>';
@@ -531,7 +562,7 @@ class Transaction extends CI_Controller
 			if ($godown == 23) {
 				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'all');
 			} else {
-				
+
 				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'challan');
 			}
 
@@ -881,56 +912,65 @@ class Transaction extends CI_Controller
 		}
 	}
 
-	public function addBill()
+	public function addBill($godown)
 	{
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
-			// echo "<pre>"; print_r($data);exit;
-			$count = count($data['pbc']);
-			$total_qty = 0;
-			$total_val = 0;
-			for ($i = 0; $i < $count; $i++) {
-				$total_qty = $total_qty +  $data['qty'][$i];
-				$total_val = $total_val + $data['total'][$i];
-			}
-			$id = $this->Transaction_model->getId();
+			// echo "<pre>"; print_r(count($data['obc']));exit;
+			$count = count($data['obc']);
+			$id = $this->Transaction_model->getId('from_godown', $godown, 'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['FromGodown'], 'arr');
 			if (!$id) {
-				$challan = "OUT1";
+				$challan1 =
+					$godown_name->outPrefix . $godown_name->outStart . $godown_name->outSuffix;
 			} else {
 				$cc = $id[0]['count'];
 				$cc = $cc + 1;
-				$challan = "OUT" . (string) $cc;
+				$challan1 = $godown_name->outPrefix .  (string) $cc .  $godown_name->outSuffix;
+			}
+
+			$id = $this->Transaction_model->getId1('to_godown', $godown, 'challan');
+			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
+			if (!$id) {
+				$challan2 =  $godown_name->inPrefix .  $godown_name->inStart .  $godown_name->inSuffix;
+			} else {
+				$cc1 = $id[0]['count'];
+				$cc1 = $cc1 + 1;
+				$challan2 = $godown_name->inPrefix . (string) $cc1 .  $godown_name->inSuffix;
 			}
 			$data1 = [
-				'challan_from' => $data['fromGodown'],
-				'challan_to'  => $data['toGodown'],
-				'challan_date' => $data['PBC_date'],
+				'from_godown' => $data['FromGodown'],
+				'to_godown'  => $data['ToGodown'],
+				'fromParty' => $data['FromParty'],
+				'toParty'  => $data['toParty'],
+				'created_at' => date('Y-m-d'),
 				'created_by' => $_SESSION['userID'],
-				'challan_out' =>  $data['PBC_challan'],
-				'total_pcs' => $count,
-				'total_quantity' => $total_qty,
-				'total_amount' => $total_val,
-				'fabric_type' => $data['fabType'][0],
-				'unit' => $data['unit'][0],
-				'challan_type' => 'bill'
+				'challan_out' => $challan1,
+				'challan_in' => $challan2,
+				'counter' => $cc,
+				'counter2' => $cc1,
+				'pcs' => $count,
+				'jobworkType' => $data['workType'],
+
+				'transaction_type' => 'bill'
+
 			];
-			$id =	$this->Frc_model->insert($data1, 'fabric_challan');
+			$id =	$this->Transaction_model->insert($data1, 'transaction');
 			for ($i = 0; $i < $count; $i++) {
-				$data2 = [
-					'fabric_challan_id' => $id,
-					'parent_barcode' => $data['pbc'][$i],
-					'fabric_id' => $data['fabric_name'][$i],
-					'fabric_type' => $data['fabType'][$i],
-					'hsn' => $data['hsn'][$i],
-					'stock_quantity' => $data['qty'][$i],
-					'stock_unit' => $data['unit'][$i],
-					'ad_no ' => $data['ADNo'][$i],
-					'color_name ' => $data['color'][$i],
-					'purchase_code' => $data['pcode'][$i],
-					'purchase_rate' => $data['prate'][$i],
-					'total_value' => $data['total'][$i]
-				];
-				$this->Transaction_model->insert($data2, 'fabric_stock_received');
+				if ($_POST['quantity'][$i]) {
+					$data2 = [
+						'transaction_id' => $id,
+
+						'order_barcode' => $data['obc'][$i],
+						'job ' => $data['job'][$i],
+						'rate ' => $data['rate'][$i],
+						
+					];
+
+					$this->Transaction_model->insert($data2, 'transaction_meta');
+					$this->Transaction_model->update(array('status' => 'OUT'), 'order_barcode', $data['obc'][$i],  'order_product');
+					$this->Transaction_model->update(array('stat' => 'out'), 'trans_meta_id', $data['trans_id'][$i],  'transaction_meta');
+				}
 			}
 		}
 		redirect($_SERVER['HTTP_REFERER']);
@@ -1022,7 +1062,7 @@ class Transaction extends CI_Controller
 				$cc = $cc + 1;
 				$challan1 = $godown_name->outPrefix .  (string) $cc .  $godown_name->outSuffix;
 			}
-		
+
 			$id = $this->Transaction_model->getId1('to_godown', $godown, 'challan');
 			$godown_name = $this->Transaction_model->get_godown_by_id($data['ToGodown'], 'arr');
 			if (!$id) {
@@ -1126,9 +1166,54 @@ class Transaction extends CI_Controller
 		$data['obc'] = $this->security->xss_clean($_POST['id']);
 		$data['godown'] = $this->security->xss_clean($_POST['godown']);
 
-		$data['order'] = $this->Transaction_model->getOrderDetails($data);
-		if ($data['order']) {
-			echo json_encode($data['order']);
+		$data1['order'] = $this->Transaction_model->getOrderDetails($data);
+
+		$data['category'] = $this->security->xss_clean($_POST['category']);
+		if ($data['category'] == 'Attachment' && isset($data1['order'][0])) {
+			$rate_from = $this->security->xss_clean($_POST['rate_from']);
+			$worker = $this->security->xss_clean($_POST['worker']);
+			if ($rate_from == 'emb') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_emb($worker, $data1['order'][0]['design_name']);
+			} elseif ($rate_from == 'design') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_design($data1['order'][0]['design_barcode']);
+			} elseif ($rate_from == 'src') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_src($data1['order'][0]['fabric_name'], $data1['order'][0]['design_code']);
+			} else {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_erc($data1['order'][0]['design_code'], $data1['order'][0]['design_name']);
+			}
+		}
+
+		if ($data1['order']) {
+			echo json_encode($data1);
+		} else {
+			echo json_encode(0);
+		}
+	}
+
+	public function get_plain_OrderDetails()
+	{
+		$id = $this->security->xss_clean($_POST['id']);
+		$godown = $this->security->xss_clean($_POST['godown']);
+
+		$data1['order'] = $this->Transaction_model->get_plain_OrderDetails($id, $godown);
+		//pre($data1['order']);exit;
+		$data['category'] = $this->security->xss_clean($_POST['category']);
+		if ($data['category'] == 'Attachment' && isset($data1['order'][0])) {
+			$rate_from = $this->security->xss_clean($_POST['rate_from']);
+			$worker = $this->security->xss_clean($_POST['worker']);
+			if ($rate_from == 'emb') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_emb($worker, $data1['order'][0]['design_name']);
+			} elseif ($rate_from == 'design') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_design($data1['order'][0]['design_barcode']);
+			} elseif ($rate_from == 'src') {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_src($data1['order'][0]['fabric_name'], $data1['order'][0]['design_code']);
+			} else {
+				$data1['rate'] = $this->Transaction_model->get_rate_by_erc($data1['order'][0]['design_code'], $data1['order'][0]['design_name']);
+			}
+		}
+
+		if ($data1['order']!=0) {
+			echo json_encode($data1);
 		} else {
 			echo json_encode(0);
 		}

@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
   $(document).ready(function() {
     $("#update").hide();
@@ -9,7 +8,6 @@
     getlist(fil);
 
     $("#printAll").on("click", function() {
-
       //Open all of the child rows
       $("td.details-control").click();
 
@@ -26,7 +24,6 @@
     });
 
     function getlist(filter1) {
-
       var csrf_name = $("#get_csrf_hash").attr('name');
       var csrf_val = $("#get_csrf_hash").val();
       dt = $('#jobWorklist').DataTable({
@@ -100,6 +97,14 @@
 
           },
           {
+            "data": "category",
+
+          },
+          {
+            "data": "from",
+
+          },
+          {
             "data": "jobconstant",
 
           },
@@ -109,7 +114,7 @@
           }
         ],
         "columnDefs": [{
-          "targets": [3],
+          "targets": [5],
           "visible": false,
           "searchable": false
         }]
@@ -220,23 +225,25 @@
     $("#submitjob").on('submit', function() {
       event.preventDefault();
       var form = $(this).serialize();
-      console.log(form);
+      // console.log(form);
       $.ajax({
         url: "<?php echo base_url('admin/Job_work_type/addType') ?>",
         'type': 'POST',
         'data': form,
 
         success: function(data) {
-          console.log(data);
+          // console.log(data);
           if (data = true) {
             toastr.success('Success!', " add Successfully");
+            $('#jobWorklist').DataTable().ajax.reload();
             $('#details').html('');
             $('#fresh_field').html('');
           } else {
-            toastr.error('Error!', "Something went wrong");
+            toastr.error('Error!', "Something Went wrong");
           }
         }
       });
+
     });
 
 
@@ -259,14 +266,15 @@
         datatype: 'json',
         success: function(data) {
           data = JSON.parse(data);
-          //  console.log(json.data1);
+          // console.log(data);
           data.forEach(value);
 
           function value(item, index, arr) {
             var id = arr[index].id;
-
             //console.log(arr[index].fabricId);
-            $('#type').val(data[0].type);
+            $('#type').val(arr[0].type);
+
+            $("#category").val(arr[0].category);
 
             $('#jobworkId').val(arr[0].id);
 
@@ -299,6 +307,8 @@
         }
       });
     });
+
+
     $("#update_btn").on('click', function() {
       event.preventDefault();
       var form = $("form").serializeArray();
@@ -315,7 +325,6 @@
             $('#jobWorklist').DataTable().ajax.reload();
             $('.clear').val("");
             $('#extra-details').html('');
-            
             $('#fresh_field').html('');
             $("#update").hide();
             $('#cancle').hide();
@@ -330,7 +339,7 @@
     $("#cancle").on('click', function() {
       $('.clear').val("");
       $('#extra-details').html('');
-     
+      $('#jobWorklist').DataTable().ajax.reload();
       $("#update").hide();
 
       $('#submit').show();
@@ -351,8 +360,7 @@
         success: function(response) {
           if (response) {
             toastr.success('Success!', " deleted Successfully");
-            $('#rem' + id + '').html('');
-          }
+            $('#jobWorklist').DataTable().ajax.reload();          }
         }
       });
     });
@@ -361,6 +369,22 @@
       var rowobj = $("#addNewRow").html();
       $('#fresh_field').append(rowobj);
     });
+
+    $('#category').change(function() {
+      var cat = $(this).val();
+      var element = "";
+      if (cat == "Attachment") {
+        element += '<option value="src">SRC</option>';
+        element += '<option value="erc">ERC</option>';
+        element += '<option value="design">Design</option>';
+        element += '<option value="emb">EMB</option>';
+
+      } else {
+        element += '<option value="none">None</option>';
+      }
+      $('#from').html(element);
+    });
+
     $(document).on('click', '.btn_remove', function() {
       $(this).parent().parent().remove();
     });

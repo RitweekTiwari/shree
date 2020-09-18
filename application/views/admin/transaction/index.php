@@ -44,7 +44,7 @@
                                             <h5 class="text-white">MATERIAL IN</h5>
                                         </a>
                                         <?php if ($new > 0) { ?>
-                                            <span class="badge badge-pill  new-notify">New ( <?php echo $new; ?> )</span>
+                                            <span class="badge badge-pill  new-notify"><b> <?php echo $new; ?></b></span>
                                             ><?php  } ?>
                                     </div>
                                 </div>

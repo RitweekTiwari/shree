@@ -66,29 +66,40 @@ public function get($col,$godown,$type,$data="")
    $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
    $this->db->from('transaction');
    if($type!='all'){
-   $this->db->where('transaction_type', $type);
+     if(is_array($type) ){    //check if type is array or not to get multiple type of transaction
+       for($i=0;$i<count($type);$i++ ){
+         if($i==0){
+            $this->db->where('transaction_type', $type[$i]);
+         }else{
+            $this->db->or_where('transaction_type', $type[$i]);
+         }
+       }
+     }else{
+        $this->db->where('transaction_type', $type);  //to get single type of transaction
+     }
+  
    }
-   if($data!=""){
+   if($data!=""){ //for search 
 
   
-   if(isset($data['search'])){
+   if(isset($data['search'])){ //for search all
      $this->db->LIKE('challan_in',$data['Value']);
      $this->db->or_LIKE('sb1.subDeptName',$data['Value']);
      $this->db->or_LIKE('challan_out',$data['Value']);
    }
-   if(isset($data['cat'])){
+   if(isset($data['cat'])){ //for simple search 
     if(!is_array($data['cat']) ){
     if($data['cat']!=""){
       $this->db->where($data['cat'], $data['Value']);
     }
-    }else{
+    }else{ //for advance search all
       $count =count($data['cat']);
       for($i=0;$i<$count;$i++){
         $this->db->where($data['cat'][$i], $data['Value'][$i]);
       }
       }
   }
-  if($data['from']==$data['to']){
+  if($data['from']==$data['to']){ //for datewise search all
    $this->db->where('transaction.created_at ', $data['from']);
   }else{
    $this->db->where('transaction.created_at >=', $data['from']);
@@ -335,6 +346,97 @@ public function view_tc($data)
 
     }
   }
+  
+  public function get_rate_by_emb($worker, $design)
+  {
+    
+      $this->db->select("embmeta.rate,embmeta.workerName,design.designName");
+      $this->db->from('emb');
+      $this->db->join('embmeta', "embmeta.embId=emb.id");
+      $this->db->join('design', "design.id=emb.designName");
+      $this->db->where('embmeta.workerName', $worker);
+      $this->db->where('design.designName', $design);
+      $query = $this->db->get();
+    //pre($this->db->last_query());exit;
+      if ($query->num_rows() > 0) {
+        return $query->result_array();
+      } else {
+        return null;
+      }
+  
+  }
+  public function get_rate_by_design($design)
+  {
+
+    $this->db->select("htCattingRate as rate");
+    $this->db->from('design_view');
+    
+    $this->db->where('barCode', $design);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result_array();
+    } else {
+      return null;
+    }
+  }
+  public function get_rate_by_src($fabric, $code)
+  {
+
+    $this->db->select("src.rate,fabric.fabricName,fabric_code.fbcode");
+    $this->db->from('src');
+    $this->db->join('fabric', "fabric.id=src.fabric");
+    $this->db->join('fabric_code', "fabric_code.id=src.code");
+    $this->db->where('fabric.fabricName', $fabric);
+    $this->db->where('fabric_code.fbcode', $code);
+    $this->db->where('src.grade', 1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result_array();
+    } else {
+      return null;
+    }
+  }
+  public function get_rate_by_erc($code, $design)
+  {
+
+    $this->db->select("rate");
+    $this->db->from('erc');
+    $this->db->where('desCode', $code);
+    $this->db->where('desName', $design);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result_array();
+    } else {
+      return null;
+    }
+  }
+
+  public function get_jobwork_details($id)
+  {
+    $this->db->select("jobtypeconstant.rate,jobtypeconstant.job,job_work_type.type");
+    $this->db->from('jobtypeconstant');
+    $this->db->join('job_work_type', "job_work_type.id=jobtypeconstant.jobId");
+    $this->db->where('jobtypeconstant.jobId', $id);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->result_array();
+    } else {
+      return null;
+    }
+  }
+  public function get_jobwork($godown)
+  {
+    $this->db->select("job_work_party.id,job_work_party.job_work_type,job_work_type.type,job_work_type.category,job_work_type.rate_from");
+    $this->db->from('job_work_party');
+    $this->db->join('job_work_type', "job_work_type.id=job_work_party.job_work_type");
+    $this->db->where('subDeptName', $godown);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    } else {
+      return null;
+    }
+  }
   public function get_by_id($id)
   {
     $this->db->select("*");
@@ -409,6 +511,24 @@ public function view_tc($data)
     //print_r($this->db->last_query());
     return $rec->result_array();
   }
+
+  
+  public function get_plain_OrderDetails($id,$godown)
+  {
+
+    $this->db->select('*');
+    $this->db->from('order_view');
+    $this->db->where('order_barcode', $id);
+    $this->db->where('status !=', 'OUT');
+    $this->db->where('godown_id', $godown);
+    $rec = $this->db->get();
+    //print_r($this->db->last_query());exit;
+    if($rec->num_rows()>0)
+    return $rec->result_array();
+    else
+    return 0;
+  }
+
  public function edit($id,$data)
  {
    // print_r($data);

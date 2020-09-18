@@ -33,28 +33,20 @@
               <th class="rotate">
                 PG LIST
               </th>
-              <?php foreach ($godown as $row) { ?>
-                <th class="rotate">
-                  <?php echo $row['sortname'] ?>
-                </th>
-              <?php } ?>
+
             </thead>
             <tbody>
-              <?php foreach ($godown as $row1) { ?>
-               
+              <?php foreach ($flow as $row) { ?>
+
                 <tr>
-                  <td>12/04.2020</td>
-                  <td>ORD1</td>
-                  <td>12</td>
-                  <td>12</td>
-                  <td>12</td>
-                  <td>12</td>
-                  <td>12</td>
-                  <?php foreach ($godown as $row) { ?>
-                    <td>
-                      <?php echo $row['id'] ?>
-                    </td>
-                  <?php } ?>
+                  <td> <?php echo $row['order_date']  ?></td>
+                  <td><?php echo $row['order_number']  ?></td>
+                  <td><?php echo $row['total']  ?></td>
+                  <td><?php echo $row['pglist']  ?></td>
+                  <td><?php echo $row['pending']  ?></td>
+                  <td><?php echo $row['cancel']  ?></td>
+                  <td><?php echo $row['done']  ?></td>
+
                 </tr>
               <?php } ?>
             </tbody>
