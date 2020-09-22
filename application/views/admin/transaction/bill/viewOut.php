@@ -7,7 +7,7 @@
     <div class="col-md-12 bg-white" id="Print_div">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Challan Out Detail</h4>
+                <h3 class="card-title">BILL</h3>
 
 
                 <hr>
@@ -20,7 +20,7 @@
                                 <td><label>From</label></td>
                                 <td>
                                     <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
+                                        <label> Party Name</label>
                                         <select name="FromParty" class="form-control" id="toParty" readonly>
                                             <?php foreach ($branch_data as $value) : ?>
                                                 <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
@@ -40,7 +40,7 @@
                                 </td>
                                 <td>
                                     <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
+                                        <label> Party Name</label>
                                         <select name="toParty" class="form-control" id="toParty" readonly>
                                             <?php foreach ($branch_data as $value) : ?>
                                                 <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
@@ -51,21 +51,21 @@
                                         </select>
                                     </div>
                                 </td>
-                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
+                                <td><label>To Godown</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
 
                             </tr>
                             <tr>
                                 <td></td>
                                 <td>
-                                    <div class="col-md-12"><label>Job Work type</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
+                                    <div class="col-md-12"><label>Job Work </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
                                 </td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-md-6"><label>Challan No</label>
+                                        <div class="col-md-6"><label>Challan No</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                             <input type="text" class="form-control " value="<?php echo $trans_data[0]['challan_out']; ?>" readonly>
                                         </div>
-                                        <div class="col-md-6"><label>Challan Type</label>
+                                        <div class="col-md-6"><label>Challan Type</label>&nbsp;&nbsp;
 
                                             <input type="text" class="form-control " value="<?php echo $trans_data[0]['transaction_type']; ?>" readonly>
                                         </div>
@@ -198,10 +198,11 @@
 
 
             </div>
+            <hr>
             <div class="row">
                 <div class="col-4">
-                    <table class=" table-bordered  text-center  ">
-                        <caption class="text-center text-info" style='caption-side : top'>Summary</caption>
+                    <table class=" table-bordered    ">
+                        <caption style='caption-side : top; '>SUMMARY</caption>
                         <thead>
                             <tr>
                                 <th>Fabric</th>
@@ -289,6 +290,13 @@
                 'table th,table td {' +
                 'border-bottom:1px solid black;' +
                 'padding:0.5em;' + 'text-align: center;' +
+                '}' +
+                'label {' +
+                'font-weight: bold;' +
+                '}' +
+                'caption {' +
+                'font-weight: bold; ' +
+                'align :left; !important' +
                 '}' +
                 '</style>';
             htmlToPrint += divToPrint.outerHTML;

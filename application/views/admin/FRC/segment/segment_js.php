@@ -82,12 +82,12 @@
           $('#tc1-' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
           $('#tc' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
 
-          $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(button) + Number.EPSILON) * 100) / 100);
+          $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
 
-          $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(button) + Number.EPSILON) * 100) / 100);
+          $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
 
-          $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(button) + Number.EPSILON) * 100) / 100);
-          $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(button) + Number.EPSILON) * 100) / 100);
+          $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
+          $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
 
           Ttotal += length * net_pcs;
 
@@ -101,6 +101,7 @@
     $(document).on('click', '#add_more', function(e) {
       console.log("Hello");
       var body = $(this).parent().parent().parent();
+      var body_id = $(this).parent().parent().parent().attr("row-id");
       var row = $(this).parent().parent().attr('row-id');
       var fab = $('#segment1-' + row + '').find('.fabric' + row + '').val();
       var len = $('#segment1-' + row + '').find('.length' + row + '').val();
@@ -109,12 +110,12 @@
       element += '<td><input type="text" class="form-control pbc " name="pbc" id="pbc1-' + count + '"></td>'
       element += '<td><input type="text" class="form-control " name="fabric" id="fabric' + count + '" value="' +
         fab + '" readonly></td>'
-      element += '<td><input type="text" class="form-control " name="length" id="length' + count + '"  value="' +
+      element += '<td><input type="text" class="form-control length' + body_id + '" name="length" id="length' + count + '"  value="' +
         len + '" readonly></td>'
-      element += '<td><input type="text" class="form-control " name="pcs" id="pcs' + count + '" ></td>'
-      element += '<td><input type="text" class="form-control" name="tc" id="tc1-' + count + '" ></td>'
-      element += '<td><input type="text" class="form-control" name="rate" id="rate1-' + count + '"  readonly></td>'
-      element += '<td><input type="text" class="form-control " name="value" id="value' + count + '"  readonly></td>'
+      element += '<td><input type="text" class="form-control pcs' + body_id + '" name="pcs" id="pcs' + count + '" ></td>'
+      element += '<td><input type="text" class="form-control tc tc1-' + body_id + '" name="tc" id="tc1-' + count + '" ></td>'
+      element += '<td><input type="text" class="form-control rate1-' + body_id + '" name="rate" id="rate1-' + count + '"  readonly></td>'
+      element += '<td><input type="text" class="form-control value' + body_id + '" name="value" id="value' + count + '"  readonly></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
       element += '</tr>'
 
@@ -124,7 +125,7 @@
       element += '<td><input type="text" class="form-control pbc' + count + '" name="pbc" id="pbc2-' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control " name="item" id="item' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control " name="qty" id="qty' + count + '" readonly></td>'
-      element += '<td><input type="number" class="form-control " name="cqty" id="cqty' + count + '" readonly></td>'
+      element += '<td><input type="number" class="form-control cqty' + body_id + '" name="cqty" id="cqty' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control " name="tc1" id="tc' + count + '" readonly></td>'
       element += '<td><input type="number" class="form-control" name="rate" id="rate2-' + count + '"  readonly></td>'
       element += '</tr>'
@@ -151,6 +152,26 @@
 
       $(this).parent().parent().remove();
       $('#segment2-tr-' + row + '').remove();
+    });
+
+    $(document).on('change', '.tc , .pcs', function() {
+      var row = $(this).parent().parent().attr('row-id');
+      var body_id = $(this).parent().parent().parent().attr("row-id");
+      var length = Number($('#length' + row + '').val());
+
+      var net_pcs = Number($('#pcs' + row + '').val());
+      $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(row) + Number.EPSILON) * 100) / 100);
+
+      $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(row) + Number.EPSILON) * 100) / 100);
+
+      $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(row) + Number.EPSILON) * 100) / 100);
+      $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(row) + Number.EPSILON) * 100) / 100);
+
+      Ttotal -= length * net_pcs;
+
+      $('#seg1-th_qty' + body_id + '').text(Math.round((Ttotal + Number.EPSILON) * 100) / 100);
+
+     
     });
 
     function get_total_qty(button) {
@@ -181,8 +202,8 @@
     }
 
     function get_total_tc(button) {
-     var Ttc=0;
-      $('.tc1' + button + '').each(function() {
+      var Ttc = 0;
+      $('.tc1-' + button + '').each(function() {
         Ttc += Number($(this).val());
 
       });

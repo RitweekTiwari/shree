@@ -36,11 +36,11 @@
                         <tr id="segment1-tr-<?php echo $i ?>" row-id="<?php echo $i ?>">
                           <td><input type="text" class="form-control pbc " name="pbc" id="pbc1-<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control fabric<?php echo $i ?>" name="fabric" id="fabric<?php echo $i ?>" value="<?php echo $value['fabricName'] ?>" readonly></td>
-                          <td><input type="text" class="form-control length" name="length" id="length<?php echo $i ?>" value="<?php echo $value['length'] ?>" readonly></td>
-                          <td><input type="text" class="form-control pcs" name="pcs" id="pcs<?php echo $i ?>"></td>
-                          <td><input type="text" class="form-control tc1" name="tc" id="tc1-<?php echo $i ?>"></td>
+                          <td><input type="text" class="form-control length<?php echo $i ?>" name="length" id="length<?php echo $i ?>" value="<?php echo $value['length'] ?>" readonly></td>
+                          <td><input type="text" class="form-control pcs<?php echo $i ?>" name="pcs" id="pcs<?php echo $i ?>"></td>
+                          <td><input type="text" class="form-control tc tc1-<?php echo $i ?>" name="tc" id="tc1-<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control" name="rate" id="rate1-<?php echo $i ?>" readonly></td>
-                          <td><input type="text" class="form-control value" name="value" id="value<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control value<?php echo $i ?>" name="value" id="value<?php echo $i ?>" readonly></td>
                           <td> <button type="button" id="add_more" class="btn btn-success">+</button></td>
                         </tr>
                       </tbody>
@@ -111,7 +111,7 @@
                           <td><input type="text" class="form-control" name="pbc" id="pbc2-<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control" name="item" id="item<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control " name="qty" id="qty<?php echo $i ?>" readonly></td>
-                          <td><input type="text" class="form-control cqty" name="cqty" id="cqty<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control cqty<?php echo $i ?>" name="cqty" id="cqty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control tc" name="tc1" id="tc<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control rate" name="rate" id="rate2-<?php echo $i ?>" readonly></td>
 
