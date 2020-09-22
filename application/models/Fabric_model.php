@@ -36,7 +36,18 @@
 			//  echo $this->db->last_query($rec);exit;
 			return $rec->result_array();
 		}
-
+		
+		public function check_frc($id)
+		{
+			$this->db->select('*');
+			$this->db->from("fabric_stock_received");
+			$this->db->where('fabric_id', $id);
+			$rec = $this->db->get();
+			if($rec->num_rows()>0)
+				return 1;
+			else
+			return 0;
+		}
 		function get_fabric($data)
 		{
 			$this->db->select('fabric.id,fabric.fabricName,fabric.fabHsnCode,fabric.fabricCode,fabric.fabricType,fabric.purchase, unit.unitName as fabricUnit, GROUP_CONCAT(f1.fabricName) AS fabricId, GROUP_CONCAT(fd.segmentName) AS segmentName, GROUP_CONCAT(fd.length) AS length, GROUP_CONCAT(fd.width) AS width');

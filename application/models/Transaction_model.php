@@ -446,8 +446,15 @@ public function view_tc($data)
     $this->db->join('order_view', 'order_view.order_barcode=transaction_meta.order_barcode', 'inner');
     $this->db->order_by('trans_meta_id', 'asc');
 
-    $query = $this->db->get(); //echo"<pre>"; print_r($query);exit;
-    $query = $query->result_array();
+    $query['data'] = $this->db->get()->result_array(); //echo"<pre>"; print_r($query);exit;
+    $this->db->select("order_view.fabric_name,order_view.design_name,count(order_view.design_name) as pcs,sum(transaction_meta.quantity) as qty,sum(transaction_meta.quantity*transaction_meta.rate) as total");
+    $this->db->from('transaction_meta');
+
+    $this->db->where("transaction_id", $id);
+    $this->db->join('order_view', 'order_view.order_barcode=transaction_meta.order_barcode', 'inner');
+    $this->db->group_by("order_view.fabric_name,order_view.design_name");
+    $this->db->order_by('order_view.fabric_name', 'asc');
+    $query['summary'] = $this->db->get()->result_array(); //echo"<pre>"; print_r($query);exit;
     return $query;
   }
   public function get_trans_by_id($id)

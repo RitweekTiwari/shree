@@ -240,11 +240,10 @@
               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
             success: function(response) {
-
-              //referesh table
-              $('#fabric').DataTable().ajax.reload();
-
-
+              if (response == 1)
+                $('#fabric').DataTable().ajax.reload();
+              else
+                toastr.error('Error!', "Fabric is used in Stock. Cannot Delete");
 
             }
           });
@@ -263,27 +262,35 @@
 
     $("#fabric_name").on('focusout', function() {
 
-      $("#fabric_name").css("border", "1px solid #DDDDDD");
-      $("#fabric_btn").removeAttr("disabled", "TRUE");
-      $("#fabric-error").html('');
+
       var fabricName = $(this).val();
-      // alert(fabricName);
-      $.ajax({
-        type: "POST",
-        url: "<?php echo base_url('admin/Fabric/fabricExist') ?>",
-        data: {
-          'fabricName': fabricName,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-        datatype: 'json',
-        success: function(data) {
-          if (data == true) {
-            $("#fabric_name").css("border", "2px solid #F47C72");
-            $("#fabric_btn").attr("disabled", "TRUE");
-            $("#fabric-error").html('Design Name Already Exist.');
+      if (/^[a-zA-Z0-9- ,()/]*$/.test(fabricName) == false) {
+        $("#fabric_name").css("border", "2px solid #F47C72");
+        $("#fabric_btn").attr("disabled", "TRUE");
+        $("#fabric-error").html('Special Characters allowed(- ,()/)');
+      } else {
+        $("#fabric_name").css("border", "1px solid #DDDDDD");
+        $("#fabric_btn").removeAttr("disabled", "TRUE");
+        $("#fabric-error").html('');
+
+        // alert(fabricName);
+        $.ajax({
+          type: "POST",
+          url: "<?php echo base_url('admin/Fabric/fabricExist') ?>",
+          data: {
+            'fabricName': fabricName,
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+          },
+          datatype: 'json',
+          success: function(data) {
+            if (data == true) {
+              $("#fabric_name").css("border", "2px solid #F47C72");
+              $("#fabric_btn").attr("disabled", "TRUE");
+              $("#fabric-error").html('Fabric Name Already Exist.');
+            }
           }
-        }
-      });
+        });
+      }
     });
 
     $(document).on('click', '.find_id', function() {

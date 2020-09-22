@@ -235,9 +235,11 @@ class Transaction extends CI_Controller
 				$challan = $value['challan_in'];
 			}
 			if ($value['transaction_type'] == 'bill') {
-				$type = '<span class="badge  badge-primary">'.ucfirst($value['transaction_type']).'</span>' ;
+				$type = '<span class="badge badge-xl badge-primary">'.ucfirst($value['transaction_type']).'</span>' ;
+				$url = base_url('admin/Transaction/viewBill/') . $value['transaction_id'];
 			} else {
-				$type = '<span class="badge  badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
+				$type = '<span class="badge badge-xl badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
+				$url = base_url('admin/Transaction/viewChallan/') . $value['transaction_id'];
 			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
@@ -247,7 +249,7 @@ class Transaction extends CI_Controller
 			$sub_array[] = $value['challan_out'];
 			$sub_array[] = $challan;
 
-			$sub_array[] =  '	<a class="text-center tip"  href="' .  base_url('admin/Transaction/viewChallan/') . $value['transaction_id'] . ' ">
+			$sub_array[] =  '	<a class="text-center tip"  href="' .  $url . ' ">
 							<i class="fa fa-eye" aria-hidden="true"></i></a>';
 			$record[] = $sub_array;
 		}
@@ -356,9 +358,11 @@ class Transaction extends CI_Controller
 		
 		foreach ($data['frc_data'] as $value) {
 			if ($value['transaction_type'] == 'bill') {
-				$type = '<span class="badge  badge-primary">' . ucfirst($value['transaction_type']) . '</span>';
+				$type = '<span class="badge badge-xl badge-primary">' . ucfirst($value['transaction_type']) . '</span>';
+				$url= base_url('admin/Transaction/viewBillOut/') . $value['transaction_id'];
 			} else {
-				$type = '<span class="badge  badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
+				$type = '<span class="badge badge-xl badge-danger">' . ucfirst($value['transaction_type']) . '</span>';
+				$url = base_url('admin/Transaction/viewChallanOut/') . $value['transaction_id'];
 			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
@@ -366,8 +370,8 @@ class Transaction extends CI_Controller
 			$sub_array[] = $value['sub2'];
 			$sub_array[] = $type;
 			$sub_array[] = $value['challan_out'];
-			$sub_array[] =  '	<a class="text-center tip"  href="' .  base_url('admin/Transaction/viewChallanOut/') . $value['transaction_id'] . ' ">
-					<i class="fa fa-eye" aria-hidden="true"></i></a>';
+			$sub_array[] =  '	<a class="text-center tip"  href="' . $url  . ' "><i class="fa fa-eye" aria-hidden="true"></i></a>';
+					
 			$record[] = $sub_array;
 		}
 
@@ -623,7 +627,8 @@ class Transaction extends CI_Controller
 
 			$data = array();
 			$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
-			$data['frc_data'] = $this->Transaction_model->get_by_id($id);
+			$frc = $this->Transaction_model->get_by_id($id);
+			$data['frc_data']=$frc['data'];
 			$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['from_godown'] . '>Home</a>';
 			$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD /' . $link;
 			$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
@@ -639,6 +644,75 @@ class Transaction extends CI_Controller
 				$data['is_plain'] = 1;
 			}
 			$data['main_content'] = $this->load->view('admin/transaction/challan/viewOut', $data, TRUE);
+			$this->load->view('admin/index', $data);
+		}
+	}
+	public function viewBill($id)
+	{
+		$data = array();
+		$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
+
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['to_godown'] . '>Home</a>';
+		$data['page_name'] = $data['trans_data'][0]['sub2'] . '  DASHBOARD /' . $link;
+		$data['godown'] = $data['trans_data'][0]['to_godown'];
+		$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
+		$data['id'] = $id;
+		$data['branch_data'] = $this->Job_work_party_model->get();
+		//echo "<pre>"; print_r($data['frc_data']);exit;
+		$data['main_content'] = $this->load->view('admin/transaction/bill/view', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
+	public function viewBillOut($id = 0)
+	{
+		if (isset($_POST['challan_id'])) {
+
+
+			$ids =  $this->security->xss_clean($_POST['challan_id']);
+
+			foreach ($ids as $value) {
+				if ($value != "") {
+
+					$data = array();
+					$data['trans_data'] = $this->Transaction_model->get_trans_by_id($value);
+					$data['frc_data'] = $this->Transaction_model->get_by_id($value);
+					$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['from_godown'] . '>Home</a>';
+					$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD /' . $link;
+					$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
+					$data['branch_data'] = $this->Job_work_party_model->get();
+					$data['id'] = $value;
+					$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+					foreach ($plain_godown as $row) {
+						$data['plain'][] = $row['godownid'];
+					}
+					if (in_array($data['trans_data'][0]['from_godown'], $data['plain'])) {
+						$data['is_plain'] = 0;
+					} else {
+						$data['is_plain'] = 1;
+					}
+				}
+			}
+			$data['main_content'] = $this->load->view('admin/transaction/bill/viewOutPrint', $data, TRUE);
+			$this->load->view('admin/print/index', $data);
+		} else {
+
+			$data = array();
+			$data['trans_data'] = $this->Transaction_model->get_trans_by_id($id);
+			$data['frc_data'] = $this->Transaction_model->get_by_id($id);
+			$link = ' <a href=' . base_url('admin/transaction/home/') . $data['trans_data'][0]['from_godown'] . '>Home</a>';
+			$data['page_name'] = $data['trans_data'][0]['sub1'] . '  DASHBOARD /' . $link;
+			$data['job2'] = $this->Transaction_model->get_jobwork_by_id($data['trans_data'][0]['to_godown']);
+			$data['branch_data'] = $this->Job_work_party_model->get();
+			$data['id'] = $id;
+			$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+			foreach ($plain_godown as $row) {
+				$data['plain'][] = $row['godownid'];
+			}
+			if (in_array($data['trans_data'][0]['from_godown'], $data['plain'])) {
+				$data['is_plain'] = 0;
+			} else {
+				$data['is_plain'] = 1;
+			}
+			$data['main_content'] = $this->load->view('admin/transaction/bill/viewOut', $data, TRUE);
 			$this->load->view('admin/index', $data);
 		}
 	}
@@ -726,6 +800,86 @@ class Transaction extends CI_Controller
 			$sub_array[] = $value['dye'];
 			$sub_array[] = $value['matching'];
 			$sub_array[] = $value['quantity'];
+			$sub_array[] =  $value['unit'];
+			$sub_array[] =   $value['image'];
+
+			$sub_array[] =  $value['stat'];
+			$data[] = $sub_array;
+		}
+		if ($c == $i) {
+			$recieved = true;
+		} else {
+			$recieved = false;
+		}
+		$output = array(
+			"recieved" => $recieved,
+			"draw" => intval($_GET["draw"]),
+			"recordsTotal" => $filtered_rows,
+			"recordsFiltered" => $filtered_rows,
+			"data" => $data
+		);
+
+		echo json_encode($output);
+	}
+	public function getBill($id)
+	{
+		$query = '';
+
+		$output = array();
+
+		$data = array();
+
+		if (!empty($_GET["search"]["value"])) {
+
+			$query .= 'SELECT * FROM transaction_meta WHERE transaction_id = "' . $id . '" AND';
+			$query .= ' pbc LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR order_barcode LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR order_number LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR fabric_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR hsn LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR design_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR design_code LIKE "%' . $_GET["search"]["value"] . '%" ';
+			$query .= 'OR unit LIKE "%' . $_GET["search"]["value"] . '%" ';
+		} else {
+
+			$query .= 'SELECT * FROM godown_stock_view  WHERE transaction_id = "' . $id . '" ';
+		}
+
+		if (!empty($_GET["order"])) {
+			$query .= ' ORDER BY ' . $_GET['order']['0']['column'] . ' ' . $_GET['order']['0']['dir'] . ' ';
+		} else {
+			$query .= ' ORDER BY order_barcode ASC ';
+		}
+
+		if ($_GET["length"] != -1) {
+			$query .= 'LIMIT ' . $_GET['start'] . ', ' . $_GET['length'];
+		}
+
+		$sql = $this->db->query($query);
+		$result = $sql->result_array();
+		$filtered_rows = $sql->num_rows();
+
+		$c = 1;
+		$i = 1;
+		foreach ($result as $value) {
+			if ($value['stat'] == 'recieved') {
+				$c += 1;
+			}
+			$i += 1;
+			$sub_array = array();
+			$sub_array[] = "<input type=checkbox class=sub_chk data-id=" . $value['transaction_id'] . ">";
+			$sub_array[] = $value['pbc'];
+			$sub_array[] = $value['order_barcode'];
+			$sub_array[] = $value['order_number'];
+			$sub_array[] = $value['fabric_name'];
+			$sub_array[] = $value['hsn'];
+			$sub_array[] = $value['design_name'];
+			$sub_array[] = $value['design_code'];
+			$sub_array[] = $value['dye'];
+			$sub_array[] = $value['matching'];
+			$sub_array[] = $value['quantity'];
+			$sub_array[] =  $value['rate'];
+			$sub_array[] =   $value['rate'] * $value['quantity'];
 			$sub_array[] =  $value['unit'];
 			$sub_array[] =   $value['image'];
 
@@ -964,6 +1118,8 @@ class Transaction extends CI_Controller
 						'order_barcode' => $data['obc'][$i],
 						'job ' => $data['job'][$i],
 						'rate ' => $data['rate'][$i],
+						'quantity ' => $data['quantity'][$i],
+						'finish_qty ' => $data['quantity'][$i],
 						
 					];
 

@@ -50,7 +50,6 @@
                                     <th>PCS</th>
                                     <th>Avg Rate</th>
                                     <th>Total Value</th>
-                                    <th>Barcode</th>
                                 </thead>
                                 <tbody id="fresh_data">
                                     <tr>
@@ -67,22 +66,18 @@
                                         </td>
 
                                         <td><input type="text" class="form-control" name="color[]" value="" id="color0" required /></td>
-                                        <td><input type="number" class="form-control" name="pcs[]" value="" id="pcs0" /></td>
+                                        <td><input type="number" class="form-control" name="pcs[]" value="" id="pcs_main" /></td>
 
 
                                         <td><input type="text" class="form-control" name="avgrate[]" value="" id="avgrate0" required /></td>
-                                        <td><input type="text" class="form-control" name="total[]" value="" id="value0" /></td>
-                                        <td><input type="text" class="form-control" name="barcode[]" value="" id="barcode0" required /></td>
+                                        <td><input type="text" class="form-control" name="total[]" value="" id="total0" /></td>
 
                                     </tr>
 
                                 </tbody>
                             </table>
                             <hr>
-                            <div id="counter">
-                                
-                            </div>
-                            <hr />
+                            
                             <div class="col-md-3" id="submit">
                                 <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                                 <button type="submit" name="submit" class="btn btn-success btn-md">Submit</button>

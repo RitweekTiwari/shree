@@ -302,8 +302,15 @@ class Fabric extends CI_Controller
 
 	public function delete($id)
 	{
-		$this->Fabric_model->delete($id);
-		$this->db->delete('fabric_details', array('metaId' => $id));
+		$check=$this->Fabric_model->check_frc($id);
+		if(!$check){
+			$this->Fabric_model->delete($id);
+			$this->db->delete('fabric_details', array('metaId' => $id));
+			return 1;
+		}else{
+			return 0;
+		}
+		
 	}
 
 	public function deletefabric()
@@ -311,8 +318,14 @@ class Fabric extends CI_Controller
 		$ids = $this->input->post('ids');
 		$userid = explode(",", $ids);
 		foreach ($userid as $value) {
+			$check = $this->Fabric_model->check_frc($value);
+			if (!$check) {
 			$this->db->delete('fabric', array('id' => $value));
 			$this->db->delete('fabric_details', array('metaId' => $value));
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 	}
 	public function getfdid()

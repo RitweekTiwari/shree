@@ -71,6 +71,8 @@
                                         </div>
                                     </div>
                                 </td>
+
+
                             </tr>
 
                         </table>
@@ -99,7 +101,8 @@
                                         <th>Dye </th>
                                         <th>Matching</th>
                                         <th>Current Qty</th>
-
+                                        <th>Rate</th>
+                                        <th>Value</th>
                                         <th>Unit</th>
                                         <th>Image</th>
                                         <th>Days Rem</th>
@@ -110,11 +113,18 @@
                                     $c = 1;
                                     $qty = 0.0;
                                     $fqty = 0.0;
-                                    foreach ($frc_data as $value) {
+                                    $total_val = 0.0;
+                                    foreach ($frc_data['data'] as $value) {
                                         if ($is_plain == 0) {
                                             $qty +=  $value['quantity'];
+                                            $quantity = $value['quantity'];
+                                            $total = $value['rate'] * $quantity;
+                                            $total_val += $total;
                                         } else {
                                             $qty +=  $value['finish_qty'];
+                                            $quantity = $value['finish_qty'];
+                                            $total = $value['rate'] * $quantity;
+                                            $total_val += $total;
                                         }
 
 
@@ -132,12 +142,10 @@
                                             <td><?php echo $value['design_code']; ?></td>
                                             <td><?php echo $value['dye'] ?></td>
                                             <td><?php echo $value['matching'] ?></td>
-                                            <td><?php if ($is_plain == 0) {
-                                                    echo $value['quantity'];
-                                                } else {
-                                                    echo $value['finish_qty'];
-                                                } ?></td>
+                                            <td><?php echo $quantity ?></td>
 
+                                            <td><?php echo $value['rate'] ?></td>
+                                            <td><?php echo $total ?></td>
                                             <td><?php echo $value['unit'] ?></td>
                                             <td><?php echo $value['image'] ?></td>
 
@@ -173,7 +181,9 @@
                                         <th>Total</th>
                                         <th><?php echo $qty;
                                             ?></th>
-
+                                        <th></th>
+                                        <th><?php echo $total_val;
+                                            ?></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -188,18 +198,55 @@
 
 
             </div>
+            <div class="row">
+                <div class="col-4">
+                    <table class=" table-bordered  text-center  ">
+                        <caption class="text-center text-info" style='caption-side : top'>Summary</caption>
+                        <thead>
+                            <tr>
+                                <th>Fabric</th>
+                                <th>Design</th>
+                                <th>Pcs</th>
+                                <th>Qty</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $Tqty = 0.0;
+                            $tval = 0.0;
+                            $pcs = 0.0;
+                            foreach ($frc_data['summary'] as $value) {
+                                $Tqty += $value['qty'];
+                                $tval += $value['total'];
+                                $pcs += $value['pcs'];
+                            ?>
+                                <tr>
+                                    <td><?php echo $value['fabric_name'] ?></td>
+                                    <td><?php echo $value['design_name'] ?></td>
+                                    <td><?php echo $value['pcs'] ?></td>
+                                    <td><?php echo $value['qty'] ?></td>
+                                    <td><?php echo $value['total'] ?></td>
+                                </tr>
+                            <?php  }
+                            ?>
+                        </tbody>
+                        <tfoot>
+                            <th>Total</th>
+                            <th></th>
+                            <th><?php echo $pcs ?></th>
+                            <th><?php echo $Tqty  ?></th>
+                            <th><?php echo  $tval ?></th>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div id='summary'></div>
+
     </div>
 </div>
 
 
 <script type="text/javascript">
-    var summary = [];
-    var count = 0;
-    var i = 0;
-
-
     $(document).ready(function() {
         $('.datatable ').DataTable({
 
@@ -256,79 +303,5 @@
             printData();
 
         });
-
-        $("table tbody tr").each(function() {
-
-            var self = $(this);
-            var fabric = self.find("td:eq(4)").text().trim();
-            var qty = Number(self.find("td:eq(10)").text().trim());
-            console.log('fabric=' + fabric);
-            console.log('summary=' + summary);
-            pcs = 1;
-            if (i == 0) {
-                var arr = [fabric, pcs, qty];
-                if (fabric != '') {
-                    summary.push(arr);
-                }
-
-
-
-            } else {
-                var found = 0;
-                summary.forEach(myFunction);
-
-                function myFunction(value, index, array) {
-
-                    if (fabric == array[index][0]) {
-                        found = 1;
-                        array[index][1] += 1;
-                        array[index][2] += Number(qty);
-
-                    }
-
-                }
-                if (found == 0) {
-                    pcs = 1;
-                    qty = Number(qty);
-                    arr = [fabric, pcs, qty];
-                    if (fabric != '') {
-                        summary.push(arr);
-                    }
-
-                }
-            }
-            i = i + 1;
-        });
-        var html =
-            '<table class=" table-bordered text-center "><caption>Summary</caption><thead class="bg-secondary text-white">';
-        html += '<tr><th >Fabric</th>';
-        html += '<th >PCS</th>';
-        html += '<th >Quantity</th>';
-
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
-        if (summary) {
-
-            var stotal = 0;
-            var tqty = 0;
-            var Tpcs = 0;
-            summary.forEach(myFunction);
-
-            function myFunction(value, index, array) {
-                stotal += array[index][3];
-                tqty += array[index][2];
-                Tpcs += array[index][1];
-                html += ' <tr><td>' + array[index][0] + '</td>';
-                html += '<td>' + array[index][1] + '</td>';
-                html += '<td>' + Math.round((array[index][2] + Number.EPSILON) * 100) / 100 + '</td>';
-                html += '</tr></tbody>';
-            }
-            html += '<tr class="bg-secondary text-white"><th>Total</th><th>' + Tpcs + '</th><th>' + Math.round((tqty + Number.EPSILON) * 100) / 100 +
-                '</th></tr>';
-            html += '</table>';
-
-            $('#summary').html(html);
-        }
     });
 </script>

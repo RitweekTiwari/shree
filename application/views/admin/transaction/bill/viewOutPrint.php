@@ -7,75 +7,35 @@
     <div class="col-md-12 bg-white" id="Print_div">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Challan Out Detail</h4>
+                <h4 class="card-title">Challan Out Detail(<?php echo $trans_data[0]['sub2'] ?>) </h4>
 
 
                 <hr>
                 <div class="row">
                     <div class="col-md-8">
-                        <a type="button" class="btn  pull-left print_all btn-success" target="_blank" style="color:#fff;"><i class="fa fa-print"></i></a>
-                        <hr>
-                        <table class="table-box">
-                            <tr>
-                                <td><label>From</label></td>
-                                <td>
-                                    <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
-                                        <select name="FromParty" class="form-control" id="toParty" readonly>
-                                            <?php foreach ($branch_data as $value) : ?>
-                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $trans_data[0]['fromParty']) {
-                                                                                                echo "selected";
-                                                                                            } ?>> <?php echo $value->name; ?></option>
-                                            <?php endforeach; ?>
 
-                                        </select>
-                                    </div>
-                                </td>
-                                <td><label>From Godown</label>
-                                    <input type="text" class="form-control " name="FromGodown" value="<?php echo $trans_data[0]['sub1']; ?>" readonly>
-                                </td>
-                            </tr>
+                        <table>
                             <tr>
-                                <td><label>To</label>
-                                </td>
-                                <td>
-                                    <div class="col-md-12">
-                                        <label>Job Work Party Name</label>
-                                        <select name="toParty" class="form-control" id="toParty" readonly>
-                                            <?php foreach ($branch_data as $value) : ?>
-                                                <option value="<?php echo $value->id ?>" <?php if ($value->id == $job2) {
-                                                                                                echo "selected";
-                                                                                            } ?>> <?php echo $value->name; ?></option>
-                                            <?php endforeach; ?>
-
-                                        </select>
-                                    </div>
-                                </td>
-                                <td><label>To Godown</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['sub2']; ?>" readonly></td>
+                                <td> From Godown</td>
+                                <td> <?php echo $trans_data[0]['sub1'] ?></td>
 
                             </tr>
                             <tr>
-                                <td></td>
-                                <td>
-                                    <div class="col-md-12"><label>Job Work type</label><input type="text" class="form-control " value="<?php echo $trans_data[0]['jobworkType']; ?>" readonly></div>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6"><label>Challan No</label>
-
-                                            <input type="text" class="form-control " value="<?php echo $trans_data[0]['challan_out']; ?>" readonly>
-                                        </div>
-                                        <div class="col-md-6"><label>Challan Type</label>
-
-                                            <input type="text" class="form-control " value="<?php echo $trans_data[0]['transaction_type']; ?>" readonly>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td> To Godown</td>
+                                <td><?php echo $trans_data[0]['sub2'] ?></td>
                             </tr>
+                            <tr>
+                                <td> Job Work type</td>
 
+                                <td><?php echo $trans_data[0]['jobworkType'] ?></td>
+                            </tr>
+                            <tr>
+                                <td> Challan No</td>
+                                <td><?php echo $trans_data[0]['challan_out'] ?></td>
+                            </tr>
                         </table>
                     </div>
-                    <div class="col-md-4 "><img src="" alt=""> </div>
+
                 </div>
                 <hr>
 
@@ -84,11 +44,11 @@
                         <div class="widget-content nopadding">
 
 
-                            <table class=" table-bordered  text-center  datatable">
+                            <table class=" table-bordered  text-center  data-table">
 
                                 <thead class="bg-dark text-white">
                                     <tr>
-                                        <th>#</th>
+                                      
                                         <th>PBC</th>
                                         <th>OBC</th>
                                         <th>Order No</th>
@@ -120,7 +80,6 @@
 
                                     ?>
                                         <tr class="gradeU" id="tr_<?php echo $c ?>">
-                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
 
                                             <td><?php echo $value['pbc']; ?></td>
                                             <td><?php echo $value['order_barcode']; ?></td>
@@ -162,7 +121,7 @@
                                 <tfoot class="bg-dark text-white">
                                     <tr>
                                         <th></th>
-                                        <th></th>
+                                       
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -201,61 +160,7 @@
 
 
     $(document).ready(function() {
-        $('.datatable ').DataTable({
 
-            select: true,
-            dom: 'Bfrtip',
-            buttons: [{
-                    extend: 'excel',
-                    footer: true,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }, {
-                    extend: 'pdf',
-                    footer: true,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }, {
-                    extend: 'print',
-                    footer: true,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-
-                'selectAll',
-                'selectNone',
-                'colvis'
-            ],
-
-            paging: false,
-
-        });
-
-        function printData() {
-            var divToPrint = document.getElementById("Print_div");
-
-            var htmlToPrint = '' +
-                '<style type="text/css">' +
-                'table th,table td {' +
-                'border-bottom:1px solid black;' +
-                'padding:0.5em;' + 'text-align: center;' +
-                '}' +
-                '</style>';
-            htmlToPrint += divToPrint.outerHTML;
-            newWin = window.open("");
-            newWin.document.write(htmlToPrint);
-            newWin.document.close();
-            newWin.print();
-
-        }
-
-        $('.print_all').on('click', function() {
-            printData();
-
-        });
 
         $("table tbody tr").each(function() {
 

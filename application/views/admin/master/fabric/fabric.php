@@ -233,8 +233,10 @@
           url: "<?php echo base_url() ?>admin/Fabric/delete/" + id,
 
           success: function(response) {
-            $('#fabric').DataTable().ajax.reload();
-            //referesh table
+            if (response == 1)
+              $('#fabric').DataTable().ajax.reload();
+            else
+              toastr.error('Error!', "Fabric is used in Stock. Cannot Delete");
 
           }
         });
