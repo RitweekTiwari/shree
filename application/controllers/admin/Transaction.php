@@ -136,6 +136,7 @@ class Transaction extends CI_Controller
 		$data['main_content'] = $this->load->view('admin/transaction/list_in', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
+	
 	public function showInListdata($godown)
 	{
 		$output = array();
@@ -451,131 +452,7 @@ class Transaction extends CI_Controller
 		$this->load->view('admin/index', $data);
 	}
 
-	public function showStock($godown)
-	{
-		// if ($_POST) {
-		// 	//pre($_POST);exit;
-		// 	$data['from'] = $this->input->post('date_from');
-		// 	$data['to'] = $this->input->post('date_to');
-		// 	$data['search'] = $this->input->post('search');
-		// 	$data['type'] = $this->input->post('type');
-		// 	$caption = 'Search Result For : ';
-		// 	if ($_POST['search'] == 'simple') {
-		// 		if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
-		// 			$data['cat'] = $this->input->post('searchByCat');
-		// 			$data['Value'] = $this->input->post('searchValue');
-		// 			$caption = $caption . $data['cat'] . " = " . $data['Value'] . " ";
-		// 			$data['caption'] = $caption;
-		// 		}
-		// 	} else {
-
-		// 		if (isset($_POST['challan_to']) && $_POST['challan_to'] != "") {
-		// 			$data['cat'][] = 'challan_to';
-		// 			$fab = $this->input->post('challan_to');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Godown' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['fabricName']) && $_POST['fabricName'] != "") {
-		// 			$data['cat'][] = 'fabricName';
-		// 			$fab = $this->input->post('fabricName');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Fabric Name' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['pbc']) && $_POST['pbc'] != "") {
-		// 			$data['cat'][] = 'parent_barcode';
-		// 			$fab = $this->input->post('pbc');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'PBC' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['challan']) && $_POST['challan'] != "") {
-		// 			$data['cat'][] = 'challan_no';
-		// 			$fab = $this->input->post('challan');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Challan No' . " = " . $fab . " ";
-		// 		}
-
-		// 		if (isset($_POST['Color']) && $_POST['Color'] != "") {
-		// 			$data['cat'][] = 'color_name';
-		// 			$fab = $this->input->post('Color');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Color' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['Ad_No']) && $_POST['Ad_No'] != "") {
-		// 			$data['cat'][] = 'ad_no';
-		// 			$fab = $this->input->post('Ad_No');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Ad_no' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['unit']) && $_POST['unit'] != "") {
-		// 			$data['cat'][] = 'stock_unit';
-		// 			$fab = $this->input->post('unit');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Unit' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['rate']) && $_POST['rate'] != "") {
-		// 			$data['cat'][] = 'purchase_rate';
-		// 			$fab = $this->input->post('rate');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Purchase_Rate' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['total']) && $_POST['total'] != "") {
-		// 			$data['cat'][] = 'total_value';
-		// 			$fab = $this->input->post('total');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Total' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['current_stock']) && $_POST['current_stock'] != "") {
-		// 			$data['cat'][] = 'current_stock';
-		// 			$fab = $this->input->post('current_stock');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'Curr_qty' . " = " . $fab . " ";
-		// 		}
-		// 		if (isset($_POST['fabric_type']) && $_POST['fabric_type'] != "") {
-		// 			$data['cat'][] = 'fabric_type';
-		// 			$fab = $this->input->post('fabric_type');
-		// 			$data['Value'][] = $fab;
-		// 			$caption = $caption . 'fab_type' . " = " . $fab . " ";
-		// 		}
-
-		// 		if (isset($data['cat']) && isset($data['Value'])) {
-		// 			//echo"<pre>";	print_r( $data); exit;
-		// 			$data['caption'] = $caption;
-		// 		} else {
-		// 			$this->session->set_flashdata('error', 'please enter some keyword');
-		// 			redirect($_SERVER['HTTP_REFERER']);
-		// 		}
-		// 	}
-		// }
-		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
-		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
-		$data['godownid'] = $godown;
-		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
-		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
-		$found = 0;
-		foreach ($plain_godown as $row) {
-			if ($godown == $row['godownid']) {
-				$found = 1;
-				$data['plain_data'] = $this->Transaction_model->get_plain_stock($data);
-				$data['frc_data'] = $this->Transaction_model->get_frc_stock($data);
-
-				//echo "<pre>";print_r($data['godown_data']);exit;
-				$data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
-			}
-		}
-		if ($found == 0) {
-			if ($godown == 23) {
-				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'all');
-			} else {
-
-				$data['frc_data'] = $this->Transaction_model->get_stock($godown, 'challan');
-			}
-
-			$data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
-		}
-
-
-		$this->load->view('admin/index', $data);
-	}
+	
 
 	public function viewChallan($id)
 	{
@@ -1006,6 +883,7 @@ class Transaction extends CI_Controller
 
 		$this->load->view('admin/print/index', $data);
 	}
+
 	public function return_print_multiple()
 	{
 		$type =  $this->security->xss_clean($_POST['type']);
@@ -1323,7 +1201,9 @@ class Transaction extends CI_Controller
 		$data['godown'] = $this->security->xss_clean($_POST['godown']);
 
 		$data1['order'] = $this->Transaction_model->getOrderDetails($data);
+		if(isset($_POST['category'])){
 
+		
 		$data['category'] = $this->security->xss_clean($_POST['category']);
 		if ($data['category'] == 'Attachment' && isset($data1['order'][0])) {
 			$rate_from = $this->security->xss_clean($_POST['rate_from']);
@@ -1338,7 +1218,7 @@ class Transaction extends CI_Controller
 				$data1['rate'] = $this->Transaction_model->get_rate_by_erc($data1['order'][0]['design_code'], $data1['order'][0]['design_name']);
 			}
 		}
-
+		}
 		if ($data1['order']) {
 			echo json_encode($data1);
 		} else {
@@ -1385,81 +1265,5 @@ class Transaction extends CI_Controller
 
 
 
-	public function filter()
-	{
-		$data1 = array();
-		$this->security->xss_clean($_POST);
-		if ($_POST) {
-			//	echo"<pre>";	print_r($_POST); exit;
-			$data1['from'] = $this->input->post('date_from');
-			$data1['to'] = $this->input->post('date_to');
-			$data1['search'] = $this->input->post('search');
-			$data1['type'] = $this->input->post('type');
-
-			$data['from'] = $data1['from'];
-			$data['to'] = $data1['to'];
-			$data['type'] = $data1['type'];
-			$caption = 'Search Result For : ';
-			if ($data1['search'] == 'simple') {
-				if ($_POST['searchByCat'] != "" || $_POST['searchValue'] != "") {
-					$data1['cat'] = $this->input->post('searchByCat');
-					$data1['Value'] = $this->input->post('searchValue');
-					$caption = $caption . $data1['cat'] . " = " . $data1['Value'] . " ";
-				}
-				$data['frc_data'] = $this->Transaction_model->search1($data1);
-			} else {
-				if (isset($_POST['sort_name']) && $_POST['sort_name'] != "") {
-					$data1['cat'][] = 'sort_name';
-					$fab = $this->input->post('sort_name');
-					$data1['Value'][] = $fab;
-					$caption = $caption . ' sort_name' . " = " . $fab . " ";
-				}
-				if (isset($_POST['challan']) && $_POST['challan'] != "") {
-					$data1['cat'][] = 'challan_out';
-					$fab = $this->input->post('challan');
-					$data1['Value'][] = $fab;
-					$caption = $caption . 'Challan No' . " = " . $fab . " ";
-				}
-				if (isset($_POST['unitName']) && $_POST['unitName'] != "") {
-					$data1['cat'][] = 'unitName';
-					$fab = $this->input->post('unitName');
-					$data1['Value'][] = $fab;
-					$caption = $caption . 'unitName' . " = " . $fab . " ";
-				}
-				if (isset($_POST['total_amount']) && $_POST['total_amount'] != "") {
-					$data1['cat'][] = 'total_amount';
-					$fab = $this->input->post('total_amount');
-					$data1['Value'][] = $fab;
-					$caption = $caption . 'total_amount' . " = " . $fab . " ";
-				}
-				if (isset($_POST['total_quantity']) && $_POST['total_quantity'] != "") {
-					$data1['cat'][] = 'total_quantity';
-					$fab = $this->input->post('total_quantity');
-					$data1['Value'][] = $fab;
-					$caption = $caption . 'total_quantity' . " = " . $fab . " ";
-				}
-				if (isset($_POST['fabric_type']) && $_POST['fabric_type'] != "") {
-					$data1['cat'][] = 'fabric_type';
-					$fab = $this->input->post('fabric_type');
-					$data1['Value'][] = $fab;
-					$caption = $caption . 'fab_type' . " = " . $fab . " ";
-				}
-				$data['frc_data'] = $this->Transaction_model->search1($data1);
-			}
-			if ($data1['type'] == 'recieve') {
-				$data['caption'] = $caption;
-				$data['febName'] = $this->Common_model->febric_name();
-				$data['main_content'] = $this->load->view('admin/transaction/bill/list_bill', $data, TRUE);
-				$this->load->view('admin/index', $data);
-			} elseif ($data1['type'] == 'return') {
-				$data['caption'] = $caption;
-				$data['febName'] = $this->Common_model->febric_name();
-				$data['main_content'] = $this->load->view('admin/transaction/challan/list_challan', $data, TRUE);
-				$this->load->view('admin/index', $data);
-			} else {
-				$data['main_content'] = $this->load->view('admin/FRC/stock/search');
-				$this->load->view('admin/index', $data);
-			}
-		}
-	}
+	
 }

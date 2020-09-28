@@ -68,7 +68,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-folder-star"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/transaction/showStock/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/stock/showStock/') . $godown; ?>">
                                             <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
                                             <h5 class="text-white">STOCK OF GODOWN</h5>
                                         </a>
@@ -79,10 +79,12 @@
                                 <div class="card card-hover">
                                     <div class="box  text-center" style="background: linear-gradient(45deg,#F5515F,#A1051D);">
                                         <h1 class="font-light text-white">
-                                            <i class="mdi mdi-alert"></i>
+                                            <i class="mdi mdi-check"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">CANCEL ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/stock/StockCheck/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
+                                            <h5 class="text-white">STOCK CHECK</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

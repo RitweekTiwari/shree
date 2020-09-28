@@ -39,7 +39,7 @@
               'qty': qty,
               'oldtc': oldtc,
               'cqty': cqty,
-               '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+              '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
             },
             success: function(response) {
               location.reload();
@@ -99,7 +99,7 @@
             $("#msg").html("");
             $('#fabric_id').val(data[0][0]['fabric_id']);
             $('#fabric').val(data[0][0]['fabricName']);
-            $('#Tquantity').val(data[0][0]['stock_quantity']);
+            $('#Tquantity').val(data[0][0]['current_stock']);
             $('#date').val(data[0][0]['created_date']);
             $('#fabtype').val(data[0][0]['fabric_type']);
 
@@ -139,7 +139,7 @@
 
     $(document).on('change', "input[name='tc[]']", function() {
 
-      total = Number($('#Tquantity').val());
+      total = Number($('#Cur_quantity').val());
       console.log("total=" + total);
       qty = get_current_quntity()
       $('#Cur_quantity').val(qty)

@@ -6,7 +6,7 @@
     var Tpcs = 0;
     var Ttotal = 0;
     var Tval = 0;
-
+    var is_new = 0;
     $('#submit').hide();
 
     $(".fabric_name").change(function() {
@@ -49,6 +49,10 @@
       var button = $(this).parent().parent().attr("row-id");
       var body_id = $(this).parent().parent().parent().attr("row-id");
 
+      if (is_new != body_id) {
+        Ttotal = 0;
+        is_new = body_id;
+      }
       $.ajax({
         type: "POST",
         url: "<?= base_url() ?>admin/Segment/get_pbc",
@@ -61,38 +65,43 @@
         success: function(data) {
           data = JSON.parse(data);
           // console.log(data);
-          $('#pbc2-' + button + '').val(pbc);
-          $('#qty' + button + '').val(data[0]['stock_quantity']);
-          $('#item' + button + '').val(data[0]['fabricName']);
-          $('#cqty' + button + '').val(data[0]['current_stock']);
-          $('#rate2-' + button + '').val(data[0]['purchase_rate']);
-          $('#rate1-' + button + '').val(data[0]['purchase_rate']);
-          var length = Number($('#length' + button + '').val());
-          console.log("length= " + length);
-          if (length != 0) {
-            var net_pcs = Math.floor(data[0]['current_stock'] / length);
+          fabric = $('#fabric' + button + '').val();
+          if (fabric == data[0]['fabricName']) {
+
+            $('#pbc2-' + button + '').val(pbc);
+            $('#qty' + button + '').val(data[0]['stock_quantity']);
+            $('#item' + button + '').val(data[0]['fabricName']);
+            $('#cqty' + button + '').val(data[0]['current_stock']);
+            $('#rate2-' + button + '').val(data[0]['purchase_rate']);
+            $('#rate1-' + button + '').val(data[0]['purchase_rate']);
+            var length = Number($('#length' + button + '').val());
+            console.log("length= " + length);
+            if (length != 0) {
+              var net_pcs = Math.floor(data[0]['current_stock'] / length);
+            }
+
+            console.log("net_pcs= " + net_pcs);
+            $('#pcs' + button + '').val(Number(net_pcs));
+            var cqty = $('#cqty' + button + '').val();
+            var total = cqty - (length * net_pcs);
+            var value = (total + (length * net_pcs)) * data[0]['purchase_rate'];
+            $('#value' + button + '').val(value);
+            $('#tc1-' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
+            $('#tc' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
+
+            $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
+
+            $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
+
+            $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
+            $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
+
+
+
+            $('#seg1-th_qty' + body_id + '').text(Math.round((get_total(body_id) + Number.EPSILON) * 100) / 100);
+          } else {
+            toastr.error("Error", "Fabric did not match");
           }
-
-          console.log("net_pcs= " + net_pcs);
-          $('#pcs' + button + '').val(Number(net_pcs));
-          var cqty = $('#cqty' + button + '').val();
-          var total = cqty - (length * net_pcs);
-          var value = (total + (length * net_pcs)) * data[0]['purchase_rate'];
-          $('#value' + button + '').val(value);
-          $('#tc1-' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
-          $('#tc' + button + '').val(Math.round((total + Number.EPSILON) * 100) / 100);
-
-          $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
-
-          $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
-
-          $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
-          $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
-
-          Ttotal += length * net_pcs;
-
-          $('#seg1-th_qty' + body_id + '').text(Math.round((Ttotal + Number.EPSILON) * 100) / 100);
-
         },
       });
 
@@ -106,7 +115,7 @@
       var fab = $('#segment1-' + row + '').find('.fabric' + row + '').val();
       var len = $('#segment1-' + row + '').find('.length' + row + '').val();
       count = count + 1;
-      var element = ' <tr id=segment1-tr-' + count + ' row-id=' + count + '>'
+      var element = ' <tr id=segment1-tr-' + count + ' class="segment1-tr-' + body_id + '" row-id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc " name="pbc" id="pbc1-' + count + '"></td>'
       element += '<td><input type="text" class="form-control " name="fabric" id="fabric' + count + '" value="' +
         fab + '" readonly></td>'
@@ -133,45 +142,44 @@
       $('#segment2-' + row + '').append(element);
 
     });
+
     $(document).on('click', '.remove', function() {
       var row = $(this).parent().parent().attr('row-id');
       var body_id = $(this).parent().parent().parent().attr("row-id");
-      var length = Number($('#length' + row + '').val());
+      
+      $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
 
-      var net_pcs = Number($('#pcs' + row + '').val());
-      $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(row) + Number.EPSILON) * 100) / 100);
 
-      $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(row) + Number.EPSILON) * 100) / 100);
 
-      $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(row) + Number.EPSILON) * 100) / 100);
-      $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(row) + Number.EPSILON) * 100) / 100);
 
-      Ttotal -= length * net_pcs;
 
-      $('#seg1-th_qty' + body_id + '').text(Math.round((Ttotal + Number.EPSILON) * 100) / 100);
+      $('#seg1-th_qty' + body_id + '').text(Math.round((get_total(body_id) + Number.EPSILON) * 100) / 100);
+
 
       $(this).parent().parent().remove();
       $('#segment2-tr-' + row + '').remove();
+      $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
+
+      $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
+      $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
     });
 
     $(document).on('change', '.tc , .pcs', function() {
       var row = $(this).parent().parent().attr('row-id');
       var body_id = $(this).parent().parent().parent().attr("row-id");
-      var length = Number($('#length' + row + '').val());
-
-      var net_pcs = Number($('#pcs' + row + '').val());
-      $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(row) + Number.EPSILON) * 100) / 100);
-
-      $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(row) + Number.EPSILON) * 100) / 100);
-
-      $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(row) + Number.EPSILON) * 100) / 100);
-      $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(row) + Number.EPSILON) * 100) / 100);
-
-      Ttotal -= length * net_pcs;
-
-      $('#seg1-th_qty' + body_id + '').text(Math.round((Ttotal + Number.EPSILON) * 100) / 100);
-
      
+      $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
+
+      $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
+
+      $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
+      $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
+
+
+      $('#seg1-th_qty' + body_id + '').text(Math.round((get_total(body_id) + Number.EPSILON) * 100) / 100);
+
+
+
     });
 
     function get_total_qty(button) {
@@ -199,6 +207,16 @@
 
       });
       return Tval;
+    }
+
+    function get_total(button) {
+      var Total = 0;
+      $('.segment1-tr-' + button + '').each(function() {
+        pcs = Number($(this).find('.pcs' + button + '').val());
+        length = Number($(this).find('.length' + button + '').val());
+        Total += pcs * length;
+      });
+      return Total;
     }
 
     function get_total_tc(button) {

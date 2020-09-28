@@ -70,8 +70,10 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-alert"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">CANCEL ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/transaction/StockCheck/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
+                                            <h5 class="text-white">STOCK CHECK</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

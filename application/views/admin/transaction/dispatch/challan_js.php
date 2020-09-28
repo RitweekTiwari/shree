@@ -74,7 +74,7 @@
               var present_date = new Date();
 
               // 0-11 is Month in JavaScript 
-              var christmas_day = new Date(data[0]['order_date']);
+              var christmas_day = new Date(data['order'][0]['order_date']);
 
               // To Calculate the result in milliseconds and then converting into days 
               var Result = Math.round(present_date.getTime() - christmas_day.getTime()) / (one_day);
@@ -82,25 +82,25 @@
               // To remove the decimals from the (Result) resulting days value 
               var Final_Result = Result.toFixed(0);
               Final_Result = 30 - Final_Result;
-              fabric = data[0]['fabric_name'];
+              fabric = data['order'][0]['fabric_name'];
               $(".msg").html("");
               $('#days' + button_id + '').val(Final_Result);
-              $('#pbc' + button_id + '').val(data[0]['pbc']);
-              $('#orderNo' + button_id + '').val(data[0]['order_number']);
-              $('#design' + button_id + '').val(data[0]['design_name']);
-              $('#DesignCode' + button_id + '').val(data[0]['design_code']);
-              $('#stitch' + button_id + '').val(data[0]['stitch']);
-              $('#dye' + button_id + '').val(data[0]['dye']);
-              $('#matching' + button_id + '').val(data[0]['matching']);
-              $('#qty' + button_id + '').val(data[0]['finish_qty']);
+              $('#pbc' + button_id + '').val(data['order'][0]['pbc']);
+              $('#orderNo' + button_id + '').val(data['order'][0]['order_number']);
+              $('#design' + button_id + '').val(data['order'][0]['design_name']);
+              $('#DesignCode' + button_id + '').val(data['order'][0]['design_code']);
+              $('#stitch' + button_id + '').val(data['order'][0]['stitch']);
+              $('#dye' + button_id + '').val(data['order'][0]['dye']);
+              $('#matching' + button_id + '').val(data['order'][0]['matching']);
+              $('#qty' + button_id + '').val(data['order'][0]['finish_qty']);
               $('#fabric' + button_id + '').val(fabric);
-              $('#image' + button_id + '').val(data[0]['image']);
-              $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data[0]['image']);
-              $('#hsn' + button_id + '').val(data[0]['hsn']);
-              $('#unit' + button_id + '').val(data[0]['unit']);
+              $('#image' + button_id + '').val(data['order'][0]['image']);
+              $("#preview").attr('src', '<?php echo base_url('upload/') ?>' + data['order'][0]['image']);
+              $('#hsn' + button_id + '').val(data['order'][0]['hsn']);
+              $('#unit' + button_id + '').val(data['order'][0]['unit']);
 
-              if (data[0]['trans_meta_id']) {
-                $('#trans_id' + button_id + '').val(data[0]['trans_meta_id']);
+              if (data['order'][0]['trans_meta_id']) {
+                $('#trans_id' + button_id + '').val(data['order'][0]['trans_meta_id']);
               } else {
                 $('#trans_id' + button_id + '').val("");
               }
