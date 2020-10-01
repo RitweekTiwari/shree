@@ -255,7 +255,8 @@
                       <th>ORDER DATE</th>
                       <th>ORDER NUMBER</th>
                       <th>CUSTOMER NAME</th>
-                      <th>Godown</th>
+                      <th>From</th>
+                      <th>To</th>
                       <th>Series Number</th>
                       <th>Order Barcode</th>
                       <th>Fabric Name</th>
@@ -283,6 +284,7 @@
                         <td><?php echo $value['order_number']; ?></td>
                         <td><?php echo $value['customer_name']; ?></td>
                         <td><?php echo $value['godown']; ?></td>
+                        <td><?php echo $value['to_godown']; ?></td>
                         <td><?php echo $value['series_number']; ?></td>
                         <td><?php echo $value['order_barcode']; ?></td>
                         <td id="tdfab<?php echo $i ?>"><?php echo $value['fabric_name']; ?></td>

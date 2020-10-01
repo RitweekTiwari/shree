@@ -14,7 +14,8 @@
     	public function index(){
 	        $data = array();
 		    	$data['name']='Sub Department';
-	        $data['sub_dept_data']=$this->Sub_department_model->get();
+			$data['sub_dept_data']=$this->Sub_department_model->get();
+		$data['under'] = $this->Sub_department_model->get_primary();
 					$data['department'] = $this->Sub_department_model->department_name();
 				//	echo print_r($data['department']);exit;
 	        $data['main_content'] = $this->load->view('admin/master/sub_department/sub_department', $data, TRUE);
@@ -28,6 +29,7 @@
     				'deptName'=>$_POST['deptName'],
 					'subDeptName'=>$_POST['subDeptName'],
 				'sortname' => $_POST['sortname'],
+				'under' => $_POST['under'],
 						'inPrefix'=>$_POST['inPrefix'],
 						'inStart'=>$_POST['inStart'],
 						'inSuffix'=>$_POST['inSuffix'],
@@ -48,6 +50,7 @@
 								'deptName'=>$_POST['deptName'],
 								'subDeptName'=>$_POST['subDeptName'],
 				'sortname' => $_POST['sortname'],
+				'under' => $_POST['under'],
 								'inPrefix'=>$_POST['inPrefix'],
 								'inStart'=>$_POST['inStart'],
 								'inSuffix'=>$_POST['inSuffix'],

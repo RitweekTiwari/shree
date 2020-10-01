@@ -52,24 +52,24 @@
             </td>
             <td width="90px">SIZE</td>
             <td width="200px">:- <?php echo $value[0]['quantity']; ?> <?php echo $value[0]['unit']; ?></td>
-            <td width="140px">KARIGAR :-</td>
+            <td width="140px" rowspan="5">Matching :- <?php echo $value[0]['matching']; ?> </td>
           </tr>
           <tr>
             <td width="90px">FABRIC</td>
             <td width="200px">:- <?php echo $value[0]['fabric_name']; ?></td>
-            <td collspan="2" width="140px">……………………………</td>
+            <td width="140px"></td>
           </tr>
           <tr>
             <td style="text-align:center" rowspan="2">OBC:<?php echo $value[0]['order_barcode']; ?> </td>
             <td width="90px">OD NO</td>
             <td width="200px">:- <?php echo $value[0]['order_number']; ?></td>
-            <td width="140px">……………………………</td>
+            <td width="140px"></td>
           </tr>
           <tr>
 
             <td width="90px">DESIGN </td>
             <td width="200px">:-<?php echo $value[0]['design_name']; ?></td>
-            <td width="140px">……………………………</td>
+            <td width="140px"></td>
             <td> </td>
           </tr>
           <tr>
@@ -83,13 +83,13 @@
             </td>
             <td width="90px">CODE</td>
             <td width="200px">:- <?php echo $value[0]['design_code']; ?></td>
-            <td collspan="2">……………………………</td>
+            <td width="140px"></td>
 
           </tr>
           <tr>
             <td width="90px">STITCH</td>
             <td width="200px">:- <?php echo $value[0]['stitch']; ?></td>
-            <td>……………………………</td>
+            <td>KARIGAR</td>
           </tr>
           <tr>
             <td width="90px" style="text-align:center"><?php echo $value[0]['pbc']; ?> </td>
@@ -99,8 +99,10 @@
           </tr>
 
           <tr>
-            <td width="120px">MATCHING</td>
-            <td width="240px" colspan="2">:- <?php echo $value[0]['matching']; ?></td>
+            <td></td>
+            <td width="120px">Godown</td>
+            <td width="240px" collspan="2">:- <?php echo $value[0]['to_godown']; ?></td>
+            <td>……………………………</td>
           </tr>
 
         </table>

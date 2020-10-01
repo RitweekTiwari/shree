@@ -121,7 +121,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-check"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/transaction/StockCheck/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/stock/StockCheck/') . $godown; ?>">
                                             <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
                                             <h5 class="text-white">STOCK CHECK</h5>
                                         </a>

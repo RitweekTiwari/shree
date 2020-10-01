@@ -26,17 +26,13 @@ class Stock extends CI_Controller
     {
         $obc = $this->security->xss_clean($_POST['obc']);
         $id = $this->security->xss_clean($_POST['godown']);
-        $exist = $this->Stock_model->check_obc($obc, $id);
-
-        if ($exist==0) {
-
-
-            try {
+       try {
 
                 $status = $this->Stock_model->check_stock($obc, $id);
-                if ($status==1) {
-                    $id =    $this->Transaction_model->insert(array('obc' => $obc, 'godown' => $id), 'check_stock');
-                    if (!empty($id)) {
+                if ($status!=0) {
+                    $data['check_stock'] = 1;
+                    $st =    $this->Transaction_model->update($data, 'trans_meta_id', $status, "transaction_meta");
+                    if (!empty($st)) {
                         echo 1;
                     } else {
                         echo 2;
@@ -48,9 +44,7 @@ class Stock extends CI_Controller
                 $error = $e->getMessage();
                 echo $error;
             }
-        } else {
-            echo 3;
-        }
+       
     }
 
     public function getBill($id)
@@ -74,7 +68,7 @@ class Stock extends CI_Controller
             $query .= 'OR unit LIKE "%' . $_GET["search"]["value"] . '%" ';
         } else {
 
-            $query .= 'SELECT * FROM check_stock join godown_stock_view on check_stock.obc=godown_stock_view.order_barcode  WHERE godown_stock_view.stat="recieved" and check_stock.godown = "' . $id . '" ';
+            $query .= 'SELECT * FROM godown_check  WHERE  to_godown = "' . $id . '" ';
         }
 
         if (!empty($_GET["order"])) {
@@ -91,13 +85,16 @@ class Stock extends CI_Controller
         $result = $sql->result_array();
         $filtered_rows = $sql->num_rows();
 
-        
-        $i = 0;
+
+        $c = 1;
+        $i = 1;
         foreach ($result as $value) {
-           
+            if ($value['stat'] == 1) {
+                $c += 1;
+            }
             $i += 1;
             $sub_array = array();
-            $sub_array[] = "<input type=checkbox class=sub_chk data-id=" . $value['transaction_id'] . ">";
+            
             $sub_array[] = $value['pbc'];
             $sub_array[] = $value['order_barcode'];
             $sub_array[] = $value['order_number'];
@@ -111,12 +108,11 @@ class Stock extends CI_Controller
             $sub_array[] =  $value['rate'];
             $sub_array[] =   $value['rate'] * $value['quantity'];
             $sub_array[] =  $value['unit'];
-            $sub_array[] =   $value['image'];
 
             $sub_array[] =  $value['stat'];
             $data[] = $sub_array;
         }
-        $c=$this->Stock_model->check_stock_qty( $id);
+       
         // pre($c. " ".$i);exit;
         if ($c == $i) {
             $recieved = true;

@@ -24,6 +24,12 @@ class Segment_model extends CI_Model {
     return $rec->result_array();
 
   }
+		
+		public function update_pbc($id,$data)
+		{
+			$this->db->where('parent_barcode', $id);
+			$this->db->update('fabric_stock_received', $data);
+		}
 		public function get_pbc_data($id)
 		{
 			$this->db->select('stock_quantity,current_stock,fabric.fabricName,purchase_rate');

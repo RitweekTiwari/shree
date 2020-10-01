@@ -9,8 +9,11 @@ class Sub_department_model extends CI_Model {
 	}
 	public function get()
 	{
-		$rec=$this->db->get('sub_department');
-		return $rec->result();
+			$this->db->select('sb1.*,sb2.sortname as under1');
+			$this->db->from('sub_department sb1');
+			$this->db->join("sub_department sb2", "sb2.id=sb1.under","left");
+			$rec = $this->db->get();
+			return $rec->result();
 
 	}
   public function department_name()
@@ -43,7 +46,18 @@ class Sub_department_model extends CI_Model {
 		// print_r($this->db->last_query());
 
 	}
+		
+		public function get_primary()
+		{
+			$this->db->select('*');
+			$this->db->from('sub_department');
+			$this->db->where("under", 0);
+			$rec = $this->db->get();
+			return $rec->result_array();
+			// print_r($searchValue);
+			// print_r($this->db->last_query());
 
+		}
 
 }
 

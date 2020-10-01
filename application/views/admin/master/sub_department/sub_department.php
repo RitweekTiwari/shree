@@ -39,18 +39,21 @@
               <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                 <h5>Godown List</h5>
               </div>
-              <hr><div class="row well">
-                 &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
-              </div><hr>
+              <hr>
+              <div class="row well">
+                &nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-info pull-left delete_all  btn-danger" style="color:#fff;"><i class="mdi mdi-delete red"></i></a>
+              </div>
+              <hr>
               <div class="widget-content nopadding">
                 <table class="table table-striped table-bordered data-table" id="subDept">
                   <thead>
                     <tr>
                       <th><input type="checkbox" class="sub_chk" id="master"></th>
-                      <th>S/No</th>
+                      <th>ID</th>
                       <th>Department</th>
                       <th>Godown</th>
                       <th>Sortname</th>
+                      <th>Under</th>
                       <th>PrefixIn</th>
                       <th>StartIN</th>
                       <th>SuffixIN</th>
@@ -65,14 +68,15 @@
                   <tbody>
                     <?php
                     if ($sub_dept_data > 0) {
-                      $id = 1;
+                      
                       foreach ($sub_dept_data as $value) { ?>
                         <tr class="gradeU" id="tr_<?php echo $value->id ?>">
                           <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value->id ?>"></td>
-                          <td><?php echo $id ?></td>
+                          <td><?php echo $value->id ?></td>
                           <td><?php echo $value->deptName ?></td>
                           <td><?php echo $value->subDeptName ?></td>
                           <td><?php echo $value->sortname ?></td>
+                          <td><?php if ($value->under1!="")echo $value->under1;else echo "Primary"; ?></td>
                           <td><?php echo $value->inPrefix ?></td>
                           <td><?php echo $value->inStart ?></td>
                           <td><?php echo $value->inSuffix ?></td>
@@ -127,6 +131,18 @@
                                       </div>
                                     </div>
                                     <div class="form-group row">
+                                      <label class="control-label col-sm-3">Select Under</label>
+                                      <div class="col-sm-9">
+                                        <select name="under" class="form-control" required>
+                                          <option value="Primary">Primary</option>
+                                          <?php foreach ($under as $rec) : ?>
+                                            <option <?php if ($value->under == $rec['id']) {
+                                                    ?>selected<?php } ?> value="<?php echo $rec['id']?>"><?php echo $rec['sortname'] ?></option>
+                                          <?php endforeach; ?>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
                                       <label class="control-label col-sm-12">Material In:- </label>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Prefix </label>
@@ -167,7 +183,7 @@
                               </form>
                             </div>
                             <!-- end add modal wind-->
-                        <?php $id = $id + 1;
+                        <?php 
                       }
                     } ?>
 
@@ -213,6 +229,17 @@
               <label class="control-label col-sm-3">Sortname:- </label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" maxlength="15" name="sortname" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="control-label col-sm-3">Select Under</label>
+              <div class="col-sm-9">
+                <select name="under" class="form-control" required>
+                  <option value="0">Primary</option>
+                  <?php foreach ($under as $rec) : ?>
+                    <option  value="<?php echo $rec['id'] ?>"><?php echo $rec['sortname'] ?></option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
             <div class="form-group row">

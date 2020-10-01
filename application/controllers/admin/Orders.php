@@ -190,12 +190,49 @@ class Orders extends CI_Controller
   public function order_flow()
   {
     $data = array();
+    $chart = array();
     $data['page_name'] = 'ORDER FLOW CHART';
-    $data['godown'] = $this->common_model->select('sub_department');
-    $data['flow'] = $this->Orders_model->get_order_flow();
-    //pre($data['flow']);exit;
+    $flow = $this->Orders_model->get_order_flow();
+    // $godwon = $this->Orders_model->get_order_flow2();
+
+    $data['godownlist'] = self::godown_chart();
+
+    
+    foreach($flow as $key => $result){
+      $chart[$key] = $result;
+      foreach($data['godownlist'] as $temp => $value){
+        $flage = self::godown_count($result['order_id'], $temp);
+         if($flage){
+          $chart[$key][$temp] = $flage;
+         }else{
+          $chart[$key][$temp] = 0;
+         }
+
+      }
+      
+    }
+ $data['chart']= $chart;
+
+  // pre($chart);exit;
     $data['main_content'] = $this->load->view('admin/order/order_flow_chart', $data, TRUE);
     $this->load->view('admin/index', $data);
+  }
+
+
+  public function godown_chart(){
+    $godown = $this->Orders_model->get_godown_name();
+    $temp = array();
+    foreach($godown as $value){
+      $temp[$value->id] =  $value->sortname;
+    }
+     return $temp;
+  }
+
+  public function godown_count($id,$godown)
+  {
+    $godwon = $this->Orders_model->get_order_flow2($id, $godown);
+    return $godwon->temp;
+    
   }
 
   public function add_new_order()
@@ -408,25 +445,7 @@ class Orders extends CI_Controller
     }
   }
 
-  public function show_prm_data()
-  {
-    if ($_POST) {
-      $order_id = $_POST['order_number'];
-      $data = array();
-      $data['order_number'] = $order_id;
-      $data['session'] = $_POST['session'];
-      $data['category'] = $_POST['category'];
-      $data['order_type'] = $_POST['order_type'];
-      $data['old_order_number'] = $_POST['order_number'];
-      $data['name'] = 'Order PRM List';
-      $data['order_data'] = $this->Orders_model->get_order_by_id($order_id);
-      //  print_r($data['order_data']);exit;
-      $data['main_content'] = $this->load->view('admin/order/show_prm', $data, TRUE);
-      $this->load->view('admin/index', $data);
-    } else {
-      show_404();
-    }
-  }
+  
 
 
 
@@ -565,6 +584,7 @@ class Orders extends CI_Controller
             $data1['quantity'] = $pbc[0]['current_stock'];
             $data1['pbc'] = $data['id'];
              $data1['godown'] = $pbc[0]['godownid'];
+            $data1['to_godown'] = $pbc[0]['from_godown'];
             $this->Orders_model->edit_by_node('order_product_id', $data['order_product_id'], $data1, 'order_product');
             $this->Orders_model->edit_by_node('fsr_id', $pbc[0]['fsr_id'],  array('isStock' => 0), 'fabric_stock_received');
             echo '1';

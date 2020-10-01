@@ -239,7 +239,7 @@ public function get_design_name()
 	$this->db->select(" ot.order_date,
     order_product.order_id,
     ot.order_number,
-   branch_detail.sort_name,
+   branch_detail.sort_name as branch,
 customer_detail.name as customer,
 ot.branch_order_number,
     COUNT(order_product.order_product_id) as total");
@@ -287,6 +287,18 @@ ot.branch_order_number,
 		return $query->result_array();
 		
 	}
+	
+	public function get_order_flow2($order_id,$godown)
+	{
+
+		$this->db->select("count(*) AS temp");
+		$this->db->from("godown_stock_view");
+		$this->db->where('order_id', $order_id);
+		$this->db->where('to_godown', $godown);
+		$query = $this->db->get();
+		$query = $query->row();
+		return $query;
+	}
 		public function get_order_product($order_id)
 		{
 		
@@ -308,6 +320,15 @@ ot.branch_order_number,
 		// print_r($this->db->last_query());exit;
 				return true;
 		}
+
+		public function get_godown_name(){
+			$this->db->select('id, sortname');
+			$this->db->from('sub_department');
+			$query = $this->db->get();
+			$query = $query->result();
+			return $query;
+		}
+
 	public function get_order_by_id2($order_id)
 	{
 		
@@ -327,7 +348,7 @@ ot.branch_order_number,
 	public function getPBC_deatils($id)
 	{
 		
-		$this->db->select('fsr_id,current_stock,fabricName,godownid');
+		$this->db->select('fsr_id,current_stock,fabricName,godownid,from_godown');
 		$this->db->from("fabric_stock_view");
 		$this->db->where("parent_barcode",$id);
 

@@ -35,7 +35,7 @@ $godown = $this->db->get('sub_department')->result();
         th.rotate {
             height: 150px;
             padding: 0px;
-
+            width: 150px;
             font-weight: bold;
 
         }

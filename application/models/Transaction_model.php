@@ -112,7 +112,7 @@ class Transaction_model extends CI_Model
     $this->db->join('sub_department sb2', 'sb2.id=transaction.to_godown  ', 'left');
     $this->db->order_by('transaction_id', 'desc');
     $query = $this->db->get();
-    echo $this->db->last_query($query);exit;
+    //echo $this->db->last_query($query);exit;
     return $query->result_array();
   }
 

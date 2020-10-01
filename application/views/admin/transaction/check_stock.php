@@ -27,7 +27,7 @@
 
                                 <thead class="bg-dark text-white">
                                     <tr>
-                                        <th>#</th>
+
                                         <th>PBC</th>
                                         <th>OBC</th>
                                         <th>Order No</th>
@@ -41,13 +41,12 @@
                                         <th>Rate</th>
                                         <th>Value</th>
                                         <th>Unit</th>
-                                        <th>Image</th>
-
+                                       
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th></th>
+
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -61,8 +60,7 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th></th>
-
+                                      
 
 
                                     </tr>
@@ -118,8 +116,6 @@
                         table.ajax.reload();
                     } else if (data == 2) {
                         toastr.error('Failed!', "Something went wrong..Status not updated");
-                    } else if (data == 3) {
-                        toastr.error('Sorry!', "OBC Already Recieved !! ");
                     } else {
                         toastr.error('Failed!', data);
                     }
@@ -161,29 +157,33 @@
 
                     // Total over all pages
                     qty = api
-                        .column(10)
+                        .column(9)
                         .data()
                         .reduce(function(a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
 
                     value = api
-                        .column(12)
+                        .column(11)
                         .data()
                         .reduce(function(a, b) {
                             return intVal(a) + intVal(b);
                         }, 0);
                     // Update footer
-                    $(api.column(10).footer()).html(
+                    $(api.column(9).footer()).html(
                         qty
                     );
-                    $(api.column(12).footer()).html(
+                    $(api.column(11).footer()).html(
                         value
                     );
                 },
-
+                "createdRow": function(row, data, dataIndex) {
+                    if (data[13] == 0) {
+                        $(row).addClass('bg-secondary text-white');
+                    }
+                },
                 "columnDefs": [{
-                        "targets": [15],
+                        "targets": [13],
                         "visible": false,
                         "searchable": false
                     },
