@@ -46,7 +46,20 @@ class Sub_department_model extends CI_Model {
 		// print_r($this->db->last_query());
 
 	}
-		
+
+		function get_name_exist($name,$col)
+		{
+			$this->db->select('*');
+			$this->db->from('sub_department');
+			$this->db->where($col, $name);
+			$query = $this->db->get();
+			//echo $this->db->last_query();exit;
+			if ($query->num_rows() >= 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		public function get_primary()
 		{
 			$this->db->select('*');

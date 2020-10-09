@@ -53,6 +53,7 @@
                       <th>Department</th>
                       <th>Godown</th>
                       <th>Sortname</th>
+                      <th>Order</th>
                       <th>Under</th>
                       <th>PrefixIn</th>
                       <th>StartIN</th>
@@ -68,7 +69,7 @@
                   <tbody>
                     <?php
                     if ($sub_dept_data > 0) {
-                      
+
                       foreach ($sub_dept_data as $value) { ?>
                         <tr class="gradeU" id="tr_<?php echo $value->id ?>">
                           <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value->id ?>"></td>
@@ -76,7 +77,9 @@
                           <td><?php echo $value->deptName ?></td>
                           <td><?php echo $value->subDeptName ?></td>
                           <td><?php echo $value->sortname ?></td>
-                          <td><?php if ($value->under1!="")echo $value->under1;else echo "Primary"; ?></td>
+                          <td><?php echo $value->priority ?></td>
+                          <td><?php if ($value->under1 != "") echo $value->under1;
+                              else echo "Primary"; ?></td>
                           <td><?php echo $value->inPrefix ?></td>
                           <td><?php echo $value->inStart ?></td>
                           <td><?php echo $value->inSuffix ?></td>
@@ -121,13 +124,19 @@
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Godown</label>
                                       <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="subDeptName" required value="<?php echo $value->subDeptName ?>">
+                                        <input type="text" class="form-control subDeptName" name="subDeptName" required value="<?php echo $value->subDeptName ?>">
                                       </div>
                                     </div>
                                     <div class="form-group row">
                                       <label class="control-label col-sm-3">Sortname</label>
                                       <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="sortname" maxlength="15" required value="<?php echo $value->sortname ?>">
+                                        <input type="text" class="form-control sortname" name="sortname" maxlength="15" required value="<?php echo $value->sortname ?>">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                      <label class="control-label col-sm-3">Order</label>
+                                      <div class="col-sm-9">
+                                        <input type="number" min="0" class="form-control order" name="order" required value="<?php echo $value->priority ?>">
                                       </div>
                                     </div>
                                     <div class="form-group row">
@@ -137,7 +146,7 @@
                                           <option value="Primary">Primary</option>
                                           <?php foreach ($under as $rec) : ?>
                                             <option <?php if ($value->under == $rec['id']) {
-                                                    ?>selected<?php } ?> value="<?php echo $rec['id']?>"><?php echo $rec['sortname'] ?></option>
+                                                    ?>selected<?php } ?> value="<?php echo $rec['id'] ?>"><?php echo $rec['sortname'] ?></option>
                                           <?php endforeach; ?>
                                         </select>
                                       </div>
@@ -146,15 +155,15 @@
                                       <label class="control-label col-sm-12">Material In:- </label>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Prefix </label>
-                                        <input type="text" class="form-control" name="inPrefix" value="<?php echo $value->inPrefix ?>" id="" required>
+                                        <input type="text" class="form-control" name="inPrefix" value="<?php echo $value->inPrefix ?>" required>
                                       </div>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Start No</label>
-                                        <input type="text" class="form-control" name="inStart" value="<?php echo $value->inStart ?>" id="" required>
+                                        <input type="text" class="form-control" name="inStart" value="<?php echo $value->inStart ?>" required>
                                       </div>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Suffix </label>
-                                        <input type="text" class="form-control" name="inSuffix" value="<?php echo $value->inSuffix ?>" id="" required>
+                                        <input type="text" class="form-control" name="inSuffix" value="<?php echo $value->inSuffix ?>" required>
                                       </div>
                                     </div>
 
@@ -162,28 +171,28 @@
                                       <label class="control-label col-sm-12">Material Out:- </label>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Prefix </label>
-                                        <input type="text" class="form-control" name="outPrefix" value="<?php echo $value->outPrefix ?>" id="" required>
+                                        <input type="text" class="form-control" name="outPrefix" value="<?php echo $value->outPrefix ?>" required>
                                       </div>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Start No</label>
-                                        <input type="text" class="form-control" name="outStart" value="<?php echo $value->outStart ?>" id="" required>
+                                        <input type="text" class="form-control" name="outStart" value="<?php echo $value->outStart ?>" required>
                                       </div>
                                       <div class="col-sm-4">
                                         <label class="control-label"> Suffix </label>
-                                        <input type="text" class="form-control" name="outSuffix" value="<?php echo $value->outSuffix ?>" id="" required>
+                                        <input type="text" class="form-control" name="outSuffix" value="<?php echo $value->outSuffix ?>" required>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                                 <div class="modal-footer">
                                   <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                                  <input type="submit" value="Update" class="btn btn-primary">
+                                  <input type="submit" value="Update" class="btn btn-primary submits">
                                   <a data-dismiss="modal" class="btn" href="#">Cancel</a>
                                 </div>
                               </form>
                             </div>
                             <!-- end add modal wind-->
-                        <?php 
+                        <?php
                       }
                     } ?>
 
@@ -203,7 +212,12 @@
     <div class="modal-content">
       <form class="form-horizontal" method="post" action="<?php echo base_url('admin/Sub_department/addSubDept') ?>">
         <div class="modal-header">
-          <h5 class="modal-title">Add Godown</h5>
+          <div class="row">
+            <div class="col-sm-5">
+              <h5 class="modal-title">Add Godown</h5>
+            </div>
+            <div class="text-center col-sm-7"><span id="name-error" class="error" style="color:red;"></span></div>
+          </div>
           <button data-dismiss="modal" class="close" type="button">×</button>
         </div>
         <div class="modal-body">
@@ -222,13 +236,19 @@
             <div class="form-group row">
               <label class="control-label col-sm-3">Godown:- </label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" name="subDeptName" required>
+                <input type="text" class="form-control subDeptName" name="subDeptName" required>
               </div>
             </div>
             <div class="form-group row">
               <label class="control-label col-sm-3">Sortname:- </label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" maxlength="15" name="sortname" required>
+                <input type="text" class="form-control sortname" maxlength="15" name="sortname" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="control-label col-sm-3">Order:- </label>
+              <div class="col-sm-9">
+                <input type="number" min="0" class="form-control" name="order" required>
               </div>
             </div>
             <div class="form-group row">
@@ -237,7 +257,7 @@
                 <select name="under" class="form-control" required>
                   <option value="0">Primary</option>
                   <?php foreach ($under as $rec) : ?>
-                    <option  value="<?php echo $rec['id'] ?>"><?php echo $rec['sortname'] ?></option>
+                    <option value="<?php echo $rec['id'] ?>"><?php echo $rec['sortname'] ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -246,15 +266,15 @@
               <label class="control-label col-sm-12">Material In:- </label>
               <div class="col-sm-4">
                 <label class="control-label"> Prefix </label>
-                <input type="text" class="form-control" name="inPrefix" id="" required>
+                <input type="text" class="form-control" name="inPrefix" required>
               </div>
               <div class="col-sm-4">
                 <label class="control-label"> Start No</label>
-                <input type="text" class="form-control" name="inStart" id="" required>
+                <input type="text" class="form-control" name="inStart" required>
               </div>
               <div class="col-sm-4">
                 <label class="control-label"> Suffix </label>
-                <input type="text" class="form-control" name="inSuffix" id="" required>
+                <input type="text" class="form-control" name="inSuffix" required>
               </div>
             </div>
 
@@ -262,15 +282,15 @@
               <label class="control-label col-sm-12">Material Out:- </label>
               <div class="col-sm-4">
                 <label class="control-label"> Prefix </label>
-                <input type="text" class="form-control" name="outPrefix" id="" required>
+                <input type="text" class="form-control" name="outPrefix" required>
               </div>
               <div class="col-sm-4">
                 <label class="control-label"> Start No</label>
-                <input type="text" class="form-control" name="outStart" id="" required>
+                <input type="text" class="form-control" name="outStart" required>
               </div>
               <div class="col-sm-4">
                 <label class="control-label"> Suffix </label>
-                <input type="text" class="form-control" name="outSuffix" id="" required>
+                <input type="text" class="form-control" name="outSuffix" required>
               </div>
             </div>
 
@@ -278,7 +298,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-          <input type="submit" class="btn btn-primary">
+          <input type="submit" class="btn btn-primary submit">
           <a data-dismiss="modal" class="btn" href="#">Cancel</a>
         </div>
       </form>

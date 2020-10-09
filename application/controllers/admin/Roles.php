@@ -32,7 +32,7 @@ class Roles extends CI_Controller {
 					redirect($_SERVER['HTTP_REFERER']);
 				}
 			} catch (\Exception $e) {
-				$this->session->set_flashdata(array('error' => 1, 'msg' => $e->getMessage(); ));
+				$this->session->set_flashdata(array('error' => 1, 'msg' => $e->getMessage()));
 				redirect($_SERVER['HTTP_REFERER']);
 			}
 		}else{

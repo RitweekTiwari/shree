@@ -30,6 +30,7 @@
 					'subDeptName'=>$_POST['subDeptName'],
 				'sortname' => $_POST['sortname'],
 				'under' => $_POST['under'],
+				'priority' => $_POST['order'],
 						'inPrefix'=>$_POST['inPrefix'],
 						'inStart'=>$_POST['inStart'],
 						'inSuffix'=>$_POST['inSuffix'],
@@ -51,6 +52,7 @@
 								'subDeptName'=>$_POST['subDeptName'],
 				'sortname' => $_POST['sortname'],
 				'under' => $_POST['under'],
+				'priority' => $_POST['order'],
 								'inPrefix'=>$_POST['inPrefix'],
 								'inStart'=>$_POST['inStart'],
 								'inSuffix'=>$_POST['inSuffix'],
@@ -106,7 +108,23 @@
             }
         }
 
+	public function sub_name_exist()
+	{
+		if ($_POST) {
+			
+			$data = $this->Sub_department_model->get_name_exist($_POST['name'], $_POST['col']);
+			//echo print_r($data);exit;
+			if ($data) {
 
+				echo TRUE;
+			} else {
+
+				echo FALSE;
+			}
+		} else {
+			echo json_encode(array('error' => true, 'msg' => 'somthing want wrong :('));
+		}
+	}
 
 
 

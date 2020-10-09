@@ -139,11 +139,11 @@
       </div>
 
       <div class="col-sm-2">
-        <input type="number" class="form-control" name="length[]" value="-1">
+        <input type="number" class="form-control" name="length[]" value="-1" step="0.01">
       </div>
 
       <div class="col-sm-2">
-        <input type="number" class="form-control" name="width[]" value="-1">
+        <input type="number" class="form-control" name="width[]" value="-1" step="0.01">
       </div>
 
       <div class="col-sm-1">

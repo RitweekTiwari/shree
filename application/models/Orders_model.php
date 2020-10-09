@@ -233,7 +233,7 @@ public function get_design_name()
     }
 	
 
-	public function get_order_flow()
+	public function get_order_flow($cat)
 	{
 
 	$this->db->select(" ot.order_date,
@@ -282,8 +282,11 @@ ot.branch_order_number,
 		$this->db->join('order_product ', 'ot.order_id = order_product.order_id', 'inner');
 		$this->db->join('branch_detail ', 'ot.branch_name=branch_detail.id', 'left');
 		$this->db->join('customer_detail ', 'customer_detail.id=ot.customer_name', 'left');
+		$this->db->join('data_category ', 'data_category.id=ot.data_category', 'left');
+		$this->db->where("data_category.dataCategory",$cat);
 		$this->db->group_by("ot.order_id");
 		$query = $this->db->get();
+		
 		return $query->result_array();
 		
 	}
