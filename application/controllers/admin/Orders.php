@@ -256,9 +256,23 @@ class Orders extends CI_Controller
           $data['from'] = $_POST['filter']['from'];
           $data['Dsearch'] = $_POST['filter']['search'];
           $caption = "Order List";
-          $data['all_Order'] = $this->Orders_model->get_order_search_value($data);
-        } elseif ($_POST['filter']['search'] == 'order') {
-          $flow = $this->Orders_model->get_order_flow();
+          $flow = $this->Orders_model->get_order_flow($data);
+          $data['godownlist'] = self::godown_chart();
+
+
+          foreach ($flow as $key => $result) {
+            $chart[$key] = $result;
+            foreach ($data['godownlist'] as $temp => $value) {
+              $flage = self::godown_count($result['order_id'], $temp);
+              if ($flage) {
+                $chart[$key][$temp] = $flage;
+              } else {
+                $chart[$key][$temp] = "";
+              }
+            }
+          }
+        } elseif ($_POST['filter']['search'] == 'searchDataCat') {
+          $flow = $this->Orders_model->get_order_flow($_POST['filter']['branch_name']);
           $data['godownlist'] = self::godown_chart();
 
 
@@ -277,7 +291,7 @@ class Orders extends CI_Controller
          
         }
       } else {
-        $flow = $this->Orders_model->get_order_flow("ORDER");
+        $flow = $this->Orders_model->get_order_flow(4);
         // $godwon = $this->Orders_model->get_order_flow2();
         $data['godownlist'] = self::godown_chart();
 

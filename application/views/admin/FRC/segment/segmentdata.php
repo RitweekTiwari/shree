@@ -16,7 +16,7 @@
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
                   <td>
-                    <table class="remove_datatable" id="customer">
+                    <table class="remove_datatable table-responsive" id="customer">
                       <caption class="text-center bg-success text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>
@@ -92,7 +92,7 @@
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
                   <td>
-                    <table class="remove_datatable">
+                    <table class="remove_datatable table-responsive">
                       <caption class="text-center bg-info text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>
@@ -112,7 +112,7 @@
                           <td><input type="text" class="form-control" id="item<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control qty<?php echo $i ?>" id="qty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control cqty<?php echo $i ?>" name="cqty1[]" id="cqty<?php echo $i ?>" readonly></td>
-                          <td><input type="text" class="form-control tc"  id="tc<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control tc" id="tc<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control rate" id="rate2-<?php echo $i ?>" readonly></td>
 
                         </tr>

@@ -43,7 +43,7 @@
             var present_date = new Date();
 
             // 0-11 is Month in JavaScript 
-            var christmas_day = new Date(data[0]['order_date']);
+            var christmas_day = new Date(data['order'][0]['order_date']);
 
             // To Calculate the result in milliseconds and then converting into days 
             var Result = Math.round(present_date.getTime() - christmas_day.getTime()) / (one_day);
@@ -51,24 +51,24 @@
             // To remove the decimals from the (Result) resulting days value 
             var Final_Result = Result.toFixed(0);
             Final_Result = 30 - Final_Result;
-            fabric = data[0]['fabric_name'];
+            fabric = data['order'][0]['fabric_name'];
 
             $('#days' + button_id + '').val(Final_Result);
-            $('#pbc' + button_id + '').val(data[0]['pbc']);
-            $('#orderNo' + button_id + '').val(data[0]['order_number']);
-            $('#design' + button_id + '').val(data[0]['design_name']);
-            $('#DesignCode' + button_id + '').val(data[0]['design_code']);
-            $('#stitch' + button_id + '').val(data[0]['stitch']);
-            $('#dye' + button_id + '').val(data[0]['dye']);
-            $('#matching' + button_id + '').val(data[0]['matching']);
-            $('#qty' + button_id + '').val(data[0]['quantity']);
-            $('#fqty' + button_id + '').val(data[0]['finish_qty']);
-            var tc = Number(data[0]['finish_qty'] - data[0]['quantity']).toFixed(2);
+            $('#pbc' + button_id + '').val(data['order'][0]['pbc']);
+            $('#orderNo' + button_id + '').val(data['order'][0]['order_number']);
+            $('#design' + button_id + '').val(data['order'][0]['design_name']);
+            $('#DesignCode' + button_id + '').val(data['order'][0]['design_code']);
+            $('#stitch' + button_id + '').val(data['order'][0]['stitch']);
+            $('#dye' + button_id + '').val(data['order'][0]['dye']);
+            $('#matching' + button_id + '').val(data['order'][0]['matching']);
+            $('#qty' + button_id + '').val(data['order'][0]['quantity']);
+            $('#fqty' + button_id + '').val(data['order'][0]['finish_qty']);
+            var tc = Number(data['order'][0]['finish_qty'] - data['order'][0]['quantity']).toFixed(2);
             $('#tc' + button_id + '').val(tc);
             $('#fabric' + button_id + '').val(fabric);
-            $('#id' + button_id + '').val(data[0]['trans_meta_id']);
-            $('#hsn' + button_id + '').val(data[0]['hsn']);
-            $('#unit' + button_id + '').val(data[0]['unit']);
+            $('#id' + button_id + '').val(data['order'][0]['trans_meta_id']);
+            $('#hsn' + button_id + '').val(data['order'][0]['hsn']);
+            $('#unit' + button_id + '').val(data['order'][0]['unit']);
             if (fabric != "") {
               $('#submit_button').show();
             } else {

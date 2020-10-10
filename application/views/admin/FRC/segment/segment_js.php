@@ -39,6 +39,23 @@
           success: function(data) {
             $("#list").html(data);
             $('#submit').show();
+            $.ajax({
+              type: "POST",
+              url: "<?= base_url() ?>admin/Segment/get_fabric",
+              cache: false,
+              data: {
+                'id': id,
+                '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+              },
+              datatype: 'json',
+              success: function(data1) {
+                data1 = JSON.parse(data1)
+                $("#hsn").val(data1.fabHsnCode);
+                $("#fabtype").val(data1.fabricType);
+                $("#unit").val(data1.unit);
+
+              },
+            });
           },
         });
       }
@@ -72,7 +89,7 @@
             if (fabric == data[0]['fabricName']) {
 
               $('#pbc2-' + button + '').val(pbc);
-              $('#qty' + button + '').val(data[0]['stock_quantity']);
+              $('#qty' + button + '').val(data[0]['current_stock']);
               $('#item' + button + '').val(data[0]['fabricName']);
 
               $('#rate2-' + button + '').val(data[0]['purchase_rate']);
@@ -193,16 +210,20 @@
       console.log("rate = " + rate);
       var value = (tc + (length * net_pcs)) * rate;
       $('#value' + row + '').val(value);
-      var tc2 = Number($('#tc' + row + '').val());
-      var net = tc2 - tc;
-      if (net >= 0) {
-        $('#cqty' + row + '').val(net);
-        $('#tc' + row + '').val(net);
-      } else {
-        toastr.error("Error", "Invalid Quantity");
-        $(this).val(0);
-        $(this).focus();
-      }
+      var qty = $('#qty' + row + '').val();
+      var net = qty - (tc + (length * net_pcs));
+      $('#cqty' + row + '').val(Math.round((net + Number.EPSILON) * 100) / 100);
+      $('#tc' + row + '').val(Math.round((net + Number.EPSILON) * 100) / 100);
+      // var tc2 = Number($('#tc' + row + '').val());
+      // var net = tc2 - tc;
+      // if (net >= 0) {
+      //   $('#cqty' + row + '').val(net);
+      //   $('#tc' + row + '').val(net);
+      // } else {
+      //   toastr.error("Error", "Invalid Quantity");
+      //   $(this).val(0);
+      //   $(this).focus();
+      // }
       $("body").keypress(function(e) {
         if (e.which == 13) {
           event.preventDefault();

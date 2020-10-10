@@ -46,8 +46,12 @@
                                     <th>S no</th>
                                     <th>Date</th>
                                     <th>Fabric</th>
+                                    <th>HSn</th>
+                                    <th>FabType</th>
                                     <th>Color</th>
+
                                     <th>PCS</th>
+                                    <th>Unit</th>
                                     <th>Avg Rate</th>
                                     <th>Total Value</th>
                                 </thead>
@@ -64,13 +68,15 @@
                                             </select>
 
                                         </td>
-
+                                        <td><input type="text" class="form-control" name="hsn" value="" id="hsn" readonly /></td>
+                                        <td><input type="text" class="form-control" name="fabtype" value="" id="fabtype" readonly /></td>
                                         <td><input type="text" class="form-control" name="color_main" value="" id="color0" required /></td>
                                         <td><input type="number" class="form-control" name="pcs_main" value="" id="pcs_main" /></td>
+                                        <td><input type="text" class="form-control" name="unit" value="" id="unit" readonly /></td>
 
 
-                                        <td><input type="text" class="form-control" name="rate_main" value="" id="rate_main" required /></td>
-                                        <td><input type="text" class="form-control" name="total_main" value="" id="total_main" /></td>
+                                        <td><input type="text" class="form-control" name="rate_main" value="" id="rate_main" readonly /></td>
+                                        <td><input type="text" class="form-control" name="total_main" value="" id="total_main" readonly /></td>
 
                                     </tr>
 

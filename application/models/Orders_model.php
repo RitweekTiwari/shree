@@ -283,7 +283,7 @@ ot.branch_order_number,
 		$this->db->join('branch_detail ', 'ot.branch_name=branch_detail.id', 'left');
 		$this->db->join('customer_detail ', 'customer_detail.id=ot.customer_name', 'left');
 		$this->db->join('data_category ', 'data_category.id=ot.data_category', 'left');
-		$this->db->where("data_category.dataCategory",$cat);
+		$this->db->where("data_category.id",$cat);
 		$this->db->group_by("ot.order_id");
 		$query = $this->db->get();
 		
@@ -335,7 +335,7 @@ ot.branch_order_number,
 	public function get_order_by_id2($order_id)
 	{
 		
-		$this->db->select('order_product.*,customer_detail.name as customer,order_table.order_number');
+		$this->db->select('order_product.*,customer_detail.name as customer,order_table.order_number,sb1.sortname as party,sb2.sortname as godown');
 		$this->db->from('order_table');
 		$this->db->join('order_product ', 'order_table.order_id = order_product.order_id', 'inner');
 		if (isset($order_id['barcode'])) {
@@ -344,6 +344,8 @@ ot.branch_order_number,
 		$this->db->where('order_product.order_product_id', $order_id);
 		}
 		$this->db->join('customer_detail ', 'customer_detail.id = order_table.customer_name', 'inner');
+		$this->db->join('sub_department sb1', 'sb1.id = order_product.godown', 'left');
+		$this->db->join('sub_department sb2', 'sb2.id = order_product.to_godown', 'left');
 		$query = $this->db->get();
 		$query = $query->result_array();
 		return $query;
