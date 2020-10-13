@@ -251,7 +251,7 @@
                   <thead>
                     <tr>
                       <th><input type="checkbox" id="master2"></th>
-                      <th>PBC</th>
+                      <th >PBC</th>
                       <th>ORDER DATE</th>
                       <th>ORDER NUMBER</th>
                       <th>CUSTOMER NAME</th>

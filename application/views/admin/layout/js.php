@@ -9,7 +9,7 @@
         [250, 500, 1000, "All"]
       ],
       select: true,
-     
+
 
       dom: 'Bfrtip',
       buttons: [
@@ -37,8 +37,10 @@
         'selectNone',
         'colvis'
       ],
-      scrollY: 500,
-      scrollX: false,
+      scrollY: 600,
+      scrollX: '100%',
+      fixedHeader: true,
+
       scrollCollapse: true,
       paging: true,
 

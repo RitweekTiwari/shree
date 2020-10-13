@@ -23,6 +23,8 @@ $godown = $this->db->get('sub_department')->result();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
+    <link href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.dataTables.min.css" rel="preload" as="style" onload="this.rel = 'stylesheet'" media='all' />
+
 
 
     <!-- Datatable -->

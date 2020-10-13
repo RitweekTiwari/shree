@@ -25,7 +25,7 @@ class Segment_model extends CI_Model {
 
   }
 		
-		public function get_fabric($id)
+		public function get_fabric_by_id($id)
 		{
 			$this->db->select('fabric.fabHsnCode,fabric.fabricType,hsn.unit');
 			$this->db->where('fabric.id', $id);
@@ -33,10 +33,18 @@ class Segment_model extends CI_Model {
 			$rec = $this->db->get('fabric');
 			return $rec->result_array();
 		}
+
+		public function get_fabric($id="")
+		{
+			$this->db->select('id,fabricName as text');
+			$this->db->where_like('fabricName', $id);
+			$rec = $this->db->get('fabric');
+			return $rec->result_array();
+		}
 		public function update_pbc($id,$data)
 		{
 			$this->db->where('parent_barcode', $id);
-			$this->db->update('fabric_stock_received', $data);
+			return $this->db->update('fabric_stock_received', $data);
 		}
 		public function get_pbc_data($id)
 		{

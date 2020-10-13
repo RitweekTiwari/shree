@@ -57,7 +57,7 @@
               </div>
             </div>
             <hr>
-            <table class="table-bordered text-center table-responsive " id="orders">
+            <table class="table-bordered text-center  " id="orders">
               <thead>
                 <th class="">
                   OD DATE
@@ -157,7 +157,8 @@
           ],
 
           "destroy": true,
-          scrollY: 500,
+          scrollY: 600,
+          scrollX:'100%',
           paging: true,
 
 
@@ -184,6 +185,7 @@
 
         });
       }
+      
       $("#searchBranch").click(function(event) {
         event.preventDefault();
         var filter = {

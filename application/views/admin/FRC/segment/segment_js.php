@@ -8,7 +8,27 @@
     var Tval = 0;
     var is_new = 0;
     $('#submit').hide();
-
+ $('#fabric_name0').select2({
+      ajax: {
+        url: '<?php echo base_url('admin/segment/get_fabric'); ?>',
+        type: "GET",
+        dataType: 'json',
+        data: function(params) {
+          var query = {
+            search: params.term,
+            type: 'public',
+            "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
+          }
+          return query;
+        },
+        processResults: function(data) {
+          return {
+            results: data
+          };
+        },
+        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+      }
+    });
     $(".fabric_name").change(function() {
       var from = $('#fromGodown option:selected').val();
       var to = $('#toGodown option:selected').val();
@@ -41,7 +61,7 @@
             $('#submit').show();
             $.ajax({
               type: "POST",
-              url: "<?= base_url() ?>admin/Segment/get_fabric",
+              url: "<?= base_url() ?>admin/Segment/get_fabric_by_id",
               cache: false,
               data: {
                 'id': id,
@@ -59,6 +79,35 @@
           },
         });
       }
+    });
+
+   
+
+    $(document).on("click", ".update", function() {
+      console.log("hjjjjjjjjjjjjjjjjjj");
+      var pbc = $(this).parent().parent().find('.pbc').val();
+      var qty = $(this).parent().parent().find('.cqty').val();
+      console.log(qty);
+      $.ajax({
+        type: "POST",
+        url: "<?= base_url() ?>admin/Segment/update_pbc",
+        cache: false,
+        data: {
+          'id': pbc,
+          'qty': qty,
+          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        datatype: 'json',
+        success: function(data) {
+          if (data == 1) {
+            toastr.success("Success", "PBC Updated");
+          } else {
+            toastr.error("Error", "PBC Not Updated");
+          }
+
+        },
+      });
+
     });
     $(document).on('change', '.pbc', function(e) {
 
@@ -162,9 +211,9 @@
       element += '<td><input type="text" class="form-control pbc' + count + '" name="pbc1[]" id="pbc2-' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control "  id="item' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control qty' + body_id + '"  id="qty' + count + '" readonly></td>'
-      element += '<td><input type="number" class="form-control cqty' + body_id + '" name="cqty1[]" id="cqty' + count + '" readonly></td>'
+      element += '<td><input type="number" class="form-control cqty cqty' + body_id + '" name="cqty1[]" id="cqty' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control "  id="tc' + count + '" readonly></td>'
-      element += '<td><input type="number" class="form-control"  id="rate2-' + count + '"  readonly></td>'
+      element += '<td><button type="button" class="btn btn-secondary update"  >update</button></td>'
       element += '</tr>'
 
       $('#segment2-' + row + '').append(element);

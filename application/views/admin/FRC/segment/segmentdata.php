@@ -108,12 +108,12 @@
                       </thead>
                       <tbody id="segment2-<?php echo $i ?>" row-id="<?php echo $i ?>">
                         <tr id="segment2-tr-<?php echo $i ?>" row-id="<?php echo $i ?>">
-                          <td><input type="text" class="form-control" name="pbc1[]" id="pbc2-<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control pbc" name="pbc1[]" id="pbc2-<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control" id="item<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control qty<?php echo $i ?>" id="qty<?php echo $i ?>" readonly></td>
-                          <td><input type="text" class="form-control cqty<?php echo $i ?>" name="cqty1[]" id="cqty<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control cqty<?php echo $i ?> cqty" name="cqty1[]" id="cqty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control tc" id="tc<?php echo $i ?>" readonly></td>
-                          <td><input type="text" class="form-control rate" id="rate2-<?php echo $i ?>" readonly></td>
+                          <td><button type="button" class="btn btn-secondary update"  >update</button></td>
 
                         </tr>
                       </tbody>

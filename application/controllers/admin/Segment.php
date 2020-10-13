@@ -135,15 +135,46 @@ class Segment extends CI_Controller
 			$this->load->view('admin/FRC/segment/index', $data);
 		}
 	}
-	public function get_fabric()
+	public function get_fabric_by_id()
 	{
-		$fabric = $this->Segment_model->get_fabric($_POST['id']);
+		
+		$fabric = $this->Segment_model->get_fabric_by_id($_POST['id']);
 		if (!empty($fabric)) {
 			$result = $fabric[0];
 		}
 
 		//pre($result);exit;
 		echo json_encode($result);
+	}
+	public function get_fabric()
+	{
+		if(isset($_POST['search']))
+		$fabric = $this->Segment_model->get_fabric($_POST['search']);
+		else
+			$fabric = $this->Segment_model->get_fabric();
+
+		if (!empty($fabric)) {
+			$result = $fabric[0];
+		}
+
+		//pre($result);exit;
+		echo json_encode($result);
+	}
+	public function update_pbc()
+	{
+		$data1 = [
+			'current_stock' => $_POST['qty'],
+
+		];
+	$id=	$this->Segment_model->update_pbc($_POST['id'], $data1);
+	//echo $id;exit;
+		if ($id) {
+			echo 1;
+		}else{
+			echo 0;
+		}
+
+		
 	}
 	public function get_pbc()
 	{
@@ -172,20 +203,9 @@ class Segment extends CI_Controller
 		//
 	}
 
-	public function delete($id)
-	{
-		$this->Grade_model->delete($id);
-		redirect(base_url('admin/grade'));
-	}
+	
 
-	public function delete_order()
-	{
-		$ids = $this->input->post('ids');
-		$userid = explode(",", $ids);
-		foreach ($userid as $value) {
-			$this->db->delete('grade', array('id' => $value));
-		}
-	}
+	
 }
 
 /* End of file Branch_detail.php */

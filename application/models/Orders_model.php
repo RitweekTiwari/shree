@@ -327,6 +327,7 @@ ot.branch_order_number,
 		public function get_godown_name(){
 			$this->db->select('id, sortname');
 			$this->db->from('sub_department');
+		$this->db->order_by("priority");
 			$query = $this->db->get();
 			$query = $query->result();
 			return $query;
