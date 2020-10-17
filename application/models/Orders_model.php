@@ -627,7 +627,6 @@ ot.branch_order_number,
 		$this->db->from('order_product');
 		$this->db->where('order_product.order_barcode', $id);
 
-		$this->db->where('order_product.status !=', 'OUT');
 		$this->db->join('order_table ', 'order_table.order_id = order_product.order_id', 'inner');
 		$query = $this->db->get();
 		//echo $this->db->last_query();exit;

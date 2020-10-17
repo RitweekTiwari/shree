@@ -208,7 +208,7 @@
       $(body).append(element);
       element = "";
       var element = ' <tr id=segment2-tr-' + count + ' row-id=' + count + ' >'
-      element += '<td><input type="text" class="form-control pbc' + count + '" name="pbc1[]" id="pbc2-' + count + '" readonly></td>'
+      element += '<td><input type="text" class="form-control pbc' + count + ' pbc" id="pbc2-' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control "  id="item' + count + '" readonly></td>'
       element += '<td><input type="text" class="form-control qty' + body_id + '"  id="qty' + count + '" readonly></td>'
       element += '<td><input type="number" class="form-control cqty cqty' + body_id + '" name="cqty1[]" id="cqty' + count + '" readonly></td>'

@@ -48,7 +48,7 @@ class Segment_model extends CI_Model {
 		}
 		public function get_pbc_data($id)
 		{
-			$this->db->select('stock_quantity,current_stock,fabric.fabricName,purchase_rate');
+			$this->db->select('fabric_stock_received.*,fabric.fabricName');
 			$this->db->where('parent_barcode', $id);
 			$this->db->join('fabric', 'fabric_stock_received.fabric_id=fabric.id');
 			$rec = $this->db->get('fabric_stock_received');

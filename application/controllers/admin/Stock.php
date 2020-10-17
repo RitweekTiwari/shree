@@ -9,6 +9,7 @@ class Stock extends CI_Controller
         parent::__construct();
         check_login_user();
         $this->load->model('Stock_model');
+        $this->load->model('common_model');
         $this->load->model('Transaction_model');
     }
 
@@ -19,7 +20,29 @@ class Stock extends CI_Controller
         $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
         $data['id'] = $godown;
 
-        $data['main_content'] = $this->load->view('admin/transaction/check_stock', $data, TRUE);
+        $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock', $data, TRUE);
+        $this->load->view('admin/index', $data);
+    }
+    public function stock_list($godown)
+    {
+        $data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+        $link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+        $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+        $data['id'] = $godown;
+        $data['stock'] = $this->Stock_model->get_stock_history($godown);
+        $data['main_content'] = $this->load->view('admin/transaction/check_stock/list', $data, TRUE);
+        $this->load->view('admin/index', $data);
+    }
+    public function view_stock_list($id)
+    {
+        $data['stock'] = $this->Stock_model->get_stock_history_id($id);
+        //pre($data['stock']);exit;
+        $data['godown'] = $this->Transaction_model->get_godown_by_id($data['stock'][0]['godown']);
+        $link = ' <a href=' . base_url('admin/transaction/home/') . $data['stock'][0]['godown']. '>Home</a>';
+        $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+        $data['id'] = $data['stock'][0]['godown'];
+       
+        $data['main_content'] = $this->load->view('admin/transaction/check_stock/stock_list', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
     public function recieve_obc()
@@ -46,7 +69,43 @@ class Stock extends CI_Controller
             }
        
     }
+    
+    public function save_stock()
+    {
+        $print = $this->security->xss_clean($_POST['print']);
+        $godown = $this->security->xss_clean($_POST['godown']);
+        $data['stock'] = $this->Stock_model->get_stock_by_id($godown);
+        //pre($data['stock']);exit;
+        $data1=array();
+        $data1['godown']= $godown;
+        $data1['date']= date("y-m-d");
+        $data1['created']= current_datetime();
 
+        $id =    $this->common_model->insert($data1, 'stock_history_main');
+         foreach($data['stock'] as $row){
+            $data1 = array();
+            $data1['stock_id'] =  $id;
+            $data1['order_number'] = $row['order_number'];
+            $data1['unit'] = $row['unit'];
+            $data1['fabric_name'] = $row['fabric_name'];
+            $data1['order_barcode'] = $row['order_barcode'];
+            $data1['design_name'] = $row['design_name'];
+            $data1['dye'] = $row['dye'];
+            $data1['pbc'] = $row['pbc'];
+            $data1['finish_qty'] = $row['finish_qty'];
+            $data1['matching'] = $row['matching'];
+            $this->common_model->insert($data1, 'stock_history');
+         }
+        $data['stock'] = $this->Stock_model->get_stock_by_id($godown);
+         if($print==1){
+            $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock_index', $data, TRUE);
+            $this->load->view('admin/print/index', $data);
+         }else{
+             echo 0;
+         }
+
+        
+    }
     public function getBill($id)
     {
         $query = '';
@@ -247,7 +306,7 @@ class Stock extends CI_Controller
 
                 $data['frc_data'] = $this->Transaction_model->get_stock($godown, 'challan');
             }
-
+            //echo "<pre>";print_r($data['frc_data']);exit;
             $data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
         }
 

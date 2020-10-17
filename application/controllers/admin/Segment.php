@@ -87,7 +87,7 @@ class Segment extends CI_Controller
 					'challan_type' => 'recieve'
 
 				];
-				$this->Frc_model->update_fabric_rate($data['rate_main'], $data['fabric_name']);
+			$this->Frc_model->update_fabric_rate($data['rate_main'], $data['fabric_name']);
 				$this->Frc_model->insert($data2, 'fabric_stock_received');
 			}
 			for ($i = 0; $i < count($data['pbc']); $i++) {
@@ -106,8 +106,42 @@ class Segment extends CI_Controller
 				];
 				$id =	$this->Frc_model->insert($data1, 'fabric_tc_detail');
 			}
+	
+				$count = count($data['pbc']);
+				$total_qty = 0;
+				$total_val = 0;
+				for ($i = 0; $i < $count; $i++) {
+					$total_qty = $total_qty +  $data['cqty1'][$i];
+					$total_val = $total_val + $data['tc'][$i];
+				}
+				$id = $this->Frc_model->getId("tc");
+				if (!$id) {
+					$challan = "TC1";
+				} else {
+					$cc = $id[0]['count'];
+					$cc = $cc + 1;
+					$challan = "TC" . (string)$cc;
+				}
+				$data1 = [
 
-			for ($i = 0; $i < count($data['pbc1']); $i++) {
+					'challan_date' => date('Y-m-d'),
+					'created_by' => $_SESSION['userID'],
+
+					'challan_no' => $challan,
+					'counter' => $cc,
+
+					'total_pcs' => $count,
+					'total_quantity' => $total_qty,
+					'total_tc' => $total_val,
+
+
+					'challan_type' => 'tc'
+				];
+				$id =	$this->Frc_model->insert($data1, 'fabric_challan');
+				$counter = $this->Frc_model->getCount('tc');
+				$cc = $counter[0]['count'];
+			//print_r($counter[0]['count']);exit;
+			for ($i = 0; $i < count($data['pbc']); $i++) {
 				$data1 = array();
 				$data1 = [
 					'current_stock' => $data['cqty1'][$i],
@@ -115,8 +149,45 @@ class Segment extends CI_Controller
 					'tc' => $data['tc'][$i],
 
 				];
-				$this->Segment_model->update_pbc($data['pbc1'][$i], $data1);
-			}
+				 $this->Segment_model->update_pbc($data['pbc'][$i], $data1);
+				$pbc1 = $this->Segment_model->get_pbc_data($data['pbc'][$i]);
+				//pre($pbc1);exit;
+					$cc = $cc + 1;
+					$pbc = "TCP" . (string)$cc;
+					$data2 = [
+						'fabric_challan_id' => $id,
+						'parent_barcode' => $pbc,
+						'parent' => $data['pbc'][$i],
+						'challan_no' =>  $challan,
+						'counter' => $cc,
+						'fabric_id' => $pbc1[0]["fabric_id"],
+						'created_date' => date('Y-m-d'),
+						'stock_quantity' => $pbc1[0]["fabric_id"],
+						'current_stock' => $data['cqty1'][$i],
+						'stock_unit' => $pbc1[0]["stock_unit"],
+						'ad_no ' => $pbc1[0]["ad_no"],
+						'color_name ' => $pbc1[0]["color_name"],
+						'purchase_code' => $pbc1[0]["purchase_code"],
+						'purchase_rate' => $data['rate'][$i],
+						'tc' => $data['tc'][$i],
+						'isStock' => 0,
+						'challan_type' => 'tc'
+
+					];
+					$this->Frc_model->insert($data2, 'fabric_stock_received');
+				
+					$data3 = [
+
+						'isTc' => 1
+
+					];
+					$this->Frc_model->update($data3, 'parent_barcode', $data['pbc'][$i], 'fabric_stock_received');
+					$this->Frc_model->update($data3, 'pbc', $data['pbc'][$i], 'pbc_tc_history');
+				}
+			
+			
+				
+			
 		}
 		$this->session->set_flashdata('success', 'Added Successfully !!');
 		redirect($_SERVER['HTTP_REFERER']);

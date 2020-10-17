@@ -128,6 +128,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6 col-lg-3 col-xlg-3">
+                                <div class="card card-hover">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
+                                        <h1 class="font-light text-white">
+                                            <i class="mdi mdi-check"></i>
+                                        </h1>
+                                        <a href="<?php echo base_url('admin/stock/stock_list/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
+                                            <h5 class="text-white">STOCK LIST</h5>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

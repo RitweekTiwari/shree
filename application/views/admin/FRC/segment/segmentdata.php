@@ -108,7 +108,7 @@
                       </thead>
                       <tbody id="segment2-<?php echo $i ?>" row-id="<?php echo $i ?>">
                         <tr id="segment2-tr-<?php echo $i ?>" row-id="<?php echo $i ?>">
-                          <td><input type="text" class="form-control pbc" name="pbc1[]" id="pbc2-<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control pbc"  id="pbc2-<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control" id="item<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control qty<?php echo $i ?>" id="qty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control cqty<?php echo $i ?> cqty" name="cqty1[]" id="cqty<?php echo $i ?>" readonly></td>

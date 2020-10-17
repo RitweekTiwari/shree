@@ -38,8 +38,7 @@
         'colvis'
       ],
       scrollY: 600,
-      scrollX: '100%',
-      fixedHeader: true,
+      scrollX: false,
 
       scrollCollapse: true,
       paging: true,

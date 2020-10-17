@@ -16,7 +16,7 @@
                              <div class="col-6"> <a type="button" class="btn btn-info pull-left print_all btn-success" style="color:#fff;"><i class="fa fa-print"></i></a>
                              </div>
                             </div><hr>
-                            <table class=" table-bordered data-table text-center table-responsive" id="frc">
+                            <table class=" table-bordered data-table text-center " id="frc">
                                 <thead class="bg-dark text-white">
                                     <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>

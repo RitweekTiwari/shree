@@ -98,6 +98,25 @@ class Transaction extends CI_Controller
 		$data['main_content'] = $this->load->view('admin/dye_transaction/issue/add', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
+	public function show_bill($godown)
+	{
+		$data = array();
+		$data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+		$link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+		$data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+		$data['id'] = $godown;
+		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+		foreach ($plain_godown as $row) {
+			$data['plain'][] = $row['godownid'];
+		}
+		$data['job'] = $this->Transaction_model->get_jobwork_by_id($godown);
+		$data['febName'] = $this->Common_model->febric_name();
+		$data['unit'] = $this->DyeTransaction_model->select('unit');
+		$data['branch_data'] = $this->Job_work_party_model->get();
+		// pre($data['branch_data']);exit;
+		$data['main_content'] = $this->load->view('admin/dye_transaction/recieve/add', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
 	public function showRecieve($godown)
 	{
 		$data = array();

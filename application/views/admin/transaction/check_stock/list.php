@@ -133,11 +133,11 @@
                                         <div class="form-row ">
                                             <div class="col-5">
                                                 <label>Date From</label>
-                                                <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo $from ?>">
+                                                <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
                                             </div>
                                             <div class="col-5">
                                                 <label>Date To</label>
-                                                <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo $to ?>">
+                                                <input type="date" name="date_to" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>">
                                             </div>
                                             <div class="col-2">
                                                 <label>Search</label>
@@ -153,22 +153,14 @@
 
 
 
-                            <table class=" table-bordered data-table text-center table-responsive" id="frc">
-                                <caption style='caption-side : top' class=" text-info">
-                                    <h6 class="text-center"> <?php echo $caption; ?></h6>
-                                </caption>
+                            <table class="table table-bordered data-table text-center " id="frc">
+
                                 <thead class="bg-dark text-white">
-                                    <tr >
+                                    <tr class="odd" role="row">
                                         <th><input type="checkbox" class="sub_chk" id="master"></th>
                                         <th>Date</th>
 
-
-                                        <th>Challan no</th>
-
-
-                                        <th>Quantity</th>
-                                        <th>Total PCS</th>
-                                        <th>Total tc</th>
+                                        <th>Month</th>
 
                                         <th>View</th>
 
@@ -177,25 +169,22 @@
                                 <tbody>
                                     <?php
                                     $c = 1;
-                                    foreach ($frc_data as $value) { ?>
-                                        <tr  id="tr_<?php echo $value['fc_id'] ?>">
+                                    foreach ($stock as $value) { ?>
+                                        <tr class="gradeU" id="tr_<?php echo $value['id'] ?>">
 
-                                            <td><input type="checkbox" class="sub_chk hover" data-id="<?php echo $value['fc_id'] ?> "> <span class="label label-info"><?php echo $c ?></span></td>
-                                            <td><?php $date = date_create($value['challan_date']);
+                                            <td><input type="checkbox" class="sub_chk hover" data-id="<?php echo $value['id'] ?> "> </td>
+                                            <td><?php $date = date_create($value['date']);
                                                 echo date_format($date, "d-m-y "); ?>
                                             </td>
 
 
-                                            <td><?php echo $value['challan_no']; ?></td>
-
-
-                                            <td><?php echo $value['total_quantity'] ?></td>
-                                            <td><?php echo $value['total_pcs'] ?></td>
-                                            <td><?php echo $value['total_tc'] ?></td>
+                                            <td><?php $date = date_create($value['date']);
+                                                $month= date_format($date, "m");
+                                               echo date('F', mktime(0, 0, 0, $month, 10));?></td>
 
                                             <td>
 
-                                                <a href="<?php echo base_url('admin/FRC/viewtc/') . $value['fc_id'] ?> ">
+                                                <a href="<?php echo base_url('admin/stock/view_stock_list/') . $value['id'] ?> ">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
@@ -209,144 +198,14 @@
                             </table>
 
 
-                            <div class="col-4"> <?php
-                                                if ($summary) {
 
-                                                ?>
-                                    <table class=" table-bordered text-center remove_datatable">
-                                        <caption>Summary</caption>
-                                        <thead class="bg-secondary text-white">
-                                            <tr>
-
-
-                                                <th>Quantity</th>
-                                                <th>Total tc</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody><?php $Totaltc=0.0;
-                                                    foreach ($summary as $value) {
-                                                        $Totaltc+= $value['tc'];
-                                                ?><tr>
-
-
-                                                    <td><?php echo $value['qty']; ?></td>
-                                                    <td><?php echo $value['tc']; ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                        <tr>
-
-
-                                            <th>total</th>
-                                            <th><?php echo $Totaltc; ?></th>
-                                        </tr>
-                                    </table>
-                                <?php } ?> </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
 
-<script>
-    function delete_detail(id) {
-        var del = confirm("Do you want to Delete");
-        if (del == true) {
-            window.location = "<?php echo base_url() ?>admin/Orders/deleteOrders/" + id;
-        }
-    }
-    <?php if ($this->session->flashdata('success')) { ?>
-        toastr.success("<?php echo $this->session->flashdata('success'); ?>");
-    <?php } else if ($this->session->flashdata('error')) {  ?>
-        toastr.error("<?php echo $this->session->flashdata('error'); ?>");
-    <?php } else if ($this->session->flashdata('warning')) {  ?>
-        toastr.warning("<?php echo $this->session->flashdata('warning'); ?>");
-    <?php } else if ($this->session->flashdata('info')) {  ?>
-        toastr.info("<?php echo $this->session->flashdata('info'); ?>");
-    <?php } ?>
-
-    $('.delete_all').on('click', function(e) {
-        var allVals = [];
-        $(".sub_chk:checked").each(function() {
-            allVals.push($(this).attr('data-id'));
-        });
-        //alert(allVals.length); return false;
-        if (allVals.length <= 0) {
-            alert("Please select row.");
-        } else {
-            //$("#loading").show();
-            WRN_PROFILE_DELETE = "Are you sure you want to delete this row?";
-            var check = confirm(WRN_PROFILE_DELETE);
-            if (check == true) {
-                //for server side
-                var join_selected_values = allVals.join(",");
-                // alert (join_selected_values);exit;
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?= base_url() ?>admin/FRC/delete_tc",
-                    cache: false,
-                    data: {
-                        'ids': join_selected_values,
-                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-                    },
-                    success: function(response) {
-
-                        //referesh table
-                        $(".sub_chk:checked").each(function() {
-                            var id = $(this).attr('data-id');
-                            $('#tr_' + id).remove();
-                        });
-                    }
-                });
-            }
-        }
-    });
-
-    jQuery('.print_all').on('click', function(e) {
-        var allVals = [];
-        $(".sub_chk:checked").each(function() {
-            allVals.push($(this).attr('data-id'));
-        });
-        //alert(allVals.length); return false;
-        if (allVals.length <= 0) {
-            alert("Please select row.");
-        } else {
-            //$("#loading").show();
-            WRN_PROFILE_DELETE = "Are you sure you want to Print this rows?";
-            var check = confirm(WRN_PROFILE_DELETE);
-            if (check == true) {
-                //for server side
-                var join_selected_values = allVals.join(",");
-                // alert (join_selected_values);exit;
-                var ids = join_selected_values.split(",");
-                var data = [];
-                $.each(ids, function(index, value) {
-                    if (value != "") {
-                        data[index] = value;
-                    }
-                });
-                $.ajax({
-                    type: "POST",
-                    url: "<?= base_url() ?>admin/PrintThis/Challan_multiprint",
-                    cache: false,
-                    data: {
-                        'ids': data,
-                        'title': 'TC List',
-                        'type': 'tc',
-                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-                    },
-                    success: function(response) {
-                        $("body").html(response);
-                    }
-                });
-                //for client side
-
-            }
-        }
-    });
-</script>
+  

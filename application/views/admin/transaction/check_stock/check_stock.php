@@ -41,7 +41,7 @@
                                         <th>Rate</th>
                                         <th>Value</th>
                                         <th>Unit</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -60,7 +60,7 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                      
+
 
 
                                     </tr>
@@ -71,11 +71,8 @@
                 </div>
                 <hr>
 
-                <div id="Recieve">
-                    <form action="<?php echo base_url('admin/Transaction/recieve/')  ?>" method="post">
-                        <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                        <button type="submit" name="submit" class="btn btn-success btn-md">Recieve</button>
-                    </form>
+                <div>
+                    <button type="submit" id="Recieve" class="btn btn-success btn-md">Recieve</button>
                 </div>
 
             </div>
@@ -88,7 +85,40 @@
 <script>
     $(document).ready(function() {
         getlist();
+        $(document).on('click', '#Recieve', function(e) {
+            var x = confirm("Do you want to print this");
+            var print = "";
+            if (x == true) {
+                print = 1;
+            } else {
+                print = 0;
+            }
+            var csrf_name = $("#get_csrf_hash").attr('name');
+            var csrf_val = $("#get_csrf_hash").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url('admin/stock/save_stock') ?>",
+                data: {
 
+                    'print': print,
+                    'godown': <?php echo $id; ?>,
+                    '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+                },
+                beforeSend: function() {
+                    $('input[name="phone_no"]').parent().find('label').append('<span><img width="100" height="100" src="<?php echo base_url('optimum/loading.svg') ?>" /></span>');
+                },
+                success: function(data) {
+                    if (data != 0) {
+                        var w = window.open('about:blank');
+                        w.document.open();
+                        w.document.write(data);
+                        w.document.close();
+                    }
+
+
+                }
+            });
+        });
         var table;
 
         $(document).on('change', '#obc', function(e) {
@@ -193,7 +223,7 @@
                 scrollY: 500,
                 scrollX: false,
                 scrollCollapse: true,
-                paging: true
+                paging: false
 
             });
         }

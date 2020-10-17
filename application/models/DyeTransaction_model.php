@@ -166,7 +166,7 @@ class DyeTransaction_model extends CI_Model
   }
   public function getPBC_deatils($id, $godown)
   {
-    $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date,color_name');
+    $this->db->select('stock_unit,fabricName,hsn,current_stock,created_date,color_name,color_name as color');
     $this->db->from("fabric_stock_view");
     $this->db->where("parent_barcode", $id);
     $this->db->where("godownid", $godown);
@@ -180,10 +180,11 @@ class DyeTransaction_model extends CI_Model
   }
   public function getPBC_order_deatils($id, $godown)
   {
-    $this->db->select('trans_meta_id,stock_unit,fabricName,hsn,current_stock,created_date');
+    $this->db->select('trans_meta_id,stock_unit,fabricName,hsn,current_stock,created_date,color');
     $this->db->from("dye_godown_stock");
     $this->db->where("order_barcode", $id);
     $this->db->where("to_godown", $godown);
+    $this->db->where("stat", "recieved");
     $rec = $this->db->get();
     //pre($this->db->last_query());exit;
     if ($rec->num_rows() >= 1) {

@@ -94,8 +94,10 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-border-outside"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">INPROCESS ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/stock/stock_list/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
+                                            <h5 class="text-white">STOCK LIST</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
