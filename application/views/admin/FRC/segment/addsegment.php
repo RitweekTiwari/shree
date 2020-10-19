@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form method="post" action="<?= base_url("admin/Segment/add") ?>">
+                <form method="post" action="<?= base_url("admin/Segment/add") ?>" id="myForm">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title"><i class="fa fa-plus"></i> GENERATE SUIT & SAREE</h5>
@@ -34,10 +34,7 @@
                                     <label>DATE</label>
                                     <input type="date" class="form-control" name="PBC_date" value="<?php echo date('Y-m-d') ?>" required>
                                 </div>
-                                <div class="col-md-3">
-                                    <label>Doc Challan No</label>
-                                    <input type="text" class="form-control" name="Doc_challan" value="" id="Doc_challan" required>
-                                </div>
+
 
                             </div>
                             <hr>
@@ -86,7 +83,7 @@
                             <div class="col-md-12" id="list"></div>
                             <div class="col-md-3" id="submit">
                                 <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
-                                <button type="submit" name="submit" class="btn btn-success btn-md">Submit</button>
+                                <button type="submit" id="submitBtn" class="btn btn-success btn-md">Submit</button>
                             </div>
                         </div>
                     </div>

@@ -53,7 +53,16 @@ class Segment_model extends CI_Model {
 			$this->db->join('fabric', 'fabric_stock_received.fabric_id=fabric.id');
 			$rec = $this->db->get('fabric_stock_received');
 			return $rec->result_array();
-		}	
+		}
+		public function get_segment_data($id)
+		{
+			$this->db->select('*');
+			$this->db->where('challan_id', $id);
+			$rec = $this->db->get('fabric_tc_detail');
+			//pre($this->db->last_query());exit;
+			return $rec->result_array();
+		}
+		
 	public function edit($id,$data)
 	{
 		// print_r($data);

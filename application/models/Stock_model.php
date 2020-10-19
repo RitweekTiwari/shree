@@ -70,7 +70,7 @@
             $this->db->where("stock_id", $id);
             $this->db->join("stock_history_main", "stock_history_main.id=stock_history.stock_id");
             $this->db->join("order_view", "order_view.order_barcode=stock_history.order_barcode");
-             $this->db->order_by("from_godown", "pbc");
+            $this->db->order_by("order_barcode", "fabric_name", "to_godown", "from_godown");
             $query = $this->db->get();
 
             return $query->result_array();

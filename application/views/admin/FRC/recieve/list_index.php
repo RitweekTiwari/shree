@@ -16,7 +16,13 @@
                     <td><?php echo $value['total_amount']?></td>
                     <td>
 
-                      <a href="<?php echo base_url('admin/FRC/viewRecieve/').$value['fc_id'] ?> ">
+                      <a href="<?php if ($value['is_tc']==1){
+                        $url= base_url('admin/segment/viewRecieve/');
+                      }else{
+                                  $url =     base_url('admin/FRC/viewRecieve/');
+                      }
+                      
+                      echo $url.$value['fc_id'] ?> ">
                         <i class="fas fa-eye"></i>
                       </a>
 

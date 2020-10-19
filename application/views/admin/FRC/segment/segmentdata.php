@@ -32,8 +32,8 @@
                           <th>Value</th>
                         </tr>
                       </thead>
-                      <tbody id="segment1-<?php echo $i ?>" row-id="<?php echo $i ?>">
-                        <tr id="segment1-tr-<?php echo $i ?>" class="segment1-tr-<?php echo $i ?>" row-id="<?php echo $i ?>">
+                      <tbody id="segment1-<?php echo $i ?>" class="segment1" row-id="<?php echo $i ?>">
+                        <tr id="segment1-tr-<?php echo $i ?>" class="segment1-tr" row-id="<?php echo $i ?>">
                           <td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control fabric<?php echo $i ?>" name="fabric[]" id="fabric<?php echo $i ?>" value="<?php echo $value['fabricName'] ?>" readonly></td>
                           <td><input type="text" class="form-control length<?php echo $i ?>" name="length[]" id="length<?php echo $i ?>" value="<?php echo $value['length'] ?>" readonly></td>

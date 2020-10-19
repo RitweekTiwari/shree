@@ -25,14 +25,34 @@ class Segment extends CI_Controller
 		$data['main_content'] = $this->load->view('admin/FRC/segment/addsegment', $data, TRUE);
 		$this->load->view('admin/index', $data);
 	}
-
+	public function viewRecieve($id)
+	{
+		$data = array();
+		$data['page_name'] = 'View List';
+		$data['frc_data'] = $this->Frc_model->get_by_id($id);
+		
+		$data['pbc'] = $this->Frc_model->get_frc_by_id($id);
+		$data['segment'] = $this->Segment_model->get_segment_data($id);
+		// echo "<pre>";
+		// print_r($data['segment']);
+		// exit;
+		$data['main_content'] = $this->load->view('admin/FRC/segment/list', $data, TRUE);
+		$this->load->view('admin/index', $data);
+	}
 	public function add()
 	{
 
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
 			// echo "<pre>"; print_r($data);exit;
-
+			$id = $this->Frc_model->getId("tc");
+			if (!$id) {
+				$tcchallan = "TC1";
+			} else {
+				$cc = $id[0]['count'];
+				$cc = $cc + 1;
+				$tcchallan = "TC" . (string)$cc;
+			}
 			$id = $this->Frc_model->getId("recieve");
 			if (!$id) {
 				$challan = "FRC1";
@@ -46,7 +66,7 @@ class Segment extends CI_Controller
 				'challan_to'  => $data['toGodown'],
 				'challan_date' => $data['PBC_date'],
 				'created_by' => $_SESSION['userID'],
-				'doc_challan' =>  $data['Doc_challan'],
+				'doc_challan' =>  $tcchallan,
 				'challan_no' => $challan,
 				'counter' => $cc,
 
@@ -54,7 +74,7 @@ class Segment extends CI_Controller
 				'total_quantity' => $data['pcs_main'],
 				'total_amount' => $data['total_main'],
 
-
+				'is_tc' =>1,
 				'challan_type' => 'recieve'
 			];
 			$id =	$this->Frc_model->insert($data1, 'fabric_challan');
@@ -88,24 +108,24 @@ class Segment extends CI_Controller
 
 				];
 			$this->Frc_model->update_fabric_rate($data['rate_main'], $data['fabric_name']);
-				$this->Frc_model->insert($data2, 'fabric_stock_received');
-			}
-			for ($i = 0; $i < count($data['pbc']); $i++) {
+					$this->Frc_model->insert($data2, 'fabric_stock_received');
 				$data1 = array();
 				$data1 = [
-					'new_pbc' => $pbc,
-					'pbc' => $data['pbc'][$i],
-					'length'  => $data['length'][$i],
-					'pcs' => $data['pcs'][$i],
-					'created' => date('y-m-d'),
-					'rate' =>  $data['rate'][$i],
+						'challan_id'=> $id,
+						'new_pbc' => $pbc,
+						'pbc' => $data['pbc'][$i],
+						'length'  => $data['length'][$i],
+						'pcs' => $data['pcs'][$i],
+						'created' => date('y-m-d'),
+						'rate' =>  $data['rate'][$i],
 
-					'value' => $data['value'][$i],
-					'tc' => $data['tc'][$i],
+						'value' => $data['value'][$i],
+						'tc' => $data['tc'][$i],
 
-				];
-				$id =	$this->Frc_model->insert($data1, 'fabric_tc_detail');
+					];
+					$this->Frc_model->insert($data1, 'fabric_tc_detail');
 			}
+			
 	
 				$count = count($data['pbc']);
 				$total_qty = 0;
@@ -115,19 +135,13 @@ class Segment extends CI_Controller
 					$total_val = $total_val + $data['tc'][$i];
 				}
 				$id = $this->Frc_model->getId("tc");
-				if (!$id) {
-					$challan = "TC1";
-				} else {
-					$cc = $id[0]['count'];
-					$cc = $cc + 1;
-					$challan = "TC" . (string)$cc;
-				}
+				
 				$data1 = [
 
 					'challan_date' => date('Y-m-d'),
 					'created_by' => $_SESSION['userID'],
 
-					'challan_no' => $challan,
+					'challan_no' => $tcchallan,
 					'counter' => $cc,
 
 					'total_pcs' => $count,
@@ -158,7 +172,7 @@ class Segment extends CI_Controller
 						'fabric_challan_id' => $id,
 						'parent_barcode' => $pbc,
 						'parent' => $data['pbc'][$i],
-						'challan_no' =>  $challan,
+						'challan_no' =>  $tcchallan,
 						'counter' => $cc,
 						'fabric_id' => $pbc1[0]["fabric_id"],
 						'created_date' => date('Y-m-d'),

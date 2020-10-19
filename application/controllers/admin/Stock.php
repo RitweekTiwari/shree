@@ -288,6 +288,9 @@ class Stock extends CI_Controller
         $data['godownid'] = $godown;
         $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
         $plain_godown = $this->Transaction_model->get_distinct_plain_godown();
+        // echo "<pre>";
+        // print_r($plain_godown);
+        // exit;
         $found = 0;
         foreach ($plain_godown as $row) {
             if ($godown == $row['godownid']) {
@@ -295,7 +298,7 @@ class Stock extends CI_Controller
                 $data['plain_data'] = $this->Transaction_model->get_plain_stock($data);
                 $data['frc_data'] = $this->Transaction_model->get_frc_stock($data);
 
-                //echo "<pre>";print_r($data['godown_data']);exit;
+                
                 $data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
             }
         }

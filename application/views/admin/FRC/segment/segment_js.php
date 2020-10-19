@@ -8,7 +8,32 @@
     var Tval = 0;
     var is_new = 0;
     $('#submit').hide();
- $('#fabric_name0').select2({
+
+    $("#submitBtn").click(function() {
+      var Tpcs = 0;
+      var count = 0;
+      $('.segment1').each(function() {
+        count = count + 1;
+        $(this).find('.pcs').each(function() {
+          Tpcs += Number($(this).val());
+
+        });
+      });
+      var total = (Tpcs / count);
+      console.log("Tpcs" + Tpcs);
+      console.log("count" + count);
+      console.log("total" + total);
+      var pcs = $('#pcs_main').val();
+      console.log("pcs" + pcs);
+      if (total != pcs) {
+        event.preventDefault();
+        toastr.error("Error", "PCS Not Match");
+
+      }
+
+
+    });
+    $('#fabric_name0').select2({
       ajax: {
         url: '<?php echo base_url('admin/segment/get_fabric'); ?>',
         type: "GET",
@@ -81,7 +106,7 @@
       }
     });
 
-   
+
 
     $(document).on("click", ".update", function() {
       console.log("hjjjjjjjjjjjjjjjjjj");
@@ -192,7 +217,7 @@
       var fab = $('#segment1-' + row + '').find('.fabric' + row + '').val();
       var len = $('#segment1-' + row + '').find('.length' + row + '').val();
       count = count + 1;
-      var element = ' <tr id=segment1-tr-' + count + ' class="segment1-tr-' + body_id + '" row-id=' + count + '>'
+      var element = ' <tr id=segment1-tr-' + count + ' class="segment1-tr" row-id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-' + count + '"></td>'
       element += '<td><input type="text" class="form-control " name="fabric[]" id="fabric' + count + '" value="' +
         fab + '" readonly></td>'
