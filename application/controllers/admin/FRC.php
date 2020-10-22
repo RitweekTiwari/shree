@@ -216,7 +216,7 @@ class FRC extends CI_Controller
 					$data['caption'] = $caption;
 				}
 				
-			} else {
+			} elseif($_POST['search'] == 'advance') {
 
 				if (isset($_POST['challan_to']) && $_POST['challan_to'] != "") {
 					$data['cat'][] = 'challan_to';
@@ -295,9 +295,14 @@ class FRC extends CI_Controller
 					$this->session->set_flashdata('error', 'please enter some keyword');
 					redirect($_SERVER['HTTP_REFERER']);
 				}
+			}else{
+				$data['type'] = 'stock';
+				$data['from'] = $this->input->post('date_from');
+				$data['to'] = $this->input->post('date_to');
+				$data['caption'] = $caption." Date - From : ". $data['from']." To : ". $data['to'];
 			}
 		} else {
-
+			
 			$data['type'] = 'stock';
 			$data['to'] = date('Y-m-d');
 			$data['from'] = date('Y-04-01');

@@ -176,7 +176,7 @@
                       </div>
                       <div class="col-2">
                         <label>Search</label>
-                        <input type="hidden" name="type" value="date">
+                        <input type="hidden" name="type" value="filter"><input type="hidden" name="search" value="date"> 
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />
                         <button type="submit" class="btn btn-info btn-xs"> <i class="fas fa-search"></i> Search</button>
                       </div>
