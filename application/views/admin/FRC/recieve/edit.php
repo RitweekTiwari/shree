@@ -46,6 +46,7 @@
                   <input type="text" class="form-control" name="Doc_challan" value="<?php echo $frc_data[0]['doc_challan'] ?>" required>
                 </div>
                 <input type="hidden" name="fc_id" value="<?php echo $frc_data[0]['fc_id'] ?>">
+                <input type="hidden" id="formype" value="edit">
               </div>
               <hr>
               <table class=" remove_datatable">

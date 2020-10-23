@@ -181,7 +181,12 @@
       var id = $(this).parent().parent().attr("id");
 
       var q = Number($('#qty' + id + '').val());
-      var p = Number($('#pcs' + id + '').val());
+      if ($('#formype').val() == "add") {
+        var p = Number($('#pcs' + id + '').val());
+      }else{
+        var p=1;
+      }
+
       var rate = Number($(this).val());
       var val = rate * q * p;
       $('#value' + id + '').val(val);

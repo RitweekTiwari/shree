@@ -62,6 +62,18 @@ class Segment_model extends CI_Model {
 			//pre($this->db->last_query());exit;
 			return $rec->result_array();
 		}
+
+		public function get_segment_by_id($id)
+		{
+			$this->db->select('fabric_details.*,fabric.fabricName');
+			$this->db->where('fabric_details.id', $id);
+			$this->db->join('fabric', 'fabric_details.fabricId=fabric.id');
+
+			$rec = $this->db->get('fabric_details');
+
+			//pre($this->db->last_query());
+			return $rec->result_array();
+		}
 		
 	public function edit($id,$data)
 	{

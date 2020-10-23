@@ -116,16 +116,16 @@
                         <option value="1">Barcode </option>
                         <option value="2"> Manual </option>
                       </select></td>
-                    <td style="width: 10%;"><input type="text" class="form-control" name="serial_number[]" value="" id='serial_number0'></td>
-                    <td id='tdbarcode0' style="width: 10%;"></td>
-                    <td id='tdfab0' style="width: 10%;"><input type="text" class="form-control fabric_name " name="fabric_name[]" readonly value="" id='fabric0'>
+                    <td style="width: 5%"><input type="text" class="form-control" name="serial_number[]" value="" id='serial_number0'></td>
+                    <td id='tdbarcode0' style="width: 5%;"></td>
+                    <td id='tdfab0' style="width: 8%;"><input type="text" class="form-control fabric_name " name="fabric_name[]" readonly value="" id='fabric0'>
                     </td>
                     <td><input type="text" class="form-control " name="hsn[]" value="" id='hsn0' readonly></td>
 
-                    <td id='tddesign0' style="width: 10%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id='designName0'></td>
+                    <td id='tddesign0' style="width: 7%;"><input type="text" name="design_name[]" class="form-control" value="" readonly id='designName0'></td>
                     <td> <input type="text" name="design_code[]" class="form-control" value="" readonly id='designCode0'></td>
                     <td><input type="text" class="form-control" name="stitch[]" value="" readonly id='stitch0'></td>
-                    <td> <input type="text" class="form-control" name="dye[]" value="" readonly id='dye0'></td>
+                    <td style="width: 5%;"> <input type="text" class="form-control" name="dye[]" value="" readonly id='dye0'></td>
                     <td style="width: 15%;"><input type="text" class="form-control" name="matching[]" value="" readonly id='matching0'></td>
 
                     <td><input type="text" class="form-control" name="quantity[]" value=""></td>
@@ -133,7 +133,7 @@
                     <td><input type="text" name="unit[]" class="form-control " value="" readonly id="unit0"></td>
                     <td><input type="text" name="image[]" class="form-control image" value="" readonly id="image0"></td>
                     <td> <input type="text" class="form-control" name="priority[]" value="30"></td>
-                    <td> <input type="text" class="form-control" name="order_barcode[]" value="" id="obc0" readonly></td>
+                    <td style="width: 5%;"> <input type="text" class="form-control" name="order_barcode[]" value="" id="obc0" readonly></td>
                     <td><input type="text" class="form-control" name="remark[]" value=""></td>
                     <td><input type="text" class="form-control" name="status[]" value=""></td>
                     <td> <button type="button" name="add_more" id="add_more" class="btn btn-success">+</button></td>

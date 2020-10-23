@@ -38,7 +38,7 @@
                   <label>Doc Challan No</label>
                   <input type="text" class="form-control" name="Doc_challan" value="" id="Doc_challan" required>
                 </div>
-
+                <input type="hidden"  value="add" id="formype">
               </div>
               <hr>
               <table id="fresh_form" class=" remove_datatable">

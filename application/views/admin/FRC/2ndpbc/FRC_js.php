@@ -139,7 +139,7 @@
 
     $(document).on('change', "input[name='tc[]']", function() {
 
-      total = Number($('#Cur_quantity').val());
+      total = Number($('#Tquantity').val());
       console.log("total=" + total);
       qty = get_current_quntity()
       $('#Cur_quantity').val(qty)

@@ -18,7 +18,7 @@ class Orders extends CI_Controller
   {
     $data = array();
     $data['page_name'] = 'ORDER / ' . '<a href=' . base_url('admin/Orders/dashboard') . '>Home</a>';
-    $data['all_Order_list'] = $this->Orders_model->select('order_product');
+  //  $data['all_Order_list'] = $this->Orders_model->select('order_product');
     $data['data_cat'] = $this->common_model->select('data_category');
     $data['branch_name'] = $this->common_model->select(' branch_detail');
     // $data['all_Order'] = $this->Orders_model->get_order_value();

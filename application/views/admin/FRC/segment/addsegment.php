@@ -80,6 +80,9 @@
                                 </tbody>
                             </table>
                             <hr>
+                            <div class="row" id="segment_list">
+
+                            </div>
                             <div class="col-md-12" id="list"></div>
                             <div class="col-md-3" id="submit">
                                 <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" />

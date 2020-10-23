@@ -15,8 +15,8 @@
               <tr>
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
-                  <td>
-                    <table class="remove_datatable table-responsive" id="customer">
+                  <td class="align-top " style="width:600px">
+                    <table class="remove_datatable table-responsive" id="customer" style="height:200px; overflow-y: scroll;width:700px; overflow-x: scroll;">
                       <caption class="text-center bg-success text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>
@@ -41,7 +41,7 @@
                           <td><input type="text" class="form-control tc tc1-<?php echo $i ?>" name="tc[]" id="tc1-<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control" name="rate[]" id="rate1-<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control value value<?php echo $i ?>" name="value[]" id="value<?php echo $i ?>" readonly></td>
-                          <td> <button type="button" id="add_more" class="btn btn-success">+</button></td>
+                          <td> <button type="button" value="1212" class="btn btn-success add_more">+</button></td>
                         </tr>
                       </tbody>
                       <tfoot>
@@ -91,8 +91,8 @@
               <tr>
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
-                  <td>
-                    <table class="remove_datatable table-responsive">
+                  <td class="align-top" style="width:600px;overflow-x: scroll;">
+                    <table class="remove_datatable table-responsive" style="width:700px; overflow-x: scroll;height:200px; overflow-y: scroll;">
                       <caption class="text-center bg-info text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>
@@ -108,12 +108,12 @@
                       </thead>
                       <tbody id="segment2-<?php echo $i ?>" row-id="<?php echo $i ?>">
                         <tr id="segment2-tr-<?php echo $i ?>" row-id="<?php echo $i ?>">
-                          <td><input type="text" class="form-control pbc"  id="pbc2-<?php echo $i ?>" readonly></td>
+                          <td><input type="text" class="form-control pbc" id="pbc2-<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control" id="item<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control qty<?php echo $i ?>" id="qty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control cqty<?php echo $i ?> cqty" name="cqty1[]" id="cqty<?php echo $i ?>" readonly></td>
                           <td><input type="text" class="form-control tc" id="tc<?php echo $i ?>" readonly></td>
-                          <td><button type="button" class="btn btn-secondary update"  >update</button></td>
+                          <td><button type="button" class="btn btn-secondary update">update</button></td>
 
                         </tr>
                       </tbody>

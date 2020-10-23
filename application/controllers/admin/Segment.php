@@ -206,12 +206,29 @@ class Segment extends CI_Controller
 		$this->session->set_flashdata('success', 'Added Successfully !!');
 		redirect($_SERVER['HTTP_REFERER']);
 	}
-	public function get_segment()
+	public function get_segment_select()
 	{
 		$result = array();
 		if ($_POST) {
 			$data['segment'] = $this->Segment_model->get_segmentdata($_POST['id']);
 
+			if ($data['segment']) {
+				$data['data'] = $this->load->view('admin/FRC/segment/select', $data, TRUE);
+			} else {
+				$data['data'] = '<p class="text-center" style="color:red;">No Segment</p>';
+			}
+			$this->load->view('admin/FRC/segment/index', $data);
+		}
+	}
+	public function get_segment()
+	{
+		//pre($_POST);exit;
+		if ($_POST) {
+			foreach($_POST['id'] as $row){
+				$segment = $this->Segment_model->get_segment_by_id($row);
+				$data['segment'][]= $segment[0];
+			}
+//pre($data['segment']);exit;
 			if ($data['segment']) {
 				$data['data'] = $this->load->view('admin/FRC/segment/segmentdata', $data, TRUE);
 			} else {
