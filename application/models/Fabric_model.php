@@ -50,7 +50,7 @@
 		}
 		function get_fabric($data)
 		{
-			$this->db->select('fabric.id,fabric.fabricName,fabric.fabHsnCode,fabric.fabricCode,fabric.fabricType,fabric.purchase, unit.unitName as fabricUnit, GROUP_CONCAT(f1.fabricName) AS fabricId, GROUP_CONCAT(fd.segmentName) AS segmentName, GROUP_CONCAT(fd.length) AS length, GROUP_CONCAT(fd.width) AS width');
+			$this->db->select('fabric.id,fabric.fabricName,fabric.fabHsnCode,fabric.fabricCode,fabric.fabricType,fabric.purchase, unit.unitName as fabricUnit, GROUP_CONCAT(f1.fabricName) AS fabricId, GROUP_CONCAT(fd.segmentName) AS segmentName, GROUP_CONCAT(fd.length) AS length, GROUP_CONCAT(fd.width) AS width, GROUP_CONCAT(fd.min) AS min, GROUP_CONCAT(fd.max) AS max');
 			$this->db->from('fabric');
 
 			if (isset($data['search'])) {

@@ -4,7 +4,7 @@
     $("#cancle").hide();
     $("#details").hide();
     $("#addbtn").hide();
-
+    count = 0;
     var fil = '';
     var table;
     var dt = '';
@@ -153,7 +153,7 @@
 
       function myFunction(item, index, arr) {
         //console.log(arr[index].worker);
-        html += '<b> Fabric Name</b> :&nbsp;&nbsp;' + arr[index].fabricId + '&nbsp;&nbsp; ,  <b>Segment Name</b> :&nbsp;&nbsp; ' + arr[index].segmentName + '&nbsp;&nbsp; , <b>Length</b>: &nbsp;&nbsp;' + arr[index].length + '&nbsp;&nbsp; , <b>Width</b> : &nbsp;&nbsp; ' + arr[index].width + '&nbsp;&nbsp;  &nbsp;&nbsp;<br><br>   ';
+        html += '<b> Fabric Name</b> :&nbsp;&nbsp;' + arr[index].fabricId + '&nbsp;&nbsp; ,  <b>Segment Name</b> :&nbsp;&nbsp; ' + arr[index].segmentName + '&nbsp;&nbsp; , <b>Length</b>: &nbsp;&nbsp;' + arr[index].length + '&nbsp;&nbsp; , <b>Width</b> : &nbsp;&nbsp; ' + arr[index].width + '&nbsp;&nbsp;, <b>max</b>: &nbsp;&nbsp;' + arr[index].max + '&nbsp;&nbsp; , <b>min</b> : &nbsp;&nbsp; ' + arr[index].min + '  &nbsp;&nbsp;<br><br>   ';
       }
 
       return html;
@@ -251,9 +251,32 @@
         }
       }
     });
-    $('#add_fresh').click(function() {
-      var rowobj = $("#addNewRow").html();
+    $('#addbtn').click(function() {
+
+      var rowobj = '<div class="row">'
+      rowobj += '<div class="col-sm-1">'
+
+      rowobj += '<input type="text" class="form-control" name="segmentName[]" value=""> </div > '
+      rowobj += '<div class="col-sm-5"> <select name = "fabricId' + count + '[]" class = "form-control clear fabric" multiple >'
+      rowobj += '<option> --Select -- </option> <option value = "0" > Self </option>'
+      rowobj += '<?php foreach ($fabric_data as $value) : ?> <option value = "<?php echo $value->id ?>" > <?php echo $value->fabricName ?> </option><?php endforeach; ?>'
+      rowobj += '<input type = "hidden" id = "id<?php echo $value->id ?>"name = "id" ></select>'
+
+      rowobj += '</div>'
+
+      rowobj += '<div class="col-sm-1"> <input type = "number" class = "form-control" name = "length[]" value = "-1" step = "0.01" ></div>'
+
+      rowobj += '<div class = "col-sm-1" > <input type = "number" class = "form-control" name = "width[]" value = "-1" step = "0.01" > </div>'
+      rowobj += '<div class = "col-sm-1" > <input type = "number" class = "form-control" name = "max[]"  value = "-1" step = "0.01" ></div>'
+
+      rowobj += '<div class = "col-sm-1" >'
+      rowobj += '<input type = "number" class = "form-control" name = "min[]" value = "-1" step = "0.01" > </div>'
+      rowobj += '<div class = "col-sm-1" > <button type = "button" name = "remove" class = "btn btn-danger btn-sm btn_remove" > X </button> </div >'
+
+      rowobj += '</div> <br> '
       $('#fresh_field').append(rowobj);
+      count = count + 1;
+      $(".fabric").select2();
     });
     $(document).on('click', '.btn_remove', function() {
       $(this).parent().parent().remove();
@@ -430,6 +453,7 @@
     });
     $(document).on('click', '.removedata', function() {
       var id = $(this).val();
+      var row = $(this).parent().parent();
       $.ajax({
         type: "POST",
         url: "<?= base_url() ?>admin/Fabric/getfdid",
@@ -442,10 +466,10 @@
         success: function(response) {
           if (response) {
             $('#fabric').DataTable().ajax.reload();
-            // toastr.success('Success!', " deleted Successfully");
+            row.remove();
+            toastr.success('Success!', " deleted Successfully");
             $('.clear').val("");
             // $('#extra-details').html('');
-
             $("#update").hide();
             $('.edit_details').show();
             $('#submit').show();

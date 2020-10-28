@@ -224,17 +224,46 @@ class Segment extends CI_Controller
 	{
 		//pre($_POST);exit;
 		if ($_POST) {
-			foreach($_POST['id'] as $row){
-				$segment = $this->Segment_model->get_segment_by_id($row);
-				$data['segment'][]= $segment[0];
+	
+					$segment = $this->Segment_model->get_segment_by_id($_POST['id']);
+					if($segment){
+						$data['segment'][] = $segment;
+					}
+					
+			
+			//pre($data['segment']);exit;
+			foreach ($data['segment'][0] as $key => $value) {
+				$output[$key]['metaId'] = $value['metaId'];
+				$output[$key]['segmentName'] = $value['segmentName'];
+				$output[$key]['length'] = $value['length'];
+				$output[$key]['width'] = $value['width'];
+				$output[$key]['min'] = $value['min'];
+				$output[$key]['max'] = $value['max'];
+				$output[$key]['fab'] = self::get_edit_array($value['fabric'], $value['fabricId']);
+				//pre($output[$key]['fabricdetails']);exit;
 			}
-//pre($data['segment']);exit;
+		
+			$data['segment']= $output;
 			if ($data['segment']) {
 				$data['data'] = $this->load->view('admin/FRC/segment/segmentdata', $data, TRUE);
 			} else {
 				$data['data'] = '<p class="text-center" style="color:red;">No Segment</p>';
 			}
 			$this->load->view('admin/FRC/segment/index', $data);
+		}
+	}
+	public function get_edit_array($fdid, $segmentName)
+	{
+		$fdid = explode(',', $fdid);
+		$segmentName = explode(',', $segmentName);
+
+	
+		if (count($segmentName) == count($fdid)) {
+
+			for ($i = 0; $i < count($fdid); $i++) {
+				$result[] = array('fabric' => $fdid[$i], 'fabricid' => $segmentName[$i]);
+			}
+			return $result;
 		}
 	}
 	public function get_fabric_by_id()

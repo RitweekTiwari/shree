@@ -67,38 +67,19 @@
                 </div>
               </div>
               <div class="form-group row " id="extra-details"></div>
-              <!-- <div class="form-group row " id="details">
 
-                <div class="col-sm-4">
-                  <label>SEGAMENT NAME</label>
-                  <input type="text" class="form-control clear" name="segmentName[]" value="" id="segmentName">
-                </div>
-                <div class="col-sm-3">
-                  <label> FABRIC </label>
+              <div class="row">
+                <div class="col-sm-1">Segment</div>
+                <div class="col-sm-5">Fabric</div>
+                <div class="col-sm-1">Length</div>
+                <div class="col-sm-1">Width</div>
+                <div class="col-sm-1">Max</div>
+                <div class="col-sm-1">Min</div>
+                <div class="col-sm-1">Option</div>
+              </div>        
+              <div id="fresh_field">
 
-                  <select name="fabricId[]" class="form-control clear">
-                    <option value="0">Self</option>
-                    <?php foreach ($fabric_data as $value) : ?>
-                      <option value="<?php echo $value->id ?>"><?php echo $value->fabricName ?></option>
-                    <?php endforeach; ?>
-
-                  </select>
-                </div>
-                <div class="col-sm-2">
-                  <label> LENGTH (MTR) </label>
-                  <input type="number" class="form-control clear" name="length[]" value="-1" id="length">
-                </div>
-                <div class="col-sm-2">
-                  <label> WIDTH (INCHES) </label>
-                  <input type="number" class="form-control clear" name="width[]" value="-1" id="width">
-                </div>
-                <div class="col-sm-1">
-                  <br>
-                  <button type="button" name="remove" class="btn btn-danger btn-sm btn_remove">X</button>
-                </div>
-            </div> -->
-
-              <div id="fresh_field"></div>
+              </div>
               <br>
               <div class=" float-right" id="submit">
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -121,36 +102,7 @@
     </div>
   </div>
   <div id="addNewRow" class="row" style="display: none">
-    <div class="row">
-      <div class="col-sm-4">
-
-        <input type="text" class="form-control" name="segmentName[]" value="">
-      </div>
-      <div class="col-sm-3">
-        <select name="fabricId[]" class="form-control clear">
-          <option>--Select One--</option>
-          <option value="0">Self</option>
-          <?php foreach ($fabric_data as $value) : ?>
-            <option value="<?php echo $value->id ?>"><?php echo $value->fabricName ?></option>
-          <?php endforeach; ?>
-          <input type="hidden" id="id<?php echo $value->id ?>" name="id">
-        </select>
-
-      </div>
-
-      <div class="col-sm-2">
-        <input type="number" class="form-control" name="length[]" value="-1" step="0.01">
-      </div>
-
-      <div class="col-sm-2">
-        <input type="number" class="form-control" name="width[]" value="-1" step="0.01">
-      </div>
-
-      <div class="col-sm-1">
-        <button type="button" name="remove" class="btn btn-danger btn-sm btn_remove">X</button>
-      </div>
-
-    </div><br>
+  
   </div>
   <div class="container-fluid">
     <hr>

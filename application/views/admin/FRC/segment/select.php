@@ -1,14 +1,14 @@
 <div class="col-12">
     <div class="container row">
 
-        <h4>Which segment do you want to choose?</h4><hr>
+        <h4>Which segment do you want to choose?</h4>
+        <hr>
         <?php foreach ($segment as $value) { ?>
             <div class="form-check  form-check-inline">
-                <input class="form-check-input check " type="checkbox" name="check[]"  value="<?php echo $value['id'] ?>">
+                <input class="form-check-input check " type="checkbox" name="check[]" data-id="<?php echo $value['segmentName'] ?>" value="<?php echo $value['metaId'] ?>">
                 <h6>
 
-                    <b> <?php echo $value['segmentName'] ?></b>:
-                    <?php echo $value['fabricName'] ?>
+                    <b> <?php echo ucfirst($value['segmentName'])  ?></b>:
 
                 </h6>
             </div>

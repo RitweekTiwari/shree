@@ -409,7 +409,7 @@ ot.branch_order_number,
 								INNER JOIN data_category ON order_table.data_category = data_category.id
 								INNER JOIN session ON session.id = order_table.session
 								INNER JOIN order_type ON order_type.id = order_table.order_type
-								INNER JOIN customer_detail ON customer_detail.id = order_table.customer_name
+								left JOIN customer_detail ON customer_detail.id = order_table.customer_name
 								Left JOIN branch_detail ON branch_detail.id = order_table.branch_name
 								ORDER BY order_table.order_id desc';
 				$query = $this->db->query($sql);

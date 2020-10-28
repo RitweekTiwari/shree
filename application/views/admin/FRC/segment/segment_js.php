@@ -74,7 +74,7 @@
 
         $.ajax({
           type: "POST",
-          url: "<?= base_url() ?>admin/Segment/get_segment_select",
+          url: "<?= base_url() ?>admin/Segment/get_segment",
           cache: false,
           data: {
             'id': id,
@@ -112,7 +112,11 @@
       $("#next").attr("disable", "");
       $('.check:checked').each(function() {
         console.log($(this).val());
-        fruits.push($(this).val());
+        var meta = $(this).attr('data-id')
+        console.log(meta);
+        var arr = [];
+        arr.push($(this).val(), meta);
+        fruits.push(arr);
 
       });
       $.ajax({
@@ -192,9 +196,15 @@
 
 
             data = JSON.parse(data);
-            // console.log(data);
-            fabric = $('#fabric' + button + '').val();
-            if (fabric == data[0]['fabricName']) {
+
+            fabric = new Array();
+            //console.log(fabric);
+            $('.fabric' + button + '>option').each(function() {
+              fabric.push(($(this).val()));
+              console.log(fabric);
+            });
+            console.log(fabric);
+            if (fabric.includes(data[0]['fabric_id'])) {
 
               $('#pbc2-' + button + '').val(pbc);
               $('#qty' + button + '').val(data[0]['current_stock']);
@@ -248,15 +258,16 @@
       var body = $(this).parent().parent().parent();
       var body_id = $(this).parent().parent().parent().attr("row-id");
       var row = $(this).parent().parent().attr('row-id');
-      var fab = $('#segment1-' + row + '').find('.fabric' + row + '').val();
+      var fab = $('#segment1-' + row + '').find('.fabric' + row + '').html();
       var len = $('#segment1-' + row + '').find('.length' + row + '').val();
+      var min = $('#segment1-' + row + '').find('.min' + row + '').html();
+      var max = $('#segment1-' + row + '').find('.max' + row + '').val();
       count = count + 1;
       var element = ' <tr id=segment1-tr-' + count + ' class="segment1-tr" row-id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-' + count + '"></td>'
-      element += '<td><input type="text" class="form-control " name="fabric[]" id="fabric' + count + '" value="' +
-        fab + '" readonly></td>'
-      element += '<td><input type="text" class="form-control length' + body_id + '" name="length[]" id="length' + count + '"  value="' +
-        len + '" readonly></td>'
+      element += '<td><select class="form-control fabric" name="fabric[]" id="fabric' + count + '"  > ' + fab + '</select></td>'
+      element += '<td><input type="number" class="form-control length length' + body_id + '" name="length[]" id="length' + count + '"  value="' +
+        len + '" min="' + min + '" max="' + max + '"></td>'
       element += '<td><input type="text" class="form-control pcs pcs' + body_id + '" name="pcs[]" id="pcs' + count + '" ></td>'
       element += '<td><input type="text" class="form-control tc tc1-' + body_id + '" name="tc[]" id="tc1-' + count + '" ></td>'
       element += '<td><input type="text" class="form-control rate1-' + body_id + '" name="rate[]" id="rate1-' + count + '"  readonly></td>'
@@ -305,7 +316,7 @@
       $('#rate_main').val(Math.round((value / pcs + Number.EPSILON) * 100) / 100);
     });
 
-    $(document).on('change', '.tc , .pcs', function() {
+    $(document).on('change', '.tc , .pcs', '.length', function() {
       var row = $(this).parent().parent().attr('row-id');
       var body_id = $(this).parent().parent().parent().attr("row-id");
       var length = Number($('#length' + row + '').val());
