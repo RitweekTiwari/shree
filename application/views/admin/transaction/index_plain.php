@@ -56,10 +56,10 @@
                                             <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i> </h4>
                                             <h5 class="text-white">MATERIAL IN</h5>
                                         </a>
+
                                         <?php if ($new > 0) { ?>
                                             <span class="badge badge-pill  new-notify"><b> <?php echo $new; ?></b> </span>
                                             ><?php  } ?>
-
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +112,7 @@
                                             <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i></h4>
                                             <h5 class="text-white">Dye MATERIAL OUT</h5>
                                         </a>
+
                                     </div>
                                 </div>
                             </div>

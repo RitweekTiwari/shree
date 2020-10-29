@@ -355,9 +355,9 @@
             function value1(item, index, arr) {
               if (arr[index].fdid != '') {
 
-                html += ' <div class="col-sm-4"> <label>SEGAMENT NAME</label>';
+                html += ' <div class="row"> <div class="col-sm-4"> <label>SEGMENT </label>';
                 html += '<input type="text" class="form-control seg" name="segmentName[]" id="rem' + arr[index].fdid + '" value=' + arr[index].segmentName + ' ></div>';
-                html += '<input type="hidden" class="form-control" name="fdid[]"   value=' + arr[index].fdid + ' ></div>';
+                html += '<input type="hidden" class="form-control" name="fdid[]"   value=' + arr[index].fdid + ' >';
                 html += '<div class="col-sm-3"><label> FABRIC </label> ';
                 html += ' <select name="fabricId[]" class="form-control select2" id="fabricId' + index + '">';
 
@@ -369,7 +369,7 @@
                 html += '<input type="number" class="form-control" name="width[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1">';
                 html += '<label>Action</label>';
-                html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger btn_remove removedata">X</button></div>';
+                html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger btn_remove removedata">X</button></div>  </div> ';
 
                 $('#extra-details').html(html);
                 // $('.read').attr('readonly', true);
@@ -453,7 +453,8 @@
     });
     $(document).on('click', '.removedata', function() {
       var id = $(this).val();
-      var row = $(this).parent().parent();
+      var row = $(this).parent();
+      console.log(row);
       $.ajax({
         type: "POST",
         url: "<?= base_url() ?>admin/Fabric/getfdid",
@@ -468,13 +469,7 @@
             $('#fabric').DataTable().ajax.reload();
             row.remove();
             toastr.success('Success!', " deleted Successfully");
-            $('.clear').val("");
-            // $('#extra-details').html('');
-            $("#update").hide();
-            $('.edit_details').show();
-            $('#submit').show();
-            $('#cancle').hide();
-            $('.read').attr('readonly', false);
+
           }
         }
       });

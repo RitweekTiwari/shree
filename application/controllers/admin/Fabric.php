@@ -253,6 +253,8 @@ class Fabric extends CI_Controller
 							'fabricId' => $_POST['fabricId'][$i],
 							'length' => $_POST['length'][$i],
 							'width' => $_POST['width'][$i],
+							'min' => $_POST['min'][$i],
+							'max' => $_POST['max'][$i]
 						);
 						$id1 = $this->Fabric_model->edit($_POST['fdid'][$i], $data1, 'fabric_details');
 					}

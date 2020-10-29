@@ -34,7 +34,7 @@
                       </thead>
                       <tbody id="segment1-<?php echo $i ?>" class="segment1" row-id="<?php echo $i ?>">
                         <tr id="segment1-tr-<?php echo $i ?>" class="segment1-tr" row-id="<?php echo $i ?>">
-                          <td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-<?php echo $i ?>" data-id="<?php echo json_encode($value['fab'])  ?>"></td>
+                          <td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-<?php echo $i ?>" ></td>
                           <td><select class="form-control fabric<?php echo $i ?>" name="fabric[]" id="fabric<?php echo $i ?>">
                               <option value="0">select</option>
                               <?php foreach ($value['fab'] as $row) { ?> <option value="<?php echo $row['fabricid'] ?>"><?php echo $row['fabric'] ?>

@@ -66,7 +66,7 @@
                   <label class="control-label">Add Details </label> <button type="button" name="add" id="add_fresh" class="btn btn-primary btn-sm">+</button>
                 </div>
               </div>
-              <div class="form-group row " id="extra-details"></div>
+              <div class="form-group" id="extra-details"></div>
 
               <div class="row">
                 <div class="col-sm-1">Segment</div>

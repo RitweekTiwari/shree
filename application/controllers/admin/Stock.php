@@ -23,6 +23,17 @@ class Stock extends CI_Controller
         $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
+    public function stock_check_dye($godown)
+    {
+        $data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
+        $link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
+        $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
+        $data['id'] = $godown;
+
+        $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock_dye', $data, TRUE);
+        $this->load->view('admin/index', $data);
+    }
+    
     public function stock_list($godown)
     {
         $data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
@@ -51,7 +62,7 @@ class Stock extends CI_Controller
         $id = $this->security->xss_clean($_POST['godown']);
        try {
 
-                $status = $this->Stock_model->check_stock($obc, $id);
+                $status = $this->Stock_model->check_obc($obc, $id);
                 if ($status!=0) {
                     $data['check_stock'] = 1;
                     $st =    $this->Transaction_model->update($data, 'trans_meta_id', $status, "transaction_meta");
@@ -172,6 +183,84 @@ class Stock extends CI_Controller
             $data[] = $sub_array;
         }
        
+        // pre($c. " ".$i);exit;
+        if ($c == $i) {
+            $recieved = true;
+        } else {
+            $recieved = false;
+        }
+        $output = array(
+            "recieved" => $recieved,
+            "draw" => intval($_GET["draw"]),
+            "recordsTotal" => $filtered_rows,
+            "recordsFiltered" => $filtered_rows,
+            "data" => $data
+        );
+
+        echo json_encode($output);
+    }
+    public function getDye($id)
+    {
+        $query = '';
+
+        $output = array();
+
+        $data = array();
+
+        if (!empty($_GET["search"]["value"])) {
+
+            $query .= 'SELECT * FROM transaction_meta WHERE transaction_id = "' . $id . '" AND';
+            $query .= ' pbc LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR order_barcode LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR order_number LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR fabric_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR hsn LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR design_name LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR design_code LIKE "%' . $_GET["search"]["value"] . '%" ';
+            $query .= 'OR unit LIKE "%' . $_GET["search"]["value"] . '%" ';
+        } else {
+
+            $query .= 'SELECT * FROM dye_stock_check  WHERE  to_godown = "' . $id . '" ';
+        }
+
+        if (!empty($_GET["order"])) {
+            $query .= ' ORDER BY ' . $_GET['order']['0']['column'] . ' ' . $_GET['order']['0']['dir'] . ' ';
+        } else {
+            $query .= ' ORDER BY order_barcode ASC ';
+        }
+
+        if ($_GET["length"] != -1) {
+            $query .= 'LIMIT ' . $_GET['start'] . ', ' . $_GET['length'];
+        }
+
+        $sql = $this->db->query($query);
+        $result = $sql->result_array();
+        $filtered_rows = $sql->num_rows();
+
+
+        $c = 1;
+        $i = 1;
+        foreach ($result as $value) {
+            if ($value['stat'] == 1) {
+                $c += 1;
+            }
+            $i += 1;
+            $sub_array = array();
+
+            $sub_array[] = $value['order_barcode'];
+          
+            $sub_array[] = $value['fabricName'];
+            $sub_array[] = $value['hsn'];
+        
+            $sub_array[] = $value['color'];
+            $sub_array[] = $value['current_stock'];
+           
+            $sub_array[] =  $value['stock_unit'];
+
+            $sub_array[] =  $value['stat'];
+            $data[] = $sub_array;
+        }
+
         // pre($c. " ".$i);exit;
         if ($c == $i) {
             $recieved = true;

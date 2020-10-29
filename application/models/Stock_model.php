@@ -27,7 +27,7 @@
             $query = $this->db->get();
            
             if ($query->num_rows() == 1)
-            return 1;
+            return $query->row()->trans_meta_id;
             else
                 return 0;
         }

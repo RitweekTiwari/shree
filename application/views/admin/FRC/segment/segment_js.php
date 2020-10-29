@@ -136,42 +136,6 @@
       });
     });
 
-    $(document).on('keypress', function(e) {
-      // e.preventDefault();
-      console.log('#' + e.target.id + '');
-      if (e.which == 13) {
-        e.preventDefault();
-        $('#' + e.target.id + '').parent().parent().parent().find(".add_more").click();
-      }
-    });
-
-    $(document).on("click", ".update", function() {
-
-      var pbc = $(this).parent().parent().find('.pbc').val();
-      var qty = $(this).parent().parent().find('.cqty').val();
-      console.log(qty);
-      $.ajax({
-        type: "POST",
-        url: "<?= base_url() ?>admin/Segment/update_pbc",
-        cache: false,
-        data: {
-          'id': pbc,
-          'qty': qty,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-        datatype: 'json',
-        success: function(data) {
-          if (data == 1) {
-            toastr.success("Success", "PBC Updated");
-          } else {
-            toastr.error("Error", "PBC Not Updated");
-          }
-
-        },
-      });
-
-    });
-
     $(document).on('change', '.pbc', function(e) {
 
       var pbc = $(this).val();
@@ -199,12 +163,13 @@
 
             fabric = new Array();
             //console.log(fabric);
-            $('.fabric' + button + '>option').each(function() {
+            $('#fabric' + button + '>option').each(function() {
               fabric.push(($(this).val()));
-              console.log(fabric);
+              // console.log(fabric);
             });
-            console.log(fabric);
+            // console.log(fabric);
             if (fabric.includes(data[0]['fabric_id'])) {
+              $('#fabric' + button + '').val(data[0]['fabric_id'])
 
               $('#pbc2-' + button + '').val(pbc);
               $('#qty' + button + '').val(data[0]['current_stock']);
@@ -252,6 +217,46 @@
       });
 
     });
+    $(document).on('keypress', function(e) {
+      // e.preventDefault();
+      console.log('#' + e.target.id + '');
+      if (e.which == 13) {
+        e.preventDefault();
+        if (e.target.class != "pbc") {
+          $('#' + e.target.id + '').parent().parent().parent().find(".add_more").click();
+        }
+
+      }
+    });
+
+    $(document).on("click", ".update", function() {
+
+      var pbc = $(this).parent().parent().find('.pbc').val();
+      var qty = $(this).parent().parent().find('.cqty').val();
+      console.log(qty);
+      $.ajax({
+        type: "POST",
+        url: "<?= base_url() ?>admin/Segment/update_pbc",
+        cache: false,
+        data: {
+          'id': pbc,
+          'qty': qty,
+          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+        },
+        datatype: 'json',
+        success: function(data) {
+          if (data == 1) {
+            toastr.success("Success", "PBC Updated");
+          } else {
+            toastr.error("Error", "PBC Not Updated");
+          }
+
+        },
+      });
+
+    });
+
+
 
     $(document).on('click', '.add_more', function(e) {
       console.log("Hello");
@@ -285,7 +290,7 @@
       element += '<td><input type="text" class="form-control "  id="tc' + count + '" readonly></td>'
       element += '<td><button type="button" class="btn btn-secondary update"  >update</button></td>'
       element += '</tr>'
-
+      $('#pbc1-' + count + '').focus();
       $('#segment2-' + row + '').append(element);
       window.stop();
     });
@@ -316,7 +321,7 @@
       $('#rate_main').val(Math.round((value / pcs + Number.EPSILON) * 100) / 100);
     });
 
-    $(document).on('change', '.tc , .pcs', '.length', function() {
+    $(document).on('change', '.tc , .pcs', function() {
       var row = $(this).parent().parent().attr('row-id');
       var body_id = $(this).parent().parent().parent().attr("row-id");
       var length = Number($('#length' + row + '').val());
@@ -359,6 +364,67 @@
 
       $('#seg1-th_qty' + body_id + '').text(Math.round((get_total(body_id) + Number.EPSILON) * 100) / 100);
 
+
+
+    });
+    $(document).on('change', '.length', function() {
+      var row = $(this).parent().parent().attr('row-id');
+      var body_id = $(this).parent().parent().parent().attr("row-id");
+      var length = Number($('#length' + row + '').val());
+      var qty = $('#qty' + row + '').val();
+      var max = Number($(this).attr('max'));
+      var min = Number($(this).attr('min'));
+      console.log("length= " + length);
+      if (length >= min && length <= max) {
+
+
+        if (length != 0) {
+          var net_pcs = Math.floor(qty / length);
+        }
+
+        console.log("net_pcs= " + net_pcs);
+        $('#pcs' + row + '').val(Number(net_pcs));
+        var tc = Number($('#tc1-' + row + '').val());
+        console.log("tc = " + tc);
+        var rate = Number($('#rate1-' + row + '').val());
+        console.log("rate = " + rate);
+        var value = (tc + (length * net_pcs)) * rate;
+        $('#value' + row + '').val(value);
+
+        var net = qty - (tc + (length * net_pcs));
+        $('#cqty' + row + '').val(Math.round((net + Number.EPSILON) * 100) / 100);
+        $('#tc' + row + '').val(Math.round((net + Number.EPSILON) * 100) / 100);
+        // var tc2 = Number($('#tc' + row + '').val());
+        // var net = tc2 - tc;
+        // if (net >= 0) {
+        //   $('#cqty' + row + '').val(net);
+        //   $('#tc' + row + '').val(net);
+        // } else {
+        //   toastr.error("Error", "Invalid Quantity");
+        //   $(this).val(0);
+        //   $(this).focus();
+        // }
+
+        value = get_main_val();
+        $('#total_main').val(Math.round((value + Number.EPSILON) * 100) / 100);
+        var pcs = $('#pcs_main').val();
+
+        $('#rate_main').val(Math.round((value / pcs + Number.EPSILON) * 100) / 100);
+        $('#seg2-th_qty' + body_id + '').text(Math.round((get_total_qty(body_id) + Number.EPSILON) * 100) / 100);
+
+        $('#seg1-th_tc' + body_id + '').text(Math.round((get_total_tc(body_id) + Number.EPSILON) * 100) / 100);
+
+        $('#seg1-th_pcs' + body_id + '').text(Math.round((get_total_pcs(body_id) + Number.EPSILON) * 100) / 100);
+        $('#seg1-th_val' + body_id + '').text(Math.round((get_total_val(body_id) + Number.EPSILON) * 100) / 100);
+
+
+        $('#seg1-th_qty' + body_id + '').text(Math.round((get_total(body_id) + Number.EPSILON) * 100) / 100);
+      } else {
+        var msg = "Out of Range : " + min + " to " + max;
+        toastr.error("Error", msg);
+        $(this).val('');
+        $(this).focus();
+      }
 
 
     });

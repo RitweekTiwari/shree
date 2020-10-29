@@ -245,25 +245,36 @@ public function get_by_id($id)
     return $query;
    
  }
-  public function pbc_tc_history(){
-    
-    $this->db->select("pbc_tc_history.*,fabric_stock_view.fsr_id ,fabric_stock_view.parent_barcode ,fabric_stock_view.fabric_type ,
-fabric_stock_view.hsn ,
-    fabric_stock_view.current_stock ,
-    fabric_stock_view.stock_unit,
-    fabric_stock_view.challan_no ,
-    fabric_stock_view.fabric_id,
-    fabric_stock_view.color_name ,
-    fabric_stock_view.ad_no ,
-    fabric_stock_view.purchase_code ,
-    fabric_stock_view.purchase_rate ,
-    fabric_stock_view.total_value ,
-    fabric_stock_view.fabricName");
+  public function pbc_tc_history()
+  {
+
+    $this->db->select("pbc_tc_history.*, fsr.`fsr_id` AS `fsr_id`,
+    fsr.`parent_barcode` AS `parent_barcode`,
+    fabric.`fabricType` AS `fabric_type`,
+   fabric.`fabHsnCode` AS `hsn`,
+    fsr.`fabric_id` AS `fabric_id`,
+    fsr.`current_stock` AS `current_stock`,
+    fsr.`stock_unit` AS `stock_unit`,
+    fsr.`challan_no` AS `challan_no`,
+    fsr.`unit_id` AS `unit_id`,
+    fsr.`color_name` AS `color_name`,
+    fsr.`ad_no` AS `ad_no`,
+    fsr.`purchase_code` AS `purchase_code`,
+    fsr.`purchase_rate` AS `purchase_rate`,
+    fsr.`total_value` AS `total_value`,
+    fsr.`tc` AS `tc`,
+
+  
+    fabric.`fabricName` AS `fabricName`
+   ");
     $this->db->from('pbc_tc_history');
-    $this->db->join('fabric_stock_view', 'fabric_stock_view.parent_barcode=pbc_tc_history.pbc', 'inner');
-    $this->db->where('isTc',0);
+    $this->db->join('fabric_stock_received as fsr', 'fsr.parent_barcode=pbc_tc_history.pbc', 'inner');
+    $this->db->join('fabric_challan as fc', 'fc.challan_no=fsr.challan_no', 'inner');
+    $this->db->join('fabric ', 'fabric.id=fsr.fabric_id', 'inner');
+
+    $this->db->where('pbc_tc_history.isTc', 0);
     $query = $this->db->get();
-    //echo"<pre>"; print_r($query);exit;
+    //print_r($this->db->last_query());exit;
     $query = $query->result_array();
     return $query;
   }

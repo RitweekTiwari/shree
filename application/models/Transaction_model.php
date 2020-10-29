@@ -67,19 +67,7 @@ class Transaction_model extends CI_Model
     $this->db->select("transaction.*,sb1.subDeptName as sub1,sb2.subDeptName as sub2");
     $this->db->from('transaction');
     $this->db->where($col, $godown);
-    if ($type != 'all') {
-      if (is_array($type)) {    //check if type is array or not to get multiple type of transaction
-        for ($i = 0; $i < count($type); $i++) {
-          if ($i == 0) {
-            $this->db->where('transaction_type', $type[$i]);
-          } else {
-            $this->db->or_where('transaction_type', $type[$i]);
-          }
-        }
-      } else {
-        $this->db->where('transaction_type', $type);  //to get single type of transaction
-      }
-    }
+    
     if ($data != "") { //for search 
 
 
@@ -107,12 +95,24 @@ class Transaction_model extends CI_Model
         $this->db->where('transaction.created_at <=', $data['to']);
       }
     }
-   
+    if ($type != 'all') {
+      if (is_array($type)) {    //check if type is array or not to get multiple type of transaction
+        for ($i = 0; $i < count($type); $i++) {
+          if ($i == 0) {
+            $this->db->where('transaction_type', $type[$i]);
+          } else {
+            $this->db->or_where('transaction_type', $type[$i]);
+          }
+        }
+      } else {
+        $this->db->where('transaction_type', $type);  //to get single type of transaction
+      }
+    }
     $this->db->join('sub_department sb1', 'sb1.id=transaction.from_godown  ', 'left');
     $this->db->join('sub_department sb2', 'sb2.id=transaction.to_godown  ', 'left');
     $this->db->order_by('transaction_id', 'desc');
     $query = $this->db->get();
-    //echo $this->db->last_query($query);exit;
+   // echo $this->db->last_query($query);exit;
     return $query->result_array();
   }
 
@@ -597,12 +597,13 @@ class Transaction_model extends CI_Model
 
   public function get_new_stock_count($id)
   {
-    $this->db->select('*');
+    $this->db->select('transaction_type,count(transaction_id) as count');
     $this->db->from("transaction");
     $this->db->where("to_godown", $id);
     $this->db->where("status", 'new');
+    $this->db->group_by("transaction_type");
     $rec = $this->db->get();
-    return $rec->num_rows();
+    return $rec->result_array();
   }
   public function getPBC()
   {
