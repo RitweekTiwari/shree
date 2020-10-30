@@ -16,6 +16,13 @@ class Dashboard extends CI_Controller {
     	  $data['main_content'] = $this->load->view('admin/admin_home', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
+
+  public function get_fabric()
+  {
+    
+    $fabric = $this->common_model->get_fabric();
+    echo json_encode(($fabric));
+  }  
   public function print_barcode()
   {
     $data = array();

@@ -295,7 +295,8 @@ class Stock extends CI_Controller
                 $data['plain_data'] = $this->Transaction_model->get_plain_stock($data);
                 $data['frc_data'] = $this->Transaction_model->get_frc_stock($data);
 
-                
+                $data['dye_data'] = $this->Transaction_model->get_dye_stock($data);
+               // pre($data['dye_data']);exit;
                 $data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
             }
         }

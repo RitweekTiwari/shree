@@ -762,8 +762,9 @@ class Orders extends CI_Controller
           if ($pbc[0]['fabricName'] == $data['fabric']) {
             $data1['quantity'] = $pbc[0]['current_stock'];
             $data1['pbc'] = $data['id'];
-            $data1['godown'] = $pbc[0]['godownid'];
-            $data1['to_godown'] = $pbc[0]['from_godown'];
+            $data1['godown'] = $pbc[0]['from_godown'];
+            $data1['to_godown'] = $pbc[0]['godownid'];
+            
             // print_r($data1);
             // exit;
             $this->Orders_model->edit_by_node('order_product_id', $data['order_product_id'], $data1, 'order_product');

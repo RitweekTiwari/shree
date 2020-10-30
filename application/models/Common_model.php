@@ -27,14 +27,25 @@ class Common_model extends CI_Model {
         $this->db->delete($table, array('id' => $id));
         return;
     }
+    
+    function get_fabric()
+    {
 
+        $this->db->select('id,fabricName');
+        $this->db->from('fabric');
+       
+        $query = $this->db->get();
+       
+        $query = $query->result_array();
+        return $query;
+    }
     function select_value($id,$table){
         
         $this->db->select('*');
         $this->db->from($table);
         $this->db->where(array('id' => $id));
         $query = $this->db->get();
-        echo $this->db->last_query();exit;
+       // echo $this->db->last_query();exit;
         $query = $query->result_array();
         return $query;
     }

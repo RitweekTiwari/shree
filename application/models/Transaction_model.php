@@ -226,7 +226,35 @@ class Transaction_model extends CI_Model
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function get_dye_stock($data)
+  {
 
+    $this->db->select("*");
+    $this->db->from('dye_godown_stock');
+
+    // if ($data['from'] == $data['to']) {
+    //   $this->db->where('created_date ', $data['from']);
+    // } else {
+    //   $this->db->where('created_date >=', $data['from']);
+    //   $this->db->where('created_date <=', $data['to']);
+    // }
+    if (isset($data['cat'])) {
+      if (!is_array($data['cat'])) {
+        if ($data['cat'] != "") {
+          $this->db->where($data['cat'], $data['Value']);
+        }
+      } else {
+        $count = count($data['cat']);
+        for ($i = 0; $i < $count; $i++) {
+          $this->db->like($data['cat'][$i], $data['Value'][$i]);
+        }
+      }
+    }
+    $this->db->where('to_godown', $data['godownid']);
+    $this->db->where('stat', 'recieved');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_dye_godown()
   {
 
@@ -603,6 +631,7 @@ class Transaction_model extends CI_Model
     $this->db->where("status", 'new');
     $this->db->group_by("transaction_type");
     $rec = $this->db->get();
+    //print_r($this->db->last_query());exit;
     return $rec->result_array();
   }
   public function getPBC()

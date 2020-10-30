@@ -56,6 +56,9 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['admin/design/(:num)'] = 'admin/design';
 $route['admin'] = 'admin/dashboard';
+$route['get_fabric'] = 'admin/dashboard/get_fabric';
+
+// $route['associate_members'] = 'home/associate_members';
 // $route['associate_members'] = 'home/associate_members';
 // $route['governing_council_members'] = 'home/governing_council_members';
 // $route['mission'] = 'home/mission';

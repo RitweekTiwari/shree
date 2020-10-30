@@ -82,8 +82,8 @@
           },
           datatype: 'json',
           success: function(data) {
-            $("#segment_list").html(data);
-
+            $("#list").html(data);
+            $('#submit').show();
             $.ajax({
               type: "POST",
               url: "<?= base_url() ?>admin/Segment/get_fabric_by_id",
@@ -106,35 +106,7 @@
       }
     });
 
-    $(document).on("click", "#next", function(event) {
-      event.preventDefault();
-      var fruits = [];
-      $("#next").attr("disable", "");
-      $('.check:checked').each(function() {
-        console.log($(this).val());
-        var meta = $(this).attr('data-id')
-        console.log(meta);
-        var arr = [];
-        arr.push($(this).val(), meta);
-        fruits.push(arr);
-
-      });
-      $.ajax({
-        type: "POST",
-        url: "<?= base_url() ?>admin/Segment/get_segment",
-        cache: false,
-        data: {
-          'id': fruits,
-          '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-        },
-
-        success: function(data) {
-          $("#list").html(data);
-          $("#next").attr("disable", "disable");
-          $('#submit').show();
-        },
-      });
-    });
+  
 
     $(document).on('change', '.pbc', function(e) {
 

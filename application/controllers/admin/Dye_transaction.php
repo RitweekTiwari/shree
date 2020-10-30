@@ -347,13 +347,17 @@ class Dye_transaction extends CI_Controller
 			//pre($data['frc_data']);exit;
 		}
 		foreach ($data['frc_data'] as $value) {
-
+			if ($value['status'] == 'new') {
+				$challan = $value['challan_in'] . ' <span class="badge badge-pill badge-danger">New</span>';
+			} else {
+				$challan = $value['challan_in'];
+			}
 			$sub_array = array();
 			$sub_array[] = '<input type="checkbox" class="sub_chk" data-id=' . $value['transaction_id'] . '>';
 			$sub_array[] = $value['created_at'];
 			$sub_array[] = $value['sub1'];
 			$sub_array[] = $value['challan_out'];
-			$sub_array[] = $value['challan_in'];
+			$sub_array[] = $challan;
 
 			$sub_array[] =  '	<a class="text-center tip"  href="' .  base_url('admin/Dye_transaction/viewDye/') . $value['transaction_id'] . ' ">
 							<i class="fa fa-eye" aria-hidden="true"></i></a>';

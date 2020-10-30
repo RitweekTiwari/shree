@@ -24,8 +24,7 @@ class Transaction extends CI_Controller
 		$data = array();
 		$godown_name = $this->Transaction_model->get_godown_by_id($godown);
 		$data['page_name'] = $godown_name . '  DASHBOARD';
-		$data['new'] = $this->Transaction_model->get_new_stock_count($godown);
-		//pre($data['new']);exit;
+		
 		$plain_godown = $this->Transaction_model->get_distinct_plain_godown();
 		$dye_godown = $this->Transaction_model->get_dye_godown();
 		foreach ($dye_godown as $row) {
@@ -47,6 +46,11 @@ class Transaction extends CI_Controller
 			$data['main_content'] = $this->load->view('admin/transaction/index', $data, TRUE);
 		}
 		$this->load->view('admin/index', $data);
+	}
+	public function get_count($godown)
+	{
+	$data['new'] = $this->Transaction_model->get_new_stock_count($godown);
+			echo	json_encode($data['new']);
 	}
 
 	public function showChallan($godown)

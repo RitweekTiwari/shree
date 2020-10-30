@@ -16,7 +16,7 @@
                             </div>
                             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                 <div class="modal-body">
-                                    <form action="<?php echo base_url('/admin/Transaction/showStock/'). $godownid ?>" method="post">
+                                    <form action="<?php echo base_url('/admin/Transaction/showStock/') . $godownid ?>" method="post">
                                         <div class="form-row">
                                             <div class="col-2">
                                                 <input type="date" name="date_from" class="form-control form-control-sm" value="<?php echo date('Y-04-01') ?>">
@@ -238,7 +238,37 @@
 
                                     <?php $c = $c + 1;
                                     } ?>
+                                    <?php
 
+                                    foreach ($dye_data as $value) {
+                                        $qty += $value['current_stock'];
+                                    ?>
+                                        <tr class="gradeU" id="tr_<?php echo $c ?>">
+                                            <td><input type="checkbox" class="sub_chk" data-id="<?php echo $value['trans_meta_id'] ?>"></td>
+
+                                            <td><?php echo $value['order_barcode']; ?></td>
+                                            <td>Null</td>
+
+                                            <td>Null</td>
+                                            <td><?php echo $value['fabricName']; ?></td>
+                                            <td><?php echo $value['hsn']; ?></td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td>Null</td>
+                                            <td><?php echo $value['color'] ?></td>
+                                            <td>Null</td>
+                                            <td><?php echo $value['current_stock'] ?></td>
+                                            <td><?php echo $value['stock_unit'] ?></td>
+                                            <td>Null</td>
+
+                                            <td><?php echo $value['created_date'] ?></td>
+
+
+
+                                        </tr>
+
+                                    <?php $c = $c + 1;
+                                    } ?>
                                     <?php
 
                                     foreach ($frc_data as $value) {

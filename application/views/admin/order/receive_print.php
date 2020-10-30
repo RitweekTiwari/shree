@@ -52,25 +52,25 @@
             </td>
             <td>SIZE</td>
             <td width="2in" style="white-space:nowrap">:- <?php echo $value[0]['quantity']; ?> <?php echo $value[0]['unit']; ?></td>
-            <td rowspan="6">Matching :- <?php echo $value[0]['matching']; ?> </td>
+            <td rowspan="6" style="border-left:1px solid black;padding : 2px"> &nbsp; Matching :- <?php echo $value[0]['matching']; ?> </td>
           </tr>
           <tr>
             <td>FABRIC</td>
             <td width="1in" style="white-space:nowrap">:- <?php echo $value[0]['fabric_name'] . "  "; ?></td>
-            <td></td>
+            <td> &nbsp;</td>
           </tr>
           <tr>
 
             <td>OD NO</td>
             <td width="1in" style="white-space:nowrap">:- <?php echo $value[0]['order_number']; ?></td>
-            <td></td>
+            <td> &nbsp;</td>
           </tr>
           <tr>
             <td style="text-align:center"><?php echo $value[0]['order_barcode']; ?> </td>
             <td>DESIGN </td>
             <td width="1in" style="white-space:nowrap">:-<?php echo $value[0]['design_name']; ?></td>
             <td></td>
-            <td> </td>
+            <td> &nbsp; </td>
           </tr>
           <tr>
             <td rowspan="3">
@@ -85,32 +85,32 @@
             </td>
             <td>CODE</td>
             <td width="1in">:- <?php echo $value[0]['design_code']; ?></td>
-            <td></td>
+            <td> &nbsp;</td>
 
           </tr>
           <tr>
             <td>STITCH</td>
             <td width="1in">:- <?php echo $value[0]['stitch']; ?></td>
-            <td></td>
+            <td> &nbsp;</td>
           </tr>
           <tr>
 
             <td>DYE</td>
             <td width="1in" style="white-space:nowrap">:- <?php echo $value[0]['dye']; ?></td>
-            <td>KARIGAR</td>
+            <td style="border-left:1px solid black;padding : 2px"> &nbsp;KARIGAR</td>
           </tr>
           <tr>
             <td style="text-align:center"><?php echo $value[0]['pbc']; ?> </td>
 
             <td>Godown</td>
             <td collspan="2" style="white-space:nowrap">:- <?php echo $value[0]['party']; ?></td>
-            <td>……………………………</td>
+            <td style="border-left:1px solid black;padding : 2px"> &nbsp;……………………………</td>
           </tr>
           <tr>
             <td></td>
             <td>Party</td>
             <td collspan="2" style="white-space:nowrap">:- <?php echo $value[0]['godown']; ?></td>
-            <td>……………………………</td>
+            <td style="border-left:1px solid black;padding : 2px"> &nbsp;……………………………</td>
           </tr>
 
         </table>

@@ -43,9 +43,8 @@
                                             <h4 class=" font-light text-white"><i class="mdi mdi-cart"></i></h4>
                                             <h5 class="text-white">MATERIAL IN</h5>
                                         </a>
-                                        <?php if ($new > 0) { ?>
-                                            <span class="badge badge-pill  new-notify"><b> <?php echo $new; ?></b></span>
-                                            ><?php  } ?>
+                                       
+                                            <span class="badge badge-pill  new-notify" id="challan"></b></span>
                                     </div>
                                 </div>
                             </div>
@@ -120,3 +119,27 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "<?php echo base_url('admin/transaction/get_count/') . $godown ?>",
+
+
+                success: function(data) {
+                    data = JSON.parse(data);
+                    if (data) {
+                        data.forEach(myFunction);
+
+                        function myFunction(value, index, array) {
+                            if (array[index].transaction_type == "challan") {
+                                $("#challan").html("<b> " + array[index].count + "</b>")
+                            } else {
+                                $("#dye").html("<b> " + array[index].count + "</b>")
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
