@@ -236,7 +236,7 @@
       var body_id = $(this).parent().parent().parent().attr("row-id");
       var row = $(this).parent().parent().attr('row-id');
       var fab = $('#segment1-' + row + '').find('.fabric' + row + '').html();
-      var len = $('#segment1-' + row + '').find('.length' + row + '').val();
+      var len = $('#segment1-' + row + '').find('.length' + row + '').attr('data-value');
       var min = $('#segment1-' + row + '').find('.min' + row + '').html();
       var max = $('#segment1-' + row + '').find('.max' + row + '').val();
       count = count + 1;

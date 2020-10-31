@@ -355,18 +355,22 @@
             function value1(item, index, arr) {
               if (arr[index].fdid != '') {
 
-                html += ' <div class="row"> <div class="col-sm-4"> <label>SEGMENT </label>';
+                html += ' <div class="row"> <div class="col-sm-2"> <label>SEGMENT </label>';
                 html += '<input type="text" class="form-control seg" name="segmentName[]" id="rem' + arr[index].fdid + '" value=' + arr[index].segmentName + ' ></div>';
                 html += '<input type="hidden" class="form-control" name="fdid[]"   value=' + arr[index].fdid + ' >';
-                html += '<div class="col-sm-3"><label> FABRIC </label> ';
+                html += '<div class="col-sm-2"><label> FABRIC </label> ';
                 html += ' <select name="fabricId[]" class="form-control select2" id="fabricId' + index + '">';
 
                 html += '<option value=' + arr[index].fabricId + ' >' + arr[index].fName + '</option>';
 
-                html += '<input type="hidden"  value=' + arr[index].detailsId + ' name="id"></select></div><div class="col-sm-2"><label> LENGTH </label>';
+                html += '<input type="hidden"  value=' + arr[index].detailsId + ' name="id"></select></div><div class="col-sm-1"><label> LENGTH </label>';
                 html += '  <input type="number" class="form-control" name="length[]" value=' + arr[index].length + ' > </div>';
-                html += '<div class="col-sm-2"><label> WIDTH </label>';
+                html += '<div class="col-sm-1"><label> WIDTH </label>';
                 html += '<input type="number" class="form-control" name="width[]" value=' + arr[index].width + ' ></div>';
+                html += '<div class="col-sm-1"><label> Max </label>';
+                html += '<input type="number" class="form-control" name="max[]" value=' + arr[index].width + ' ></div>';
+                html += '<div class="col-sm-1"><label> Min </label>';
+                html += '<input type="number" class="form-control" name="min[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1">';
                 html += '<label>Action</label>';
                 html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger btn_remove removedata">X</button></div>  </div> ';

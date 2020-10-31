@@ -34,13 +34,13 @@
                       </thead>
                       <tbody id="segment1-<?php echo $i ?>" class="segment1" row-id="<?php echo $i ?>">
                         <tr id="segment1-tr-<?php echo $i ?>" class="segment1-tr" row-id="<?php echo $i ?>">
-                          <td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-<?php echo $i ?>" ></td>
+                          <td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-<?php echo $i ?>"></td>
                           <td><select class="form-control fabric<?php echo $i ?>" name="fabric[]" id="fabric<?php echo $i ?>">
                               <option value="0">select</option>
                               <?php foreach ($value['fab'] as $row) { ?> <option value="<?php echo $row['fabricid'] ?>"><?php echo $row['fabric'] ?>
                                 </option> <?php  } ?>
                             </select></td>
-                          <td style="width:15%"><input type="number" class="form-control length length<?php echo $i ?>" name="length[]" id="length<?php echo $i ?>" max="<?php echo $value['max'] ?>" min="<?php echo $value['min'] ?>" value="<?php echo $value['length'] ?>"></td>
+                          <td style="width:15%"><input type="number" class="form-control length length<?php echo $i ?>" name="length[]" id="length<?php echo $i ?>" max="<?php echo $value['max'] ?>" min="<?php echo $value['min'] ?>" value="<?php echo $value['length'] ?>" data-value="<?php echo $value['length'] ?>"></td>
                           <td><input type="text" class="form-control pcs pcs<?php echo $i ?>" name="pcs[]" id="pcs<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control tc tc1-<?php echo $i ?>" name="tc[]" id="tc1-<?php echo $i ?>"></td>
                           <td><input type="text" class="form-control" name="rate[]" id="rate1-<?php echo $i ?>" readonly></td>
