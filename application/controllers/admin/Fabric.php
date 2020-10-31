@@ -57,8 +57,9 @@ class Fabric extends CI_Controller
 				}
 			} else {
 				$data['fabric_data'] = $this->Fabric_model->get_fabric($data);
-				//	pre($data['fabric_data']);exit;
+					//pre($data['fabric_data']);exit;
 				foreach ($data['fabric_data'] as $key => $value) {
+
 					$output[$key]['id'] = $value['id'];
 					$output[$key]['fabricName'] = $value['fabricName'];
 					$output[$key]['fabHsnCode'] = $value['fabHsnCode'];
@@ -67,7 +68,6 @@ class Fabric extends CI_Controller
 					$output[$key]['fabricUnit'] = $value['fabricUnit'];
 					$output[$key]['purchase'] = $value['purchase'];
 					$output[$key]['fabricId'] = self::get_array($value['segmentName'], $value['fabricId'], $value['length'], $value['width'], $value['max'], $value['min']);
-					//pre($output[$key]['fabricId']);exit;
 				}
 				if (isset($output)) {
 					$data['output'] = $output;
@@ -113,10 +113,12 @@ class Fabric extends CI_Controller
 
 	public function get_array($segmentName, $fabricId, $length, $width,$min,$max)
 	{
+		//echo $length;
 		$segmentName = explode(',', $segmentName);
 
 		$fabricId = explode(',', $fabricId);
-
+		$max = explode(',', $max);
+		$min = explode(',', $min);
 		$length = explode(',', $length);
 		$width = explode(',', $width);
 		if (count($segmentName) == count($fabricId)) {
@@ -228,7 +230,7 @@ class Fabric extends CI_Controller
 	public function edit()
 	{
 		if ($_POST) {
-			//	pre($_POST);exit;
+			//pre($_POST);exit;
 			$fid = $this->input->post('fabricid');
 			//$fdid= $this->input->post('details');
 
@@ -244,22 +246,20 @@ class Fabric extends CI_Controller
 			if (isset($_POST['fdid'])) {
 				if ($id && $_POST['fdid'] != '') {
 
-					$count = count($_POST['fdid']);
+					$count = count($_POST['fdid1']);
 					$count1 = count($_POST['segmentName']);
 					for ($i = 0; $i < $count; $i++) {
-						foreach ($_POST['fabricId' . $i] as $fabric) {
 
 						$data1 = array(
-							'segmentName' => $_POST['segmentName'][$i],
-							'fabricId' => $fabric,
-							'length' => $_POST['length'][$i],
-							'width' => $_POST['width'][$i],
-							'min' => $_POST['min'][$i],
-							'max' => $_POST['max'][$i]
+							'segmentName' => $_POST['segmentName1'][$i],
+							'length' => $_POST['length1'][$i],
+							'width' => $_POST['width1'][$i],
+							'min' => $_POST['min1'][$i],
+							'max' => $_POST['max1'][$i]
 						);
 						$id1 = $this->Fabric_model->edit($_POST['fdid'][$i], $data1, 'fabric_details');
 					}
-				}
+				
 				}
 
 				// if($id1){
@@ -294,11 +294,13 @@ class Fabric extends CI_Controller
 			
 			} else {
 				for ($i = 0; $i < count($_POST['segmentName']); $i++) {
-					if ($_POST['fabricId'][$i] != 0) {
+					foreach ($_POST['fabricId'] as $fabric) {
+
+					if ($fabric != 0) {
 						$data = array(
 							'metaId' => $fid,
 							'segmentName' => $_POST['segmentName'][$i],
-							'fabricId' => $_POST['fabricId'][$i],
+							'fabricId' => $fabric,
 							'length' => $_POST['length'][$i],
 							'width' => $_POST['width'][$i],
 							'min' => $_POST['min'][$i],
@@ -317,6 +319,7 @@ class Fabric extends CI_Controller
 						);
 						$id1 = $this->Fabric_model->add('fabric_details', $data);
 					}
+				}
 				}
 			}
 		

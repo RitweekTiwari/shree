@@ -252,12 +252,12 @@
       }
     });
     $('#addbtn').click(function() {
-
+      var fabcount = 0;
       var rowobj = '<div class="row">'
       rowobj += '<div class="col-sm-1">'
 
       rowobj += '<input type="text" class="form-control" name="segmentName[]" value=""> </div > '
-      rowobj += '<div class="col-sm-5"> <select name = "fabricId' + count + '[]" class = "form-control clear fabric" multiple >'
+      rowobj += '<div class="col-sm-5"> <select name = "fabricId[]" class = "form-control clear fabric" multiple >'
       rowobj += '<option> --Select -- </option> <option value = "0" > Self </option>'
       rowobj += '<?php foreach ($fabric_data as $value) : ?> <option value = "<?php echo $value->id ?>" > <?php echo $value->fabricName ?> </option><?php endforeach; ?>'
       rowobj += '<input type = "hidden" id = "id<?php echo $value->id ?>"name = "id" ></select>'
@@ -349,32 +349,32 @@
             $('#fabricCode').val(arr[0].fabricCode);
             $('#fabricUnit').val(arr[0].fabricUnit);
             $('#fabricid').val(arr[0].id);
-
+            var counter = 0;
             (arr[0].fabricdetails).forEach(value1);
 
             function value1(item, index, arr) {
               if (arr[index].fdid != '') {
 
                 html += ' <div class="row"> <div class="col-sm-2"> <label>SEGMENT </label>';
-                html += '<input type="text" class="form-control seg" name="segmentName[]" id="rem' + arr[index].fdid + '" value=' + arr[index].segmentName + ' ></div>';
-                html += '<input type="hidden" class="form-control" name="fdid[]"   value=' + arr[index].fdid + ' >';
+                html += '<input type="text" class="form-control seg" name="segmentName1[]" id="rem' + arr[index].fdid + '" value=' + arr[index].segmentName + ' ></div>';
+                html += '<input type="hidden" class="form-control" name="fdid1[]"   value=' + arr[index].fdid + ' >';
                 html += '<div class="col-sm-2"><label> FABRIC </label> ';
-                html += ' <select name="fabricId[]" class="form-control select2" id="fabricId' + index + '">';
+                html += ' <select name="fabricId1[]" class="form-control select2" id="fabricId' + index + '">';
 
                 html += '<option value=' + arr[index].fabricId + ' >' + arr[index].fName + '</option>';
 
-                html += '<input type="hidden"  value=' + arr[index].detailsId + ' name="id"></select></div><div class="col-sm-1"><label> LENGTH </label>';
-                html += '  <input type="number" class="form-control" name="length[]" value=' + arr[index].length + ' > </div>';
+                html += '</select></div><div class="col-sm-1"><label> LENGTH </label>';
+                html += '  <input type="number" class="form-control" name="length1[]" value=' + arr[index].length + ' > </div>';
                 html += '<div class="col-sm-1"><label> WIDTH </label>';
-                html += '<input type="number" class="form-control" name="width[]" value=' + arr[index].width + ' ></div>';
+                html += '<input type="number" class="form-control" name="width1[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1"><label> Max </label>';
-                html += '<input type="number" class="form-control" name="max[]" value=' + arr[index].width + ' ></div>';
+                html += '<input type="number" class="form-control" name="max1[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1"><label> Min </label>';
-                html += '<input type="number" class="form-control" name="min[]" value=' + arr[index].width + ' ></div>';
+                html += '<input type="number" class="form-control" name="min1[]" value=' + arr[index].width + ' ></div>';
                 html += '<div class="col-sm-1">';
                 html += '<label>Action</label>';
                 html += '<button type="button" name="add" value=' + arr[index].fdid + ' class="btn btn-danger btn_remove removedata">X</button></div>  </div> ';
-
+                counter = counter + 1;
                 $('#extra-details').html(html);
                 // $('.read').attr('readonly', true);
                 // $('#find_id').prop("id","newId");
@@ -385,6 +385,7 @@
                 $('#extra-details').html("<div class='text-center text-info'>NO Previous Data found !!</div>");
               }
             }
+            count = counter;
           }
         }
       });
