@@ -1,3 +1,13 @@
+<style>
+  table th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #fff;
+  }
+</style>
+
+
 <div class="card">
   <div class="card-body">
     <div class="widget-box">
@@ -15,8 +25,8 @@
               <tr>
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
-                  <td class="align-top " style="width:700px">
-                    <table class="remove_datatable table-responsive" id="customer" style="height:200px; overflow-y: scroll;width:700px; overflow-x: scroll;">
+                  <td class="align-top " style="width:700px;">
+                    <table class="remove_datatable table-responsive" id="customer" style="height:500px; overflow-y: scroll;width:700px; overflow-x: scroll;">
                       <caption class="text-center bg-success text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>
@@ -97,7 +107,7 @@
                 <?php $i = 0;
                 foreach ($segment as $value) : ?>
                   <td class="align-top" style="width:700px;overflow-x: scroll;">
-                    <table class="remove_datatable table-responsive" style="width:700px; overflow-x: scroll;height:200px; overflow-y: scroll;">
+                    <table class="remove_datatable table-responsive" style="width:700px; overflow-x: scroll;height:500px; overflow-y: scroll;">
                       <caption class="text-center bg-info text-white" style='caption-side : top'>
                         <h5><?php echo $value['segmentName'] ?></h5>
                       </caption>

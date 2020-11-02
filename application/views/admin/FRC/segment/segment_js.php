@@ -108,8 +108,8 @@
 
   
 
-    $(document).on('change', '.pbc', function(e) {
-
+    $(document).on('change', 'input[name="pbc[]"]', function(e) {
+      console.log("ajax");
       var pbc = $(this).val();
       var button = $(this).parent().parent().attr("row-id");
       var body_id = $(this).parent().parent().parent().attr("row-id");
@@ -264,7 +264,7 @@
       element += '</tr>'
       $('#pbc1-' + count + '').focus();
       $('#segment2-' + row + '').append(element);
-      window.stop();
+      
     });
 
     $(document).on('click', '.remove', function() {

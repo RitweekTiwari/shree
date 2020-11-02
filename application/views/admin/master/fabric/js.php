@@ -1,5 +1,15 @@
 <script type="text/javascript">
   $(document).ready(function() {
+ 
+
+
+
+
+
+
+
+
+
     $("#update").hide();
     $("#cancle").hide();
     $("#details").hide();
