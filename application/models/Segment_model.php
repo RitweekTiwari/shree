@@ -49,20 +49,31 @@ class Segment_model extends CI_Model {
 			$this->db->where('parent_barcode', $id);
 			return $this->db->update('fabric_stock_received', $data);
 		}
-		public function get_pbc_data($id)
+		public function get_pbc_data($id,$godown)
 		{
-			$this->db->select('fabric_stock_received.*,fabric.fabricName');
+			$this->db->select('*');
 			$this->db->where('parent_barcode', $id);
-			$i=0;
+			$this->db->where('godownid', $godown);
 		
-			$this->db->join('fabric', 'fabric_stock_received.fabric_id=fabric.id');
-			$rec = $this->db->get('fabric_stock_received');
+			
+			$rec = $this->db->get('fabric_stock_view');
 			return $rec->result_array();
 		}
 		public function get_segment_data($id)
 		{
-			$this->db->select('*');
+			$this->db->select('  `segment`,
+    GROUP_CONCAT(`new_pbc`) AS new_pbc,
+    GROUP_CONCAT(`pbc`) AS pbc,
+    GROUP_CONCAT(fabric.fabricName) AS fabric,
+    GROUP_CONCAT(`length`) AS length,
+    GROUP_CONCAT(`pcs`) AS pcs,
+    GROUP_CONCAT(`tc`) AS tc,
+    GROUP_CONCAT(`rate`) AS rate,
+    GROUP_CONCAT(`value`) AS
+value');
+			$this->db->join('fabric', 'fabric_tc_detail.fabric=fabric.id');
 			$this->db->where('challan_id', $id);
+			$this->db->group_by('segment');
 			$rec = $this->db->get('fabric_tc_detail');
 			
 			//pre($this->db->last_query());exit;

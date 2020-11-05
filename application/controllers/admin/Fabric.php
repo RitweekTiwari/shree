@@ -243,11 +243,11 @@ class Fabric extends CI_Controller
 			);
 
 			$id = $this->Fabric_model->edit($fid, $data, 'fabric');
-			if (isset($_POST['fdid'])) {
-				if ($id && $_POST['fdid'] != '') {
+			if (isset($_POST['fdid1'])) {
+				if ($id && $_POST['fdid1'] != '') {
 
 					$count = count($_POST['fdid1']);
-					$count1 = count($_POST['segmentName']);
+					$count1 = count($_POST['segmentName1']);
 					for ($i = 0; $i < $count; $i++) {
 
 						$data1 = array(
@@ -257,7 +257,7 @@ class Fabric extends CI_Controller
 							'min' => $_POST['min1'][$i],
 							'max' => $_POST['max1'][$i]
 						);
-						$id1 = $this->Fabric_model->edit($_POST['fdid'][$i], $data1, 'fabric_details');
+						$id1 = $this->Fabric_model->edit($_POST['fdid1'][$i], $data1, 'fabric_details');
 					}
 				
 				}

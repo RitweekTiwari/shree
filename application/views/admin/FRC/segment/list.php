@@ -118,36 +118,51 @@
 
                         <table class="table-bordered data-table text-center table-responsive" id="customer">
 
-                            <thead>
-                                <tr>
-                                    <th>PBC</th>
-                                    <th>Length</th>
-                                    <th>PCS</th>
-                                    <th>TC</th>
-                                    <th>Rate</th>
 
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody> <?php if (isset($segment)) { ?>
+                            <tbody> <?php if (isset($output)) { ?>
+                                    <tr>
+                                        <?php $i = 0;
+                                        foreach ($output as $value) : ?>
 
-                                    <?php $i = 0;
-                                        foreach ($segment as $value) : ?>
 
-                                        <tr>
-                                            <td><?php echo $value['pbc'] ?></td>
-                                            <td><?php echo $value['length'] ?>
+                                            <td>
+                                                <table>
+                                                    <caption class="text-center bg-success text-white" style='caption-side : top'><?php echo $value['segment'] ?></caption>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>PBC</th>
+                                                            <th>Fabric</th>
+                                                            <th>Length</th>
+                                                            <th>PCS</th>
+                                                            <th>TC</th>
+                                                            <th>Rate</th>
+
+                                                            <th>Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php $i = 0;
+                                                        foreach ($value['detail'] as $row) : ?>
+                                                            <tr>
+                                                                <td><?php echo $row['pbc'] ?></td>
+                                                                <td><?php echo $row['fabric'] ?></td>
+                                                                <td><?php echo $row['length'] ?>
+                                                                </td>
+                                                                <td><?php echo $row['pcs'] ?></td>
+                                                                <td><?php echo $row['tc'] ?></td>
+                                                                <td><?php echo $row['rate'] ?></td>
+                                                                <td><?php echo $row['value'] ?></td>
+                                                            </tr> <?php
+                                                                endforeach; ?>
+                                                    </tbody>
+                                                </table>
                                             </td>
-                                            <td><?php echo $value['pcs'] ?></td>
-                                            <td><?php echo $value['tc'] ?></td>
-                                            <td><?php echo $value['rate'] ?></td>
-                                            <td><?php echo $value['value'] ?></td>
-                                        </tr>
-                                    <?php $i++;
+                                   
+                                <?php $i++;
                                         endforeach;
                                     } else { ?>
-                                    <h5 style="color:red;"> No Segment </h5>
-                                <?php } ?>
+                                <h5 style="color:red;"> No Segment </h5>
+                            <?php } ?></tr>
                             </tbody>
                         </table>
                     </div>

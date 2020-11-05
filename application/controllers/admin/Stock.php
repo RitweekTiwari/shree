@@ -60,6 +60,7 @@ class Stock extends CI_Controller
     {
         $obc = $this->security->xss_clean($_POST['obc']);
         $id = $this->security->xss_clean($_POST['godown']);
+       
        try {
 
                 $status = $this->Stock_model->check_obc($obc, $id);

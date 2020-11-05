@@ -106,7 +106,7 @@
       }
     });
 
-  
+
 
     $(document).on('change', 'input[name="pbc[]"]', function(e) {
       console.log("ajax");
@@ -124,6 +124,7 @@
         cache: false,
         data: {
           'id': pbc,
+          'godown': $("#fromGodown").val(),
           '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
         },
         datatype: 'json',
@@ -234,11 +235,12 @@
       console.log("Hello");
       var body = $(this).parent().parent().parent();
       var body_id = $(this).parent().parent().parent().attr("row-id");
+      var segment = $(this).parent().parent().parent().attr("segment");
       var row = $(this).parent().parent().attr('row-id');
       var fab = $('#segment1-' + row + '').find('.fabric' + row + '').html();
       var len = $('#segment1-' + row + '').find('.length' + row + '').attr('data-value');
-      var min = $('#segment1-' + row + '').find('.min' + row + '').html();
-      var max = $('#segment1-' + row + '').find('.max' + row + '').val();
+      var min = $('#min' + row + '').val();
+      var max = $('#max' + row + '').val();
       count = count + 1;
       var element = ' <tr id=segment1-tr-' + count + ' class="segment1-tr" row-id=' + count + '>'
       element += '<td><input type="text" class="form-control pbc " name="pbc[]" id="pbc1-' + count + '"></td>'
@@ -250,7 +252,7 @@
       element += '<td><input type="text" class="form-control rate1-' + body_id + '" name="rate[]" id="rate1-' + count + '"  readonly></td>'
       element += '<td><input type="text" class="form-control value value' + body_id + '" name="value[]" id="value' + count + '"  readonly></td>'
       element += '<td> <button type="button" name="remove"  class="btn btn-danger btn-xs remove">-</button></td>'
-      element += '</tr>'
+      element += '<input type="hidden" name="segment[]" value="' + segment + '"></tr>'
 
       $(body).append(element);
       element = "";
@@ -264,7 +266,7 @@
       element += '</tr>'
       $('#pbc1-' + count + '').focus();
       $('#segment2-' + row + '').append(element);
-      
+
     });
 
     $(document).on('click', '.remove', function() {

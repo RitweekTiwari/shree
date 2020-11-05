@@ -30,21 +30,45 @@ class Segment extends CI_Controller
 		$data = array();
 		$data['page_name'] = 'View List';
 		$data['frc_data'] = $this->Frc_model->get_by_id($id);
-		
+
 		$data['pbc'] = $this->Frc_model->get_frc_by_id($id);
-		$data['segment'] = $this->Segment_model->get_segment_data($id);
-		// echo "<pre>";
-		// print_r($data['segment']);
-		// exit;
+		$segment = $this->Segment_model->get_segment_data($id);
+		foreach($segment as $key => $value){
+			$output[$key]['segment'] = $value['segment'];
+			$output[$key]['detail']=self::edit_array($value['value'], $value['pbc'], $value['fabric'], $value['length'], $value['pcs'], $value['tc'], $value['rate']);
+		}
+		if (isset($output)) {
+			$data['output'] = $output;
+			//pre($data['output']);exit;
+		}
 		$data['main_content'] = $this->load->view('admin/FRC/segment/list', $data, TRUE);
 		$this->load->view('admin/index', $data);
+	}
+
+	public function edit_array($value, $pbc, $fabric, $pcs, $length, $tc, $rate)
+	{
+		$value = explode(',', $value);
+		$pbc = explode(',', $pbc);
+
+		$fabric = explode(',', $fabric);
+		$pcs = explode(',', $pcs);
+		$length = explode(',', $length);
+		$tc = explode(',', $tc);
+		$rate = explode(',', $rate);
+		if (count($pbc) == count($fabric)) {
+
+			for ($i = 0; $i < count($fabric); $i++) {
+				$result[] = array('value' => $value[$i], 'pbc' => $pbc[$i], 'fabric' => $fabric[$i], 'pcs' => $pcs[$i], 'length' => $length[$i], 'tc' => $tc[$i], 'rate' => $rate[$i]);
+			}
+			return $result;
+		}
 	}
 	public function add()
 	{
 
 		if ($_POST) {
 			$data = $this->security->xss_clean($_POST);
-			// echo "<pre>"; print_r($data);exit;
+			//echo "<pre>"; print_r($data);exit;
 			$id = $this->Frc_model->getId("tc");
 			if (!$id) {
 				$tcchallan = "TC1";
@@ -53,6 +77,7 @@ class Segment extends CI_Controller
 				$cc = $cc + 1;
 				$tcchallan = "TC" . (string)$cc;
 			}
+			$id="";
 			$id = $this->Frc_model->getId("recieve");
 			if (!$id) {
 				$challan = "FRC1";
@@ -74,13 +99,14 @@ class Segment extends CI_Controller
 				'total_quantity' => $data['pcs_main'],
 				'total_amount' => $data['total_main'],
 
-				'is_tc' =>1,
+				'is_tc' => 1,
 				'challan_type' => 'recieve'
 			];
 			$id =	$this->Frc_model->insert($data1, 'fabric_challan');
 			$counter = $this->Frc_model->getCount('recieve');
 			$cc = $counter[0]['count'];
-			// print_r($counter[0]['count']);exit;
+			//print_r("counter = " . $counter[0]['count']);
+			
 			for ($i = 0; $i < $data['pcs_main']; $i++) {
 
 
@@ -107,54 +133,58 @@ class Segment extends CI_Controller
 					'challan_type' => 'recieve'
 
 				];
-			$this->Frc_model->update_fabric_rate($data['rate_main'], $data['fabric_name']);
-					$this->Frc_model->insert($data2, 'fabric_stock_received');
+				$this->Frc_model->update_fabric_rate($data['rate_main'], $data['fabric_name']);
+				$this->Frc_model->insert($data2, 'fabric_stock_received');
+			}
+			for ($i = 0; $i < count($data['pbc']); $i++) {
 				$data1 = array();
 				$data1 = [
-						'challan_id'=> $id,
-						'new_pbc' => $pbc,
-						'pbc' => $data['pbc'][$i],
-						'length'  => $data['length'][$i],
-						'pcs' => $data['pcs'][$i],
-						'created' => date('y-m-d'),
-						'rate' =>  $data['rate'][$i],
+					'challan_id' => $id,
+					'new_pbc' => $pbc,
+					'pbc' => $data['pbc'][$i],
+					'fabric' => $data['fabric'][$i],
+					'segment' => $data['segment'][$i],
+					'length'  => $data['length'][$i],
+					'pcs' => $data['pcs'][$i],
+					'created' => date('y-m-d'),
+					'rate' =>  $data['rate'][$i],
 
-						'value' => $data['value'][$i],
-						'tc' => $data['tc'][$i],
+					'value' => $data['value'][$i],
+					'tc' => $data['tc'][$i],
 
-					];
-					$this->Frc_model->insert($data1, 'fabric_tc_detail');
-			}
-			
-	
-				$count = count($data['pbc']);
-				$total_qty = 0;
-				$total_val = 0;
-				for ($i = 0; $i < $count; $i++) {
-					$total_qty = $total_qty +  $data['cqty1'][$i];
-					$total_val = $total_val + $data['tc'][$i];
-				}
-				$id = $this->Frc_model->getId("tc");
-				
-				$data1 = [
-
-					'challan_date' => date('Y-m-d'),
-					'created_by' => $_SESSION['userID'],
-
-					'challan_no' => $tcchallan,
-					'counter' => $cc,
-
-					'total_pcs' => $count,
-					'total_quantity' => $total_qty,
-					'total_tc' => $total_val,
-
-
-					'challan_type' => 'tc'
 				];
-				$id =	$this->Frc_model->insert($data1, 'fabric_challan');
-				$counter = $this->Frc_model->getCount('tc');
-				$cc = $counter[0]['count'];
-			//print_r($counter[0]['count']);exit;
+				$this->Frc_model->insert($data1, 'fabric_tc_detail');
+			}
+
+
+			$count = count($data['pbc']);
+			$total_qty = 0;
+			$total_val = 0;
+			for ($i = 0; $i < $count; $i++) {
+				$total_qty = $total_qty +  $data['cqty1'][$i];
+				$total_val = $total_val + $data['tc'][$i];
+			}
+			$id = $this->Frc_model->getId("tc");
+
+			$data1 = [
+
+				'challan_date' => date('Y-m-d'),
+				'created_by' => $_SESSION['userID'],
+
+				'challan_no' => $tcchallan,
+				'counter' => $cc,
+
+				'total_pcs' => $count,
+				'total_quantity' => $total_qty,
+				'total_tc' => $total_val,
+
+
+				'challan_type' => 'tc'
+			];
+			$id =	$this->Frc_model->insert($data1, 'fabric_challan');
+			$counter1 = $this->Frc_model->getCount('tc');
+			$cc = $counter1[0]['count'];
+			//print_r("counter1 =" . $counter1[0]['count']);
 			for ($i = 0; $i < count($data['pbc']); $i++) {
 				$data1 = array();
 				$data1 = [
@@ -163,46 +193,43 @@ class Segment extends CI_Controller
 					'tc' => $data['tc'][$i],
 
 				];
-				 $this->Segment_model->update_pbc($data['pbc'][$i], $data1);
+				$this->Segment_model->update_pbc($data['pbc'][$i], $data1);
 				$pbc1 = $this->Segment_model->get_pbc_data($data['pbc'][$i]);
-				//pre($pbc1);exit;
-					$cc = $cc + 1;
-					$pbc = "TCP" . (string)$cc;
-					$data2 = [
-						'fabric_challan_id' => $id,
-						'parent_barcode' => $pbc,
-						'parent' => $data['pbc'][$i],
-						'challan_no' =>  $tcchallan,
-						'counter' => $cc,
-						'fabric_id' => $pbc1[0]["fabric_id"],
-						'created_date' => date('Y-m-d'),
-						'stock_quantity' => $pbc1[0]["fabric_id"],
-						'current_stock' => $data['cqty1'][$i],
-						'stock_unit' => $pbc1[0]["stock_unit"],
-						'ad_no ' => $pbc1[0]["ad_no"],
-						'color_name ' => $pbc1[0]["color_name"],
-						'purchase_code' => $pbc1[0]["purchase_code"],
-						'purchase_rate' => $data['rate'][$i],
-						'tc' => $data['tc'][$i],
-						'isStock' => 0,
-						'challan_type' => 'tc'
+			//	pre($pbc1);
+				$cc = $cc + 1;
+				$pbc = "TCP" . (string)$cc;
+				$data2 = [
+					'fabric_challan_id' => $id,
+					'parent_barcode' => $pbc,
+					'parent' => $data['pbc'][$i],
+					'challan_no' =>  $tcchallan,
+					'counter' => $cc,
+					'fabric_id' => $pbc1[0]["fabric_id"],
+					'created_date' => date('Y-m-d'),
+					'stock_quantity' => $pbc1[0]["fabric_id"],
+					'current_stock' => $data['cqty1'][$i],
+					'stock_unit' => $pbc1[0]["stock_unit"],
+					'ad_no ' => $pbc1[0]["ad_no"],
+					'color_name ' => $pbc1[0]["color_name"],
+					'purchase_code' => $pbc1[0]["purchase_code"],
+					'purchase_rate' => $data['rate'][$i],
+					'tc' => $data['tc'][$i],
+					'isStock' => 0,
+					'challan_type' => 'tc'
 
-					];
-					$this->Frc_model->insert($data2, 'fabric_stock_received');
-				
-					$data3 = [
+				];
+				$this->Frc_model->insert($data2, 'fabric_stock_received');
 
-						'isTc' => 1
+				$data3 = [
 
-					];
-					$this->Frc_model->update($data3, 'parent_barcode', $data['pbc'][$i], 'fabric_stock_received');
-					$this->Frc_model->update($data3, 'pbc', $data['pbc'][$i], 'pbc_tc_history');
-				}
-			
-			
-				
-			
+					'isTc' => 1
+
+				];
+				$this->Frc_model->update($data3, 'parent_barcode', $data['pbc'][$i], 'fabric_stock_received');
+				$this->Frc_model->update($data3, 'pbc', $data['pbc'][$i], 'pbc_tc_history');
+			}
 		}
+		
 		$this->session->set_flashdata('success', 'Added Successfully !!');
 		redirect($_SERVER['HTTP_REFERER']);
 	}
@@ -224,27 +251,30 @@ class Segment extends CI_Controller
 	{
 		//pre($_POST);exit;
 		if ($_POST) {
-	
-					$segment = $this->Segment_model->get_segment_by_id($_POST['id']);
-					if($segment){
-						$data['segment'][] = $segment;
-					}
-					
-			
-			//pre($data['segment']);exit;
-			foreach ($data['segment'][0] as $key => $value) {
-				$output[$key]['metaId'] = $value['metaId'];
-				$output[$key]['segmentName'] = $value['segmentName'];
-				$output[$key]['length'] = $value['length'];
-				$output[$key]['width'] = $value['width'];
-				$output[$key]['min'] = $value['min'];
-				$output[$key]['max'] = $value['max'];
-				$output[$key]['fab'] = self::get_edit_array($value['fabric'], $value['fabricId']);
-				//pre($output[$key]['fabricdetails']);exit;
+
+			$segment = $this->Segment_model->get_segment_by_id($_POST['id']);
+			if ($segment) {
+				$data['segment'][] = $segment;
 			}
-		
-			$data['segment']= $output;
-			if ($data['segment']) {
+
+			if (isset($data['segment'][0])) {
+
+
+				//pre($data['segment']);exit;
+				foreach ($data['segment'][0] as $key => $value) {
+					$output[$key]['metaId'] = $value['metaId'];
+					$output[$key]['segmentName'] = $value['segmentName'];
+					$output[$key]['length'] = $value['length'];
+					$output[$key]['width'] = $value['width'];
+					$output[$key]['min'] = $value['min'];
+					$output[$key]['max'] = $value['max'];
+					$output[$key]['fab'] = self::get_edit_array($value['fabric'], $value['fabricId']);
+					//pre($output[$key]['fabricdetails']);exit;
+				}
+				$data['segment'] = $output;
+			}
+
+			if (isset($data['segment'])) {
 				$data['data'] = $this->load->view('admin/FRC/segment/segmentdata', $data, TRUE);
 			} else {
 				$data['data'] = '<p class="text-center" style="color:red;">No Segment</p>';
@@ -257,7 +287,7 @@ class Segment extends CI_Controller
 		$fdid = explode(',', $fdid);
 		$segmentName = explode(',', $segmentName);
 
-	
+
 		if (count($segmentName) == count($fdid)) {
 
 			for ($i = 0; $i < count($fdid); $i++) {
@@ -268,7 +298,7 @@ class Segment extends CI_Controller
 	}
 	public function get_fabric_by_id()
 	{
-		
+
 		$fabric = $this->Segment_model->get_fabric_by_id($_POST['id']);
 		if (!empty($fabric)) {
 			$result = $fabric[0];
@@ -279,8 +309,8 @@ class Segment extends CI_Controller
 	}
 	public function get_fabric()
 	{
-		if(isset($_POST['search']))
-		$fabric = $this->Segment_model->get_fabric($_POST['search']);
+		if (isset($_POST['search']))
+			$fabric = $this->Segment_model->get_fabric($_POST['search']);
 		else
 			$fabric = $this->Segment_model->get_fabric();
 
@@ -297,20 +327,18 @@ class Segment extends CI_Controller
 			'current_stock' => $_POST['qty'],
 
 		];
-	$id=	$this->Segment_model->update_pbc($_POST['id'], $data1);
-	//echo $id;exit;
+		$id =	$this->Segment_model->update_pbc($_POST['id'], $data1);
+		//echo $id;exit;
 		if ($id) {
 			echo 1;
-		}else{
+		} else {
 			echo 0;
 		}
-
-		
 	}
 	public function get_pbc()
 	{
 		if ($_POST) {
-			$data['segment'] = $this->Segment_model->get_pbc_data($_POST['id']);
+			$data['segment'] = $this->Segment_model->get_pbc_data($_POST['id'], $_POST['godown']);
 			if (!empty($data['segment'])) {
 				echo json_encode($data['segment']);
 			} else {
@@ -333,10 +361,6 @@ class Segment extends CI_Controller
 		// $this->load->view('admin/branch_detail');
 		//
 	}
-
-	
-
-	
 }
 
 /* End of file Branch_detail.php */
