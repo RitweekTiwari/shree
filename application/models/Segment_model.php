@@ -70,7 +70,8 @@ class Segment_model extends CI_Model {
     GROUP_CONCAT(`tc`) AS tc,
     GROUP_CONCAT(`rate`) AS rate,
     GROUP_CONCAT(`value`) AS
-value');
+value,GROUP_CONCAT(`qty`) AS
+qty');
 			$this->db->join('fabric', 'fabric_tc_detail.fabric=fabric.id');
 			$this->db->where('challan_id', $id);
 			$this->db->group_by('segment');

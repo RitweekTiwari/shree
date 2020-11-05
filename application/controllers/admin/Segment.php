@@ -35,7 +35,7 @@ class Segment extends CI_Controller
 		$segment = $this->Segment_model->get_segment_data($id);
 		foreach($segment as $key => $value){
 			$output[$key]['segment'] = $value['segment'];
-			$output[$key]['detail']=self::edit_array($value['value'], $value['pbc'], $value['fabric'], $value['length'], $value['pcs'], $value['tc'], $value['rate']);
+			$output[$key]['detail']=self::edit_array($value['value'], $value['qty'], $value['pbc'], $value['fabric'], $value['length'], $value['pcs'], $value['tc'], $value['rate']);
 		}
 		if (isset($output)) {
 			$data['output'] = $output;
@@ -45,11 +45,11 @@ class Segment extends CI_Controller
 		$this->load->view('admin/index', $data);
 	}
 
-	public function edit_array($value, $pbc, $fabric, $pcs, $length, $tc, $rate)
+	public function edit_array($value,  $qty, $pbc, $fabric, $pcs, $length, $tc, $rate)
 	{
 		$value = explode(',', $value);
+		$qty = explode(',', $qty);
 		$pbc = explode(',', $pbc);
-
 		$fabric = explode(',', $fabric);
 		$pcs = explode(',', $pcs);
 		$length = explode(',', $length);
@@ -58,7 +58,7 @@ class Segment extends CI_Controller
 		if (count($pbc) == count($fabric)) {
 
 			for ($i = 0; $i < count($fabric); $i++) {
-				$result[] = array('value' => $value[$i], 'pbc' => $pbc[$i], 'fabric' => $fabric[$i], 'pcs' => $pcs[$i], 'length' => $length[$i], 'tc' => $tc[$i], 'rate' => $rate[$i]);
+				$result[] = array('value' => $value[$i], 'qty' => $qty[$i], 'pbc' => $pbc[$i], 'fabric' => $fabric[$i], 'pcs' => $pcs[$i], 'length' => $length[$i], 'tc' => $tc[$i], 'rate' => $rate[$i]);
 			}
 			return $result;
 		}
@@ -141,6 +141,7 @@ class Segment extends CI_Controller
 				$data1 = [
 					'challan_id' => $id,
 					'new_pbc' => $pbc,
+					'qty' => $data['cqty1'][$i],
 					'pbc' => $data['pbc'][$i],
 					'fabric' => $data['fabric'][$i],
 					'segment' => $data['segment'][$i],
@@ -194,7 +195,7 @@ class Segment extends CI_Controller
 
 				];
 				$this->Segment_model->update_pbc($data['pbc'][$i], $data1);
-				$pbc1 = $this->Segment_model->get_pbc_data($data['pbc'][$i]);
+				$pbc1 = $this->Segment_model->get_pbc_data($data['pbc'][$i], $data['toGodown']);
 			//	pre($pbc1);
 				$cc = $cc + 1;
 				$pbc = "TCP" . (string)$cc;

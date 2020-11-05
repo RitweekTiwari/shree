@@ -62,8 +62,12 @@ class Stock extends CI_Controller
         $id = $this->security->xss_clean($_POST['godown']);
        
        try {
-
+                if($_POST['type']=='obc'){
                 $status = $this->Stock_model->check_obc($obc, $id);
+
+                }else{
+                $status = $this->Stock_model->check_pbc($obc, $id);
+                }
                 if ($status!=0) {
                     $data['check_stock'] = 1;
                     $st =    $this->Transaction_model->update($data, 'trans_meta_id', $status, "transaction_meta");

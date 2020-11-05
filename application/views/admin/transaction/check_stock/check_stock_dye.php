@@ -122,7 +122,7 @@
                 data: {
 
                     'obc': obc,
-                    'type': 'dye',
+                    'type': 'pbc',
                     'godown': <?php echo $id; ?>,
                     '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },

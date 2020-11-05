@@ -132,6 +132,7 @@
                 data: {
 
                     'obc': obc,
+                    'type':'obc',
                     'godown': <?php echo $id; ?>,
                     '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },

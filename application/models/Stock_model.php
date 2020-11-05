@@ -20,12 +20,25 @@
         }
         function check_obc($obc, $godown)
         {
-            $this->db->select();
-            $this->db->from("check_stock");
-            $this->db->where("godown", $godown);
-            $this->db->where("obc", $obc);
+            $this->db->select("*");
+            $this->db->from("godown_check");
+            $this->db->where("to_godown", $godown);
+            $this->db->where("order_barcode", $obc);
             $query = $this->db->get();
            
+            if ($query->num_rows() == 1)
+            return $query->row()->trans_meta_id;
+            else
+                return 0;
+        }
+        function check_pbc($obc, $godown)
+        {
+            $this->db->select("*");
+            $this->db->from("godown_check");
+            $this->db->where("to_godown", $godown);
+            $this->db->where("order_barcode", $obc);
+            $query = $this->db->get();
+
             if ($query->num_rows() == 1)
             return $query->row()->trans_meta_id;
             else
