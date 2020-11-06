@@ -40,7 +40,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-account"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/customer_detail') ; ?>">
                                             <h4 class="font-light text-white"><i class="mdi mdi-eye"></i></h4>
                                             <h5 class="text-white">CUSTOMER DETAIL</h5>
                                         </a>
@@ -70,7 +70,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-package-down"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin///') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/stock/StockCheck/') . $godown; ?>">
                                             <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
                                             <h5 class="text-white">TAKE STOCK </h5>
                                         </a>
@@ -164,7 +164,7 @@
                                         <h1 class="font-light text-white">
                                             <i class="mdi mdi-package"></i>
                                         </h1>
-                                        <a href="<?php echo base_url('admin/transaction/show_stock/') . $godown; ?>">
+                                        <a href="<?php echo base_url('admin/stock/show_stock/') . $godown; ?>">
                                             <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
                                             <h5 class="text-white">STOCK LIST </h5>
                                         </a>

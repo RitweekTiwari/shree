@@ -73,9 +73,9 @@ class Segment extends CI_Controller
 			if (!$id) {
 				$tcchallan = "TC1";
 			} else {
-				$cc = $id[0]['count'];
-				$cc = $cc + 1;
-				$tcchallan = "TC" . (string)$cc;
+				$cc1 = $id[0]['count'];
+				$cc1 = $cc1 + 1;
+				$tcchallan = "TC" . (string)$cc1;
 			}
 			$id="";
 			$id = $this->Frc_model->getId("recieve");
@@ -173,7 +173,7 @@ class Segment extends CI_Controller
 				'created_by' => $_SESSION['userID'],
 
 				'challan_no' => $tcchallan,
-				'counter' => $cc,
+				'counter' => $cc1,
 
 				'total_pcs' => $count,
 				'total_quantity' => $total_qty,

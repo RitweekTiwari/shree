@@ -8,11 +8,8 @@
             <tr>
                 <th>From</th>
                 <th>To God</th>
-                <th>PBC</th>
                 <th>OBC</th>
-                <th>Order No</th>
                 <th>Fabric</th>
-                <th>Design Name </th>
                 <th>Dye </th>
                 <th>Matching</th>
                 <th>Quantity</th>
@@ -31,14 +28,10 @@
                 <tr>
                     <td><?php echo $value['from_godown']; ?></td>
                     <td><?php echo $value['to_godown']; ?></td>
-                    <td><?php echo $value['pbc']; ?></td>
                     <td><?php echo $value['order_barcode']; ?></td>
-
-                    <td><?php echo $value['order_number']; ?></td>
+                    <td><?php echo $value['hsn'] ?></td>
                     <td><?php echo $value['fabric_name']; ?></td>
-                    <td><?php echo $value['design_name']; ?></td>
                     <td><?php echo $value['dye'] ?></td>
-                    <td><?php echo $value['matching'] ?></td>
                     <td><?php echo $value['finish_qty'] ?></td>
                     <td><?php echo $value['unit'] ?></td>
 

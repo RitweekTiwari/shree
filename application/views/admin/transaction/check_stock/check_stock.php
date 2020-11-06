@@ -113,6 +113,8 @@
                         w.document.open();
                         w.document.write(data);
                         w.document.close();
+                    } else {
+                        toastr.success('Success!', "Recieved successfully");
                     }
 
 
@@ -132,7 +134,7 @@
                 data: {
 
                     'obc': obc,
-                    'type':'obc',
+                    'type': 'obc',
                     'godown': <?php echo $id; ?>,
                     '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },

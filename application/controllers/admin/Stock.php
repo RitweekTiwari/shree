@@ -58,6 +58,7 @@ class Stock extends CI_Controller
     }
     public function recieve_obc()
     {
+        
         $obc = $this->security->xss_clean($_POST['obc']);
         $id = $this->security->xss_clean($_POST['godown']);
        
@@ -90,11 +91,12 @@ class Stock extends CI_Controller
     {
         $print = $this->security->xss_clean($_POST['print']);
         $godown = $this->security->xss_clean($_POST['godown']);
-        $data['stock'] = $this->Stock_model->get_stock_by_id($godown);
+        $data['stock'] = $this->Stock_model->get_stock_by_id($godown,"challan");
         //pre($data['stock']);exit;
         $data1=array();
         $data1['godown']= $godown;
-        $data1['date']= date("y-m-d");
+        $data1['date']= date('Y-m-d');
+        $data1['type'] = "challan";
         $data1['created']= current_datetime();
 
         $id =    $this->common_model->insert($data1, 'stock_history_main');
@@ -102,8 +104,11 @@ class Stock extends CI_Controller
             $data1 = array();
             $data1['stock_id'] =  $id;
             $data1['order_number'] = $row['order_number'];
+            $data1['from_godown'] = $row['from_godown'];
+            $data1['to_godown'] = $row['to_godown'];
             $data1['unit'] = $row['unit'];
             $data1['fabric_name'] = $row['fabric_name'];
+            $data1['hsn'] = $row['hsn'];
             $data1['order_barcode'] = $row['order_barcode'];
             $data1['design_name'] = $row['design_name'];
             $data1['dye'] = $row['dye'];
@@ -112,15 +117,50 @@ class Stock extends CI_Controller
             $data1['matching'] = $row['matching'];
             $this->common_model->insert($data1, 'stock_history');
          }
-        $data['stock'] = $this->Stock_model->get_stock_by_id($godown);
+        $data['stock'] = $this->Stock_model->get_stock_history_id($id);
          if($print==1){
-            $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock_index', $data, TRUE);
+            $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock_index_dye', $data, TRUE);
             $this->load->view('admin/print/index', $data);
          }else{
              echo 0;
          }
 
         
+    }
+    public function save_stock_dye()
+    {
+        $print = $this->security->xss_clean($_POST['print']);
+        $godown = $this->security->xss_clean($_POST['godown']);
+        $data['stock'] = $this->Stock_model->get_stock_by_id($godown,"dye");
+        //pre($data['stock']);exit;
+        $data1 = array();
+        $data1['godown'] = $godown;
+        $data1['date'] = date("Y-m-d");
+        $data1['type'] = "dye";
+        $data1['created'] = current_datetime();
+
+        $id =    $this->common_model->insert($data1, 'stock_history_main');
+        foreach ($data['stock'] as $row) {
+            $data1 = array();
+            $data1['stock_id'] =  $id;
+            $data1['unit'] = $row['stock_unit'];
+            $data1['fabric_name'] = $row['fabricName'];
+            $data1['hsn'] = $row['hsn'];
+            $data1['from_godown'] = $row['from_godown'];
+            $data1['to_godown'] = $row['to_godown'];
+            $data1['order_barcode'] = $row['order_barcode'];
+            $data1['dye'] = $row['color'];
+            $data1['finish_qty'] = $row['current_stock'];
+            $data1['matching'] ="";
+            $this->common_model->insert($data1, 'stock_history');
+        }
+        $data['stock'] = $this->Stock_model->get_stock_history_id($id);
+        if ($print == 1) {
+            $data['main_content'] = $this->load->view('admin/transaction/check_stock/check_stock_index', $data, TRUE);
+            $this->load->view('admin/print/index', $data);
+        } else {
+            echo 1;
+        }
     }
     public function getBill($id)
     {

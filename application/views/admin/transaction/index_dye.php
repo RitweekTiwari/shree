@@ -91,12 +91,14 @@
                             </div>
                             <div class="col-md-6 col-lg-3 col-xlg-3">
                                 <div class="card card-hover">
-                                    <div class="box  text-center" style="background: linear-gradient(45deg,#fad961,#f76b1c);">
+                                    <div class="box  text-center" style="background: linear-gradient(45deg,#FF57B9,#A704FD);">
                                         <h1 class="font-light text-white">
-                                            <i class="mdi mdi-check"></i>
+                                            <i class="mdi mdi-border-outside"></i>
                                         </h1>
-                                        <h4 class="font-light text-white"></h4>
-                                        <h5 class="text-white">DONE ORDERS</h5>
+                                        <a href="<?php echo base_url('admin/stock/stock_list/') . $godown; ?>">
+                                            <h4 class=" font-light text-white"><i class="mdi mdi-store"></i></h4>
+                                            <h5 class="text-white">STOCK LIST</h5>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

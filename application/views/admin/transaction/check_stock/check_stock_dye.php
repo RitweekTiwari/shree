@@ -29,13 +29,13 @@
                                     <tr>
 
                                         <th>PBC</th>
-                                      
+
                                         <th>Fabric</th>
                                         <th>Hsn</th>
-                                      
+
                                         <th>Dye </th>
                                         <th>Current Qty</th>
-                                     
+
                                         <th>Unit</th>
 
                                     </tr>
@@ -43,7 +43,7 @@
                                 <tfoot>
                                     <tr>
 
-                                       
+
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -87,7 +87,7 @@
             var csrf_val = $("#get_csrf_hash").val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url('admin/stock/save_stock') ?>",
+                url: "<?php echo base_url('admin/stock/save_stock_dye') ?>",
                 data: {
 
                     'print': print,
@@ -184,12 +184,12 @@
                             return intVal(a) + intVal(b);
                         }, 0);
 
-                  
+
                     // Update footer
                     $(api.column(3).footer()).html(
                         qty
                     );
-                  
+
                 },
                 "createdRow": function(row, data, dataIndex) {
                     if (data[6] == 0) {

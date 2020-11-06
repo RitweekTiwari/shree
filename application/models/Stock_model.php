@@ -25,7 +25,8 @@
             $this->db->where("to_godown", $godown);
             $this->db->where("order_barcode", $obc);
             $query = $this->db->get();
-           
+            // pre($this->db->last_query());
+            // exit;
             if ($query->num_rows() == 1)
             return $query->row()->trans_meta_id;
             else
@@ -34,11 +35,11 @@
         function check_pbc($obc, $godown)
         {
             $this->db->select("*");
-            $this->db->from("godown_check");
+            $this->db->from("dye_stock_check");
             $this->db->where("to_godown", $godown);
             $this->db->where("order_barcode", $obc);
             $query = $this->db->get();
-
+           // pre($this->db->last_query());exit;
             if ($query->num_rows() == 1)
             return $query->row()->trans_meta_id;
             else
@@ -57,10 +58,15 @@
         }
 
         
-        function get_stock_by_id($godown)
+        function get_stock_by_id($godown,$type)
         {
             $this->db->select('*');
-            $this->db->from("godown_check");
+            if($type=="challan"){
+                $this->db->from("godown_check");
+
+            }else{
+                $this->db->from("dye_stock_check");
+            }
             $this->db->where("to_godown", $godown);
             $query = $this->db->get();
 
