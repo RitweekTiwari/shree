@@ -41,5 +41,20 @@ class Dashboard extends CI_Controller {
 			}
 			echo json_encode($data);
     }
+  public function get_oder_count()
+  {
+    $data['order_count'] = $this->Orders_model->get_order_count();
+    echo json_encode($data['order_count']);
+  }
 
+
+  public function godown()
+  {
+
+    //  $data = $_POST;
+    $data = $this->common_model->godown();
+    return $data;
+    //  echo $data
+
+  }
   }

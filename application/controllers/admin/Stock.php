@@ -51,11 +51,19 @@ class Stock extends CI_Controller
         $data['godown'] = $this->Transaction_model->get_godown_by_id($data['stock'][0]['godown']);
         $link = ' <a href=' . base_url('admin/transaction/home/') . $data['stock'][0]['godown']. '>Home</a>';
         $data['page_name'] = $data['godown'] . '  DASHBOARD /' . $link;
-        $data['id'] = $data['stock'][0]['godown'];
+        $data['id'] = $id;
        
         $data['main_content'] = $this->load->view('admin/transaction/check_stock/stock_list', $data, TRUE);
         $this->load->view('admin/index', $data);
     }
+    public function getStock_summary()
+    {
+        $id = $this->security->xss_clean($_POST['id']);
+        $data['stock'] = $this->Stock_model->get_stock_summary($id);
+       $result= $this->load->view('admin/transaction/check_stock/summary', $data, TRUE);
+       echo $result;
+    }
+
     public function recieve_obc()
     {
         
@@ -324,7 +332,9 @@ class Stock extends CI_Controller
     }
     public function showStock($godown)
     {
-        
+        $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
+
         $data['godown'] = $this->Transaction_model->get_godown_by_id($godown);
         $link = ' <a href=' . base_url('admin/transaction/home/') . $godown . '>Home</a>';
         $data['godownid'] = $godown;
@@ -333,30 +343,42 @@ class Stock extends CI_Controller
         // echo "<pre>";
         // print_r($plain_godown);
         // exit;
-        $found = 0;
+       
         foreach ($plain_godown as $row) {
-            if ($godown == $row['godownid']) {
-                $found = 1;
+            $plain[]= $row['godownid'];
+        }
+
+      
+            if (in_array($godown, $plain) ) {
+               
                 $data['plain_data'] = $this->Transaction_model->get_plain_stock($data);
                 $data['frc_data'] = $this->Transaction_model->get_frc_stock($data);
 
                 $data['dye_data'] = $this->Transaction_model->get_dye_stock($data);
                // pre($data['dye_data']);exit;
                 $data['main_content'] = $this->load->view('admin/transaction/stock_plain', $data, TRUE);
+            $this->load->view('admin/index', $data);
             }
-        }
-        if ($found == 0) {
-            if ($godown == 23) {
+      
+      
+           else if ($godown == 23) {
                 $data['frc_data'] = $this->Transaction_model->get_stock($godown, 'all');
+            $data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
+            $this->load->view('admin/index', $data);
             } else {
 
                 $data['frc_data'] = $this->Transaction_model->get_stock($godown, 'challan');
-            }
-            //echo "<pre>";print_r($data['frc_data']);exit;
             $data['main_content'] = $this->load->view('admin/transaction/stock', $data, TRUE);
-        }
+            $this->load->view('admin/index', $data);
+            }
+        //echo "<pre>";print_r($data['frc_data']);exit;
 
 
-        $this->load->view('admin/index', $data);
+
+        $this->benchmark->mark('code_end');
+        // echo $this->benchmark->elapsed_time('code_start', 'code_end');
+        //  echo $this->benchmark->memory_usage('code_start', 'code_end');
+        // exit;
+       
     }
 }

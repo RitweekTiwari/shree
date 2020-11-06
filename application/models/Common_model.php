@@ -27,7 +27,14 @@ class Common_model extends CI_Model {
         $this->db->delete($table, array('id' => $id));
         return;
     }
-    
+    public function godown()
+    {
+
+        $sql = "UPDATE transaction_meta SET transaction_meta.check_stock=0";
+        $result = $this->db->query($sql);
+       
+        echo $result;
+    }
     function get_fabric()
     {
 

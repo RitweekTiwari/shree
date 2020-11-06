@@ -336,7 +336,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     var summary = [];
     var count = 0;
     var i = 0;
@@ -411,7 +411,7 @@
             $('#summary').html(html);
         }
     });
-</script>
+</script> -->
 <script>
     jQuery('.print_all').on('click', function(e) {
         var allVals = [];

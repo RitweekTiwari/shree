@@ -89,12 +89,25 @@
             $this->db->where("stock_id", $id);
             $this->db->join("stock_history_main", "stock_history_main.id=stock_history.stock_id");
             $this->db->join("order_view", "order_view.order_barcode=stock_history.order_barcode");
-            $this->db->order_by("order_barcode", "fabric_name", "to_godown", "from_godown");
+            $this->db->order_by( "fabric_name", "to_godown", "from_godown");
             $query = $this->db->get();
-
+           
             return $query->result_array();
         }
-        
+        function get_stock_summary($id)
+        {
+            $this->db->select(' `from_godown`, `to_godown`, `fabric_name`,fabric.fabricType,COUNT(fabric.fabricType)');
+            $this->db->from("stock_history");
+            $this->db->where("stock_id", $id);
+            $this->db->join("fabric ", "fabric.fabricName=stock_history.fabric_name");
+           
+            $this->db->group_by("from_godown, to_godown, fabric.fabricType, stock_history.fabric_name");
+            $query = $this->db->get();
+        //    pre($this->db->last_query()) ;
+        //     exit;
+            return $query->result_array();
+        }
+         
     }
 
     /* End of file Branch_model.php */
